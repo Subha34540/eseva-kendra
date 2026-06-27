@@ -1,0 +1,25 @@
+{
+  "name": "E-Seva Kendra Management System",
+  "short_name": "E-Seva Kendra",
+  "description": "Digital Seva, CSC, Banking CSP, Aadhaar, PAN, Insurance & Government Service Center",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FAF8F3",
+  "theme_color": "#0B4F4A",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

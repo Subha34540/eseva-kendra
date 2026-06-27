@@ -1,0 +1,1298 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Operator Panel - E-Seva Kendra</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-storage-compat.js"></script>
+
+<style>
+  :root{
+    --color-primary:#0B4F4A;
+    --color-primary-light:#10726A;
+    --color-accent:#F4A024;
+    --color-bg:#FAF8F3;
+    --color-charcoal:#1F2A2C;
+    --color-success:#1E8E5A;
+    --color-card:#FFFFFF;
+    --color-danger:#E04F4F;
+  }
+  *{box-sizing:border-box;}
+  body{font-family:'Inter',sans-serif; background:var(--color-bg); color:var(--color-charcoal);}
+  .font-display{font-family:'Poppins',sans-serif;}
+
+  .seva-card{
+    background:var(--color-card); border-radius:18px; border:1px solid rgba(11,79,74,0.08); box-shadow:0 2px 10px rgba(11,79,74,0.05);
+  }
+  .seva-token{
+    font-family:'Poppins',sans-serif; font-weight:700; font-size:11px; letter-spacing:.08em;
+    padding:4px 10px; border-radius:6px; background:rgba(11,79,74,0.07); color:var(--color-primary); display:inline-block;
+  }
+  .calc-input{
+    border:1.5px solid rgba(11,79,74,0.15); border-radius:10px; padding:10px 14px; width:100%; background:#fff; transition:border-color .2s;
+  }
+  .calc-input:focus{outline:none; border-color:var(--color-accent);}
+
+  .nav-link{
+    display:flex; align-items:center; gap:10px; padding:10px 14px; border-radius:12px;
+    font-family:'Poppins',sans-serif; font-weight:600; font-size:14px; color:#5a6b6a; transition:all .15s; cursor:pointer;
+  }
+  .nav-link:hover{background:rgba(11,79,74,0.06); color:var(--color-primary);}
+  .nav-link.active{background:var(--color-primary); color:#fff;}
+
+  .status-badge{
+    font-size:11px; font-weight:700; padding:4px 10px; border-radius:999px;
+    font-family:'Poppins',sans-serif; letter-spacing:.03em; display:inline-block;
+  }
+  .status-pending{background:#FEF3CD; color:#92660A;}
+  .status-approved{background:#DCEEFF; color:#1A5FB4;}
+  .status-progress{background:#E6E0FF; color:#5B3FBF;}
+  .status-completed{background:#DEF5E7; color:#1E8E5A;}
+  .status-rejected{background:#FCE1E1; color:#C0392B;}
+
+  table{width:100%; border-collapse:collapse; font-size:14px;}
+  th{text-align:left; padding:10px 12px; font-family:'Poppins',sans-serif; font-weight:700; font-size:12px; color:#5a6b6a; text-transform:uppercase; letter-spacing:.04em; border-bottom:2px solid rgba(11,79,74,0.06);}
+  td{padding:12px; border-bottom:1px solid rgba(11,79,74,0.04); vertical-align:top;}
+  tr:hover td{background:rgba(11,79,74,0.02);}
+
+  .modal-overlay{background:rgba(31,42,44,0.55); backdrop-filter:blur(2px);}
+
+  .tab-btn{ border-radius:10px; font-weight:600; font-size:13px; transition:all .2s; padding:8px 14px; cursor:pointer; }
+  .tab-btn.active{ background:var(--color-primary); color:#fff; }
+  .tab-btn:not(.active){ background:rgba(11,79,74,0.06); color:var(--color-primary); }
+
+  .skeleton{background:linear-gradient(90deg,#eee 25%,#f5f5f5 50%,#eee 75%); background-size:200% 100%; animation:skeletonShine 1.4s infinite;}
+  @keyframes skeletonShine{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+
+  @media (max-width: 1024px) {
+    .desktop-sidebar{ display:none; }
+    .mobile-topbar-menu{ display:flex; }
+  }
+  @media (min-width: 1025px) {
+    .mobile-topbar-menu{ display:none; }
+  }
+  .sidebar-mobile{
+    position:fixed; top:0; left:0; height:100%; width:260px; z-index:60;
+    transform:translateX(-100%); transition:transform .25s ease; overflow-y:auto;
+  }
+  .sidebar-mobile.open{transform:translateX(0);}
+
+  /* Print receipt styling */
+  @media print {
+    body * { visibility: hidden; }
+    #printArea, #printArea * { visibility: visible; }
+    #printArea { position: absolute; top: 0; left: 0; width: 100%; }
+  }
+  .receipt-box{
+    border:1px solid #ccc; padding:16px; font-family:'Inter',sans-serif; font-size:13px; max-width:380px; margin:0 auto;
+  }
+  .receipt-box hr{ border:none; border-top:1px dashed #999; margin:8px 0; }
+</style>
+</head>
+<body class="antialiased">
+
+<!-- ============ LOGIN SCREEN ============ -->
+<div id="loginScreen" class="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-[var(--color-primary)] via-[var(--color-primary)] to-[var(--color-primary-light)]">
+  <div class="w-full max-w-sm">
+    <div class="text-center mb-6">
+      <img src="logo.png" alt="Logo" class="w-16 h-16 rounded-2xl mx-auto object-cover" onerror="this.style.display='none'"/>
+      <h1 class="font-display font-800 text-2xl text-white mt-3">Operator Panel</h1>
+      <p class="text-white/70 text-sm mt-1">E-Seva Kendra Management System</p>
+    </div>
+    <div class="seva-card p-6">
+      <form onsubmit="operatorLogin(event)" class="space-y-4">
+        <div>
+          <label class="text-sm font-display font-600 block mb-1">Username</label>
+          <input type="text" id="loginUsername" required class="calc-input" placeholder="Operator username"/>
+        </div>
+        <div>
+          <label class="text-sm font-display font-600 block mb-1">Password</label>
+          <input type="password" id="loginPassword" required class="calc-input" placeholder="Password"/>
+        </div>
+        <button type="submit" class="w-full py-3 rounded-full bg-[var(--color-primary)] text-white font-display font-700 hover:bg-[var(--color-primary-light)] transition">Login</button>
+        <div id="loginError" class="text-sm text-center text-[var(--color-danger)] hidden"></div>
+      </form>
+      <p class="text-xs text-gray-400 text-center mt-4">Operator accounts are created by Admin in the Admin Panel.</p>
+    </div>
+    <div class="text-center mt-5">
+      <a href="index.html" class="text-white/70 text-sm hover:text-white">← Back to Home</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============ OPERATOR APP ============ -->
+<div id="appScreen" class="hidden min-h-screen flex">
+
+  <!-- Desktop Sidebar -->
+  <aside class="desktop-sidebar w-64 bg-white border-r border-gray-100 p-5 flex flex-col gap-1 h-screen sticky top-0 overflow-y-auto">
+    <div class="flex items-center gap-2 mb-6 px-2">
+      <img src="logo.png" alt="Logo" class="w-9 h-9 rounded-lg object-cover" onerror="this.style.display='none'"/>
+      <span class="font-display font-700 text-[var(--color-primary)]">Operator Panel</span>
+    </div>
+    <div class="nav-link active" data-page="dashboard" onclick="showPage('dashboard')"><span>📊</span> Dashboard</div>
+    <div class="nav-link" data-page="bookings" onclick="showPage('bookings')"><span>📋</span> Bookings</div>
+    <div class="nav-link" data-page="customers" onclick="showPage('customers')"><span>👥</span> Customers</div>
+    <div class="text-xs font-display font-700 text-gray-400 uppercase tracking-wider mt-4 mb-1 px-3">Banking Tools</div>
+    <div class="nav-link" data-page="bankingtools" onclick="showPage('bankingtools')"><span>🏦</span> Banking Tools</div>
+    <div class="text-xs font-display font-700 text-gray-400 uppercase tracking-wider mt-4 mb-1 px-3">Business Tools</div>
+    <div class="nav-link" data-page="business" onclick="showPage('business')"><span>📈</span> Business Tools</div>
+    <div class="text-xs font-display font-700 text-gray-400 uppercase tracking-wider mt-4 mb-1 px-3">Printing</div>
+    <div class="nav-link" data-page="printing" onclick="showPage('printing')"><span>🖨️</span> Printing Tools</div>
+    <div class="text-xs font-display font-700 text-gray-400 uppercase tracking-wider mt-4 mb-1 px-3">More Tools</div>
+    <a href="operator-tools.html" class="nav-link"><span>🧰</span> Document &amp; CSC Tools</a>
+    <div class="mt-auto">
+      <div class="nav-link text-[var(--color-danger)]" onclick="operatorLogout()"><span>🚪</span> Logout</div>
+    </div>
+  </aside>
+
+  <!-- Mobile Sidebar -->
+  <aside id="mobileSidebar" class="sidebar-mobile bg-white p-5 flex flex-col gap-1">
+    <div class="flex items-center justify-between mb-6 px-2">
+      <span class="font-display font-700 text-[var(--color-primary)]">Operator Panel</span>
+      <button onclick="toggleMobileSidebar()" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">✕</button>
+    </div>
+    <div class="nav-link active" data-page="dashboard" onclick="showPage('dashboard')"><span>📊</span> Dashboard</div>
+    <div class="nav-link" data-page="bookings" onclick="showPage('bookings')"><span>📋</span> Bookings</div>
+    <div class="nav-link" data-page="customers" onclick="showPage('customers')"><span>👥</span> Customers</div>
+    <div class="text-xs font-display font-700 text-gray-400 uppercase tracking-wider mt-4 mb-1 px-3">Banking Tools</div>
+    <div class="nav-link" data-page="bankingtools" onclick="showPage('bankingtools')"><span>🏦</span> Banking Tools</div>
+    <div class="text-xs font-display font-700 text-gray-400 uppercase tracking-wider mt-4 mb-1 px-3">Business Tools</div>
+    <div class="nav-link" data-page="business" onclick="showPage('business')"><span>📈</span> Business Tools</div>
+    <div class="text-xs font-display font-700 text-gray-400 uppercase tracking-wider mt-4 mb-1 px-3">Printing</div>
+    <div class="nav-link" data-page="printing" onclick="showPage('printing')"><span>🖨️</span> Printing Tools</div>
+    <div class="text-xs font-display font-700 text-gray-400 uppercase tracking-wider mt-4 mb-1 px-3">More Tools</div>
+    <a href="operator-tools.html" class="nav-link"><span>🧰</span> Document &amp; CSC Tools</a>
+    <div class="mt-auto">
+      <div class="nav-link text-[var(--color-danger)]" onclick="operatorLogout()"><span>🚪</span> Logout</div>
+    </div>
+  </aside>
+  <div id="sidebarOverlay" class="hidden fixed inset-0 bg-black/30 z-50" onclick="toggleMobileSidebar()"></div>
+
+  <!-- Main -->
+  <main class="flex-1 min-h-screen">
+    <header class="bg-white border-b border-gray-100 px-4 md:px-8 py-4 flex items-center justify-between sticky top-0 z-30">
+      <div class="flex items-center gap-3">
+        <button class="mobile-topbar-menu p-2" onclick="toggleMobileSidebar()">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18" stroke-linecap="round"/></svg>
+        </button>
+        <div>
+          <div class="font-display font-700 text-lg" id="pageTitle">Dashboard</div>
+          <div class="text-xs text-gray-400" id="pageSubtitle">Welcome, <span id="operatorName">Operator</span></div>
+        </div>
+      </div>
+      <div class="w-9 h-9 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center font-display font-700 text-sm" id="operatorAvatar">O</div>
+    </header>
+
+    <div class="p-4 md:p-8">
+
+      <!-- ===== DASHBOARD ===== -->
+      <div id="page-dashboard" class="page-content">
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+          <div class="seva-card p-4"><div class="text-xs text-gray-500">Today's Customers</div><div id="statTodayCustomers" class="font-display font-800 text-2xl text-[var(--color-primary)] mt-1">0</div></div>
+          <div class="seva-card p-4"><div class="text-xs text-gray-500">Today's Revenue</div><div id="statTodayRevenue" class="font-display font-800 text-2xl text-[var(--color-success)] mt-1">₹0</div></div>
+          <div class="seva-card p-4"><div class="text-xs text-gray-500">Pending Requests</div><div id="statPending" class="font-display font-800 text-2xl text-[#92660A] mt-1">0</div></div>
+          <div class="seva-card p-4"><div class="text-xs text-gray-500">Completed Requests</div><div id="statCompleted" class="font-display font-800 text-2xl text-[var(--color-success)] mt-1">0</div></div>
+          <div class="seva-card p-4"><div class="text-xs text-gray-500">Monthly Revenue</div><div id="statMonthlyRevenue" class="font-display font-800 text-2xl text-[var(--color-accent)] mt-1">₹0</div></div>
+        </div>
+
+        <div class="seva-card p-5">
+          <div class="font-display font-700 mb-3">Recent Bookings (Pending Action)</div>
+          <div id="recentPendingBookings" class="space-y-3">
+            <div class="text-sm text-gray-400 text-center py-6">Loading...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== BOOKINGS MANAGEMENT ===== -->
+      <div id="page-bookings" class="page-content hidden">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <div class="flex flex-wrap gap-2">
+            <button class="px-3 py-1.5 rounded-full text-xs font-display font-700 bg-[var(--color-primary)] text-white" data-bfilter="all" onclick="filterBookings('all')">All</button>
+            <button class="px-3 py-1.5 rounded-full text-xs font-display font-700 bg-gray-100 text-gray-600" data-bfilter="Pending" onclick="filterBookings('Pending')">Pending</button>
+            <button class="px-3 py-1.5 rounded-full text-xs font-display font-700 bg-gray-100 text-gray-600" data-bfilter="Approved" onclick="filterBookings('Approved')">Approved</button>
+            <button class="px-3 py-1.5 rounded-full text-xs font-display font-700 bg-gray-100 text-gray-600" data-bfilter="In Progress" onclick="filterBookings('In Progress')">In Progress</button>
+            <button class="px-3 py-1.5 rounded-full text-xs font-display font-700 bg-gray-100 text-gray-600" data-bfilter="Completed" onclick="filterBookings('Completed')">Completed</button>
+            <button class="px-3 py-1.5 rounded-full text-xs font-display font-700 bg-gray-100 text-gray-600" data-bfilter="Rejected" onclick="filterBookings('Rejected')">Rejected</button>
+          </div>
+          <input type="text" id="bookingSearch" placeholder="Search by name/mobile..." class="calc-input !w-48" oninput="renderBookings()"/>
+        </div>
+        <div class="seva-card overflow-x-auto">
+          <table>
+            <thead><tr><th>Date</th><th>Name</th><th>Mobile</th><th>Service</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody id="bookingsTableBody"><tr><td colspan="6" class="text-center text-gray-400 py-6">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== CUSTOMERS ===== -->
+      <div id="page-customers" class="page-content hidden">
+        <div class="flex justify-end mb-4">
+          <input type="text" id="customerSearch" placeholder="Search customers..." class="calc-input !w-48" oninput="renderCustomers()"/>
+        </div>
+        <div class="seva-card overflow-x-auto">
+          <table>
+            <thead><tr><th>Name</th><th>Mobile/Email</th><th>Address</th><th>Total Bookings</th><th>Action</th></tr></thead>
+            <tbody id="customersTableBody"><tr><td colspan="5" class="text-center text-gray-400 py-6">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== BANKING TOOLS ===== -->
+      <div id="page-bankingtools" class="page-content hidden">
+        <div class="flex flex-wrap gap-2 mb-5">
+          <div class="tab-btn active" onclick="showBankTab('emi')" id="bankTab-emi">EMI Calculator</div>
+          <div class="tab-btn" onclick="showBankTab('eligibility')" id="bankTab-eligibility">Loan Eligibility</div>
+          <div class="tab-btn" onclick="showBankTab('commission')" id="bankTab-commission">Commission Calculator</div>
+          <div class="tab-btn" onclick="showBankTab('cashregister')" id="bankTab-cashregister">Daily Cash Register</div>
+          <div class="tab-btn" onclick="showBankTab('leadtracker')" id="bankTab-leadtracker">Banking Lead Tracker</div>
+        </div>
+
+        <!-- EMI -->
+        <div id="bankPanel-emi" class="seva-card p-5 max-w-md">
+          <div class="font-display font-700 mb-3">EMI Calculator</div>
+          <div class="space-y-3">
+            <div><label class="text-sm font-600 block mb-1">Loan Amount (₹)</label><input type="number" id="opEmiAmount" class="calc-input" value="100000"/></div>
+            <div><label class="text-sm font-600 block mb-1">Interest Rate (% p.a.)</label><input type="number" id="opEmiRate" class="calc-input" value="10"/></div>
+            <div><label class="text-sm font-600 block mb-1">Tenure (months)</label><input type="number" id="opEmiTenure" class="calc-input" value="12"/></div>
+            <button onclick="opCalcEMI()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Calculate</button>
+            <div id="opEmiResult" class="mt-3"></div>
+          </div>
+        </div>
+
+        <!-- Loan Eligibility -->
+        <div id="bankPanel-eligibility" class="hidden seva-card p-5 max-w-md">
+          <div class="font-display font-700 mb-3">Loan Eligibility Calculator</div>
+          <div class="space-y-3">
+            <div><label class="text-sm font-600 block mb-1">Monthly Income (₹)</label><input type="number" id="opLeIncome" class="calc-input" value="30000"/></div>
+            <div><label class="text-sm font-600 block mb-1">Existing EMI (₹)</label><input type="number" id="opLeEmi" class="calc-input" value="0"/></div>
+            <div><label class="text-sm font-600 block mb-1">Interest Rate (% p.a.)</label><input type="number" id="opLeRate" class="calc-input" value="10"/></div>
+            <div><label class="text-sm font-600 block mb-1">Tenure (months)</label><input type="number" id="opLeTenure" class="calc-input" value="60"/></div>
+            <button onclick="opCalcEligibility()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Calculate</button>
+            <div id="opLeResult" class="mt-3"></div>
+          </div>
+        </div>
+
+        <!-- Commission Calculator -->
+        <div id="bankPanel-commission" class="hidden seva-card p-5 max-w-md">
+          <div class="font-display font-700 mb-3">Commission Calculator</div>
+          <div class="space-y-3">
+            <div><label class="text-sm font-600 block mb-1">Transaction Amount (₹)</label><input type="number" id="opCommAmount" class="calc-input" value="5000"/></div>
+            <div><label class="text-sm font-600 block mb-1">Commission Rate (%)</label><input type="number" id="opCommRate" class="calc-input" value="0.5" step="0.01"/></div>
+            <button onclick="opCalcCommission()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Calculate</button>
+            <div id="opCommResult" class="mt-3"></div>
+          </div>
+        </div>
+
+        <!-- Daily Cash Register -->
+        <div id="bankPanel-cashregister" class="hidden">
+          <div class="seva-card p-5 max-w-xl mb-4">
+            <div class="font-display font-700 mb-3">Add Cash Entry</div>
+            <form onsubmit="addCashEntry(event)" class="grid sm:grid-cols-2 gap-3">
+              <input type="text" name="desc" placeholder="Description (e.g. AEPS Withdrawal)" required class="calc-input sm:col-span-2"/>
+              <select name="type" class="calc-input">
+                <option value="cashin">Cash In</option>
+                <option value="cashout">Cash Out</option>
+              </select>
+              <input type="number" name="amount" placeholder="Amount (₹)" required class="calc-input"/>
+              <button type="submit" class="sm:col-span-2 py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Add Entry</button>
+            </form>
+          </div>
+          <div class="grid sm:grid-cols-3 gap-4 mb-4">
+            <div class="seva-card p-4"><div class="text-xs text-gray-500">Cash In (Today)</div><div id="cashInTotal" class="font-display font-800 text-xl text-[var(--color-success)] mt-1">₹0</div></div>
+            <div class="seva-card p-4"><div class="text-xs text-gray-500">Cash Out (Today)</div><div id="cashOutTotal" class="font-display font-800 text-xl text-[var(--color-danger)] mt-1">₹0</div></div>
+            <div class="seva-card p-4"><div class="text-xs text-gray-500">Net Balance (Today)</div><div id="cashNetTotal" class="font-display font-800 text-xl text-[var(--color-primary)] mt-1">₹0</div></div>
+          </div>
+          <div class="seva-card overflow-x-auto">
+            <table>
+              <thead><tr><th>Time</th><th>Description</th><th>Type</th><th>Amount</th></tr></thead>
+              <tbody id="cashRegisterBody"><tr><td colspan="4" class="text-center text-gray-400 py-6">No entries today.</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Banking Lead Tracker -->
+        <div id="bankPanel-leadtracker" class="hidden">
+          <div class="seva-card p-5 max-w-xl mb-4">
+            <div class="font-display font-700 mb-3">Add Banking Lead</div>
+            <form onsubmit="addBankingLead(event)" class="grid sm:grid-cols-2 gap-3">
+              <input type="text" name="name" placeholder="Customer Name" required class="calc-input"/>
+              <input type="text" name="mobile" placeholder="Mobile Number" required class="calc-input"/>
+              <select name="product" class="calc-input sm:col-span-2">
+                <option>Savings Account</option>
+                <option>Personal Loan</option>
+                <option>Insurance</option>
+                <option>FD/RD</option>
+                <option>Credit Card</option>
+                <option>Other</option>
+              </select>
+              <textarea name="notes" placeholder="Notes" rows="2" class="calc-input sm:col-span-2"></textarea>
+              <button type="submit" class="sm:col-span-2 py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Add Lead</button>
+            </form>
+          </div>
+          <div class="seva-card overflow-x-auto">
+            <table>
+              <thead><tr><th>Date</th><th>Name</th><th>Mobile</th><th>Product</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody id="leadsTableBody"><tr><td colspan="6" class="text-center text-gray-400 py-6">No leads yet.</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== BUSINESS TOOLS ===== -->
+      <div id="page-business" class="page-content hidden">
+        <div class="flex flex-wrap gap-2 mb-5">
+          <div class="tab-btn active" onclick="showBizTab('income')" id="bizTab-income">Income Register</div>
+          <div class="tab-btn" onclick="showBizTab('expense')" id="bizTab-expense">Expense Register</div>
+          <div class="tab-btn" onclick="showBizTab('profit')" id="bizTab-profit">Profit Calculator</div>
+          <div class="tab-btn" onclick="showBizTab('revenue')" id="bizTab-revenue">Revenue Tracker</div>
+        </div>
+
+        <!-- Income Register -->
+        <div id="bizPanel-income">
+          <div class="seva-card p-5 max-w-xl mb-4">
+            <div class="font-display font-700 mb-3">Add Income Entry</div>
+            <form onsubmit="addBizTransaction(event,'income')" class="grid sm:grid-cols-2 gap-3">
+              <input type="text" name="title" placeholder="Description" required class="calc-input sm:col-span-2"/>
+              <input type="number" name="amount" placeholder="Amount (₹)" required class="calc-input"/>
+              <input type="date" name="date" required class="calc-input"/>
+              <button type="submit" class="sm:col-span-2 py-2.5 rounded-full bg-[var(--color-success)] text-white font-display font-700">Add Income</button>
+            </form>
+          </div>
+          <div class="seva-card overflow-x-auto">
+            <table>
+              <thead><tr><th>Date</th><th>Description</th><th>Amount</th></tr></thead>
+              <tbody id="incomeTableBody"><tr><td colspan="3" class="text-center text-gray-400 py-6">No entries yet.</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Expense Register -->
+        <div id="bizPanel-expense" class="hidden">
+          <div class="seva-card p-5 max-w-xl mb-4">
+            <div class="font-display font-700 mb-3">Add Expense Entry</div>
+            <form onsubmit="addBizTransaction(event,'expense')" class="grid sm:grid-cols-2 gap-3">
+              <input type="text" name="title" placeholder="Description" required class="calc-input sm:col-span-2"/>
+              <input type="number" name="amount" placeholder="Amount (₹)" required class="calc-input"/>
+              <input type="date" name="date" required class="calc-input"/>
+              <button type="submit" class="sm:col-span-2 py-2.5 rounded-full bg-[var(--color-danger)] text-white font-display font-700">Add Expense</button>
+            </form>
+          </div>
+          <div class="seva-card overflow-x-auto">
+            <table>
+              <thead><tr><th>Date</th><th>Description</th><th>Amount</th></tr></thead>
+              <tbody id="expenseTableBody"><tr><td colspan="3" class="text-center text-gray-400 py-6">No entries yet.</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Profit Calculator -->
+        <div id="bizPanel-profit" class="hidden seva-card p-5 max-w-md">
+          <div class="font-display font-700 mb-3">Profit Calculator</div>
+          <div class="space-y-3">
+            <div><label class="text-sm font-600 block mb-1">Cost Price (₹)</label><input type="number" id="opProfitCost" class="calc-input" value="100"/></div>
+            <div><label class="text-sm font-600 block mb-1">Selling Price (₹)</label><input type="number" id="opProfitSell" class="calc-input" value="120"/></div>
+            <button onclick="opCalcProfit()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Calculate</button>
+            <div id="opProfitResult" class="mt-3"></div>
+          </div>
+        </div>
+
+        <!-- Revenue Tracker -->
+        <div id="bizPanel-revenue" class="hidden">
+          <div class="grid sm:grid-cols-3 gap-4 mb-4">
+            <div class="seva-card p-4"><div class="text-xs text-gray-500">Today's Income</div><div id="revToday" class="font-display font-800 text-xl text-[var(--color-success)] mt-1">₹0</div></div>
+            <div class="seva-card p-4"><div class="text-xs text-gray-500">This Month</div><div id="revMonth" class="font-display font-800 text-xl text-[var(--color-accent)] mt-1">₹0</div></div>
+            <div class="seva-card p-4"><div class="text-xs text-gray-500">Total Expenses (Month)</div><div id="revExpMonth" class="font-display font-800 text-xl text-[var(--color-danger)] mt-1">₹0</div></div>
+          </div>
+          <div class="seva-card p-5">
+            <div class="font-display font-700 mb-3">Net Profit (This Month)</div>
+            <div id="revNetProfit" class="font-display font-800 text-3xl text-[var(--color-primary)]">₹0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PRINTING TOOLS ===== -->
+      <div id="page-printing" class="page-content hidden">
+        <div class="flex flex-wrap gap-2 mb-5">
+          <div class="tab-btn active" onclick="showPrintTab('receipt')" id="printTab-receipt">Receipt Generator</div>
+          <div class="tab-btn" onclick="showPrintTab('invoice')" id="printTab-invoice">Invoice Generator</div>
+          <div class="tab-btn" onclick="showPrintTab('token')" id="printTab-token">Token Generator</div>
+          <div class="tab-btn" onclick="showPrintTab('ack')" id="printTab-ack">Acknowledgement</div>
+        </div>
+
+        <!-- Receipt Generator -->
+        <div id="printPanel-receipt" class="grid md:grid-cols-2 gap-5">
+          <div class="seva-card p-5">
+            <div class="font-display font-700 mb-3">Receipt Details</div>
+            <div class="space-y-3">
+              <input type="text" id="rcptCustomer" class="calc-input" placeholder="Customer Name"/>
+              <input type="text" id="rcptMobile" class="calc-input" placeholder="Mobile Number"/>
+              <input type="text" id="rcptService" class="calc-input" placeholder="Service Description"/>
+              <input type="number" id="rcptAmount" class="calc-input" placeholder="Amount (₹)"/>
+              <button onclick="generateReceipt()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Generate Receipt</button>
+              <button onclick="window.print()" class="w-full py-2.5 rounded-full bg-[var(--color-accent)] text-white font-display font-700">🖨️ Print</button>
+            </div>
+          </div>
+          <div class="seva-card p-5">
+            <div id="printArea">
+              <div class="receipt-box" id="receiptPreview">
+                <div class="text-center font-display font-800 text-lg" id="rcptShopName">E-Seva Kendra</div>
+                <div class="text-center text-xs text-gray-500" id="rcptShopAddress">Baharda Bazar, Basta, Balasore, Odisha</div>
+                <hr/>
+                <div class="text-center font-700 mb-2">PAYMENT RECEIPT</div>
+                <div class="flex justify-between"><span>Receipt No:</span><span id="rcptNo">-</span></div>
+                <div class="flex justify-between"><span>Date:</span><span id="rcptDate">-</span></div>
+                <hr/>
+                <div class="flex justify-between"><span>Customer:</span><span id="rcptOutCustomer">-</span></div>
+                <div class="flex justify-between"><span>Mobile:</span><span id="rcptOutMobile">-</span></div>
+                <div class="flex justify-between"><span>Service:</span><span id="rcptOutService">-</span></div>
+                <hr/>
+                <div class="flex justify-between font-700 text-base"><span>Amount:</span><span id="rcptOutAmount">₹0</span></div>
+                <hr/>
+                <div class="text-center text-xs text-gray-400 mt-2">Thank you for visiting!</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Invoice Generator -->
+        <div id="printPanel-invoice" class="hidden grid md:grid-cols-2 gap-5">
+          <div class="seva-card p-5">
+            <div class="font-display font-700 mb-3">Invoice Details</div>
+            <div class="space-y-3">
+              <input type="text" id="invCustomer" class="calc-input" placeholder="Customer Name"/>
+              <input type="text" id="invMobile" class="calc-input" placeholder="Mobile Number"/>
+              <textarea id="invItems" class="calc-input" rows="4" placeholder="One item per line: Item Name, Qty, Price (e.g. PAN Card Apply, 1, 120)"></textarea>
+              <button onclick="generateInvoice()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Generate Invoice</button>
+              <button onclick="window.print()" class="w-full py-2.5 rounded-full bg-[var(--color-accent)] text-white font-display font-700">🖨️ Print</button>
+            </div>
+          </div>
+          <div class="seva-card p-5">
+            <div id="printAreaInvoice">
+              <div class="receipt-box" id="invoicePreview" style="max-width:380px;">
+                <div class="text-center font-display font-800 text-lg" id="invShopName">E-Seva Kendra</div>
+                <div class="text-center text-xs text-gray-500">Baharda Bazar, Basta, Balasore, Odisha</div>
+                <hr/>
+                <div class="text-center font-700 mb-2">INVOICE</div>
+                <div class="flex justify-between"><span>Invoice No:</span><span id="invNo">-</span></div>
+                <div class="flex justify-between"><span>Date:</span><span id="invDate">-</span></div>
+                <div class="flex justify-between"><span>Customer:</span><span id="invOutCustomer">-</span></div>
+                <hr/>
+                <table style="width:100%; font-size:12px;">
+                  <thead><tr><th style="text-align:left;">Item</th><th>Qty</th><th style="text-align:right;">Price</th></tr></thead>
+                  <tbody id="invItemsBody"></tbody>
+                </table>
+                <hr/>
+                <div class="flex justify-between font-700 text-base"><span>Total:</span><span id="invTotal">₹0</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Token Generator -->
+        <div id="printPanel-token" class="hidden grid md:grid-cols-2 gap-5">
+          <div class="seva-card p-5">
+            <div class="font-display font-700 mb-3">Token Details</div>
+            <div class="space-y-3">
+              <select id="tokenPrefix" class="calc-input">
+                <option value="AAD">AAD - Aadhaar Services</option>
+                <option value="PAN">PAN - PAN Card</option>
+                <option value="PMK">PMK - PM Kisan</option>
+                <option value="INS">INS - Insurance</option>
+                <option value="BNK">BNK - Banking</option>
+                <option value="GEN">GEN - General</option>
+              </select>
+              <input type="text" id="tokenCustomer" class="calc-input" placeholder="Customer Name"/>
+              <button onclick="generateToken()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Generate Token</button>
+              <button onclick="window.print()" class="w-full py-2.5 rounded-full bg-[var(--color-accent)] text-white font-display font-700">🖨️ Print</button>
+            </div>
+          </div>
+          <div class="seva-card p-5">
+            <div id="printAreaToken">
+              <div class="receipt-box text-center" id="tokenPreview" style="max-width:280px;">
+                <div class="text-xs text-gray-500" id="tokenShopName">E-Seva Kendra</div>
+                <hr/>
+                <div class="text-xs text-gray-400 mt-2">YOUR TOKEN NUMBER</div>
+                <div class="font-display font-800 text-4xl text-[var(--color-primary)] my-2" id="tokenNumber">AAD-001</div>
+                <div class="text-sm" id="tokenCustomerOut">-</div>
+                <hr/>
+                <div class="text-xs text-gray-400" id="tokenTime">-</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Acknowledgement Generator -->
+        <div id="printPanel-ack" class="hidden grid md:grid-cols-2 gap-5">
+          <div class="seva-card p-5">
+            <div class="font-display font-700 mb-3">Acknowledgement Details</div>
+            <div class="space-y-3">
+              <input type="text" id="ackCustomer" class="calc-input" placeholder="Customer Name"/>
+              <input type="text" id="ackMobile" class="calc-input" placeholder="Mobile Number"/>
+              <input type="text" id="ackService" class="calc-input" placeholder="Service / Document Submitted"/>
+              <textarea id="ackDocs" class="calc-input" rows="2" placeholder="Documents received (e.g. Aadhaar copy, Photo)"></textarea>
+              <button onclick="generateAck()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Generate</button>
+              <button onclick="window.print()" class="w-full py-2.5 rounded-full bg-[var(--color-accent)] text-white font-display font-700">🖨️ Print</button>
+            </div>
+          </div>
+          <div class="seva-card p-5">
+            <div id="printAreaAck">
+              <div class="receipt-box" id="ackPreview">
+                <div class="text-center font-display font-800 text-lg" id="ackShopName">E-Seva Kendra</div>
+                <div class="text-center text-xs text-gray-500">Baharda Bazar, Basta, Balasore, Odisha</div>
+                <hr/>
+                <div class="text-center font-700 mb-2">ACKNOWLEDGEMENT SLIP</div>
+                <div class="flex justify-between"><span>Date:</span><span id="ackDate">-</span></div>
+                <div class="flex justify-between"><span>Customer:</span><span id="ackOutCustomer">-</span></div>
+                <div class="flex justify-between"><span>Mobile:</span><span id="ackOutMobile">-</span></div>
+                <div class="flex justify-between"><span>Service:</span><span id="ackOutService">-</span></div>
+                <div class="mt-2"><strong>Documents Received:</strong><br/><span id="ackOutDocs">-</span></div>
+                <hr/>
+                <div class="text-center text-xs text-gray-400 mt-2">This slip confirms receipt of the above documents.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- ============ BOOKING MODAL ============ -->
+<div id="bookingModal" class="fixed inset-0 z-[60] hidden modal-overlay items-center justify-center p-4">
+  <div class="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 relative">
+    <button onclick="closeModal('bookingModal')" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200">✕</button>
+    <div id="bookingModalContent"></div>
+  </div>
+</div>
+
+<!-- ============ CUSTOMER DETAIL MODAL ============ -->
+<div id="customerModal" class="fixed inset-0 z-[60] hidden modal-overlay items-center justify-center p-4">
+  <div class="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 relative">
+    <button onclick="closeModal('customerModal')" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200">✕</button>
+    <div id="customerModalContent"></div>
+  </div>
+</div>
+
+<script>
+/* ===================================================
+   FIREBASE CONFIG — same as index.html / admin.html
+   =================================================== */
+const firebaseConfig = {
+  apiKey: "AIzaSyDucHeFoRyu-aHa2ILTV6dXWkV5TWyVWV4",
+  authDomain: "eseva-kendra-4c870.firebaseapp.com",
+  projectId: "eseva-kendra-4c870",
+  storageBucket: "eseva-kendra-4c870.firebasestorage.app",
+  messagingSenderId: "730747379772",
+  appId: "1:730747379772:web:87f4fa85e372128c0de339"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const storage = firebase.storage();
+
+const SESSION_KEY = 'eseva_operator_session';
+const SESSION_TIMEOUT_MS = 8 * 60 * 60 * 1000; // 8 hours
+let currentOperator = null;
+let CACHE = { bookings: [], users: [], leads: [], cashEntries: [], bizTransactions: [] };
+
+/* ===================================================
+   AUTH
+   =================================================== */
+async function operatorLogin(e) {
+  e.preventDefault();
+  const u = document.getElementById('loginUsername').value;
+  const p = document.getElementById('loginPassword').value;
+  const errEl = document.getElementById('loginError');
+
+  try {
+    const snap = await db.collection('operators').where('username','==',u).where('password','==',p).get();
+    if (snap.empty) {
+      errEl.textContent = 'Invalid username or password.';
+      errEl.classList.remove('hidden');
+      return;
+    }
+    const op = { id: snap.docs[0].id, ...snap.docs[0].data() };
+    currentOperator = op;
+    localStorage.setItem(SESSION_KEY, JSON.stringify({ loggedIn: true, time: Date.now(), operator: op }));
+    showApp();
+  } catch (err) {
+    errEl.textContent = 'Login failed. Check your Firebase configuration.';
+    errEl.classList.remove('hidden');
+  }
+}
+
+function checkSession() {
+  const session = JSON.parse(localStorage.getItem(SESSION_KEY) || 'null');
+  if (session && session.loggedIn && (Date.now() - session.time) < SESSION_TIMEOUT_MS) {
+    currentOperator = session.operator;
+    showApp();
+  } else {
+    localStorage.removeItem(SESSION_KEY);
+    document.getElementById('loginScreen').classList.remove('hidden');
+    document.getElementById('appScreen').classList.add('hidden');
+  }
+}
+
+function operatorLogout() {
+  localStorage.removeItem(SESSION_KEY);
+  location.reload();
+}
+
+function showApp() {
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('appScreen').classList.remove('hidden');
+  document.getElementById('operatorName').textContent = currentOperator.name || 'Operator';
+  document.getElementById('operatorAvatar').textContent = (currentOperator.name || 'O').charAt(0).toUpperCase();
+  initOperator();
+}
+
+/* ===================================================
+   NAVIGATION
+   =================================================== */
+const pageTitles = {
+  dashboard: ['Dashboard','Welcome'],
+  bookings: ['Bookings','Manage customer service requests'],
+  customers: ['Customers','Search and view customer history'],
+  bankingtools: ['Banking Tools','EMI, eligibility, commission & cash register'],
+  business: ['Business Tools','Income, expense & profit tracking'],
+  printing: ['Printing Tools','Receipts, invoices, tokens & acknowledgements']
+};
+
+function showPage(page) {
+  document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
+  document.getElementById('page-' + page).classList.remove('hidden');
+  document.querySelectorAll('.nav-link[data-page]').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll(`[data-page="${page}"]`).forEach(l => l.classList.add('active'));
+  document.getElementById('pageTitle').textContent = pageTitles[page][0];
+  document.getElementById('pageSubtitle').innerHTML = page === 'dashboard' ? `Welcome, <span id="operatorName">${currentOperator.name||'Operator'}</span>` : pageTitles[page][1];
+  toggleMobileSidebar(true);
+  window.scrollTo(0,0);
+
+  if (page === 'bookings') loadAllBookings();
+  if (page === 'customers') loadCustomers();
+  if (page === 'bankingtools') { loadCashRegister(); loadLeads(); }
+  if (page === 'business') loadBizTransactions();
+}
+
+function toggleMobileSidebar(forceClose) {
+  const sb = document.getElementById('mobileSidebar');
+  const ov = document.getElementById('sidebarOverlay');
+  if (forceClose) { sb.classList.remove('open'); ov.classList.add('hidden'); return; }
+  sb.classList.toggle('open');
+  ov.classList.toggle('hidden');
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.add('hidden');
+  document.getElementById(id).classList.remove('flex');
+}
+function openModal(id) {
+  document.getElementById(id).classList.remove('hidden');
+  document.getElementById(id).classList.add('flex');
+}
+
+function statusClass(status) {
+  const map = { 'Pending':'status-pending','Approved':'status-approved','In Progress':'status-progress','Completed':'status-completed','Rejected':'status-rejected' };
+  return map[status] || 'status-pending';
+}
+
+/* ===================================================
+   INIT / DASHBOARD
+   =================================================== */
+async function initOperator() {
+  try {
+    const [bookingsSnap, txnSnap] = await Promise.all([
+      db.collection('bookings').orderBy('createdAt','desc').get(),
+      db.collection('transactions').get()
+    ]);
+    CACHE.bookings = bookingsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+    const todayStr = new Date().toDateString();
+    const todayBookings = CACHE.bookings.filter(b => new Date(b.createdAt).toDateString() === todayStr);
+
+    document.getElementById('statTodayCustomers').textContent = todayBookings.length;
+    document.getElementById('statPending').textContent = CACHE.bookings.filter(b => b.status === 'Pending').length;
+    document.getElementById('statCompleted').textContent = CACHE.bookings.filter(b => b.status === 'Completed').length;
+
+    let todayRevenue = 0, monthlyRevenue = 0;
+    const now = new Date();
+    txnSnap.docs.forEach(d => {
+      const t = d.data();
+      if (t.type === 'income') {
+        const tDate = new Date(t.date);
+        if (tDate.toDateString() === todayStr) todayRevenue += Number(t.amount||0);
+        if (tDate.getMonth() === now.getMonth() && tDate.getFullYear() === now.getFullYear()) monthlyRevenue += Number(t.amount||0);
+      }
+    });
+    document.getElementById('statTodayRevenue').textContent = '₹' + todayRevenue.toLocaleString('en-IN');
+    document.getElementById('statMonthlyRevenue').textContent = '₹' + monthlyRevenue.toLocaleString('en-IN');
+
+    renderRecentPending();
+  } catch (e) { console.error(e); }
+}
+
+function renderRecentPending() {
+  const pending = CACHE.bookings.filter(b => b.status === 'Pending' || b.status === 'Approved' || b.status === 'In Progress').slice(0, 8);
+  const el = document.getElementById('recentPendingBookings');
+  if (!pending.length) {
+    el.innerHTML = '<div class="text-sm text-gray-400 text-center py-6">No pending bookings. Great job!</div>';
+    return;
+  }
+  el.innerHTML = pending.map(b => `
+    <div class="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
+      <div>
+        <div class="font-display font-600 text-sm">${b.serviceType} — ${b.name}</div>
+        <div class="text-xs text-gray-400">${b.mobile} • ${new Date(b.createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}</div>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="status-badge ${statusClass(b.status)}">${b.status}</span>
+        <button onclick="openBookingModal('${b.id}')" class="text-xs px-3 py-1.5 rounded-full bg-[var(--color-primary)] text-white font-700">Manage</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ===================================================
+   BOOKINGS MANAGEMENT
+   =================================================== */
+let currentBookingFilter = 'all';
+async function loadAllBookings() {
+  try {
+    const snap = await db.collection('bookings').orderBy('createdAt','desc').get();
+    CACHE.bookings = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderBookings();
+  } catch (e) {
+    document.getElementById('bookingsTableBody').innerHTML = '<tr><td colspan="6" class="text-center text-gray-400 py-6">Could not load bookings.</td></tr>';
+  }
+}
+
+function renderBookings() {
+  const search = (document.getElementById('bookingSearch').value || '').toLowerCase();
+  let filtered = currentBookingFilter === 'all' ? CACHE.bookings : CACHE.bookings.filter(b => b.status === currentBookingFilter);
+  if (search) filtered = filtered.filter(b => (b.name||'').toLowerCase().includes(search) || (b.mobile||'').includes(search));
+
+  const tbody = document.getElementById('bookingsTableBody');
+  if (!filtered.length) {
+    tbody.innerHTML = '<tr><td colspan="6" class="text-center text-gray-400 py-6">No bookings found.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = filtered.map(b => `
+    <tr>
+      <td class="whitespace-nowrap">${new Date(b.createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}</td>
+      <td>${b.name}</td>
+      <td>${b.mobile}</td>
+      <td>${b.serviceType}</td>
+      <td><span class="status-badge ${statusClass(b.status)}">${b.status}</span></td>
+      <td><button onclick="openBookingModal('${b.id}')" class="text-xs px-3 py-1.5 rounded-full bg-[var(--color-primary)] text-white font-700">Manage</button></td>
+    </tr>
+  `).join('');
+}
+
+function filterBookings(status) {
+  currentBookingFilter = status;
+  document.querySelectorAll('[data-bfilter]').forEach(b => {
+    if (b.dataset.bfilter === status) { b.classList.remove('bg-gray-100','text-gray-600'); b.classList.add('bg-[var(--color-primary)]','text-white'); }
+    else { b.classList.add('bg-gray-100','text-gray-600'); b.classList.remove('bg-[var(--color-primary)]','text-white'); }
+  });
+  renderBookings();
+}
+
+function openBookingModal(id) {
+  const b = CACHE.bookings.find(x => x.id === id);
+  if (!b) return;
+  document.getElementById('bookingModalContent').innerHTML = `
+    <div class="font-display font-700 text-lg mb-1">${b.serviceType}</div>
+    <div class="text-xs text-gray-400 mb-4">Booking ID: ${b.id.slice(0,8).toUpperCase()} • ${new Date(b.createdAt).toLocaleString('en-IN')}</div>
+    <div class="space-y-2 text-sm mb-4">
+      <div><strong>Name:</strong> ${b.name}</div>
+      <div><strong>Mobile:</strong> ${b.mobile}</div>
+      <div><strong>Address:</strong> ${b.address}</div>
+      <div><strong>Category:</strong> ${b.category}</div>
+      ${b.notes ? `<div><strong>Notes:</strong> ${b.notes}</div>` : ''}
+      ${b.documentURL ? `<div><a href="${b.documentURL}" target="_blank" class="text-[var(--color-primary)] underline">📎 View Document</a></div>` : ''}
+    </div>
+    <div class="space-y-3">
+      <div>
+        <label class="text-sm font-600 block mb-1">Update Status</label>
+        <select id="modalStatus" class="calc-input">
+          <option value="Pending" ${b.status==='Pending'?'selected':''}>Pending</option>
+          <option value="Approved" ${b.status==='Approved'?'selected':''}>Approved</option>
+          <option value="In Progress" ${b.status==='In Progress'?'selected':''}>In Progress</option>
+          <option value="Completed" ${b.status==='Completed'?'selected':''}>Completed</option>
+          <option value="Rejected" ${b.status==='Rejected'?'selected':''}>Rejected</option>
+        </select>
+      </div>
+      <div>
+        <label class="text-sm font-600 block mb-1">Note to Customer</label>
+        <textarea id="modalNote" rows="2" class="calc-input">${b.adminNote||''}</textarea>
+      </div>
+      <button onclick="updateBooking('${b.id}')" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Update Booking</button>
+      <div id="modalUpdateMsg" class="text-sm text-center hidden"></div>
+    </div>
+  `;
+  openModal('bookingModal');
+}
+
+async function updateBooking(id) {
+  const status = document.getElementById('modalStatus').value;
+  const adminNote = document.getElementById('modalNote').value;
+  const b = CACHE.bookings.find(x => x.id === id);
+
+  try {
+    await db.collection('bookings').doc(id).update({ status, adminNote });
+    if (status !== b.status) {
+      await db.collection('notifications').add({
+        userId: b.userId,
+        title: 'Booking Status Updated',
+        message: `Your request for "${b.serviceType}" is now: ${status}.${adminNote ? ' Note: ' + adminNote : ''}`,
+        read: false,
+        createdAt: new Date().toISOString()
+      });
+    }
+    document.getElementById('modalUpdateMsg').textContent = '✓ Updated successfully!';
+    document.getElementById('modalUpdateMsg').className = 'text-sm text-center text-[var(--color-success)]';
+    document.getElementById('modalUpdateMsg').classList.remove('hidden');
+    b.status = status; b.adminNote = adminNote;
+    renderBookings();
+    renderRecentPending();
+    setTimeout(() => closeModal('bookingModal'), 800);
+  } catch (e) {
+    document.getElementById('modalUpdateMsg').textContent = 'Update failed.';
+    document.getElementById('modalUpdateMsg').className = 'text-sm text-center text-[var(--color-danger)]';
+    document.getElementById('modalUpdateMsg').classList.remove('hidden');
+  }
+}
+
+/* ===================================================
+   CUSTOMERS
+   =================================================== */
+async function loadCustomers() {
+  try {
+    const [usersSnap, bookingsSnap, docsSnap] = await Promise.all([
+      db.collection('users').get(),
+      db.collection('bookings').get(),
+      db.collection('documents').get()
+    ]);
+    CACHE.users = usersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+    CACHE.allBookingsForCustomers = bookingsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+    CACHE.allDocs = docsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+    CACHE.users.forEach(u => {
+      u.bookingCount = CACHE.allBookingsForCustomers.filter(b => b.userId === (u.uid||u.id)).length;
+    });
+    renderCustomers();
+  } catch (e) {
+    document.getElementById('customersTableBody').innerHTML = '<tr><td colspan="5" class="text-center text-gray-400 py-6">Could not load customers.</td></tr>';
+  }
+}
+
+function renderCustomers() {
+  const search = (document.getElementById('customerSearch').value || '').toLowerCase();
+  let filtered = CACHE.users;
+  if (search) filtered = filtered.filter(u => (u.name||'').toLowerCase().includes(search) || (u.mobile||'').includes(search) || (u.email||'').toLowerCase().includes(search));
+
+  const tbody = document.getElementById('customersTableBody');
+  if (!filtered.length) {
+    tbody.innerHTML = '<tr><td colspan="5" class="text-center text-gray-400 py-6">No customers found.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = filtered.map(u => `
+    <tr>
+      <td>${u.name || '-'}</td>
+      <td>${u.mobile || u.email || '-'}</td>
+      <td>${u.address || '-'}</td>
+      <td>${u.bookingCount}</td>
+      <td><button onclick="openCustomerModal('${u.id}')" class="text-xs px-3 py-1.5 rounded-full bg-[var(--color-primary)] text-white font-700">View History</button></td>
+    </tr>
+  `).join('');
+}
+
+function openCustomerModal(id) {
+  const u = CACHE.users.find(x => x.id === id);
+  if (!u) return;
+  const uid = u.uid || u.id;
+  const bookings = CACHE.allBookingsForCustomers.filter(b => b.userId === uid);
+  const docs = CACHE.allDocs.filter(d => d.userId === uid);
+
+  document.getElementById('customerModalContent').innerHTML = `
+    <div class="font-display font-700 text-lg">${u.name || 'Customer'}</div>
+    <div class="text-sm text-gray-500 mb-4">${u.mobile || u.email || ''} ${u.address ? '• ' + u.address : ''}</div>
+
+    <div class="font-display font-700 text-sm mb-2">Service History (${bookings.length})</div>
+    <div class="space-y-2 mb-4 max-h-40 overflow-y-auto">
+      ${bookings.length ? bookings.map(b => `
+        <div class="flex justify-between items-center text-sm border-b border-gray-50 pb-1">
+          <span>${b.serviceType}</span>
+          <span class="status-badge ${statusClass(b.status)}">${b.status}</span>
+        </div>
+      `).join('') : '<div class="text-sm text-gray-400">No bookings yet.</div>'}
+    </div>
+
+    <div class="font-display font-700 text-sm mb-2">Uploaded Documents (${docs.length})</div>
+    <div class="grid grid-cols-3 gap-2 mb-4">
+      ${docs.length ? docs.map(d => `
+        <a href="${d.url}" target="_blank" class="block">
+          ${d.type && d.type.startsWith('image') ? `<img src="${d.url}" class="w-full h-16 object-cover rounded-lg"/>` : `<div class="w-full h-16 rounded-lg bg-gray-100 flex items-center justify-center text-2xl">📄</div>`}
+        </a>
+      `).join('') : '<div class="text-sm text-gray-400 col-span-3">No documents.</div>'}
+    </div>
+
+    <div>
+      <label class="text-sm font-600 block mb-1">Customer Notes (internal)</label>
+      <textarea id="custNote_${u.id}" rows="2" class="calc-input">${u.operatorNote||''}</textarea>
+      <button onclick="saveCustomerNote('${u.id}')" class="mt-2 px-4 py-2 rounded-full bg-[var(--color-primary)] text-white text-sm font-display font-700">Save Note</button>
+    </div>
+  `;
+  openModal('customerModal');
+}
+
+async function saveCustomerNote(id) {
+  const note = document.getElementById(`custNote_${id}`).value;
+  try {
+    await db.collection('users').doc(id).update({ operatorNote: note });
+    const u = CACHE.users.find(x => x.id === id);
+    if (u) u.operatorNote = note;
+  } catch (e) { alert('Could not save note.'); }
+}
+
+/* ===================================================
+   BANKING TOOLS
+   =================================================== */
+function showBankTab(tab) {
+  ['emi','eligibility','commission','cashregister','leadtracker'].forEach(t => {
+    document.getElementById(`bankPanel-${t}`).classList.toggle('hidden', t !== tab);
+    document.getElementById(`bankTab-${t}`).classList.toggle('active', t === tab);
+  });
+}
+
+function opCalcEMI() {
+  const P = parseFloat(document.getElementById('opEmiAmount').value);
+  const r = parseFloat(document.getElementById('opEmiRate').value) / 12 / 100;
+  const n = parseFloat(document.getElementById('opEmiTenure').value);
+  const emi = (P * r * Math.pow(1+r, n)) / (Math.pow(1+r, n) - 1);
+  const total = emi * n;
+  document.getElementById('opEmiResult').innerHTML = `
+    <div class="seva-card p-4 space-y-2">
+      <div class="flex justify-between text-sm"><span>Monthly EMI</span><span class="font-700">₹${emi.toFixed(2)}</span></div>
+      <div class="flex justify-between text-sm"><span>Total Interest</span><span class="font-700">₹${(total-P).toFixed(2)}</span></div>
+      <div class="flex justify-between text-sm"><span>Total Payment</span><span class="font-700">₹${total.toFixed(2)}</span></div>
+    </div>`;
+}
+
+function opCalcEligibility() {
+  const income = parseFloat(document.getElementById('opLeIncome').value);
+  const existingEmi = parseFloat(document.getElementById('opLeEmi').value);
+  const rate = parseFloat(document.getElementById('opLeRate').value) / 12 / 100;
+  const tenure = parseFloat(document.getElementById('opLeTenure').value);
+  const maxEmi = (income * 0.5) - existingEmi;
+  const eligibleLoan = maxEmi * (Math.pow(1+rate, tenure) - 1) / (rate * Math.pow(1+rate, tenure));
+  document.getElementById('opLeResult').innerHTML = `
+    <div class="seva-card p-4 space-y-2">
+      <div class="flex justify-between text-sm"><span>Max EMI Capacity</span><span class="font-700">₹${maxEmi>0?maxEmi.toFixed(2):0}</span></div>
+      <div class="flex justify-between text-sm"><span>Eligible Loan Amount</span><span class="font-700">₹${eligibleLoan>0?eligibleLoan.toFixed(2):0}</span></div>
+    </div>`;
+}
+
+function opCalcCommission() {
+  const amt = parseFloat(document.getElementById('opCommAmount').value);
+  const rate = parseFloat(document.getElementById('opCommRate').value);
+  const commission = amt * rate / 100;
+  document.getElementById('opCommResult').innerHTML = `
+    <div class="seva-card p-4 space-y-2">
+      <div class="flex justify-between text-sm"><span>Transaction Amount</span><span class="font-700">₹${amt.toFixed(2)}</span></div>
+      <div class="flex justify-between text-sm"><span>Commission (${rate}%)</span><span class="font-700 text-[var(--color-success)]">₹${commission.toFixed(2)}</span></div>
+    </div>`;
+}
+
+/* Daily Cash Register */
+async function addCashEntry(e) {
+  e.preventDefault();
+  const form = e.target;
+  try {
+    await db.collection('cashRegister').add({
+      desc: form.desc.value,
+      type: form.type.value,
+      amount: parseFloat(form.amount.value),
+      operatorId: currentOperator.id,
+      createdAt: new Date().toISOString()
+    });
+    form.reset();
+    loadCashRegister();
+  } catch (e) { alert('Could not add entry.'); }
+}
+
+async function loadCashRegister() {
+  try {
+    const snap = await db.collection('cashRegister').orderBy('createdAt','desc').limit(100).get();
+    const all = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    const todayStr = new Date().toDateString();
+    const today = all.filter(e => new Date(e.createdAt).toDateString() === todayStr);
+
+    const cashIn = today.filter(e=>e.type==='cashin').reduce((s,e)=>s+Number(e.amount),0);
+    const cashOut = today.filter(e=>e.type==='cashout').reduce((s,e)=>s+Number(e.amount),0);
+    document.getElementById('cashInTotal').textContent = '₹' + cashIn.toLocaleString('en-IN');
+    document.getElementById('cashOutTotal').textContent = '₹' + cashOut.toLocaleString('en-IN');
+    document.getElementById('cashNetTotal').textContent = '₹' + (cashIn-cashOut).toLocaleString('en-IN');
+
+    const tbody = document.getElementById('cashRegisterBody');
+    if (!today.length) {
+      tbody.innerHTML = '<tr><td colspan="4" class="text-center text-gray-400 py-6">No entries today.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = today.map(e => `
+      <tr>
+        <td>${new Date(e.createdAt).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}</td>
+        <td>${e.desc}</td>
+        <td><span class="status-badge ${e.type==='cashin'?'status-completed':'status-rejected'}">${e.type==='cashin'?'Cash In':'Cash Out'}</span></td>
+        <td class="font-700">₹${Number(e.amount).toLocaleString('en-IN')}</td>
+      </tr>
+    `).join('');
+  } catch (e) {
+    document.getElementById('cashRegisterBody').innerHTML = '<tr><td colspan="4" class="text-center text-gray-400 py-6">No entries today.</td></tr>';
+  }
+}
+
+/* Banking Lead Tracker */
+async function addBankingLead(e) {
+  e.preventDefault();
+  const form = e.target;
+  try {
+    await db.collection('bankingLeads').add({
+      name: form.name.value,
+      mobile: form.mobile.value,
+      product: form.product.value,
+      notes: form.notes.value,
+      status: 'New',
+      createdAt: new Date().toISOString()
+    });
+    form.reset();
+    loadLeads();
+  } catch (e) { alert('Could not add lead.'); }
+}
+
+async function loadLeads() {
+  try {
+    const snap = await db.collection('bankingLeads').orderBy('createdAt','desc').get();
+    CACHE.leads = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderLeads();
+  } catch (e) {
+    document.getElementById('leadsTableBody').innerHTML = '<tr><td colspan="6" class="text-center text-gray-400 py-6">No leads yet.</td></tr>';
+  }
+}
+
+function renderLeads() {
+  const tbody = document.getElementById('leadsTableBody');
+  if (!CACHE.leads.length) {
+    tbody.innerHTML = '<tr><td colspan="6" class="text-center text-gray-400 py-6">No leads yet.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = CACHE.leads.map(l => `
+    <tr>
+      <td>${new Date(l.createdAt).toLocaleDateString('en-IN')}</td>
+      <td>${l.name}</td>
+      <td>${l.mobile}</td>
+      <td>${l.product}</td>
+      <td>
+        <select onchange="updateLeadStatus('${l.id}',this.value)" class="text-xs border rounded-lg px-2 py-1">
+          <option value="New" ${l.status==='New'?'selected':''}>New</option>
+          <option value="Contacted" ${l.status==='Contacted'?'selected':''}>Contacted</option>
+          <option value="Converted" ${l.status==='Converted'?'selected':''}>Converted</option>
+          <option value="Lost" ${l.status==='Lost'?'selected':''}>Lost</option>
+        </select>
+      </td>
+      <td><button onclick="deleteLead('${l.id}')" class="text-xs px-3 py-1.5 rounded-full bg-[var(--color-danger)] text-white font-700">Delete</button></td>
+    </tr>
+  `).join('');
+}
+
+async function updateLeadStatus(id, status) {
+  await db.collection('bankingLeads').doc(id).update({ status });
+}
+async function deleteLead(id) {
+  if (!confirm('Delete this lead?')) return;
+  await db.collection('bankingLeads').doc(id).delete();
+  loadLeads();
+}
+
+/* ===================================================
+   BUSINESS TOOLS
+   =================================================== */
+function showBizTab(tab) {
+  ['income','expense','profit','revenue'].forEach(t => {
+    document.getElementById(`bizPanel-${t}`).classList.toggle('hidden', t !== tab);
+    document.getElementById(`bizTab-${t}`).classList.toggle('active', t === tab);
+  });
+  if (tab === 'revenue') renderRevenueTracker();
+}
+
+async function addBizTransaction(e, type) {
+  e.preventDefault();
+  const form = e.target;
+  try {
+    await db.collection('transactions').add({
+      title: form.title.value,
+      amount: parseFloat(form.amount.value),
+      date: form.date.value,
+      type,
+      createdAt: new Date().toISOString()
+    });
+    form.reset();
+    loadBizTransactions();
+  } catch (e) { alert('Could not add entry.'); }
+}
+
+async function loadBizTransactions() {
+  try {
+    const snap = await db.collection('transactions').orderBy('date','desc').limit(100).get();
+    CACHE.bizTransactions = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderBizTables();
+  } catch (e) {
+    document.getElementById('incomeTableBody').innerHTML = '<tr><td colspan="3" class="text-center text-gray-400 py-6">No entries yet.</td></tr>';
+    document.getElementById('expenseTableBody').innerHTML = '<tr><td colspan="3" class="text-center text-gray-400 py-6">No entries yet.</td></tr>';
+  }
+}
+
+function renderBizTables() {
+  const income = CACHE.bizTransactions.filter(t => t.type === 'income');
+  const expense = CACHE.bizTransactions.filter(t => t.type === 'expense');
+
+  const incomeBody = document.getElementById('incomeTableBody');
+  incomeBody.innerHTML = income.length ? income.map(t => `
+    <tr><td>${new Date(t.date).toLocaleDateString('en-IN')}</td><td>${t.title}</td><td class="text-[var(--color-success)] font-700">₹${Number(t.amount).toLocaleString('en-IN')}</td></tr>
+  `).join('') : '<tr><td colspan="3" class="text-center text-gray-400 py-6">No entries yet.</td></tr>';
+
+  const expenseBody = document.getElementById('expenseTableBody');
+  expenseBody.innerHTML = expense.length ? expense.map(t => `
+    <tr><td>${new Date(t.date).toLocaleDateString('en-IN')}</td><td>${t.title}</td><td class="text-[var(--color-danger)] font-700">₹${Number(t.amount).toLocaleString('en-IN')}</td></tr>
+  `).join('') : '<tr><td colspan="3" class="text-center text-gray-400 py-6">No entries yet.</td></tr>';
+}
+
+function opCalcProfit() {
+  const cp = parseFloat(document.getElementById('opProfitCost').value);
+  const sp = parseFloat(document.getElementById('opProfitSell').value);
+  const profit = sp - cp;
+  const margin = (profit/sp)*100;
+  const markup = (profit/cp)*100;
+  document.getElementById('opProfitResult').innerHTML = `
+    <div class="seva-card p-4 space-y-2">
+      <div class="flex justify-between text-sm"><span>${profit>=0?'Profit':'Loss'}</span><span class="font-700">₹${Math.abs(profit).toFixed(2)}</span></div>
+      <div class="flex justify-between text-sm"><span>Margin</span><span class="font-700">${margin.toFixed(2)}%</span></div>
+      <div class="flex justify-between text-sm"><span>Markup</span><span class="font-700">${markup.toFixed(2)}%</span></div>
+    </div>`;
+}
+
+function renderRevenueTracker() {
+  const todayStr = new Date().toDateString();
+  const now = new Date();
+  const todayIncome = CACHE.bizTransactions.filter(t => t.type==='income' && new Date(t.date).toDateString()===todayStr).reduce((s,t)=>s+Number(t.amount),0);
+  const monthIncome = CACHE.bizTransactions.filter(t => t.type==='income' && new Date(t.date).getMonth()===now.getMonth() && new Date(t.date).getFullYear()===now.getFullYear()).reduce((s,t)=>s+Number(t.amount),0);
+  const monthExpense = CACHE.bizTransactions.filter(t => t.type==='expense' && new Date(t.date).getMonth()===now.getMonth() && new Date(t.date).getFullYear()===now.getFullYear()).reduce((s,t)=>s+Number(t.amount),0);
+
+  document.getElementById('revToday').textContent = '₹' + todayIncome.toLocaleString('en-IN');
+  document.getElementById('revMonth').textContent = '₹' + monthIncome.toLocaleString('en-IN');
+  document.getElementById('revExpMonth').textContent = '₹' + monthExpense.toLocaleString('en-IN');
+  document.getElementById('revNetProfit').textContent = '₹' + (monthIncome-monthExpense).toLocaleString('en-IN');
+}
+
+/* ===================================================
+   PRINTING TOOLS
+   =================================================== */
+function showPrintTab(tab) {
+  ['receipt','invoice','token','ack'].forEach(t => {
+    document.getElementById(`printPanel-${t}`).classList.toggle('hidden', t !== tab);
+    document.getElementById(`printTab-${t}`).classList.toggle('active', t === tab);
+  });
+}
+
+// Receipt
+let receiptCounter = parseInt(localStorage.getItem('eseva_receipt_counter') || '0');
+function generateReceipt() {
+  receiptCounter++;
+  localStorage.setItem('eseva_receipt_counter', receiptCounter);
+  document.getElementById('rcptNo').textContent = 'RCT-' + String(receiptCounter).padStart(4,'0');
+  document.getElementById('rcptDate').textContent = new Date().toLocaleString('en-IN');
+  document.getElementById('rcptOutCustomer').textContent = document.getElementById('rcptCustomer').value || '-';
+  document.getElementById('rcptOutMobile').textContent = document.getElementById('rcptMobile').value || '-';
+  document.getElementById('rcptOutService').textContent = document.getElementById('rcptService').value || '-';
+  document.getElementById('rcptOutAmount').textContent = '₹' + (parseFloat(document.getElementById('rcptAmount').value)||0).toFixed(2);
+}
+
+// Invoice
+let invoiceCounter = parseInt(localStorage.getItem('eseva_invoice_counter') || '0');
+function generateInvoice() {
+  invoiceCounter++;
+  localStorage.setItem('eseva_invoice_counter', invoiceCounter);
+  document.getElementById('invNo').textContent = 'INV-' + String(invoiceCounter).padStart(4,'0');
+  document.getElementById('invDate').textContent = new Date().toLocaleDateString('en-IN');
+  document.getElementById('invOutCustomer').textContent = document.getElementById('invCustomer').value || '-';
+
+  const lines = document.getElementById('invItems').value.split('\n').filter(l => l.trim());
+  let total = 0;
+  const rows = lines.map(line => {
+    const parts = line.split(',').map(p => p.trim());
+    const name = parts[0] || '-';
+    const qty = parseFloat(parts[1]) || 1;
+    const price = parseFloat(parts[2]) || 0;
+    total += qty * price;
+    return `<tr><td>${name}</td><td style="text-align:center;">${qty}</td><td style="text-align:right;">₹${(qty*price).toFixed(2)}</td></tr>`;
+  });
+  document.getElementById('invItemsBody').innerHTML = rows.join('') || '<tr><td colspan="3" style="text-align:center;color:#999;">No items</td></tr>';
+  document.getElementById('invTotal').textContent = '₹' + total.toFixed(2);
+}
+
+// Token
+let tokenCounters = JSON.parse(localStorage.getItem('eseva_token_counters') || '{}');
+function generateToken() {
+  const prefix = document.getElementById('tokenPrefix').value;
+  tokenCounters[prefix] = (tokenCounters[prefix] || 0) + 1;
+  localStorage.setItem('eseva_token_counters', JSON.stringify(tokenCounters));
+  document.getElementById('tokenNumber').textContent = `${prefix}-${String(tokenCounters[prefix]).padStart(3,'0')}`;
+  document.getElementById('tokenCustomerOut').textContent = document.getElementById('tokenCustomer').value || '-';
+  document.getElementById('tokenTime').textContent = new Date().toLocaleString('en-IN');
+}
+
+// Acknowledgement
+function generateAck() {
+  document.getElementById('ackDate').textContent = new Date().toLocaleString('en-IN');
+  document.getElementById('ackOutCustomer').textContent = document.getElementById('ackCustomer').value || '-';
+  document.getElementById('ackOutMobile').textContent = document.getElementById('ackMobile').value || '-';
+  document.getElementById('ackOutService').textContent = document.getElementById('ackService').value || '-';
+  document.getElementById('ackOutDocs').textContent = document.getElementById('ackDocs').value || '-';
+}
+
+/* ===================================================
+   LOAD SHOP NAME FROM SETTINGS FOR PRINTOUTS
+   =================================================== */
+async function loadShopNameForPrints() {
+  try {
+    const doc = await db.collection('settings').doc('homepage').get();
+    if (doc.exists) {
+      const name = doc.data().shopName || 'E-Seva Kendra';
+      const addr = doc.data().address || '';
+      ['rcptShopName','invShopName','tokenShopName','ackShopName'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = name;
+      });
+      const addrEl = document.getElementById('rcptShopAddress');
+      if (addrEl && addr) addrEl.textContent = addr;
+    }
+  } catch (e) {}
+}
+
+/* ===================================================
+   STARTUP
+   =================================================== */
+checkSession();
+loadShopNameForPrints();
+</script>
+</body>
+</html>

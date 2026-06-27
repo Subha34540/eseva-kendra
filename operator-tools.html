@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Operator Tools - E-Seva Kendra</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+
+<style>
+  :root{
+    --color-primary:#0B4F4A;
+    --color-primary-light:#10726A;
+    --color-accent:#F4A024;
+    --color-bg:#FAF8F3;
+    --color-charcoal:#1F2A2C;
+    --color-success:#1E8E5A;
+    --color-card:#FFFFFF;
+    --color-danger:#E04F4F;
+  }
+  *{box-sizing:border-box;}
+  body{font-family:'Inter',sans-serif; background:var(--color-bg); color:var(--color-charcoal);}
+  .font-display{font-family:'Poppins',sans-serif;}
+
+  .seva-card{
+    background:var(--color-card); border-radius:18px; border:1px solid rgba(11,79,74,0.08); box-shadow:0 2px 10px rgba(11,79,74,0.05);
+  }
+  .seva-token{
+    font-family:'Poppins',sans-serif; font-weight:700; font-size:11px; letter-spacing:.08em;
+    padding:4px 10px; border-radius:6px; background:rgba(11,79,74,0.07); color:var(--color-primary); display:inline-block;
+  }
+  .calc-input{
+    border:1.5px solid rgba(11,79,74,0.15); border-radius:10px; padding:10px 14px; width:100%; background:#fff; transition:border-color .2s;
+  }
+  .calc-input:focus{outline:none; border-color:var(--color-accent);}
+
+  .nav-link{
+    display:flex; align-items:center; gap:10px; padding:10px 14px; border-radius:12px;
+    font-family:'Poppins',sans-serif; font-weight:600; font-size:14px; color:#5a6b6a; transition:all .15s; cursor:pointer;
+  }
+  .nav-link:hover{background:rgba(11,79,74,0.06); color:var(--color-primary);}
+  .nav-link.active{background:var(--color-primary); color:#fff;}
+
+  .tab-btn{ border-radius:10px; font-weight:600; font-size:13px; transition:all .2s; padding:8px 14px; cursor:pointer; }
+  .tab-btn.active{ background:var(--color-primary); color:#fff; }
+  .tab-btn:not(.active){ background:rgba(11,79,74,0.06); color:var(--color-primary); }
+
+  .modal-overlay{background:rgba(31,42,44,0.55); backdrop-filter:blur(2px);}
+
+  .upload-zone{
+    border:2px dashed rgba(11,79,74,0.2); border-radius:14px; padding:24px; text-align:center; cursor:pointer; transition:all .2s;
+  }
+  .upload-zone:hover{border-color:var(--color-accent); background:rgba(244,160,36,0.04);}
+
+  .checklist-item{
+    display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:10px; background:#fff; border:1px solid rgba(11,79,74,0.06);
+  }
+  .checklist-item input[type="checkbox"]{ width:18px; height:18px; accent-color:var(--color-primary); }
+  .checklist-item.checked{ background:rgba(30,142,90,0.06); border-color:rgba(30,142,90,0.2); }
+
+  @media (max-width: 1024px) {
+    .desktop-sidebar{ display:none; }
+    .mobile-topbar-menu{ display:flex; }
+  }
+  @media (min-width: 1025px) {
+    .mobile-topbar-menu{ display:none; }
+  }
+  .sidebar-mobile{
+    position:fixed; top:0; left:0; height:100%; width:260px; z-index:60;
+    transform:translateX(-100%); transition:transform .25s ease; overflow-y:auto;
+  }
+  .sidebar-mobile.open{transform:translateX(0);}
+</style>
+</head>
+<body class="antialiased">
+
+<!-- ============ LOGIN SCREEN ============ -->
+<div id="loginScreen" class="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-[var(--color-primary)] via-[var(--color-primary)] to-[var(--color-primary-light)]">
+  <div class="w-full max-w-sm">
+    <div class="text-center mb-6">
+      <img src="logo.png" alt="Logo" class="w-16 h-16 rounded-2xl mx-auto object-cover" onerror="this.style.display='none'"/>
+      <h1 class="font-display font-800 text-2xl text-white mt-3">Operator Tools</h1>
+      <p class="text-white/70 text-sm mt-1">E-Seva Kendra Management System</p>
+    </div>
+    <div class="seva-card p-6">
+      <form onsubmit="operatorLogin(event)" class="space-y-4">
+        <div>
+          <label class="text-sm font-display font-600 block mb-1">Username</label>
+          <input type="text" id="loginUsername" required class="calc-input" placeholder="Operator username"/>
+        </div>
+        <div>
+          <label class="text-sm font-display font-600 block mb-1">Password</label>
+          <input type="password" id="loginPassword" required class="calc-input" placeholder="Password"/>
+        </div>
+        <button type="submit" class="w-full py-3 rounded-full bg-[var(--color-primary)] text-white font-display font-700 hover:bg-[var(--color-primary-light)] transition">Login</button>
+        <div id="loginError" class="text-sm text-center text-[var(--color-danger)] hidden"></div>
+      </form>
+    </div>
+    <div class="text-center mt-5">
+      <a href="operator.html" class="text-white/70 text-sm hover:text-white">← Operator Dashboard</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="appScreen" class="hidden min-h-screen flex">
+
+  <!-- Desktop Sidebar -->
+  <aside class="desktop-sidebar w-64 bg-white border-r border-gray-100 p-5 flex flex-col gap-1 h-screen sticky top-0 overflow-y-auto">
+    <div class="flex items-center gap-2 mb-6 px-2">
+      <img src="logo.png" alt="Logo" class="w-9 h-9 rounded-lg object-cover" onerror="this.style.display='none'"/>
+      <span class="font-display font-700 text-[var(--color-primary)]">Operator Tools</span>
+    </div>
+    <a href="operator.html" class="nav-link"><span>📊</span> Back to Dashboard</a>
+    <div class="text-xs font-display font-700 text-gray-400 uppercase tracking-wider mt-4 mb-1 px-3">Document Tools</div>
+    <div class="nav-link active" data-page="document" onclick="showPage('document')"><span>📄</span> Document Tools</div>
+    <div class="text-xs font-display font-700 text-gray-400 uppercase tracking-wider mt-4 mb-1 px-3">Photo Studio</div>
+    <div class="nav-link" data-page="photo" onclick="showPage('photo')"><span>📸</span> Photo Studio</div>
+    <div class="text-xs font-display font-700 text-gray-400 uppercase tracking-wider mt-4 mb-1 px-3">CSC Tools</div>
+    <div class="nav-link" data-page="csc" onclick="showPage('csc')"><span>📝</span> CSC Checklists</div>
+    <div class="text-xs font-display font-700 text-gray-400 uppercase tracking-wider mt-4 mb-1 px-3">WhatsApp</div>
+    <div class="nav-link" data-page="whatsapp" onclick="showPage('whatsapp')"><span>💬</span> WhatsApp Templates</div>
+    <div class="text-xs font-display font-700 text-gray-400 uppercase tracking-wider mt-4 mb-1 px-3">AI Assistant</div>
+    <div class="nav-link" data-page="ai" onclick="showPage('ai')"><span>🤖</span> AI Letter Writer</div>
+    <div class="mt-auto">
+      <div class="nav-link text-[var(--color-danger)]" onclick="operatorLogout()"><span>🚪</span> Logout</div>
+    </div>
+  </aside>
+
+  <!-- Mobile Sidebar -->
+  <aside id="mobileSidebar" class="sidebar-mobile bg-white p-5 flex flex-col gap-1">
+    <div class="flex items-center justify-between mb-6 px-2">
+      <span class="font-display font-700 text-[var(--color-primary)]">Operator Tools</span>
+      <button onclick="toggleMobileSidebar()" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">✕</button>
+    </div>
+    <a href="operator.html" class="nav-link"><span>📊</span> Back to Dashboard</a>
+    <div class="text-xs font-display font-700 text-gray-400 uppercase tracking-wider mt-4 mb-1 px-3">Document Tools</div>
+    <div class="nav-link active" data-page="document" onclick="showPage('document')"><span>📄</span> Document Tools</div>
+    <div class="text-xs font-display font-700 text-gray-400 uppercase tracking-wider mt-4 mb-1 px-3">Photo Studio</div>
+    <div class="nav-link" data-page="photo" onclick="showPage('photo')"><span>📸</span> Photo Studio</div>
+    <div class="text-xs font-display font-700 text-gray-400 uppercase tracking-wider mt-4 mb-1 px-3">CSC Tools</div>
+    <div class="nav-link" data-page="csc" onclick="showPage('csc')"><span>📝</span> CSC Checklists</div>
+    <div class="text-xs font-display font-700 text-gray-400 uppercase tracking-wider mt-4 mb-1 px-3">WhatsApp</div>
+    <div class="nav-link" data-page="whatsapp" onclick="showPage('whatsapp')"><span>💬</span> WhatsApp Templates</div>
+    <div class="text-xs font-display font-700 text-gray-400 uppercase tracking-wider mt-4 mb-1 px-3">AI Assistant</div>
+    <div class="nav-link" data-page="ai" onclick="showPage('ai')"><span>🤖</span> AI Letter Writer</div>
+    <div class="mt-auto">
+      <div class="nav-link text-[var(--color-danger)]" onclick="operatorLogout()"><span>🚪</span> Logout</div>
+    </div>
+  </aside>
+  <div id="sidebarOverlay" class="hidden fixed inset-0 bg-black/30 z-50" onclick="toggleMobileSidebar()"></div>
+
+  <!-- Main -->
+  <main class="flex-1 min-h-screen">
+    <header class="bg-white border-b border-gray-100 px-4 md:px-8 py-4 flex items-center justify-between sticky top-0 z-30">
+      <div class="flex items-center gap-3">
+        <button class="mobile-topbar-menu p-2" onclick="toggleMobileSidebar()">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18" stroke-linecap="round"/></svg>
+        </button>
+        <div>
+          <div class="font-display font-700 text-lg" id="pageTitle">Document Tools</div>
+          <div class="text-xs text-gray-400" id="pageSubtitle">PDF, image conversion & OCR</div>
+        </div>
+      </div>
+      <div class="w-9 h-9 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center font-display font-700 text-sm" id="operatorAvatar">O</div>
+    </header>
+
+    <div class="p-4 md:p-8">
+
+      <!-- ===== DOCUMENT TOOLS ===== -->
+      <div id="page-document" class="page-content">
+        <div class="flex flex-wrap gap-2 mb-5">
+          <div class="tab-btn active" onclick="showDocTab('merge')" id="docTab-merge">Merge PDF</div>
+          <div class="tab-btn" onclick="showDocTab('split')" id="docTab-split">Split PDF</div>
+          <div class="tab-btn" onclick="showDocTab('compress')" id="docTab-compress">Compress PDF</div>
+          <div class="tab-btn" onclick="showDocTab('convert')" id="docTab-convert">PDF/Image Convert</div>
+          <div class="tab-btn" onclick="showDocTab('ocr')" id="docTab-ocr">OCR Scanner</div>
+          <div class="tab-btn" onclick="showDocTab('sigcrop')" id="docTab-sigcrop">Signature Crop</div>
+        </div>
+
+        <!-- Merge PDF -->
+        <div id="docPanel-merge" class="seva-card p-5 max-w-lg">
+          <div class="font-display font-700 mb-3">Merge PDF</div>
+          <input type="file" id="mergeFiles" accept="application/pdf" multiple class="calc-input mb-3"/>
+          <button onclick="mergePDFs()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Merge &amp; Download</button>
+          <div id="mergeStatus" class="text-sm text-center mt-2"></div>
+        </div>
+
+        <!-- Split PDF -->
+        <div id="docPanel-split" class="hidden seva-card p-5 max-w-lg">
+          <div class="font-display font-700 mb-3">Split PDF (Extract Page)</div>
+          <input type="file" id="splitFile" accept="application/pdf" class="calc-input mb-3"/>
+          <div class="mb-3"><label class="text-sm font-600 block mb-1">Page Number</label><input type="number" id="splitPage" class="calc-input" value="1" min="1"/></div>
+          <button onclick="splitPDF()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Extract &amp; Download</button>
+          <div id="splitStatus" class="text-sm text-center mt-2"></div>
+        </div>
+
+        <!-- Compress PDF -->
+        <div id="docPanel-compress" class="hidden seva-card p-5 max-w-lg">
+          <div class="font-display font-700 mb-3">Compress PDF</div>
+          <p class="text-sm text-gray-500 mb-3">Re-saves the PDF with optimized structure to reduce file size.</p>
+          <input type="file" id="compressFile" accept="application/pdf" class="calc-input mb-3"/>
+          <button onclick="compressPDF()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Compress &amp; Download</button>
+          <div id="compressStatus" class="text-sm text-center mt-2"></div>
+        </div>
+
+        <!-- PDF/Image Convert -->
+        <div id="docPanel-convert" class="hidden grid sm:grid-cols-2 gap-5">
+          <div class="seva-card p-5">
+            <div class="font-display font-700 mb-3">Image(s) to PDF</div>
+            <input type="file" id="imgToPdfFiles" accept="image/*" multiple class="calc-input mb-3"/>
+            <button onclick="imagesToPDF()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Convert &amp; Download</button>
+            <div id="imgToPdfStatus" class="text-sm text-center mt-2"></div>
+          </div>
+          <div class="seva-card p-5">
+            <div class="font-display font-700 mb-3">PDF to Image (Page 1)</div>
+            <input type="file" id="pdfToImgFile" accept="application/pdf" class="calc-input mb-3"/>
+            <button onclick="pdfToImage()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Convert</button>
+            <div id="pdfToImgStatus" class="text-sm text-center mt-2"></div>
+            <div id="pdfToImgResult" class="mt-2"></div>
+          </div>
+        </div>
+
+        <!-- OCR Scanner -->
+        <div id="docPanel-ocr" class="hidden seva-card p-5 max-w-lg">
+          <div class="font-display font-700 mb-3">OCR Scanner (Extract Text from Image)</div>
+          <input type="file" id="ocrFile" accept="image/*" class="calc-input mb-3"/>
+          <button onclick="runOCR()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Extract Text</button>
+          <div id="ocrStatus" class="text-sm text-center mt-2"></div>
+          <textarea id="ocrResult" rows="6" class="calc-input mt-3" placeholder="Extracted text will appear here..." readonly></textarea>
+          <button onclick="copyOCRResult()" class="w-full mt-2 py-2 rounded-full bg-gray-100 text-sm font-display font-700">Copy Text</button>
+        </div>
+
+        <!-- Signature Crop -->
+        <div id="docPanel-sigcrop" class="hidden seva-card p-5 max-w-lg">
+          <div class="font-display font-700 mb-3">Signature Crop Tool</div>
+          <p class="text-sm text-gray-500 mb-3">Upload a signature image — white background will be auto-trimmed.</p>
+          <input type="file" id="sigFile" accept="image/*" class="calc-input mb-3"/>
+          <button onclick="cropSignature()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Crop &amp; Download</button>
+          <div id="sigResult" class="mt-3"></div>
+        </div>
+      </div>
+
+      <!-- ===== PHOTO STUDIO ===== -->
+      <div id="page-photo" class="page-content hidden">
+        <div class="flex flex-wrap gap-2 mb-5">
+          <div class="tab-btn active" onclick="showPhotoTab('passport')" id="photoTab-passport">Passport Photo Sheet</div>
+          <div class="tab-btn" onclick="showPhotoTab('idphoto')" id="photoTab-idphoto">ID Photo Generator</div>
+          <div class="tab-btn" onclick="showPhotoTab('resize')" id="photoTab-resize">Photo Resizer</div>
+          <div class="tab-btn" onclick="showPhotoTab('printlayout')" id="photoTab-printlayout">Print Layout Creator</div>
+        </div>
+
+        <!-- Passport Photo Sheet Generator -->
+        <div id="photoPanel-passport" class="grid sm:grid-cols-2 gap-5">
+          <div class="seva-card p-5">
+            <div class="font-display font-700 mb-3">Passport Photo Sheet (4x6 inch, 8 photos)</div>
+            <input type="file" id="ppsFile" accept="image/*" class="calc-input mb-3"/>
+            <button onclick="generatePassportSheet()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Generate Sheet</button>
+            <div id="ppsStatus" class="text-sm text-center mt-2"></div>
+          </div>
+          <div class="seva-card p-5">
+            <canvas id="ppsCanvas" class="w-full border rounded-lg"></canvas>
+            <a id="ppsDownload" class="hidden block text-center text-sm text-[var(--color-primary)] underline mt-2" download="passport-sheet.jpg">Download Sheet</a>
+          </div>
+        </div>
+
+        <!-- ID Photo Generator -->
+        <div id="photoPanel-idphoto" class="hidden grid sm:grid-cols-2 gap-5">
+          <div class="seva-card p-5">
+            <div class="font-display font-700 mb-3">ID Photo Generator</div>
+            <input type="file" id="idPhotoFile" accept="image/*" class="calc-input mb-3"/>
+            <div class="grid grid-cols-2 gap-2 mb-3">
+              <div><label class="text-xs font-600 block mb-1">Width (px)</label><input type="number" id="idPhotoWidth" class="calc-input" value="200"/></div>
+              <div><label class="text-xs font-600 block mb-1">Height (px)</label><input type="number" id="idPhotoHeight" class="calc-input" value="230"/></div>
+            </div>
+            <button onclick="generateIdPhoto()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Generate</button>
+          </div>
+          <div class="seva-card p-5">
+            <div id="idPhotoResult" class="text-center text-sm text-gray-400 py-10">Preview will appear here</div>
+          </div>
+        </div>
+
+        <!-- Photo Resizer -->
+        <div id="photoPanel-resize" class="hidden grid sm:grid-cols-2 gap-5">
+          <div class="seva-card p-5">
+            <div class="font-display font-700 mb-3">Photo Resizer / Compressor</div>
+            <input type="file" id="resizeFile" accept="image/*" class="calc-input mb-3"/>
+            <div class="grid grid-cols-2 gap-2 mb-3">
+              <div><label class="text-xs font-600 block mb-1">Width (px)</label><input type="number" id="resizeWidth" class="calc-input" value="800"/></div>
+              <div><label class="text-xs font-600 block mb-1">Quality (%)</label><input type="number" id="resizeQuality" class="calc-input" value="80"/></div>
+            </div>
+            <button onclick="resizePhoto()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Resize</button>
+          </div>
+          <div class="seva-card p-5">
+            <div id="resizeResult" class="text-center text-sm text-gray-400 py-10">Preview will appear here</div>
+          </div>
+        </div>
+
+        <!-- Print Layout Creator -->
+        <div id="photoPanel-printlayout" class="hidden grid sm:grid-cols-2 gap-5">
+          <div class="seva-card p-5">
+            <div class="font-display font-700 mb-3">Print Layout Creator (A4 Grid)</div>
+            <input type="file" id="layoutFile" accept="image/*" class="calc-input mb-3"/>
+            <div class="grid grid-cols-2 gap-2 mb-3">
+              <div><label class="text-xs font-600 block mb-1">Columns</label><input type="number" id="layoutCols" class="calc-input" value="4" min="1" max="8"/></div>
+              <div><label class="text-xs font-600 block mb-1">Rows</label><input type="number" id="layoutRows" class="calc-input" value="6" min="1" max="10"/></div>
+            </div>
+            <button onclick="generatePrintLayout()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Generate Layout</button>
+          </div>
+          <div class="seva-card p-5">
+            <canvas id="layoutCanvas" class="w-full border rounded-lg"></canvas>
+            <a id="layoutDownload" class="hidden block text-center text-sm text-[var(--color-primary)] underline mt-2" download="print-layout.jpg">Download Layout</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== CSC CHECKLISTS ===== -->
+      <div id="page-csc" class="page-content hidden">
+        <div class="flex flex-wrap gap-2 mb-5">
+          <div class="tab-btn active" onclick="showChecklist('aadhaar')" id="checkTab-aadhaar">Aadhaar</div>
+          <div class="tab-btn" onclick="showChecklist('pan')" id="checkTab-pan">PAN</div>
+          <div class="tab-btn" onclick="showChecklist('pmkisan')" id="checkTab-pmkisan">PM Kisan</div>
+          <div class="tab-btn" onclick="showChecklist('ayushman')" id="checkTab-ayushman">Ayushman</div>
+          <div class="tab-btn" onclick="showChecklist('eshram')" id="checkTab-eshram">eShram</div>
+          <div class="tab-btn" onclick="showChecklist('verification')" id="checkTab-verification">Customer Verification</div>
+        </div>
+        <div class="seva-card p-5 max-w-2xl">
+          <div class="font-display font-700 mb-3" id="checklistTitle">Aadhaar Checklist</div>
+          <div id="checklistItems" class="space-y-2"></div>
+          <div class="flex gap-2 mt-4">
+            <button onclick="resetChecklist()" class="px-4 py-2 rounded-full bg-gray-100 text-sm font-display font-700">Reset</button>
+            <button onclick="window.print()" class="px-4 py-2 rounded-full bg-[var(--color-accent)] text-white text-sm font-display font-700">Print Checklist</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== WHATSAPP TEMPLATES ===== -->
+      <div id="page-whatsapp" class="page-content hidden">
+        <div class="grid sm:grid-cols-2 gap-5">
+          <div class="seva-card p-5">
+            <div class="font-display font-700 mb-3">Customer Details</div>
+            <div class="space-y-3">
+              <input type="text" id="waMobile" class="calc-input" placeholder="Customer Mobile (10 digits)"/>
+              <input type="text" id="waName" class="calc-input" placeholder="Customer Name"/>
+              <input type="text" id="waService" class="calc-input" placeholder="Service Name"/>
+              <input type="text" id="waAmount" class="calc-input" placeholder="Amount (₹) - if applicable"/>
+              <input type="text" id="waToken" class="calc-input" placeholder="Token Number - if applicable"/>
+            </div>
+          </div>
+          <div class="seva-card p-5">
+            <div class="font-display font-700 mb-3">Choose Template</div>
+            <div class="space-y-2">
+              <button onclick="sendWA('confirmation')" class="w-full text-left p-3 rounded-xl bg-[var(--color-primary)]/5 hover:bg-[var(--color-primary)]/10 transition">
+                <div class="font-display font-700 text-sm">✅ Booking Confirmation</div>
+                <div class="text-xs text-gray-500">Confirm that booking was received</div>
+              </button>
+              <button onclick="sendWA('reminder')" class="w-full text-left p-3 rounded-xl bg-[var(--color-primary)]/5 hover:bg-[var(--color-primary)]/10 transition">
+                <div class="font-display font-700 text-sm">📎 Document Reminder</div>
+                <div class="text-xs text-gray-500">Ask customer to send pending documents</div>
+              </button>
+              <button onclick="sendWA('completion')" class="w-full text-left p-3 rounded-xl bg-[var(--color-primary)]/5 hover:bg-[var(--color-primary)]/10 transition">
+                <div class="font-display font-700 text-sm">🎉 Service Completion</div>
+                <div class="text-xs text-gray-500">Notify customer that work is done</div>
+              </button>
+              <button onclick="sendWA('payment')" class="w-full text-left p-3 rounded-xl bg-[var(--color-primary)]/5 hover:bg-[var(--color-primary)]/10 transition">
+                <div class="font-display font-700 text-sm">💰 Payment Reminder</div>
+                <div class="text-xs text-gray-500">Remind customer about pending payment</div>
+              </button>
+            </div>
+            <div class="mt-4">
+              <label class="text-sm font-600 block mb-1">Message Preview</label>
+              <textarea id="waPreview" rows="5" class="calc-input" readonly></textarea>
+              <a id="waSendLink" href="#" target="_blank" class="mt-2 block text-center py-2.5 rounded-full bg-[var(--color-success)] text-white font-display font-700">Open in WhatsApp</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== AI ASSISTANT ===== -->
+      <div id="page-ai" class="page-content hidden">
+        <div class="grid lg:grid-cols-2 gap-5">
+          <div class="seva-card p-5">
+            <div class="font-display font-700 mb-3">Generate a Document</div>
+            <div class="space-y-3">
+              <div>
+                <label class="text-sm font-600 block mb-1">Document Type</label>
+                <select id="aiDocType" class="calc-input">
+                  <option value="application">General Application</option>
+                  <option value="complaint">Complaint Letter</option>
+                  <option value="leave">Leave Application</option>
+                  <option value="affidavit">Affidavit / Declaration</option>
+                  <option value="govtrequest">Government Request Letter</option>
+                  <option value="declaration">Declaration Letter</option>
+                </select>
+              </div>
+              <div><label class="text-sm font-600 block mb-1">Applicant Name</label><input type="text" id="aiName" class="calc-input"/></div>
+              <div><label class="text-sm font-600 block mb-1">Address</label><input type="text" id="aiAddress" class="calc-input"/></div>
+              <div><label class="text-sm font-600 block mb-1">To (Recipient / Authority)</label><input type="text" id="aiTo" class="calc-input" placeholder="e.g. The Tehsildar, Basta, Balasore"/></div>
+              <div><label class="text-sm font-600 block mb-1">Subject</label><input type="text" id="aiSubject" class="calc-input"/></div>
+              <div><label class="text-sm font-600 block mb-1">Details / Reason</label><textarea id="aiDetails" rows="4" class="calc-input" placeholder="Briefly describe the purpose..."></textarea></div>
+              <button onclick="generateAIDoc()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Generate Document</button>
+            </div>
+          </div>
+          <div class="seva-card p-5">
+            <div class="font-display font-700 mb-3">Generated Document</div>
+            <textarea id="aiOutput" rows="18" class="calc-input font-mono text-sm" readonly placeholder="Your generated document will appear here..."></textarea>
+            <div class="flex gap-2 mt-2">
+              <button onclick="copyAIOutput()" class="flex-1 py-2 rounded-full bg-gray-100 text-sm font-display font-700">Copy</button>
+              <button onclick="printAIOutput()" class="flex-1 py-2 rounded-full bg-[var(--color-accent)] text-white text-sm font-display font-700">Print</button>
+            </div>
+            <p class="text-xs text-gray-400 mt-2">Note: This generates a structured draft using standard templates. Please review and edit before submitting to any authority.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- Hidden print area for AI document -->
+<div id="aiPrintArea" class="hidden"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script>
+/* ===================================================
+   FIREBASE CONFIG — same as other panels
+   =================================================== */
+const firebaseConfig = {
+  apiKey: "AIzaSyDucHeFoRyu-aHa2ILTV6dXWkV5TWyVWV4",
+  authDomain: "eseva-kendra-4c870.firebaseapp.com",
+  projectId: "eseva-kendra-4c870",
+  storageBucket: "eseva-kendra-4c870.firebasestorage.app",
+  messagingSenderId: "730747379772",
+  appId: "1:730747379772:web:87f4fa85e372128c0de339"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+const SESSION_KEY = 'eseva_operator_session';
+const SESSION_TIMEOUT_MS = 8 * 60 * 60 * 1000;
+let currentOperator = null;
+
+/* ===================================================
+   AUTH (shared session with operator.html)
+   =================================================== */
+async function operatorLogin(e) {
+  e.preventDefault();
+  const u = document.getElementById('loginUsername').value;
+  const p = document.getElementById('loginPassword').value;
+  const errEl = document.getElementById('loginError');
+  try {
+    const snap = await db.collection('operators').where('username','==',u).where('password','==',p).get();
+    if (snap.empty) {
+      errEl.textContent = 'Invalid username or password.';
+      errEl.classList.remove('hidden');
+      return;
+    }
+    const op = { id: snap.docs[0].id, ...snap.docs[0].data() };
+    currentOperator = op;
+    localStorage.setItem(SESSION_KEY, JSON.stringify({ loggedIn: true, time: Date.now(), operator: op }));
+    showApp();
+  } catch (err) {
+    errEl.textContent = 'Login failed. Check Firebase configuration.';
+    errEl.classList.remove('hidden');
+  }
+}
+
+function checkSession() {
+  const session = JSON.parse(localStorage.getItem(SESSION_KEY) || 'null');
+  if (session && session.loggedIn && (Date.now() - session.time) < SESSION_TIMEOUT_MS) {
+    currentOperator = session.operator;
+    showApp();
+  } else {
+    localStorage.removeItem(SESSION_KEY);
+    document.getElementById('loginScreen').classList.remove('hidden');
+    document.getElementById('appScreen').classList.add('hidden');
+  }
+}
+
+function operatorLogout() {
+  localStorage.removeItem(SESSION_KEY);
+  location.reload();
+}
+
+function showApp() {
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('appScreen').classList.remove('hidden');
+  document.getElementById('operatorAvatar').textContent = (currentOperator.name || 'O').charAt(0).toUpperCase();
+  showChecklist('aadhaar');
+}
+
+/* ===================================================
+   NAVIGATION
+   =================================================== */
+const pageTitles = {
+  document: ['Document Tools','PDF, image conversion & OCR'],
+  photo: ['Photo Studio','Passport photos, ID cards & print layouts'],
+  csc: ['CSC Checklists','Document checklists for common services'],
+  whatsapp: ['WhatsApp Templates','Quick message templates for customers'],
+  ai: ['AI Letter Writer','Generate applications, complaints & letters']
+};
+
+function showPage(page) {
+  document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
+  document.getElementById('page-' + page).classList.remove('hidden');
+  document.querySelectorAll('.nav-link[data-page]').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll(`[data-page="${page}"]`).forEach(l => l.classList.add('active'));
+  document.getElementById('pageTitle').textContent = pageTitles[page][0];
+  document.getElementById('pageSubtitle').textContent = pageTitles[page][1];
+  toggleMobileSidebar(true);
+  window.scrollTo(0,0);
+}
+
+function toggleMobileSidebar(forceClose) {
+  const sb = document.getElementById('mobileSidebar');
+  const ov = document.getElementById('sidebarOverlay');
+  if (forceClose) { sb.classList.remove('open'); ov.classList.add('hidden'); return; }
+  sb.classList.toggle('open');
+  ov.classList.toggle('hidden');
+}
+
+/* ===================================================
+   DOCUMENT TOOLS TABS
+   =================================================== */
+function showDocTab(tab) {
+  ['merge','split','compress','convert','ocr','sigcrop'].forEach(t => {
+    document.getElementById(`docPanel-${t}`).classList.toggle('hidden', t !== tab);
+    document.getElementById(`docTab-${t}`).classList.toggle('active', t === tab);
+  });
+}
+
+function loadPdfLib(cb) {
+  if (window.PDFLib) return cb();
+  const script = document.createElement('script');
+  script.src = 'https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js';
+  script.onload = cb;
+  document.head.appendChild(script);
+}
+function loadPdfJs(cb) {
+  if (window.pdfjsLib) return cb();
+  const script = document.createElement('script');
+  script.src = 'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js';
+  script.onload = () => {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+    cb();
+  };
+  document.head.appendChild(script);
+}
+function downloadBlob(bytes, filename, type) {
+  const blob = new Blob([bytes], { type });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* Merge PDF */
+function mergePDFs() {
+  const files = document.getElementById('mergeFiles').files;
+  if (files.length < 2) { document.getElementById('mergeStatus').textContent = 'Select at least 2 PDF files.'; return; }
+  document.getElementById('mergeStatus').textContent = 'Processing...';
+  loadPdfLib(async () => {
+    const { PDFDocument } = PDFLib;
+    const merged = await PDFDocument.create();
+    for (const file of files) {
+      const bytes = await file.arrayBuffer();
+      const pdf = await PDFDocument.load(bytes);
+      const pages = await merged.copyPages(pdf, pdf.getPageIndices());
+      pages.forEach(p => merged.addPage(p));
+    }
+    const mergedBytes = await merged.save();
+    downloadBlob(mergedBytes, 'merged.pdf', 'application/pdf');
+    document.getElementById('mergeStatus').textContent = '✓ Done! Download started.';
+  });
+}
+
+/* Split PDF */
+function splitPDF() {
+  const file = document.getElementById('splitFile').files[0];
+  const pageNum = parseInt(document.getElementById('splitPage').value) - 1;
+  if (!file) { document.getElementById('splitStatus').textContent = 'Select a PDF file.'; return; }
+  document.getElementById('splitStatus').textContent = 'Processing...';
+  loadPdfLib(async () => {
+    const { PDFDocument } = PDFLib;
+    const bytes = await file.arrayBuffer();
+    const pdf = await PDFDocument.load(bytes);
+    if (pageNum < 0 || pageNum >= pdf.getPageCount()) {
+      document.getElementById('splitStatus').textContent = `Invalid page. PDF has ${pdf.getPageCount()} pages.`;
+      return;
+    }
+    const newPdf = await PDFDocument.create();
+    const [page] = await newPdf.copyPages(pdf, [pageNum]);
+    newPdf.addPage(page);
+    const newBytes = await newPdf.save();
+    downloadBlob(newBytes, `page-${pageNum+1}.pdf`, 'application/pdf');
+    document.getElementById('splitStatus').textContent = '✓ Done! Download started.';
+  });
+}
+
+/* Compress PDF */
+function compressPDF() {
+  const file = document.getElementById('compressFile').files[0];
+  if (!file) { document.getElementById('compressStatus').textContent = 'Select a PDF file.'; return; }
+  document.getElementById('compressStatus').textContent = 'Processing...';
+  loadPdfLib(async () => {
+    const { PDFDocument } = PDFLib;
+    const bytes = await file.arrayBuffer();
+    const pdf = await PDFDocument.load(bytes);
+    const newBytes = await pdf.save({ useObjectStreams: true });
+    downloadBlob(newBytes, 'compressed.pdf', 'application/pdf');
+    const before = (bytes.byteLength/1024).toFixed(1);
+    const after = (newBytes.byteLength/1024).toFixed(1);
+    document.getElementById('compressStatus').textContent = `✓ Done! ${before}KB → ${after}KB`;
+  });
+}
+
+/* Images to PDF */
+function imagesToPDF() {
+  const files = document.getElementById('imgToPdfFiles').files;
+  if (!files.length) { document.getElementById('imgToPdfStatus').textContent = 'Select at least 1 image.'; return; }
+  document.getElementById('imgToPdfStatus').textContent = 'Processing...';
+  loadPdfLib(async () => {
+    const { PDFDocument } = PDFLib;
+    const pdfDoc = await PDFDocument.create();
+    for (const file of files) {
+      const bytes = await file.arrayBuffer();
+      let image;
+      if (file.type === 'image/png') image = await pdfDoc.embedPng(bytes);
+      else image = await pdfDoc.embedJpg(bytes);
+      const page = pdfDoc.addPage([image.width, image.height]);
+      page.drawImage(image, { x: 0, y: 0, width: image.width, height: image.height });
+    }
+    const pdfBytes = await pdfDoc.save();
+    downloadBlob(pdfBytes, 'images.pdf', 'application/pdf');
+    document.getElementById('imgToPdfStatus').textContent = '✓ Done! Download started.';
+  });
+}
+
+/* PDF to Image */
+function pdfToImage() {
+  const file = document.getElementById('pdfToImgFile').files[0];
+  if (!file) { document.getElementById('pdfToImgStatus').textContent = 'Select a PDF file.'; return; }
+  document.getElementById('pdfToImgStatus').textContent = 'Processing...';
+  loadPdfJs(async () => {
+    const bytes = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: bytes }).promise;
+    const page = await pdf.getPage(1);
+    const viewport = page.getViewport({ scale: 1.5 });
+    const canvas = document.createElement('canvas');
+    canvas.width = viewport.width; canvas.height = viewport.height;
+    const ctx = canvas.getContext('2d');
+    await page.render({ canvasContext: ctx, viewport }).promise;
+    const dataUrl = canvas.toDataURL('image/png');
+    document.getElementById('pdfToImgResult').innerHTML = `<img src="${dataUrl}" class="w-full rounded border"/><a href="${dataUrl}" download="page1.png" class="text-xs text-[var(--color-primary)] underline mt-1 inline-block">Download Image</a>`;
+    document.getElementById('pdfToImgStatus').textContent = '✓ Done!';
+  });
+}
+
+/* OCR */
+function runOCR() {
+  const file = document.getElementById('ocrFile').files[0];
+  if (!file) { document.getElementById('ocrStatus').textContent = 'Select an image.'; return; }
+  document.getElementById('ocrStatus').textContent = 'Reading text... (this may take 10-30 seconds)';
+  document.getElementById('ocrResult').value = '';
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    Tesseract.recognize(e.target.result, 'eng')
+      .then(({ data: { text } }) => {
+        document.getElementById('ocrResult').value = text.trim();
+        document.getElementById('ocrStatus').textContent = '✓ Done!';
+      })
+      .catch(() => {
+        document.getElementById('ocrStatus').textContent = 'Could not process image.';
+      });
+  };
+  reader.readAsDataURL(file);
+}
+function copyOCRResult() {
+  const text = document.getElementById('ocrResult').value;
+  if (text) navigator.clipboard.writeText(text);
+}
+
+/* Signature Crop */
+function cropSignature() {
+  const file = document.getElementById('sigFile').files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width; canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      let minX = canvas.width, minY = canvas.height, maxX = 0, maxY = 0;
+      for (let y = 0; y < canvas.height; y++) {
+        for (let x = 0; x < canvas.width; x++) {
+          const idx = (y * canvas.width + x) * 4;
+          const r = data.data[idx], g = data.data[idx+1], b = data.data[idx+2];
+          if (r < 240 || g < 240 || b < 240) {
+            if (x < minX) minX = x; if (x > maxX) maxX = x;
+            if (y < minY) minY = y; if (y > maxY) maxY = y;
+          }
+        }
+      }
+      if (maxX <= minX || maxY <= minY) { minX=0;minY=0;maxX=canvas.width;maxY=canvas.height; }
+      const cropW = maxX-minX, cropH = maxY-minY;
+      const out = document.createElement('canvas');
+      out.width = cropW; out.height = cropH;
+      out.getContext('2d').drawImage(canvas, minX, minY, cropW, cropH, 0, 0, cropW, cropH);
+      const dataUrl = out.toDataURL('image/png');
+      document.getElementById('sigResult').innerHTML = `<img src="${dataUrl}" class="w-full rounded border bg-gray-50"/><a href="${dataUrl}" download="signature-cropped.png" class="block text-center text-xs text-[var(--color-primary)] underline mt-2">Download</a>`;
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ===================================================
+   PHOTO STUDIO
+   =================================================== */
+function showPhotoTab(tab) {
+  ['passport','idphoto','resize','printlayout'].forEach(t => {
+    document.getElementById(`photoPanel-${t}`).classList.toggle('hidden', t !== tab);
+    document.getElementById(`photoTab-${t}`).classList.toggle('active', t === tab);
+  });
+}
+
+/* Passport Photo Sheet: 4x6 inch @ 300dpi = 1200x1800px, 8 photos of 413x531 (35x45mm) */
+function generatePassportSheet() {
+  const file = document.getElementById('ppsFile').files[0];
+  if (!file) { document.getElementById('ppsStatus').textContent = 'Select an image.'; return; }
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      const sheetW = 1200, sheetH = 1800;
+      const photoW = 413, photoH = 531;
+      const cols = 2, rows = 4;
+      const marginX = (sheetW - cols*photoW) / (cols+1);
+      const marginY = (sheetH - rows*photoH) / (rows+1);
+
+      const canvas = document.getElementById('ppsCanvas');
+      canvas.width = sheetW; canvas.height = sheetH;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0,0,sheetW,sheetH);
+
+      // cover-fit crop source image to photoW x photoH
+      const scale = Math.max(photoW/img.width, photoH/img.height);
+      const sw = photoW/scale, sh = photoH/scale;
+      const sx = (img.width-sw)/2, sy = (img.height-sh)/2;
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const x = marginX + c*(photoW+marginX);
+          const y = marginY + r*(photoH+marginY);
+          ctx.drawImage(img, sx, sy, sw, sh, x, y, photoW, photoH);
+          ctx.strokeStyle = '#ddd';
+          ctx.strokeRect(x, y, photoW, photoH);
+        }
+      }
+
+      canvas.style.maxWidth = '100%';
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+      const dl = document.getElementById('ppsDownload');
+      dl.href = dataUrl;
+      dl.classList.remove('hidden');
+      document.getElementById('ppsStatus').textContent = '✓ Sheet generated (4x6 inch, 8 photos)';
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ID Photo Generator */
+function generateIdPhoto() {
+  const file = document.getElementById('idPhotoFile').files[0];
+  const w = parseInt(document.getElementById('idPhotoWidth').value);
+  const h = parseInt(document.getElementById('idPhotoHeight').value);
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      const scale = Math.max(w/img.width, h/img.height);
+      const sw = w/scale, sh = h/scale;
+      const sx = (img.width-sw)/2, sy = (img.height-sh)/2;
+      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, w, h);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+      document.getElementById('idPhotoResult').innerHTML = `<img src="${dataUrl}" class="mx-auto rounded border" style="max-width:${w}px;"/><a href="${dataUrl}" download="id-photo.jpg" class="block text-center text-xs text-[var(--color-primary)] underline mt-2">Download (${w}x${h})</a>`;
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+/* Photo Resizer */
+function resizePhoto() {
+  const file = document.getElementById('resizeFile').files[0];
+  const targetW = parseInt(document.getElementById('resizeWidth').value);
+  const quality = parseInt(document.getElementById('resizeQuality').value)/100;
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      const ratio = img.height/img.width;
+      const canvas = document.createElement('canvas');
+      canvas.width = targetW; canvas.height = Math.round(targetW*ratio);
+      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+      const dataUrl = canvas.toDataURL('image/jpeg', quality);
+      document.getElementById('resizeResult').innerHTML = `<img src="${dataUrl}" class="w-full rounded border"/><a href="${dataUrl}" download="resized.jpg" class="block text-center text-xs text-[var(--color-primary)] underline mt-2">Download (${canvas.width}x${canvas.height})</a>`;
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+/* Print Layout Creator: A4 = 2480x3508px @300dpi */
+function generatePrintLayout() {
+  const file = document.getElementById('layoutFile').files[0];
+  const cols = parseInt(document.getElementById('layoutCols').value);
+  const rows = parseInt(document.getElementById('layoutRows').value);
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      const sheetW = 2480, sheetH = 3508;
+      const cellW = sheetW/cols, cellH = sheetH/rows;
+      const canvas = document.getElementById('layoutCanvas');
+      canvas.width = sheetW; canvas.height = sheetH;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0,0,sheetW,sheetH);
+
+      const scale = Math.max(cellW/img.width, cellH/img.height);
+      const sw = cellW/scale, sh = cellH/scale;
+      const sx = (img.width-sw)/2, sy = (img.height-sh)/2;
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          ctx.drawImage(img, sx, sy, sw, sh, c*cellW, r*cellH, cellW, cellH);
+          ctx.strokeStyle = '#eee';
+          ctx.strokeRect(c*cellW, r*cellH, cellW, cellH);
+        }
+      }
+      canvas.style.maxWidth = '100%';
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+      const dl = document.getElementById('layoutDownload');
+      dl.href = dataUrl;
+      dl.classList.remove('hidden');
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ===================================================
+   CSC CHECKLISTS
+   =================================================== */
+const CHECKLISTS = {
+  aadhaar: {
+    title: 'Aadhaar Update / Correction Checklist',
+    items: [
+      'Original Aadhaar card / Aadhaar number',
+      'Proof of Identity (PAN, Voter ID, Passport, etc.) - if name correction',
+      'Proof of Address (electricity bill, bank passbook, etc.) - if address correction',
+      'Proof of Date of Birth (birth certificate, 10th marksheet) - if DOB correction',
+      'Active mobile number for OTP verification',
+      'Passport size photo (for new enrollment)',
+      'Enrollment/Update fee collected'
+    ]
+  },
+  pan: {
+    title: 'PAN Card Application Checklist',
+    items: [
+      'Proof of Identity (Aadhaar, Voter ID, Passport, etc.)',
+      'Proof of Address (Aadhaar, utility bill, bank statement)',
+      'Proof of Date of Birth (birth certificate, 10th marksheet, etc.)',
+      'Passport size photograph (2 copies)',
+      'Signature on white paper (for scanning)',
+      'Active mobile number and email ID',
+      'Application fee collected (₹107 for Indian address)'
+    ]
+  },
+  pmkisan: {
+    title: 'PM Kisan Registration Checklist',
+    items: [
+      'Aadhaar card of the farmer',
+      'Bank account passbook (linked with Aadhaar)',
+      'Land ownership documents (Khatian/RoR)',
+      'Active mobile number linked with Aadhaar',
+      'Aadhaar-bank seeding status verified',
+      'eKYC completed on PM Kisan portal'
+    ]
+  },
+  ayushman: {
+    title: 'Ayushman Bharat Card Checklist',
+    items: [
+      'Aadhaar card of all family members',
+      'Ration card / family ID',
+      'Mobile number for OTP verification',
+      'Passport size photograph',
+      'Eligibility verified on PMJAY portal (SECC/PMJAY database)',
+      'Card downloaded and printed'
+    ]
+  },
+  eshram: {
+    title: 'eShram Card Registration Checklist',
+    items: [
+      'Aadhaar card linked with active mobile number',
+      'Bank account details (account number, IFSC)',
+      'Occupation and category details',
+      'Educational qualification details',
+      'OTP verification completed',
+      'eShram card downloaded and printed'
+    ]
+  },
+  verification: {
+    title: 'Customer Verification Checklist',
+    items: [
+      'Original ID proof verified (Aadhaar/Voter ID/PAN)',
+      'Photocopy of ID taken for records',
+      'Mobile number verified with OTP',
+      'Customer signature obtained on application form',
+      'Service fee receipt issued',
+      'Token/acknowledgement given to customer',
+      'Customer informed of expected processing time'
+    ]
+  }
+};
+
+let currentChecklist = 'aadhaar';
+function showChecklist(key) {
+  currentChecklist = key;
+  Object.keys(CHECKLISTS).forEach(k => {
+    document.getElementById(`checkTab-${k}`).classList.toggle('active', k === key);
+  });
+  const cl = CHECKLISTS[key];
+  document.getElementById('checklistTitle').textContent = cl.title;
+  const saved = JSON.parse(localStorage.getItem(`eseva_checklist_${key}`) || '[]');
+  document.getElementById('checklistItems').innerHTML = cl.items.map((item, i) => `
+    <label class="checklist-item ${saved.includes(i) ? 'checked' : ''}" onclick="toggleChecklistItem(${i}, this)">
+      <input type="checkbox" ${saved.includes(i) ? 'checked' : ''} onclick="event.stopPropagation(); toggleChecklistItem(${i}, this.parentElement)"/>
+      <span class="text-sm">${item}</span>
+    </label>
+  `).join('');
+}
+
+function toggleChecklistItem(index, el) {
+  el.classList.toggle('checked');
+  const cb = el.querySelector('input[type="checkbox"]');
+  if (event.target.tagName !== 'INPUT') cb.checked = el.classList.contains('checked');
+
+  const saved = JSON.parse(localStorage.getItem(`eseva_checklist_${currentChecklist}`) || '[]');
+  if (el.classList.contains('checked')) {
+    if (!saved.includes(index)) saved.push(index);
+  } else {
+    const idx = saved.indexOf(index);
+    if (idx > -1) saved.splice(idx, 1);
+  }
+  localStorage.setItem(`eseva_checklist_${currentChecklist}`, JSON.stringify(saved));
+}
+
+function resetChecklist() {
+  localStorage.removeItem(`eseva_checklist_${currentChecklist}`);
+  showChecklist(currentChecklist);
+}
+
+/* ===================================================
+   WHATSAPP TEMPLATES
+   =================================================== */
+const WA_TEMPLATES = {
+  confirmation: (d) => `Hello ${d.name||'Customer'},\n\nThank you for booking *${d.service||'a service'}* at our E-Seva Kendra. We have received your request and will begin processing it shortly.${d.token ? `\n\nYour Token Number: *${d.token}*` : ''}\n\nWe will update you on the status soon.\n\nThank you!`,
+  reminder: (d) => `Hello ${d.name||'Customer'},\n\nThis is a reminder regarding your *${d.service||'service request'}*. We are still waiting for some pending documents/photos to proceed further.\n\nPlease visit our center or send the documents at your earliest convenience.\n\nThank you!`,
+  completion: (d) => `Hello ${d.name||'Customer'},\n\nGreat news! Your *${d.service||'service request'}* has been completed successfully.${d.token ? ` (Token: ${d.token})` : ''}\n\nPlease visit our center to collect your documents.\n\nThank you for choosing us!`,
+  payment: (d) => `Hello ${d.name||'Customer'},\n\nThis is a gentle reminder regarding the pending payment of *₹${d.amount||'0'}* for *${d.service||'your service'}*.\n\nKindly clear the payment at your earliest convenience.\n\nThank you!`
+};
+
+function sendWA(type) {
+  const d = {
+    name: document.getElementById('waName').value,
+    service: document.getElementById('waService').value,
+    amount: document.getElementById('waAmount').value,
+    token: document.getElementById('waToken').value
+  };
+  const msg = WA_TEMPLATES[type](d);
+  document.getElementById('waPreview').value = msg;
+
+  const mobile = document.getElementById('waMobile').value.replace(/\D/g,'');
+  const phone = mobile.length === 10 ? '91'+mobile : mobile;
+  const link = document.getElementById('waSendLink');
+  link.href = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+}
+
+/* ===================================================
+   AI ASSISTANT - DOCUMENT GENERATOR
+   (Template-based generation, fully offline)
+   =================================================== */
+const AI_TEMPLATES = {
+  application: (d) => `To,\n${d.to || '[Recipient Name/Authority]'}\n\nSubject: ${d.subject || '[Subject]'}\n\nRespected Sir/Madam,\n\nI, ${d.name || '[Applicant Name]'}, residing at ${d.address || '[Address]'}, would like to bring to your kind attention the following matter:\n\n${d.details || '[Details of the request]'}\n\nI request you to kindly look into this matter and take necessary action at the earliest. I shall be highly obliged for your support.\n\nThanking you,\n\nYours sincerely,\n${d.name || '[Applicant Name]'}\nDate: ${new Date().toLocaleDateString('en-IN')}\nPlace: ${d.address ? d.address.split(',').pop().trim() : '[Place]'}`,
+
+  complaint: (d) => `To,\n${d.to || '[Recipient Name/Authority]'}\n\nSubject: Complaint regarding ${d.subject || '[Subject]'}\n\nRespected Sir/Madam,\n\nI, ${d.name || '[Applicant Name]'}, residing at ${d.address || '[Address]'}, wish to lodge a formal complaint regarding the following issue:\n\n${d.details || '[Details of the complaint]'}\n\nI request you to kindly investigate this matter and take appropriate action as soon as possible. I would appreciate a prompt response and resolution.\n\nThanking you,\n\nYours sincerely,\n${d.name || '[Applicant Name]'}\nDate: ${new Date().toLocaleDateString('en-IN')}\nPlace: ${d.address ? d.address.split(',').pop().trim() : '[Place]'}`,
+
+  leave: (d) => `To,\n${d.to || '[Recipient Name/Authority]'}\n\nSubject: ${d.subject || 'Application for Leave'}\n\nRespected Sir/Madam,\n\nI, ${d.name || '[Applicant Name]'}, residing at ${d.address || '[Address]'}, would like to request leave for the following reason:\n\n${d.details || '[Reason for leave, including dates]'}\n\nI kindly request you to grant me leave for the mentioned period. I will ensure that my responsibilities are managed during my absence.\n\nThanking you,\n\nYours sincerely,\n${d.name || '[Applicant Name]'}\nDate: ${new Date().toLocaleDateString('en-IN')}`,
+
+  affidavit: (d) => `AFFIDAVIT / DECLARATION\n\nI, ${d.name || '[Name]'}, son/daughter/wife of [Father's/Husband's Name], aged about [Age] years, residing at ${d.address || '[Address]'}, do hereby solemnly affirm and declare as follows:\n\n${d.details || '[Statement of facts being declared]'}\n\nI further declare that the above statements are true and correct to the best of my knowledge and belief, and nothing material has been concealed therein.\n\nVerified at ${d.address ? d.address.split(',').pop().trim() : '[Place]'} on this ${new Date().toLocaleDateString('en-IN')}.\n\nDeponent\n${d.name || '[Name]'}\n\n(To be notarized/attested as required)`,
+
+  govtrequest: (d) => `To,\n${d.to || '[Government Office/Authority]'}\n\nSubject: ${d.subject || '[Subject of Request]'}\n\nRespected Sir/Madam,\n\nThis is to bring to your notice that I, ${d.name || '[Applicant Name]'}, residing at ${d.address || '[Address]'}, hereby request the following:\n\n${d.details || '[Details of the request, including any reference numbers]'}\n\nI request your good office to kindly process this request at the earliest and provide necessary assistance. I have attached the required supporting documents for your reference.\n\nThanking you in anticipation of your kind cooperation.\n\nYours faithfully,\n${d.name || '[Applicant Name]'}\nDate: ${new Date().toLocaleDateString('en-IN')}\nContact: [Mobile Number]`,
+
+  declaration: (d) => `DECLARATION\n\nI, ${d.name || '[Name]'}, residing at ${d.address || '[Address]'}, do hereby declare that:\n\n${d.details || '[Statement to be declared]'}\n\nThis declaration is made by me out of my own free will, and I understand that any false statement made herein may attract legal consequences as per applicable law.\n\nDate: ${new Date().toLocaleDateString('en-IN')}\nPlace: ${d.address ? d.address.split(',').pop().trim() : '[Place]'}\n\nSignature: _______________\n${d.name || '[Name]'}`
+};
+
+function generateAIDoc() {
+  const type = document.getElementById('aiDocType').value;
+  const d = {
+    name: document.getElementById('aiName').value,
+    address: document.getElementById('aiAddress').value,
+    to: document.getElementById('aiTo').value,
+    subject: document.getElementById('aiSubject').value,
+    details: document.getElementById('aiDetails').value
+  };
+  document.getElementById('aiOutput').value = AI_TEMPLATES[type](d);
+}
+
+function copyAIOutput() {
+  const text = document.getElementById('aiOutput').value;
+  if (text) navigator.clipboard.writeText(text);
+}
+
+function printAIOutput() {
+  const text = document.getElementById('aiOutput').value;
+  if (!text) return;
+  const printArea = document.getElementById('aiPrintArea');
+  printArea.innerHTML = `<pre style="font-family:Georgia,serif; font-size:14px; white-space:pre-wrap; padding:40px; line-height:1.6;">${text.replace(/</g,'&lt;')}</pre>`;
+  printArea.classList.remove('hidden');
+  printArea.style.position = 'fixed';
+  printArea.style.top = '0'; printArea.style.left = '0';
+  printArea.style.width = '100%'; printArea.style.zIndex = '9999';
+  printArea.style.background = '#fff';
+  document.body.style.overflow = 'hidden';
+
+  // Hide everything else for print
+  const others = document.body.children;
+  Array.from(others).forEach(el => { if (el.id !== 'aiPrintArea') el.style.visibility = 'hidden'; });
+  printArea.style.visibility = 'visible';
+
+  window.print();
+
+  setTimeout(() => {
+    Array.from(others).forEach(el => { el.style.visibility = ''; });
+    printArea.classList.add('hidden');
+    document.body.style.overflow = '';
+  }, 500);
+}
+
+/* ===================================================
+   STARTUP
+   =================================================== */
+checkSession();
+</script>
+</body>
+</html>

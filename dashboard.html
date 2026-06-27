@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>My Dashboard - E-Seva Kendra</title>
+<meta name="description" content="Login, book services and track your requests at E-Seva Kendra" />
+
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#0B4F4A" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;600&family=Noto+Sans+Oriya:wght@400;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Firebase CDN -->
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-storage-compat.js"></script>
+
+<style>
+  :root{
+    --color-primary:#0B4F4A;
+    --color-primary-light:#10726A;
+    --color-accent:#F4A024;
+    --color-bg:#FAF8F3;
+    --color-charcoal:#1F2A2C;
+    --color-success:#1E8E5A;
+    --color-card:#FFFFFF;
+    --color-danger:#E04F4F;
+    --color-warning:#F4A024;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:'Inter', 'Noto Sans Devanagari', 'Noto Sans Oriya', sans-serif;
+    background:var(--color-bg);
+    color:var(--color-charcoal);
+  }
+  .font-display{font-family:'Poppins','Noto Sans Devanagari','Noto Sans Oriya',sans-serif;}
+
+  .seva-card{
+    background:var(--color-card);
+    border-radius:18px;
+    border:1px solid rgba(11,79,74,0.08);
+    box-shadow:0 2px 10px rgba(11,79,74,0.05);
+  }
+  .seva-token{
+    font-family:'Poppins',sans-serif;
+    font-weight:700;
+    font-size:11px;
+    letter-spacing:.08em;
+    padding:4px 10px;
+    border-radius:6px;
+    background:rgba(11,79,74,0.07);
+    color:var(--color-primary);
+    display:inline-block;
+  }
+  .calc-input{
+    border:1.5px solid rgba(11,79,74,0.15);
+    border-radius:10px;
+    padding:10px 14px;
+    width:100%;
+    background:#fff;
+    transition:border-color .2s;
+  }
+  .calc-input:focus{outline:none; border-color:var(--color-accent);}
+
+  .nav-link{
+    display:flex; align-items:center; gap:10px;
+    padding:10px 14px; border-radius:12px;
+    font-family:'Poppins',sans-serif; font-weight:600; font-size:14px;
+    color:#5a6b6a; transition:all .15s;
+  }
+  .nav-link:hover{background:rgba(11,79,74,0.06); color:var(--color-primary);}
+  .nav-link.active{background:var(--color-primary); color:#fff;}
+
+  .status-badge{
+    font-size:11px; font-weight:700; padding:4px 10px; border-radius:999px;
+    font-family:'Poppins',sans-serif; letter-spacing:.03em; display:inline-block;
+  }
+  .status-pending{background:#FEF3CD; color:#92660A;}
+  .status-approved{background:#DCEEFF; color:#1A5FB4;}
+  .status-progress{background:#E6E0FF; color:#5B3FBF;}
+  .status-completed{background:#DEF5E7; color:#1E8E5A;}
+  .status-rejected{background:#FCE1E1; color:#C0392B;}
+
+  .modal-overlay{background:rgba(31,42,44,0.55); backdrop-filter:blur(2px);}
+
+  .auth-tab{
+    flex:1; text-align:center; padding:10px; font-family:'Poppins',sans-serif;
+    font-weight:700; font-size:14px; border-radius:10px; cursor:pointer; transition:all .2s;
+    color:#5a6b6a;
+  }
+  .auth-tab.active{background:var(--color-primary); color:#fff;}
+
+  #recaptcha-container{ margin: 8px 0; }
+
+  .upload-zone{
+    border:2px dashed rgba(11,79,74,0.2); border-radius:14px; padding:24px;
+    text-align:center; cursor:pointer; transition:all .2s;
+  }
+  .upload-zone:hover{border-color:var(--color-accent); background:rgba(244,160,36,0.04);}
+
+  .skeleton{background:linear-gradient(90deg,#eee 25%,#f5f5f5 50%,#eee 75%); background-size:200% 100%; animation:skeletonShine 1.4s infinite;}
+  @keyframes skeletonShine{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+
+  @media (max-width: 768px) {
+    .desktop-sidebar{ display:none; }
+    .mobile-bottom-nav{ display:flex; }
+  }
+  @media (min-width: 769px) {
+    .mobile-bottom-nav{ display:none; }
+  }
+</style>
+</head>
+<body class="antialiased">
+
+<!-- ============ AUTH SCREEN ============ -->
+<div id="authScreen" class="min-h-screen flex items-center justify-center px-4 py-10 bg-gradient-to-br from-[var(--color-primary)] via-[var(--color-primary)] to-[var(--color-primary-light)]">
+  <div class="w-full max-w-md">
+    <div class="text-center mb-6">
+      <img src="logo.png" alt="Logo" class="w-16 h-16 rounded-2xl mx-auto object-cover" onerror="this.style.display='none'"/>
+      <h1 class="font-display font-800 text-2xl text-white mt-3">E-Seva Kendra</h1>
+      <p class="text-white/70 text-sm mt-1">Login to book services &amp; track your requests</p>
+    </div>
+
+    <div class="seva-card p-6">
+      <!-- Auth method tabs -->
+      <div class="flex gap-2 mb-5 bg-[var(--color-bg)] p-1.5 rounded-xl">
+        <div class="auth-tab active" id="tabMobile" onclick="switchAuthTab('mobile')">Mobile OTP</div>
+        <div class="auth-tab" id="tabGoogle" onclick="switchAuthTab('google')">Google</div>
+      </div>
+
+      <!-- Mobile OTP login -->
+      <div id="authMobile">
+        <div id="mobileStep1">
+          <label class="text-sm font-display font-600 block mb-1">Mobile Number</label>
+          <div class="flex gap-2">
+            <span class="calc-input w-16 text-center !p-0 flex items-center justify-center font-700">+91</span>
+            <input type="tel" id="mobileInput" maxlength="10" pattern="[0-9]{10}" class="calc-input" placeholder="10-digit mobile number"/>
+          </div>
+          <div id="recaptcha-container"></div>
+          <button onclick="sendOTP()" class="w-full mt-4 py-3 rounded-full bg-[var(--color-primary)] text-white font-display font-700 hover:bg-[var(--color-primary-light)] transition">Send OTP</button>
+        </div>
+        <div id="mobileStep2" class="hidden">
+          <label class="text-sm font-display font-600 block mb-1">Enter OTP</label>
+          <input type="text" id="otpInput" maxlength="6" class="calc-input text-center tracking-widest text-lg font-700" placeholder="------"/>
+          <button onclick="verifyOTP()" class="w-full mt-4 py-3 rounded-full bg-[var(--color-primary)] text-white font-display font-700 hover:bg-[var(--color-primary-light)] transition">Verify &amp; Login</button>
+          <button onclick="resetMobileAuth()" class="w-full mt-2 py-2 text-sm text-gray-500 font-display font-600">← Change Number</button>
+        </div>
+      </div>
+
+      <!-- Google login -->
+      <div id="authGoogle" class="hidden">
+        <button onclick="loginWithGoogle()" class="w-full py-3 rounded-full border-2 border-gray-200 font-display font-700 flex items-center justify-center gap-3 hover:border-[var(--color-accent)] transition">
+          <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          Continue with Google
+        </button>
+      </div>
+
+      <div id="authError" class="text-sm text-center text-[var(--color-danger)] mt-3 hidden"></div>
+
+      <p class="text-xs text-gray-400 text-center mt-5">By continuing, you agree to our terms of service and privacy policy.</p>
+    </div>
+
+    <div class="text-center mt-5">
+      <a href="index.html" class="text-white/70 text-sm hover:text-white">← Back to Home</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MAIN APP (after login) ============ -->
+<div id="appScreen" class="hidden min-h-screen flex">
+
+  <!-- Desktop Sidebar -->
+  <aside class="desktop-sidebar w-64 bg-white border-r border-gray-100 p-5 flex flex-col gap-1 h-screen sticky top-0">
+    <a href="index.html" class="flex items-center gap-2 mb-6 px-2">
+      <img src="logo.png" alt="Logo" class="w-9 h-9 rounded-lg object-cover" onerror="this.style.display='none'"/>
+      <span class="font-display font-700 text-[var(--color-primary)]">E-Seva Kendra</span>
+    </a>
+    <a href="#dashboard" class="nav-link active" data-page="dashboard" onclick="showPage('dashboard')">
+      <span>🏠</span> Dashboard
+    </a>
+    <a href="#book" class="nav-link" data-page="book" onclick="showPage('book')">
+      <span>📝</span> Book Service
+    </a>
+    <a href="#bookings" class="nav-link" data-page="bookings" onclick="showPage('bookings')">
+      <span>📋</span> My Bookings
+    </a>
+    <a href="#documents" class="nav-link" data-page="documents" onclick="showPage('documents')">
+      <span>📁</span> Document Vault
+    </a>
+    <a href="#notifications" class="nav-link" data-page="notifications" onclick="showPage('notifications')">
+      <span>🔔</span> Notifications
+      <span id="notifBadgeDesktop" class="hidden ml-auto bg-[var(--color-accent)] text-white text-[10px] font-700 px-2 py-0.5 rounded-full"></span>
+    </a>
+    <a href="#support" class="nav-link" data-page="support" onclick="showPage('support')">
+      <span>🎫</span> Support Tickets
+    </a>
+    <a href="#profile" class="nav-link" data-page="profile" onclick="showPage('profile')">
+      <span>👤</span> Profile
+    </a>
+    <div class="mt-auto">
+      <button onclick="logout()" class="nav-link w-full text-left text-[var(--color-danger)]">
+        <span>🚪</span> Logout
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="flex-1 min-h-screen pb-24 md:pb-8">
+    <!-- Top bar -->
+    <header class="bg-white border-b border-gray-100 px-4 md:px-8 py-4 flex items-center justify-between sticky top-0 z-30">
+      <div>
+        <div class="font-display font-700 text-lg" id="pageTitle">Dashboard</div>
+        <div class="text-xs text-gray-400" id="pageSubtitle">Welcome back!</div>
+      </div>
+      <div class="flex items-center gap-3">
+        <button onclick="showPage('notifications')" class="relative p-2 rounded-full hover:bg-gray-100">
+          🔔
+          <span id="notifBadgeMobile" class="hidden absolute top-0 right-0 bg-[var(--color-accent)] text-white text-[9px] font-700 w-4 h-4 rounded-full flex items-center justify-center"></span>
+        </button>
+        <div id="userAvatar" class="w-9 h-9 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center font-display font-700 text-sm">U</div>
+      </div>
+    </header>
+
+    <div class="p-4 md:p-8">
+
+      <!-- ===== DASHBOARD PAGE ===== -->
+      <div id="page-dashboard" class="page-content">
+        <div class="seva-card p-6 mb-6 bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-light)] text-white">
+          <div class="text-sm text-white/70">Welcome back,</div>
+          <div id="welcomeName" class="font-display font-800 text-2xl mt-1">User</div>
+          <p class="text-sm text-white/80 mt-2 max-w-md">Book a new service, track your existing requests, or manage your documents — all in one place.</p>
+          <button onclick="showPage('book')" class="mt-4 px-5 py-2.5 rounded-full bg-[var(--color-accent)] font-display font-700 text-sm">+ Book New Service</button>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+          <div class="seva-card p-4">
+            <div class="text-xs text-gray-500">Total Bookings</div>
+            <div id="statTotal" class="font-display font-800 text-2xl text-[var(--color-primary)] mt-1">0</div>
+          </div>
+          <div class="seva-card p-4">
+            <div class="text-xs text-gray-500">Pending</div>
+            <div id="statPending" class="font-display font-800 text-2xl text-[#92660A] mt-1">0</div>
+          </div>
+          <div class="seva-card p-4">
+            <div class="text-xs text-gray-500">In Progress</div>
+            <div id="statProgress" class="font-display font-800 text-2xl text-[#5B3FBF] mt-1">0</div>
+          </div>
+          <div class="seva-card p-4">
+            <div class="text-xs text-gray-500">Completed</div>
+            <div id="statCompleted" class="font-display font-800 text-2xl text-[var(--color-success)] mt-1">0</div>
+          </div>
+        </div>
+
+        <div class="seva-card p-5">
+          <div class="font-display font-700 mb-4">Recent Bookings</div>
+          <div id="recentBookings" class="space-y-3">
+            <div class="text-sm text-gray-400 text-center py-6">Loading...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== BOOK SERVICE PAGE ===== -->
+      <div id="page-book" class="page-content hidden">
+        <div class="seva-card p-6 max-w-2xl">
+          <div class="font-display font-700 text-lg mb-1">Book a Service</div>
+          <p class="text-sm text-gray-500 mb-5">Fill in the details below and our team will contact you shortly.</p>
+          <form id="bookingForm" onsubmit="submitBooking(event)" class="space-y-4">
+            <div>
+              <label class="text-sm font-display font-600 block mb-1">Full Name</label>
+              <input type="text" name="name" id="bookName" required class="calc-input" placeholder="Enter your full name"/>
+            </div>
+            <div>
+              <label class="text-sm font-display font-600 block mb-1">Mobile Number</label>
+              <input type="tel" name="mobile" id="bookMobile" required pattern="[0-9]{10}" maxlength="10" class="calc-input" placeholder="10-digit mobile number"/>
+            </div>
+            <div>
+              <label class="text-sm font-display font-600 block mb-1">Address</label>
+              <textarea name="address" id="bookAddress" required rows="2" class="calc-input" placeholder="Your address"></textarea>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-sm font-display font-600 block mb-1">Service Category</label>
+                <select name="category" id="bookCategory" required class="calc-input" onchange="updateServiceTypes()">
+                  <option value="">Select category</option>
+                  <option value="csc">CSC Services</option>
+                  <option value="banking">Banking Services</option>
+                  <option value="govt">Government Services</option>
+                  <option value="utility">Utility Services</option>
+                </select>
+              </div>
+              <div>
+                <label class="text-sm font-display font-600 block mb-1">Service Type</label>
+                <select name="serviceType" id="bookServiceType" required class="calc-input">
+                  <option value="">Select category first</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label class="text-sm font-display font-600 block mb-1">Additional Notes</label>
+              <textarea name="notes" id="bookNotes" rows="3" class="calc-input" placeholder="Any specific requirements or details..."></textarea>
+            </div>
+            <div>
+              <label class="text-sm font-display font-600 block mb-1">Upload Document (optional)</label>
+              <div class="upload-zone" onclick="document.getElementById('bookDocument').click()">
+                <input type="file" id="bookDocument" class="hidden" accept="image/*,application/pdf" onchange="previewDoc(this)"/>
+                <div id="docUploadLabel">
+                  <div class="text-2xl mb-1">📎</div>
+                  <div class="text-sm text-gray-500">Click to upload Aadhaar / Photo / Document</div>
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="w-full py-3 rounded-full bg-[var(--color-primary)] text-white font-display font-700 hover:bg-[var(--color-primary-light)] transition">Submit Booking</button>
+            <div id="bookingFormMsg" class="text-sm text-center hidden"></div>
+          </form>
+        </div>
+      </div>
+
+      <!-- ===== MY BOOKINGS PAGE ===== -->
+      <div id="page-bookings" class="page-content hidden">
+        <div class="flex flex-wrap gap-2 mb-5">
+          <button class="px-4 py-2 rounded-full text-sm font-display font-700 bg-[var(--color-primary)] text-white" onclick="filterBookings('all')" data-filter="all">All</button>
+          <button class="px-4 py-2 rounded-full text-sm font-display font-700 bg-gray-100 text-gray-600" onclick="filterBookings('Pending')" data-filter="Pending">Pending</button>
+          <button class="px-4 py-2 rounded-full text-sm font-display font-700 bg-gray-100 text-gray-600" onclick="filterBookings('Approved')" data-filter="Approved">Approved</button>
+          <button class="px-4 py-2 rounded-full text-sm font-display font-700 bg-gray-100 text-gray-600" onclick="filterBookings('In Progress')" data-filter="In Progress">In Progress</button>
+          <button class="px-4 py-2 rounded-full text-sm font-display font-700 bg-gray-100 text-gray-600" onclick="filterBookings('Completed')" data-filter="Completed">Completed</button>
+          <button class="px-4 py-2 rounded-full text-sm font-display font-700 bg-gray-100 text-gray-600" onclick="filterBookings('Rejected')" data-filter="Rejected">Rejected</button>
+        </div>
+        <div id="bookingsList" class="space-y-3">
+          <div class="seva-card p-5 h-24 skeleton"></div>
+          <div class="seva-card p-5 h-24 skeleton"></div>
+        </div>
+      </div>
+
+      <!-- ===== DOCUMENT VAULT PAGE ===== -->
+      <div id="page-documents" class="page-content hidden">
+        <div class="seva-card p-6 mb-5">
+          <div class="font-display font-700 mb-3">Upload New Document</div>
+          <div class="upload-zone" onclick="document.getElementById('vaultUpload').click()">
+            <input type="file" id="vaultUpload" class="hidden" accept="image/*,application/pdf" onchange="uploadToVault(this)"/>
+            <div class="text-2xl mb-1">📤</div>
+            <div class="text-sm text-gray-500">Click to upload (Aadhaar, PAN, Photo, etc.)</div>
+          </div>
+          <div id="vaultUploadStatus" class="text-sm text-center mt-2 hidden"></div>
+        </div>
+        <div id="vaultGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          <div class="text-sm text-gray-400 text-center py-6 col-span-full">No documents uploaded yet.</div>
+        </div>
+      </div>
+
+      <!-- ===== NOTIFICATIONS PAGE ===== -->
+      <div id="page-notifications" class="page-content hidden">
+        <div id="notificationsList" class="space-y-3">
+          <div class="text-sm text-gray-400 text-center py-6">No notifications yet.</div>
+        </div>
+      </div>
+
+      <!-- ===== SUPPORT TICKETS PAGE ===== -->
+      <div id="page-support" class="page-content hidden">
+        <div class="seva-card p-6 mb-5 max-w-xl">
+          <div class="font-display font-700 mb-3">Raise a Support Ticket</div>
+          <form onsubmit="submitTicket(event)" class="space-y-3">
+            <div>
+              <label class="text-sm font-display font-600 block mb-1">Subject</label>
+              <input type="text" name="subject" required class="calc-input" placeholder="e.g. My Aadhaar booking status"/>
+            </div>
+            <div>
+              <label class="text-sm font-display font-600 block mb-1">Description</label>
+              <textarea name="description" required rows="3" class="calc-input" placeholder="Describe your issue..."></textarea>
+            </div>
+            <button type="submit" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Submit Ticket</button>
+          </form>
+        </div>
+        <div id="ticketsList" class="space-y-3">
+          <div class="text-sm text-gray-400 text-center py-6">No support tickets yet.</div>
+        </div>
+      </div>
+
+      <!-- ===== PROFILE PAGE ===== -->
+      <div id="page-profile" class="page-content hidden">
+        <div class="seva-card p-6 max-w-lg">
+          <div class="flex items-center gap-4 mb-5">
+            <div class="relative">
+              <img id="profilePhoto" src="" class="w-20 h-20 rounded-full object-cover bg-[var(--color-primary)] hidden"/>
+              <div id="profilePhotoPlaceholder" class="w-20 h-20 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center font-display font-800 text-2xl">U</div>
+              <button onclick="document.getElementById('profilePhotoInput').click()" class="absolute bottom-0 right-0 w-7 h-7 rounded-full bg-[var(--color-accent)] text-white flex items-center justify-center text-xs">✏️</button>
+              <input type="file" id="profilePhotoInput" accept="image/*" class="hidden" onchange="uploadProfilePhoto(this)"/>
+            </div>
+            <div>
+              <div id="profileNameDisplay" class="font-display font-700 text-lg">User</div>
+              <div id="profilePhoneDisplay" class="text-sm text-gray-400"></div>
+            </div>
+          </div>
+          <form onsubmit="saveProfile(event)" class="space-y-3">
+            <div>
+              <label class="text-sm font-display font-600 block mb-1">Full Name</label>
+              <input type="text" name="name" id="profileName" class="calc-input"/>
+            </div>
+            <div>
+              <label class="text-sm font-display font-600 block mb-1">Email</label>
+              <input type="email" name="email" id="profileEmail" class="calc-input"/>
+            </div>
+            <div>
+              <label class="text-sm font-display font-600 block mb-1">Address</label>
+              <textarea name="address" id="profileAddress" rows="2" class="calc-input"></textarea>
+            </div>
+            <button type="submit" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Save Changes</button>
+            <div id="profileMsg" class="text-sm text-center hidden"></div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="mobile-bottom-nav fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-40 px-2 py-2">
+    <a href="#dashboard" class="flex-1 flex flex-col items-center gap-0.5 py-1 nav-link active" data-page="dashboard" onclick="showPage('dashboard')">
+      <span>🏠</span><span class="text-[10px]">Home</span>
+    </a>
+    <a href="#book" class="flex-1 flex flex-col items-center gap-0.5 py-1 nav-link" data-page="book" onclick="showPage('book')">
+      <span>📝</span><span class="text-[10px]">Book</span>
+    </a>
+    <a href="#bookings" class="flex-1 flex flex-col items-center gap-0.5 py-1 nav-link" data-page="bookings" onclick="showPage('bookings')">
+      <span>📋</span><span class="text-[10px]">Bookings</span>
+    </a>
+    <a href="#documents" class="flex-1 flex flex-col items-center gap-0.5 py-1 nav-link" data-page="documents" onclick="showPage('documents')">
+      <span>📁</span><span class="text-[10px]">Docs</span>
+    </a>
+    <a href="#profile" class="flex-1 flex flex-col items-center gap-0.5 py-1 nav-link" data-page="profile" onclick="showPage('profile')">
+      <span>👤</span><span class="text-[10px]">Profile</span>
+    </a>
+  </nav>
+</div>
+
+<!-- ============ DOC PREVIEW MODAL ============ -->
+<div id="docModal" class="fixed inset-0 z-[60] hidden modal-overlay items-center justify-center p-4">
+  <div class="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 relative">
+    <button onclick="closeDocModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200">✕</button>
+    <div id="docModalContent"></div>
+  </div>
+</div>
+
+<script>
+/* ===================================================
+   FIREBASE CONFIG — REPLACE WITH YOUR OWN PROJECT KEYS
+   Must match the same config used in index.html / admin.html / operator.html
+   =================================================== */
+const firebaseConfig = {
+  apiKey: "AIzaSyDucHeFoRyu-aHa2ILTV6dXWkV5TWyVWV4",
+  authDomain: "eseva-kendra-4c870.firebaseapp.com",
+  projectId: "eseva-kendra-4c870",
+  storageBucket: "eseva-kendra-4c870.firebasestorage.app",
+  messagingSenderId: "730747379772",
+  appId: "1:730747379772:web:87f4fa85e372128c0de339"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+const storage = firebase.storage();
+
+let currentUser = null;
+let currentUserData = {};
+let allBookings = [];
+let confirmationResult = null;
+let pendingBookingDoc = null; // for file upload after booking doc created
+
+/* ===================================================
+   AUTH STATE LISTENER
+   =================================================== */
+auth.onAuthStateChanged(async (user) => {
+  if (user) {
+    currentUser = user;
+    await loadOrCreateUserProfile(user);
+    document.getElementById('authScreen').classList.add('hidden');
+    document.getElementById('appScreen').classList.remove('hidden');
+    initDashboard();
+  } else {
+    currentUser = null;
+    document.getElementById('authScreen').classList.remove('hidden');
+    document.getElementById('appScreen').classList.add('hidden');
+  }
+});
+
+/* ===================================================
+   MOBILE OTP LOGIN
+   =================================================== */
+function setupRecaptcha() {
+  if (window.recaptchaVerifier) return;
+  window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+    size: 'normal'
+  });
+}
+
+function sendOTP() {
+  const mobile = document.getElementById('mobileInput').value.trim();
+  const errEl = document.getElementById('authError');
+  errEl.classList.add('hidden');
+
+  if (!/^[0-9]{10}$/.test(mobile)) {
+    errEl.textContent = 'Please enter a valid 10-digit mobile number.';
+    errEl.classList.remove('hidden');
+    return;
+  }
+
+  setupRecaptcha();
+  const phoneNumber = '+91' + mobile;
+
+  auth.signInWithPhoneNumber(phoneNumber, window.recaptchaVerifier)
+    .then((result) => {
+      confirmationResult = result;
+      document.getElementById('mobileStep1').classList.add('hidden');
+      document.getElementById('mobileStep2').classList.remove('hidden');
+    })
+    .catch((error) => {
+      errEl.textContent = 'Could not send OTP: ' + (error.message || 'Please try again.');
+      errEl.classList.remove('hidden');
+      if (window.recaptchaVerifier) {
+        window.recaptchaVerifier.render().then((widgetId) => {
+          grecaptcha.reset(widgetId);
+        });
+      }
+    });
+}
+
+function verifyOTP() {
+  const otp = document.getElementById('otpInput').value.trim();
+  const errEl = document.getElementById('authError');
+  errEl.classList.add('hidden');
+
+  if (!confirmationResult) {
+    errEl.textContent = 'Session expired. Please request OTP again.';
+    errEl.classList.remove('hidden');
+    return;
+  }
+
+  confirmationResult.confirm(otp)
+    .catch((error) => {
+      errEl.textContent = 'Invalid OTP. Please try again.';
+      errEl.classList.remove('hidden');
+    });
+}
+
+function resetMobileAuth() {
+  document.getElementById('mobileStep1').classList.remove('hidden');
+  document.getElementById('mobileStep2').classList.add('hidden');
+  document.getElementById('otpInput').value = '';
+  confirmationResult = null;
+}
+
+/* ===================================================
+   GOOGLE LOGIN
+   =================================================== */
+function loginWithGoogle() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider)
+    .catch((error) => {
+      const errEl = document.getElementById('authError');
+      errEl.textContent = 'Google login failed: ' + (error.message || 'Please try again.');
+      errEl.classList.remove('hidden');
+    });
+}
+
+function switchAuthTab(tab) {
+  document.getElementById('tabMobile').classList.toggle('active', tab === 'mobile');
+  document.getElementById('tabGoogle').classList.toggle('active', tab === 'google');
+  document.getElementById('authMobile').classList.toggle('hidden', tab !== 'mobile');
+  document.getElementById('authGoogle').classList.toggle('hidden', tab !== 'google');
+  document.getElementById('authError').classList.add('hidden');
+}
+
+function logout() {
+  auth.signOut();
+}
+
+/* ===================================================
+   USER PROFILE
+   =================================================== */
+async function loadOrCreateUserProfile(user) {
+  const ref = db.collection('users').doc(user.uid);
+  const doc = await ref.get();
+
+  if (!doc.exists) {
+    currentUserData = {
+      uid: user.uid,
+      name: user.displayName || '',
+      mobile: user.phoneNumber || '',
+      email: user.email || '',
+      address: '',
+      photoURL: user.photoURL || '',
+      role: 'user',
+      createdAt: new Date().toISOString()
+    };
+    await ref.set(currentUserData);
+  } else {
+    currentUserData = doc.data();
+  }
+}
+
+function initDashboard() {
+  // Welcome name
+  const name = currentUserData.name || currentUser.phoneNumber || currentUser.email || 'User';
+  document.getElementById('welcomeName').textContent = name;
+  document.getElementById('profileNameDisplay').textContent = name;
+  document.getElementById('profilePhoneDisplay').textContent = currentUserData.mobile || currentUser.email || '';
+  document.getElementById('userAvatar').textContent = name.charAt(0).toUpperCase();
+
+  // Profile form
+  document.getElementById('profileName').value = currentUserData.name || '';
+  document.getElementById('profileEmail').value = currentUserData.email || '';
+  document.getElementById('profileAddress').value = currentUserData.address || '';
+
+  if (currentUserData.photoURL) {
+    document.getElementById('profilePhoto').src = currentUserData.photoURL;
+    document.getElementById('profilePhoto').classList.remove('hidden');
+    document.getElementById('profilePhotoPlaceholder').classList.add('hidden');
+  }
+
+  // Pre-fill booking form with profile info
+  document.getElementById('bookName').value = currentUserData.name || '';
+  document.getElementById('bookMobile').value = currentUserData.mobile ? currentUserData.mobile.replace('+91','').slice(-10) : '';
+  document.getElementById('bookAddress').value = currentUserData.address || '';
+
+  // Check for ?book=ID&name=Name query params (from index.html "Book Now")
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('book')) {
+    showPage('book');
+    const serviceId = params.get('book');
+    const serviceName = params.get('name') || '';
+    document.getElementById('bookNotes').value = `Requested service: ${serviceName} (${serviceId})`;
+  }
+
+  loadBookings();
+  loadNotifications();
+  loadDocuments();
+  loadTickets();
+}
+
+async function saveProfile(e) {
+  e.preventDefault();
+  const msgEl = document.getElementById('profileMsg');
+  const data = {
+    name: document.getElementById('profileName').value,
+    email: document.getElementById('profileEmail').value,
+    address: document.getElementById('profileAddress').value
+  };
+  try {
+    await db.collection('users').doc(currentUser.uid).update(data);
+    currentUserData = { ...currentUserData, ...data };
+    document.getElementById('welcomeName').textContent = data.name || 'User';
+    document.getElementById('profileNameDisplay').textContent = data.name || 'User';
+    document.getElementById('userAvatar').textContent = (data.name || 'U').charAt(0).toUpperCase();
+    msgEl.textContent = '✓ Profile updated successfully!';
+    msgEl.className = 'text-sm text-center text-[var(--color-success)]';
+    msgEl.classList.remove('hidden');
+  } catch (err) {
+    msgEl.textContent = 'Could not update profile. Please try again.';
+    msgEl.className = 'text-sm text-center text-[var(--color-danger)]';
+    msgEl.classList.remove('hidden');
+  }
+}
+
+async function uploadProfilePhoto(input) {
+  const file = input.files[0];
+  if (!file) return;
+  try {
+    const ref = storage.ref(`users/${currentUser.uid}/profile.jpg`);
+    await ref.put(file);
+    const url = await ref.getDownloadURL();
+    await db.collection('users').doc(currentUser.uid).update({ photoURL: url });
+    currentUserData.photoURL = url;
+    document.getElementById('profilePhoto').src = url;
+    document.getElementById('profilePhoto').classList.remove('hidden');
+    document.getElementById('profilePhotoPlaceholder').classList.add('hidden');
+  } catch (err) {
+    alert('Could not upload photo. Please try again.');
+  }
+}
+
+/* ===================================================
+   PAGE NAVIGATION
+   =================================================== */
+const pageTitles = {
+  dashboard: ['Dashboard', 'Welcome back!'],
+  book: ['Book Service', 'Fill the form to request a service'],
+  bookings: ['My Bookings', 'Track the status of your requests'],
+  documents: ['Document Vault', 'Securely store your important documents'],
+  notifications: ['Notifications', 'Stay updated on your requests'],
+  support: ['Support Tickets', 'Get help from our team'],
+  profile: ['My Profile', 'Manage your personal information']
+};
+
+function showPage(page) {
+  document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
+  document.getElementById('page-' + page).classList.remove('hidden');
+
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll(`[data-page="${page}"]`).forEach(l => l.classList.add('active'));
+
+  document.getElementById('pageTitle').textContent = pageTitles[page][0];
+  document.getElementById('pageSubtitle').textContent = pageTitles[page][1];
+
+  window.scrollTo(0, 0);
+}
+
+/* ===================================================
+   SERVICE TYPES BY CATEGORY
+   =================================================== */
+const SERVICE_TYPES = {
+  csc: ['Aadhaar Update / Correction','PAN Card Apply / Correction','Voter ID Services','Ayushman Card','PM Kisan Services','eShram Card'],
+  banking: ['AEPS Banking','Cash Withdrawal','Money Transfer (DMT)','Bank Account Opening','Loan Assistance','Insurance Services'],
+  govt: ['Income Certificate','Residence Certificate','Caste Certificate','Passport Assistance','Driving Licence Assistance'],
+  utility: ['Bill Payment','Mobile Recharge','DTH Recharge']
+};
+
+function updateServiceTypes() {
+  const cat = document.getElementById('bookCategory').value;
+  const select = document.getElementById('bookServiceType');
+  select.innerHTML = '<option value="">Select service</option>';
+  (SERVICE_TYPES[cat] || []).forEach(s => {
+    const opt = document.createElement('option');
+    opt.value = s; opt.textContent = s;
+    select.appendChild(opt);
+  });
+}
+
+/* ===================================================
+   BOOKING SUBMISSION
+   =================================================== */
+let bookingDocFile = null;
+function previewDoc(input) {
+  bookingDocFile = input.files[0];
+  if (bookingDocFile) {
+    document.getElementById('docUploadLabel').innerHTML = `<div class="text-2xl mb-1">✅</div><div class="text-sm text-gray-700 font-600">${bookingDocFile.name}</div>`;
+  }
+}
+
+async function submitBooking(e) {
+  e.preventDefault();
+  const form = e.target;
+  const msgEl = document.getElementById('bookingFormMsg');
+  msgEl.classList.add('hidden');
+
+  const data = {
+    userId: currentUser.uid,
+    name: form.name.value,
+    mobile: form.mobile.value,
+    address: form.address.value,
+    category: form.category.value,
+    serviceType: form.serviceType.value,
+    notes: form.notes.value,
+    status: 'Pending',
+    createdAt: new Date().toISOString(),
+    documentURL: ''
+  };
+
+  try {
+    const docRef = await db.collection('bookings').add(data);
+
+    // Upload document if present
+    if (bookingDocFile) {
+      const storageRef = storage.ref(`bookings/${currentUser.uid}/${docRef.id}/${bookingDocFile.name}`);
+      await storageRef.put(bookingDocFile);
+      const url = await storageRef.getDownloadURL();
+      await docRef.update({ documentURL: url });
+    }
+
+    // Create notification
+    await db.collection('notifications').add({
+      userId: currentUser.uid,
+      title: 'Booking Submitted',
+      message: `Your request for "${data.serviceType}" has been received. We'll update you on the status soon.`,
+      read: false,
+      createdAt: new Date().toISOString()
+    });
+
+    msgEl.textContent = '✓ Booking submitted successfully! Track it under "My Bookings".';
+    msgEl.className = 'text-sm text-center text-[var(--color-success)]';
+    msgEl.classList.remove('hidden');
+    form.reset();
+    bookingDocFile = null;
+    document.getElementById('docUploadLabel').innerHTML = `<div class="text-2xl mb-1">📎</div><div class="text-sm text-gray-500">Click to upload Aadhaar / Photo / Document</div>`;
+    document.getElementById('bookServiceType').innerHTML = '<option value="">Select category first</option>';
+
+    loadBookings();
+    loadNotifications();
+  } catch (err) {
+    msgEl.textContent = 'Could not submit booking. Please try again or call us directly.';
+    msgEl.className = 'text-sm text-center text-[var(--color-danger)]';
+    msgEl.classList.remove('hidden');
+  }
+}
+
+/* ===================================================
+   LOAD BOOKINGS
+   =================================================== */
+async function loadBookings() {
+  try {
+    const snap = await db.collection('bookings')
+      .where('userId', '==', currentUser.uid)
+      .orderBy('createdAt', 'desc')
+      .get();
+    allBookings = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  } catch (e) {
+    allBookings = [];
+  }
+  renderStats();
+  renderRecentBookings();
+  renderBookingsList('all');
+}
+
+function renderStats() {
+  document.getElementById('statTotal').textContent = allBookings.length;
+  document.getElementById('statPending').textContent = allBookings.filter(b => b.status === 'Pending').length;
+  document.getElementById('statProgress').textContent = allBookings.filter(b => b.status === 'In Progress').length;
+  document.getElementById('statCompleted').textContent = allBookings.filter(b => b.status === 'Completed').length;
+}
+
+function statusClass(status) {
+  const map = {
+    'Pending': 'status-pending',
+    'Approved': 'status-approved',
+    'In Progress': 'status-progress',
+    'Completed': 'status-completed',
+    'Rejected': 'status-rejected'
+  };
+  return map[status] || 'status-pending';
+}
+
+function renderRecentBookings() {
+  const el = document.getElementById('recentBookings');
+  if (!allBookings.length) {
+    el.innerHTML = '<div class="text-sm text-gray-400 text-center py-6">No bookings yet. Click "Book New Service" to get started!</div>';
+    return;
+  }
+  el.innerHTML = allBookings.slice(0, 5).map(b => `
+    <div class="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
+      <div>
+        <div class="font-display font-600 text-sm">${b.serviceType}</div>
+        <div class="text-xs text-gray-400">${new Date(b.createdAt).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'})}</div>
+      </div>
+      <span class="status-badge ${statusClass(b.status)}">${b.status}</span>
+    </div>
+  `).join('');
+}
+
+function renderBookingsList(filter) {
+  const el = document.getElementById('bookingsList');
+  const filtered = filter === 'all' ? allBookings : allBookings.filter(b => b.status === filter);
+
+  if (!filtered.length) {
+    el.innerHTML = '<div class="text-sm text-gray-400 text-center py-10">No bookings found.</div>';
+    return;
+  }
+
+  el.innerHTML = filtered.map(b => `
+    <div class="seva-card p-5">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <div class="font-display font-700">${b.serviceType}</div>
+          <div class="text-xs text-gray-400 mt-0.5">Booking ID: ${b.id.slice(0,8).toUpperCase()}</div>
+          <div class="text-xs text-gray-400">${new Date(b.createdAt).toLocaleString('en-IN', {day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}</div>
+        </div>
+        <span class="status-badge ${statusClass(b.status)}">${b.status}</span>
+      </div>
+      ${b.notes ? `<div class="text-sm text-gray-600 mt-3 bg-gray-50 rounded-lg p-3">${b.notes}</div>` : ''}
+      ${b.adminNote ? `<div class="text-sm text-[var(--color-primary)] mt-2 bg-[var(--color-primary)]/5 rounded-lg p-3"><strong>Note from team:</strong> ${b.adminNote}</div>` : ''}
+      ${b.documentURL ? `<a href="${b.documentURL}" target="_blank" class="inline-block text-xs text-[var(--color-primary)] underline mt-3">📎 View uploaded document</a>` : ''}
+    </div>
+  `).join('');
+}
+
+function filterBookings(status) {
+  document.querySelectorAll('[data-filter]').forEach(b => {
+    if (b.dataset.filter === status) {
+      b.classList.remove('bg-gray-100','text-gray-600');
+      b.classList.add('bg-[var(--color-primary)]','text-white');
+    } else {
+      b.classList.add('bg-gray-100','text-gray-600');
+      b.classList.remove('bg-[var(--color-primary)]','text-white');
+    }
+  });
+  renderBookingsList(status);
+}
+
+/* ===================================================
+   NOTIFICATIONS
+   =================================================== */
+async function loadNotifications() {
+  try {
+    const snap = await db.collection('notifications')
+      .where('userId', '==', currentUser.uid)
+      .orderBy('createdAt', 'desc')
+      .limit(30)
+      .get();
+    const notifications = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderNotifications(notifications);
+
+    const unread = notifications.filter(n => !n.read).length;
+    ['notifBadgeDesktop','notifBadgeMobile'].forEach(id => {
+      const badge = document.getElementById(id);
+      if (unread > 0) {
+        badge.textContent = unread;
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
+    });
+  } catch (e) {
+    document.getElementById('notificationsList').innerHTML = '<div class="text-sm text-gray-400 text-center py-6">No notifications yet.</div>';
+  }
+}
+
+function renderNotifications(notifications) {
+  const el = document.getElementById('notificationsList');
+  if (!notifications.length) {
+    el.innerHTML = '<div class="text-sm text-gray-400 text-center py-6">No notifications yet.</div>';
+    return;
+  }
+  el.innerHTML = notifications.map(n => `
+    <div class="seva-card p-4 ${!n.read ? 'border-l-4 border-l-[var(--color-accent)]' : ''}" onclick="markNotificationRead('${n.id}')">
+      <div class="font-display font-700 text-sm">${n.title}</div>
+      <div class="text-sm text-gray-600 mt-1">${n.message}</div>
+      <div class="text-xs text-gray-400 mt-2">${new Date(n.createdAt).toLocaleString('en-IN', {day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</div>
+    </div>
+  `).join('');
+}
+
+async function markNotificationRead(id) {
+  try {
+    await db.collection('notifications').doc(id).update({ read: true });
+    loadNotifications();
+  } catch (e) {}
+}
+
+/* ===================================================
+   DOCUMENT VAULT
+   =================================================== */
+async function loadDocuments() {
+  try {
+    const snap = await db.collection('documents')
+      .where('userId', '==', currentUser.uid)
+      .orderBy('createdAt', 'desc')
+      .get();
+    const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderDocuments(docs);
+  } catch (e) {
+    document.getElementById('vaultGrid').innerHTML = '<div class="text-sm text-gray-400 text-center py-6 col-span-full">No documents uploaded yet.</div>';
+  }
+}
+
+function renderDocuments(docs) {
+  const el = document.getElementById('vaultGrid');
+  if (!docs.length) {
+    el.innerHTML = '<div class="text-sm text-gray-400 text-center py-6 col-span-full">No documents uploaded yet.</div>';
+    return;
+  }
+  el.innerHTML = docs.map(d => `
+    <div class="seva-card p-3 cursor-pointer" onclick="viewDoc('${d.url}','${d.name}','${d.type}')">
+      ${d.type && d.type.startsWith('image') ?
+        `<img src="${d.url}" class="w-full h-24 object-cover rounded-lg"/>` :
+        `<div class="w-full h-24 rounded-lg bg-[var(--color-primary)]/5 flex items-center justify-center text-3xl">📄</div>`
+      }
+      <div class="text-xs font-600 mt-2 truncate">${d.name}</div>
+      <div class="text-[10px] text-gray-400">${new Date(d.createdAt).toLocaleDateString('en-IN')}</div>
+    </div>
+  `).join('');
+}
+
+async function uploadToVault(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const statusEl = document.getElementById('vaultUploadStatus');
+  statusEl.textContent = 'Uploading...';
+  statusEl.className = 'text-sm text-center mt-2 text-gray-500';
+  statusEl.classList.remove('hidden');
+
+  try {
+    const storageRef = storage.ref(`documents/${currentUser.uid}/${Date.now()}_${file.name}`);
+    await storageRef.put(file);
+    const url = await storageRef.getDownloadURL();
+
+    await db.collection('documents').add({
+      userId: currentUser.uid,
+      name: file.name,
+      type: file.type,
+      url: url,
+      createdAt: new Date().toISOString()
+    });
+
+    statusEl.textContent = '✓ Uploaded successfully!';
+    statusEl.className = 'text-sm text-center mt-2 text-[var(--color-success)]';
+    loadDocuments();
+  } catch (err) {
+    statusEl.textContent = 'Upload failed. Please try again.';
+    statusEl.className = 'text-sm text-center mt-2 text-[var(--color-danger)]';
+  }
+}
+
+function viewDoc(url, name, type) {
+  const isImage = type && type.startsWith('image');
+  document.getElementById('docModalContent').innerHTML = `
+    <div class="font-display font-700 mb-3">${name}</div>
+    ${isImage ? `<img src="${url}" class="w-full rounded-xl"/>` : `<a href="${url}" target="_blank" class="block text-center py-10 text-[var(--color-primary)] underline">Open Document</a>`}
+  `;
+  document.getElementById('docModal').classList.remove('hidden');
+  document.getElementById('docModal').classList.add('flex');
+}
+function closeDocModal() {
+  document.getElementById('docModal').classList.add('hidden');
+  document.getElementById('docModal').classList.remove('flex');
+}
+
+/* ===================================================
+   SUPPORT TICKETS
+   =================================================== */
+async function submitTicket(e) {
+  e.preventDefault();
+  const form = e.target;
+  try {
+    await db.collection('supportTickets').add({
+      userId: currentUser.uid,
+      userName: currentUserData.name || '',
+      subject: form.subject.value,
+      description: form.description.value,
+      status: 'Open',
+      createdAt: new Date().toISOString()
+    });
+    form.reset();
+    loadTickets();
+  } catch (err) {
+    alert('Could not submit ticket. Please try again.');
+  }
+}
+
+async function loadTickets() {
+  try {
+    const snap = await db.collection('supportTickets')
+      .where('userId', '==', currentUser.uid)
+      .orderBy('createdAt', 'desc')
+      .get();
+    const tickets = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderTickets(tickets);
+  } catch (e) {
+    document.getElementById('ticketsList').innerHTML = '<div class="text-sm text-gray-400 text-center py-6">No support tickets yet.</div>';
+  }
+}
+
+function renderTickets(tickets) {
+  const el = document.getElementById('ticketsList');
+  if (!tickets.length) {
+    el.innerHTML = '<div class="text-sm text-gray-400 text-center py-6">No support tickets yet.</div>';
+    return;
+  }
+  el.innerHTML = tickets.map(t => `
+    <div class="seva-card p-4">
+      <div class="flex items-center justify-between">
+        <div class="font-display font-700 text-sm">${t.subject}</div>
+        <span class="status-badge ${t.status === 'Open' ? 'status-pending' : 'status-completed'}">${t.status}</span>
+      </div>
+      <div class="text-sm text-gray-600 mt-1">${t.description}</div>
+      ${t.reply ? `<div class="text-sm text-[var(--color-primary)] mt-2 bg-[var(--color-primary)]/5 rounded-lg p-3"><strong>Reply:</strong> ${t.reply}</div>` : ''}
+      <div class="text-xs text-gray-400 mt-2">${new Date(t.createdAt).toLocaleString('en-IN', {day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</div>
+    </div>
+  `).join('');
+}
+
+// Register service worker for PWA
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+</body>
+</html>

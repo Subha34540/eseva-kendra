@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin Panel - E-Seva Kendra</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Firebase CDN -->
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-storage-compat.js"></script>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+<style>
+  :root{
+    --color-primary:#0B4F4A;
+    --color-primary-light:#10726A;
+    --color-accent:#F4A024;
+    --color-bg:#FAF8F3;
+    --color-charcoal:#1F2A2C;
+    --color-success:#1E8E5A;
+    --color-card:#FFFFFF;
+    --color-danger:#E04F4F;
+  }
+  *{box-sizing:border-box;}
+  body{font-family:'Inter',sans-serif; background:var(--color-bg); color:var(--color-charcoal);}
+  .font-display{font-family:'Poppins',sans-serif;}
+
+  .seva-card{
+    background:var(--color-card);
+    border-radius:18px;
+    border:1px solid rgba(11,79,74,0.08);
+    box-shadow:0 2px 10px rgba(11,79,74,0.05);
+  }
+  .seva-token{
+    font-family:'Poppins',sans-serif; font-weight:700; font-size:11px; letter-spacing:.08em;
+    padding:4px 10px; border-radius:6px; background:rgba(11,79,74,0.07); color:var(--color-primary); display:inline-block;
+  }
+  .calc-input{
+    border:1.5px solid rgba(11,79,74,0.15); border-radius:10px; padding:10px 14px; width:100%; background:#fff; transition:border-color .2s;
+  }
+  .calc-input:focus{outline:none; border-color:var(--color-accent);}
+
+  .nav-link{
+    display:flex; align-items:center; gap:10px; padding:10px 14px; border-radius:12px;
+    font-family:'Poppins',sans-serif; font-weight:600; font-size:14px; color:#5a6b6a; transition:all .15s; cursor:pointer;
+  }
+  .nav-link:hover{background:rgba(11,79,74,0.06); color:var(--color-primary);}
+  .nav-link.active{background:var(--color-primary); color:#fff;}
+
+  .status-badge{
+    font-size:11px; font-weight:700; padding:4px 10px; border-radius:999px;
+    font-family:'Poppins',sans-serif; letter-spacing:.03em; display:inline-block;
+  }
+  .status-pending{background:#FEF3CD; color:#92660A;}
+  .status-approved{background:#DCEEFF; color:#1A5FB4;}
+  .status-progress{background:#E6E0FF; color:#5B3FBF;}
+  .status-completed{background:#DEF5E7; color:#1E8E5A;}
+  .status-rejected{background:#FCE1E1; color:#C0392B;}
+  .status-open{background:#FEF3CD; color:#92660A;}
+  .status-closed{background:#DEF5E7; color:#1E8E5A;}
+
+  .modal-overlay{background:rgba(31,42,44,0.55); backdrop-filter:blur(2px);}
+
+  table{width:100%; border-collapse:collapse; font-size:14px;}
+  th{text-align:left; padding:10px 12px; font-family:'Poppins',sans-serif; font-weight:700; font-size:12px; color:#5a6b6a; text-transform:uppercase; letter-spacing:.04em; border-bottom:2px solid rgba(11,79,74,0.06);}
+  td{padding:12px; border-bottom:1px solid rgba(11,79,74,0.04); vertical-align:top;}
+  tr:hover td{background:rgba(11,79,74,0.02);}
+
+  .toggle{position:relative; width:44px; height:24px; border-radius:999px; background:#ddd; cursor:pointer; transition:background .2s;}
+  .toggle.on{background:var(--color-success);}
+  .toggle .knob{position:absolute; top:2px; left:2px; width:20px; height:20px; border-radius:50%; background:#fff; transition:left .2s;}
+  .toggle.on .knob{left:22px;}
+
+  .skeleton{background:linear-gradient(90deg,#eee 25%,#f5f5f5 50%,#eee 75%); background-size:200% 100%; animation:skeletonShine 1.4s infinite;}
+  @keyframes skeletonShine{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+
+  @media (max-width: 1024px) {
+    .desktop-sidebar{ display:none; }
+    .mobile-topbar-menu{ display:flex; }
+  }
+  @media (min-width: 1025px) {
+    .mobile-topbar-menu{ display:none; }
+  }
+  .sidebar-mobile{
+    position:fixed; top:0; left:0; height:100%; width:260px; z-index:60;
+    transform:translateX(-100%); transition:transform .25s ease;
+  }
+  .sidebar-mobile.open{transform:translateX(0);}
+</style>
+</head>
+<body class="antialiased">
+
+<!-- ============ LOGIN SCREEN ============ -->
+<div id="loginScreen" class="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-[var(--color-primary)] via-[var(--color-primary)] to-[var(--color-primary-light)]">
+  <div class="w-full max-w-sm">
+    <div class="text-center mb-6">
+      <img src="logo.png" alt="Logo" class="w-16 h-16 rounded-2xl mx-auto object-cover" onerror="this.style.display='none'"/>
+      <h1 class="font-display font-800 text-2xl text-white mt-3">Admin Panel</h1>
+      <p class="text-white/70 text-sm mt-1">E-Seva Kendra Management System</p>
+    </div>
+    <div class="seva-card p-6">
+      <form onsubmit="adminLogin(event)" class="space-y-4">
+        <div>
+          <label class="text-sm font-display font-600 block mb-1">Username</label>
+          <input type="text" id="loginUsername" required class="calc-input" placeholder="Admin username"/>
+        </div>
+        <div>
+          <label class="text-sm font-display font-600 block mb-1">Password</label>
+          <input type="password" id="loginPassword" required class="calc-input" placeholder="Password"/>
+        </div>
+        <button type="submit" class="w-full py-3 rounded-full bg-[var(--color-primary)] text-white font-display font-700 hover:bg-[var(--color-primary-light)] transition">Login</button>
+        <div id="loginError" class="text-sm text-center text-[var(--color-danger)] hidden"></div>
+      </form>
+      <p class="text-xs text-gray-400 text-center mt-4">Session auto-expires after 8 hours of inactivity.</p>
+    </div>
+    <div class="text-center mt-5">
+      <a href="index.html" class="text-white/70 text-sm hover:text-white">← Back to Home</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============ ADMIN APP ============ -->
+<div id="appScreen" class="hidden min-h-screen flex">
+
+  <!-- Desktop Sidebar -->
+  <aside class="desktop-sidebar w-64 bg-white border-r border-gray-100 p-5 flex flex-col gap-1 h-screen sticky top-0 overflow-y-auto">
+    <div class="flex items-center gap-2 mb-6 px-2">
+      <img src="logo.png" alt="Logo" class="w-9 h-9 rounded-lg object-cover" onerror="this.style.display='none'"/>
+      <span class="font-display font-700 text-[var(--color-primary)]">Admin Panel</span>
+    </div>
+    <div class="nav-link active" data-page="overview" onclick="showPage('overview')"><span>📊</span> Overview</div>
+    <div class="nav-link" data-page="bookings" onclick="showPage('bookings')"><span>📋</span> Bookings</div>
+    <div class="nav-link" data-page="users" onclick="showPage('users')"><span>👥</span> Users</div>
+    <div class="nav-link" data-page="operators" onclick="showPage('operators')"><span>🧑‍💼</span> Operators</div>
+    <div class="nav-link" data-page="services" onclick="showPage('services')"><span>🛠️</span> Services</div>
+    <div class="nav-link" data-page="content" onclick="showPage('content')"><span>🏠</span> Homepage Content</div>
+    <div class="nav-link" data-page="gallery" onclick="showPage('gallery')"><span>🖼️</span> Gallery</div>
+    <div class="nav-link" data-page="reviews" onclick="showPage('reviews')"><span>⭐</span> Reviews</div>
+    <div class="nav-link" data-page="announcements" onclick="showPage('announcements')"><span>📢</span> Announcements</div>
+    <div class="nav-link" data-page="finance" onclick="showPage('finance')"><span>💰</span> Finance</div>
+    <div class="nav-link" data-page="notifications" onclick="showPage('notifications')"><span>🔔</span> Send Notification</div>
+    <div class="nav-link" data-page="tickets" onclick="showPage('tickets')"><span>🎫</span> Support Tickets</div>
+    <div class="nav-link" data-page="settings" onclick="showPage('settings')"><span>⚙️</span> Settings</div>
+    <div class="mt-auto">
+      <div class="nav-link text-[var(--color-danger)]" onclick="adminLogout()"><span>🚪</span> Logout</div>
+    </div>
+  </aside>
+
+  <!-- Mobile Sidebar -->
+  <aside id="mobileSidebar" class="sidebar-mobile bg-white p-5 flex flex-col gap-1 overflow-y-auto">
+    <div class="flex items-center justify-between mb-6 px-2">
+      <span class="font-display font-700 text-[var(--color-primary)]">Admin Panel</span>
+      <button onclick="toggleMobileSidebar()" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">✕</button>
+    </div>
+    <div class="nav-link active" data-page="overview" onclick="showPage('overview')"><span>📊</span> Overview</div>
+    <div class="nav-link" data-page="bookings" onclick="showPage('bookings')"><span>📋</span> Bookings</div>
+    <div class="nav-link" data-page="users" onclick="showPage('users')"><span>👥</span> Users</div>
+    <div class="nav-link" data-page="operators" onclick="showPage('operators')"><span>🧑‍💼</span> Operators</div>
+    <div class="nav-link" data-page="services" onclick="showPage('services')"><span>🛠️</span> Services</div>
+    <div class="nav-link" data-page="content" onclick="showPage('content')"><span>🏠</span> Homepage Content</div>
+    <div class="nav-link" data-page="gallery" onclick="showPage('gallery')"><span>🖼️</span> Gallery</div>
+    <div class="nav-link" data-page="reviews" onclick="showPage('reviews')"><span>⭐</span> Reviews</div>
+    <div class="nav-link" data-page="announcements" onclick="showPage('announcements')"><span>📢</span> Announcements</div>
+    <div class="nav-link" data-page="finance" onclick="showPage('finance')"><span>💰</span> Finance</div>
+    <div class="nav-link" data-page="notifications" onclick="showPage('notifications')"><span>🔔</span> Send Notification</div>
+    <div class="nav-link" data-page="tickets" onclick="showPage('tickets')"><span>🎫</span> Support Tickets</div>
+    <div class="nav-link" data-page="settings" onclick="showPage('settings')"><span>⚙️</span> Settings</div>
+    <div class="mt-auto">
+      <div class="nav-link text-[var(--color-danger)]" onclick="adminLogout()"><span>🚪</span> Logout</div>
+    </div>
+  </aside>
+  <div id="sidebarOverlay" class="hidden fixed inset-0 bg-black/30 z-50" onclick="toggleMobileSidebar()"></div>
+
+  <!-- Main -->
+  <main class="flex-1 min-h-screen">
+    <header class="bg-white border-b border-gray-100 px-4 md:px-8 py-4 flex items-center justify-between sticky top-0 z-30">
+      <div class="flex items-center gap-3">
+        <button class="mobile-topbar-menu p-2" onclick="toggleMobileSidebar()">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18" stroke-linecap="round"/></svg>
+        </button>
+        <div>
+          <div class="font-display font-700 text-lg" id="pageTitle">Overview</div>
+          <div class="text-xs text-gray-400" id="pageSubtitle">Welcome to your admin dashboard</div>
+        </div>
+      </div>
+      <div class="w-9 h-9 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center font-display font-700 text-sm">A</div>
+    </header>
+
+    <div class="p-4 md:p-8">
+
+      <!-- ===== OVERVIEW ===== -->
+      <div id="page-overview" class="page-content">
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+          <div class="seva-card p-4"><div class="text-xs text-gray-500">Total Users</div><div id="statUsers" class="font-display font-800 text-2xl text-[var(--color-primary)] mt-1">0</div></div>
+          <div class="seva-card p-4"><div class="text-xs text-gray-500">Operators</div><div id="statOperators" class="font-display font-800 text-2xl text-[var(--color-primary)] mt-1">0</div></div>
+          <div class="seva-card p-4"><div class="text-xs text-gray-500">Total Bookings</div><div id="statBookings" class="font-display font-800 text-2xl text-[var(--color-primary)] mt-1">0</div></div>
+          <div class="seva-card p-4"><div class="text-xs text-gray-500">Total Revenue</div><div id="statRevenue" class="font-display font-800 text-2xl text-[var(--color-success)] mt-1">₹0</div></div>
+          <div class="seva-card p-4"><div class="text-xs text-gray-500">This Month</div><div id="statMonthly" class="font-display font-800 text-2xl text-[var(--color-accent)] mt-1">₹0</div></div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4 mb-6">
+          <div class="seva-card p-5">
+            <div class="font-display font-700 mb-3">Bookings - Last 7 Days</div>
+            <canvas id="bookingsChart" height="180"></canvas>
+          </div>
+          <div class="seva-card p-5">
+            <div class="font-display font-700 mb-3">Booking Status Breakdown</div>
+            <canvas id="statusChart" height="180"></canvas>
+          </div>
+        </div>
+
+        <div class="seva-card p-5">
+          <div class="font-display font-700 mb-3">Service Popularity</div>
+          <canvas id="popularityChart" height="120"></canvas>
+        </div>
+      </div>
+
+      <!-- ===== BOOKINGS ===== -->
+      <div id="page-bookings" class="page-content hidden">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <div class="flex flex-wrap gap-2">
+            <button class="px-3 py-1.5 rounded-full text-xs font-display font-700 bg-[var(--color-primary)] text-white" data-bfilter="all" onclick="filterAdminBookings('all')">All</button>
+            <button class="px-3 py-1.5 rounded-full text-xs font-display font-700 bg-gray-100 text-gray-600" data-bfilter="Pending" onclick="filterAdminBookings('Pending')">Pending</button>
+            <button class="px-3 py-1.5 rounded-full text-xs font-display font-700 bg-gray-100 text-gray-600" data-bfilter="Approved" onclick="filterAdminBookings('Approved')">Approved</button>
+            <button class="px-3 py-1.5 rounded-full text-xs font-display font-700 bg-gray-100 text-gray-600" data-bfilter="In Progress" onclick="filterAdminBookings('In Progress')">In Progress</button>
+            <button class="px-3 py-1.5 rounded-full text-xs font-display font-700 bg-gray-100 text-gray-600" data-bfilter="Completed" onclick="filterAdminBookings('Completed')">Completed</button>
+            <button class="px-3 py-1.5 rounded-full text-xs font-display font-700 bg-gray-100 text-gray-600" data-bfilter="Rejected" onclick="filterAdminBookings('Rejected')">Rejected</button>
+          </div>
+          <div class="flex gap-2">
+            <input type="text" id="bookingSearch" placeholder="Search by name/mobile..." class="calc-input !w-48" oninput="renderAdminBookings()"/>
+            <button onclick="exportBookingsExcel()" class="px-4 py-2 rounded-full bg-[var(--color-success)] text-white text-sm font-display font-700">Export Excel</button>
+          </div>
+        </div>
+        <div class="seva-card overflow-x-auto">
+          <table id="bookingsTable">
+            <thead><tr><th>Date</th><th>Name</th><th>Mobile</th><th>Service</th><th>Status</th><th>Doc</th><th>Action</th></tr></thead>
+            <tbody id="bookingsTableBody"><tr><td colspan="7" class="text-center text-gray-400 py-6">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== USERS ===== -->
+      <div id="page-users" class="page-content hidden">
+        <div class="flex justify-end mb-4">
+          <input type="text" id="userSearch" placeholder="Search users..." class="calc-input !w-48" oninput="renderUsers()"/>
+        </div>
+        <div class="seva-card overflow-x-auto">
+          <table>
+            <thead><tr><th>Name</th><th>Mobile/Email</th><th>Address</th><th>Joined</th><th>Bookings</th></tr></thead>
+            <tbody id="usersTableBody"><tr><td colspan="5" class="text-center text-gray-400 py-6">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== OPERATORS ===== -->
+      <div id="page-operators" class="page-content hidden">
+        <div class="flex justify-end mb-4">
+          <button onclick="openOperatorModal()" class="px-4 py-2 rounded-full bg-[var(--color-primary)] text-white text-sm font-display font-700">+ Add Operator</button>
+        </div>
+        <div class="seva-card overflow-x-auto">
+          <table>
+            <thead><tr><th>Name</th><th>Username</th><th>Mobile</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody id="operatorsTableBody"><tr><td colspan="5" class="text-center text-gray-400 py-6">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== SERVICES MANAGEMENT ===== -->
+      <div id="page-services" class="page-content hidden">
+        <div class="flex justify-end mb-4">
+          <button onclick="openServiceModal()" class="px-4 py-2 rounded-full bg-[var(--color-primary)] text-white text-sm font-display font-700">+ Add Service</button>
+        </div>
+        <div id="servicesGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+      </div>
+
+      <!-- ===== HOMEPAGE CONTENT ===== -->
+      <div id="page-content" class="page-content hidden">
+        <form onsubmit="saveHomepageSettings(event)" class="space-y-6 max-w-3xl">
+          <div class="seva-card p-5">
+            <div class="font-display font-700 mb-3">Shop Identity</div>
+            <div class="grid sm:grid-cols-2 gap-3">
+              <div><label class="text-sm font-600 block mb-1">Shop Name</label><input type="text" id="cfgShopName" class="calc-input"/></div>
+              <div><label class="text-sm font-600 block mb-1">Tagline</label><input type="text" id="cfgTagline" class="calc-input"/></div>
+            </div>
+            <div class="mt-3"><label class="text-sm font-600 block mb-1">Hero Tagline</label><textarea id="cfgHeroTagline" rows="2" class="calc-input"></textarea></div>
+            <div class="mt-3"><label class="text-sm font-600 block mb-1">Welcome Message</label><input type="text" id="cfgWelcome" class="calc-input"/></div>
+            <p class="text-xs text-gray-400 mt-2">Note: Logo (logo.png) and banner (banner.jpg) images should be uploaded directly to your hosting folder.</p>
+          </div>
+
+          <div class="seva-card p-5">
+            <div class="font-display font-700 mb-3">About Section</div>
+            <div class="grid sm:grid-cols-2 gap-3">
+              <div><label class="text-sm font-600 block mb-1">Owner Name</label><input type="text" id="cfgOwnerName" class="calc-input"/></div>
+              <div><label class="text-sm font-600 block mb-1">Experience</label><input type="text" id="cfgOwnerExperience" class="calc-input"/></div>
+            </div>
+            <div class="mt-3"><label class="text-sm font-600 block mb-1">About Title</label><input type="text" id="cfgAboutTitle" class="calc-input"/></div>
+            <div class="mt-3"><label class="text-sm font-600 block mb-1">About Description</label><textarea id="cfgAboutDesc" rows="3" class="calc-input"></textarea></div>
+          </div>
+
+          <div class="seva-card p-5">
+            <div class="font-display font-700 mb-3">Contact Information</div>
+            <div class="grid sm:grid-cols-2 gap-3">
+              <div><label class="text-sm font-600 block mb-1">Phone (with country code, e.g. 91XXXXXXXXXX)</label><input type="text" id="cfgPhone" class="calc-input"/></div>
+              <div><label class="text-sm font-600 block mb-1">WhatsApp (with country code)</label><input type="text" id="cfgWhatsapp" class="calc-input"/></div>
+              <div><label class="text-sm font-600 block mb-1">Email</label><input type="email" id="cfgEmail" class="calc-input"/></div>
+              <div><label class="text-sm font-600 block mb-1">Google Maps Link</label><input type="text" id="cfgMapsLink" class="calc-input"/></div>
+            </div>
+            <div class="mt-3"><label class="text-sm font-600 block mb-1">Address</label><textarea id="cfgAddress" rows="2" class="calc-input"></textarea></div>
+          </div>
+
+          <div class="seva-card p-5">
+            <div class="font-display font-700 mb-3">Working Hours</div>
+            <div class="grid sm:grid-cols-3 gap-3">
+              <div><label class="text-sm font-600 block mb-1">Opening Hour (24h)</label><input type="number" id="cfgHoursStart" min="0" max="23" class="calc-input"/></div>
+              <div><label class="text-sm font-600 block mb-1">Closing Hour (24h)</label><input type="number" id="cfgHoursEnd" min="0" max="23" class="calc-input"/></div>
+              <div><label class="text-sm font-600 block mb-1">Display Text</label><input type="text" id="cfgWorkingHours" class="calc-input" placeholder="Mon-Sat: 9AM-8PM | Sunday: Closed"/></div>
+            </div>
+          </div>
+
+          <button type="submit" class="px-6 py-3 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Save Changes</button>
+          <div id="contentSaveMsg" class="text-sm hidden"></div>
+        </form>
+      </div>
+
+      <!-- ===== GALLERY ===== -->
+      <div id="page-gallery" class="page-content hidden">
+        <div class="seva-card p-5 mb-5">
+          <div class="font-display font-700 mb-3">Upload Photo</div>
+          <input type="file" id="galleryUpload" accept="image/*" class="calc-input mb-2"/>
+          <input type="text" id="galleryCaption" placeholder="Caption (optional)" class="calc-input mb-2"/>
+          <button onclick="uploadGalleryPhoto()" class="px-4 py-2 rounded-full bg-[var(--color-primary)] text-white text-sm font-display font-700">Upload</button>
+          <div id="galleryUploadStatus" class="text-sm mt-2 hidden"></div>
+        </div>
+        <div id="galleryAdminGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+      </div>
+
+      <!-- ===== REVIEWS ===== -->
+      <div id="page-reviews" class="page-content hidden">
+        <div class="seva-card p-5 mb-5">
+          <div class="font-display font-700 mb-3" id="reviewFormTitle">Add Review</div>
+          <form onsubmit="saveReview(event)" class="grid sm:grid-cols-3 gap-3">
+            <input type="hidden" id="reviewEditId"/>
+            <input type="text" id="reviewName" placeholder="Customer Name" required class="calc-input"/>
+            <select id="reviewRating" class="calc-input"><option value="5">★★★★★ (5)</option><option value="4">★★★★ (4)</option><option value="3">★★★ (3)</option></select>
+            <input type="text" id="reviewText" placeholder="Review text" required class="calc-input sm:col-span-3"/>
+            <button type="submit" class="sm:col-span-3 px-4 py-2 rounded-full bg-[var(--color-primary)] text-white text-sm font-display font-700">Save Review</button>
+          </form>
+        </div>
+        <div id="reviewsAdminList" class="space-y-3"></div>
+      </div>
+
+      <!-- ===== ANNOUNCEMENTS ===== -->
+      <div id="page-announcements" class="page-content hidden">
+        <form onsubmit="saveAnnouncement(event)" class="seva-card p-5 max-w-2xl space-y-3">
+          <div class="font-display font-700 mb-2">Scrolling Announcement Bar</div>
+          <textarea id="announcementText" rows="2" class="calc-input" placeholder="e.g. Special offer: Free Aadhaar update this week!"></textarea>
+          <button type="submit" class="px-4 py-2 rounded-full bg-[var(--color-primary)] text-white text-sm font-display font-700">Save Announcement</button>
+          <div id="announcementMsg" class="text-sm hidden"></div>
+          <p class="text-xs text-gray-400">Leave blank to hide the announcement bar on the homepage.</p>
+        </form>
+      </div>
+
+      <!-- ===== FINANCE ===== -->
+      <div id="page-finance" class="page-content hidden">
+        <div class="grid sm:grid-cols-2 gap-4 mb-5">
+          <div class="seva-card p-5">
+            <div class="font-display font-700 mb-3">Add Income</div>
+            <form onsubmit="addTransaction(event,'income')" class="space-y-2">
+              <input type="text" name="title" placeholder="Description" required class="calc-input"/>
+              <input type="number" name="amount" placeholder="Amount (₹)" required class="calc-input"/>
+              <input type="date" name="date" required class="calc-input"/>
+              <button type="submit" class="w-full py-2 rounded-full bg-[var(--color-success)] text-white text-sm font-display font-700">Add Income</button>
+            </form>
+          </div>
+          <div class="seva-card p-5">
+            <div class="font-display font-700 mb-3">Add Expense</div>
+            <form onsubmit="addTransaction(event,'expense')" class="space-y-2">
+              <input type="text" name="title" placeholder="Description" required class="calc-input"/>
+              <input type="number" name="amount" placeholder="Amount (₹)" required class="calc-input"/>
+              <input type="date" name="date" required class="calc-input"/>
+              <button type="submit" class="w-full py-2 rounded-full bg-[var(--color-danger)] text-white text-sm font-display font-700">Add Expense</button>
+            </form>
+          </div>
+        </div>
+        <div class="seva-card overflow-x-auto">
+          <table>
+            <thead><tr><th>Date</th><th>Description</th><th>Type</th><th>Amount</th><th>Action</th></tr></thead>
+            <tbody id="transactionsTableBody"><tr><td colspan="5" class="text-center text-gray-400 py-6">No transactions yet.</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== SEND NOTIFICATION ===== -->
+      <div id="page-notifications" class="page-content hidden">
+        <form onsubmit="sendNotification(event)" class="seva-card p-5 max-w-xl space-y-3">
+          <div class="font-display font-700 mb-2">Send Notification</div>
+          <div>
+            <label class="text-sm font-600 block mb-1">Send To</label>
+            <select id="notifTarget" class="calc-input">
+              <option value="all">All Users</option>
+              <option value="specific">Specific User (by mobile)</option>
+            </select>
+          </div>
+          <div id="notifMobileField" class="hidden">
+            <label class="text-sm font-600 block mb-1">User Mobile Number</label>
+            <input type="text" id="notifMobile" class="calc-input" placeholder="10-digit mobile"/>
+          </div>
+          <div><label class="text-sm font-600 block mb-1">Title</label><input type="text" id="notifTitle" required class="calc-input"/></div>
+          <div><label class="text-sm font-600 block mb-1">Message</label><textarea id="notifMessage" required rows="3" class="calc-input"></textarea></div>
+          <button type="submit" class="px-6 py-2.5 rounded-full bg-[var(--color-primary)] text-white text-sm font-display font-700">Send Notification</button>
+          <div id="notifSendMsg" class="text-sm hidden"></div>
+        </form>
+        <script>document.getElementById('notifTarget')?.addEventListener('change', function(){
+          document.getElementById('notifMobileField').classList.toggle('hidden', this.value !== 'specific');
+        });</script>
+      </div>
+
+      <!-- ===== SUPPORT TICKETS ===== -->
+      <div id="page-tickets" class="page-content hidden">
+        <div id="adminTicketsList" class="space-y-3"></div>
+      </div>
+
+      <!-- ===== SETTINGS ===== -->
+      <div id="page-settings" class="page-content hidden">
+        <div class="seva-card p-5 max-w-xl">
+          <div class="font-display font-700 mb-3">Section Visibility</div>
+          <p class="text-xs text-gray-400 mb-4">Toggle which sections appear on the public homepage.</p>
+          <div class="space-y-3" id="sectionToggles">
+            <div class="flex items-center justify-between"><span class="text-sm">About Section</span><div class="toggle on" data-section="about" onclick="toggleSection(this)"><div class="knob"></div></div></div>
+            <div class="flex items-center justify-between"><span class="text-sm">Featured Services</span><div class="toggle on" data-section="services" onclick="toggleSection(this)"><div class="knob"></div></div></div>
+            <div class="flex items-center justify-between"><span class="text-sm">Tools Section</span><div class="toggle on" data-section="tools" onclick="toggleSection(this)"><div class="knob"></div></div></div>
+            <div class="flex items-center justify-between"><span class="text-sm">Customer Reviews</span><div class="toggle on" data-section="reviews" onclick="toggleSection(this)"><div class="knob"></div></div></div>
+            <div class="flex items-center justify-between"><span class="text-sm">Gallery</span><div class="toggle on" data-section="gallery" onclick="toggleSection(this)"><div class="knob"></div></div></div>
+          </div>
+          <button onclick="saveSectionToggles()" class="mt-4 px-5 py-2 rounded-full bg-[var(--color-primary)] text-white text-sm font-display font-700">Save Visibility Settings</button>
+          <div id="sectionToggleMsg" class="text-sm mt-2 hidden"></div>
+        </div>
+
+        <div class="seva-card p-5 max-w-xl mt-5">
+          <div class="font-display font-700 mb-3">SEO Settings</div>
+          <div class="space-y-3">
+            <div><label class="text-sm font-600 block mb-1">Site Title</label><input type="text" id="seoTitle" class="calc-input"/></div>
+            <div><label class="text-sm font-600 block mb-1">Meta Description</label><textarea id="seoDesc" rows="2" class="calc-input"></textarea></div>
+            <div><label class="text-sm font-600 block mb-1">Keywords (comma separated)</label><input type="text" id="seoKeywords" class="calc-input"/></div>
+          </div>
+          <button onclick="saveSEO()" class="mt-4 px-5 py-2 rounded-full bg-[var(--color-primary)] text-white text-sm font-display font-700">Save SEO Settings</button>
+          <div id="seoMsg" class="text-sm mt-2 hidden"></div>
+          <p class="text-xs text-gray-400 mt-2">Note: To apply SEO meta tags, manually add them to the &lt;head&gt; of index.html using these values.</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- ============ BOOKING DETAIL MODAL ============ -->
+<div id="bookingModal" class="fixed inset-0 z-[60] hidden modal-overlay items-center justify-center p-4">
+  <div class="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 relative">
+    <button onclick="closeModal('bookingModal')" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200">✕</button>
+    <div id="bookingModalContent"></div>
+  </div>
+</div>
+
+<!-- ============ SERVICE MODAL ============ -->
+<div id="serviceModal" class="fixed inset-0 z-[60] hidden modal-overlay items-center justify-center p-4">
+  <div class="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 relative">
+    <button onclick="closeModal('serviceModal')" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200">✕</button>
+    <div class="font-display font-700 text-lg mb-4" id="serviceModalTitle">Add Service</div>
+    <form onsubmit="saveService(event)" class="space-y-3">
+      <input type="hidden" id="serviceEditId"/>
+      <div><label class="text-sm font-600 block mb-1">Service ID / Token Prefix (e.g. AAD-002)</label><input type="text" id="serviceId" required class="calc-input"/></div>
+      <div><label class="text-sm font-600 block mb-1">Service Name</label><input type="text" id="serviceName" required class="calc-input"/></div>
+      <div>
+        <label class="text-sm font-600 block mb-1">Category</label>
+        <select id="serviceCategory" required class="calc-input">
+          <option value="csc">CSC Services</option>
+          <option value="banking">Banking Services</option>
+          <option value="govt">Government Services</option>
+          <option value="utility">Utility Services</option>
+        </select>
+      </div>
+      <div><label class="text-sm font-600 block mb-1">Description</label><textarea id="serviceDesc" rows="2" class="calc-input"></textarea></div>
+      <div><label class="text-sm font-600 block mb-1">Price (optional)</label><input type="text" id="servicePrice" class="calc-input" placeholder="e.g. ₹50 or 'On request'"/></div>
+      <div><label class="text-sm font-600 block mb-1">Image URL (optional)</label><input type="text" id="serviceImg" class="calc-input" placeholder="https://..."/></div>
+      <div><label class="text-sm font-600 block mb-1">Display Order</label><input type="number" id="serviceOrder" value="0" class="calc-input"/></div>
+      <button type="submit" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Save Service</button>
+    </form>
+  </div>
+</div>
+
+<!-- ============ OPERATOR MODAL ============ -->
+<div id="operatorModal" class="fixed inset-0 z-[60] hidden modal-overlay items-center justify-center p-4">
+  <div class="bg-white rounded-2xl max-w-md w-full p-6 relative">
+    <button onclick="closeModal('operatorModal')" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200">✕</button>
+    <div class="font-display font-700 text-lg mb-4">Add Operator</div>
+    <form onsubmit="saveOperator(event)" class="space-y-3">
+      <div><label class="text-sm font-600 block mb-1">Full Name</label><input type="text" id="opName" required class="calc-input"/></div>
+      <div><label class="text-sm font-600 block mb-1">Username</label><input type="text" id="opUsername" required class="calc-input"/></div>
+      <div><label class="text-sm font-600 block mb-1">Password</label><input type="text" id="opPassword" required class="calc-input"/></div>
+      <div><label class="text-sm font-600 block mb-1">Mobile Number</label><input type="text" id="opMobile" class="calc-input"/></div>
+      <button type="submit" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Add Operator</button>
+    </form>
+    <p class="text-xs text-gray-400 mt-3">Operator can log in to operator.html using this username/password.</p>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+/* ===================================================
+   FIREBASE CONFIG — same as index.html / dashboard.html
+   =================================================== */
+const firebaseConfig = {
+  apiKey: "AIzaSyDucHeFoRyu-aHa2ILTV6dXWkV5TWyVWV4",
+  authDomain: "eseva-kendra-4c870.firebaseapp.com",
+  projectId: "eseva-kendra-4c870",
+  storageBucket: "eseva-kendra-4c870.firebasestorage.app",
+  messagingSenderId: "730747379772",
+  appId: "1:730747379772:web:87f4fa85e372128c0de339"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const storage = firebase.storage();
+
+/* ===================================================
+   ADMIN CREDENTIALS (change these!)
+   For production, move to Firestore + hashed passwords.
+   =================================================== */
+const ADMIN_USERNAME = "Pankaj34540";
+const ADMIN_PASSWORD = "Subha@9938";
+const SESSION_KEY = 'eseva_admin_session';
+const SESSION_TIMEOUT_MS = 8 * 60 * 60 * 1000; // 8 hours
+
+/* ===================================================
+   AUTH (simple credential check + session)
+   =================================================== */
+function adminLogin(e) {
+  e.preventDefault();
+  const u = document.getElementById('loginUsername').value;
+  const p = document.getElementById('loginPassword').value;
+  const errEl = document.getElementById('loginError');
+
+  if (u === ADMIN_USERNAME && p === ADMIN_PASSWORD) {
+    localStorage.setItem(SESSION_KEY, JSON.stringify({ loggedIn: true, time: Date.now() }));
+    showApp();
+  } else {
+    errEl.textContent = 'Invalid username or password.';
+    errEl.classList.remove('hidden');
+  }
+}
+
+function checkSession() {
+  const session = JSON.parse(localStorage.getItem(SESSION_KEY) || 'null');
+  if (session && session.loggedIn && (Date.now() - session.time) < SESSION_TIMEOUT_MS) {
+    showApp();
+  } else {
+    localStorage.removeItem(SESSION_KEY);
+    document.getElementById('loginScreen').classList.remove('hidden');
+    document.getElementById('appScreen').classList.add('hidden');
+  }
+}
+
+function adminLogout() {
+  localStorage.removeItem(SESSION_KEY);
+  location.reload();
+}
+
+function showApp() {
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('appScreen').classList.remove('hidden');
+  initAdmin();
+}
+
+/* ===================================================
+   NAVIGATION
+   =================================================== */
+const pageTitles = {
+  overview: ['Overview','Welcome to your admin dashboard'],
+  bookings: ['Bookings','Manage all customer service requests'],
+  users: ['Users','All registered customers'],
+  operators: ['Operators','Manage operator accounts'],
+  services: ['Services','Manage public website services'],
+  content: ['Homepage Content','Edit your public website content'],
+  gallery: ['Gallery','Manage photo gallery'],
+  reviews: ['Reviews','Manage customer testimonials'],
+  announcements: ['Announcements','Scrolling notice bar'],
+  finance: ['Finance','Income & expense tracking'],
+  notifications: ['Send Notification','Notify users about updates'],
+  tickets: ['Support Tickets','Respond to customer queries'],
+  settings: ['Settings','Section visibility & SEO']
+};
+
+function showPage(page) {
+  document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
+  document.getElementById('page-' + page).classList.remove('hidden');
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll(`[data-page="${page}"]`).forEach(l => l.classList.add('active'));
+  document.getElementById('pageTitle').textContent = pageTitles[page][0];
+  document.getElementById('pageSubtitle').textContent = pageTitles[page][1];
+  toggleMobileSidebar(true);
+  window.scrollTo(0,0);
+
+  // Lazy load page data
+  if (page === 'bookings') loadAllBookings();
+  if (page === 'users') loadUsers();
+  if (page === 'operators') loadOperators();
+  if (page === 'services') loadServicesAdmin();
+  if (page === 'content') loadHomepageSettings();
+  if (page === 'gallery') loadGalleryAdmin();
+  if (page === 'reviews') loadReviewsAdmin();
+  if (page === 'announcements') loadAnnouncementSettings();
+  if (page === 'finance') loadTransactions();
+  if (page === 'tickets') loadTicketsAdmin();
+  if (page === 'settings') { loadSectionToggles(); loadSEO(); }
+}
+
+function toggleMobileSidebar(forceClose) {
+  const sb = document.getElementById('mobileSidebar');
+  const ov = document.getElementById('sidebarOverlay');
+  if (forceClose) {
+    sb.classList.remove('open'); ov.classList.add('hidden'); return;
+  }
+  sb.classList.toggle('open');
+  ov.classList.toggle('hidden');
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.add('hidden');
+  document.getElementById(id).classList.remove('flex');
+}
+function openModal(id) {
+  document.getElementById(id).classList.remove('hidden');
+  document.getElementById(id).classList.add('flex');
+}
+
+/* ===================================================
+   INIT
+   =================================================== */
+let CACHE = { bookings: [], users: [], services: [], operators: [] };
+
+function initAdmin() {
+  loadOverview();
+}
+
+/* ===================================================
+   OVERVIEW / ANALYTICS
+   =================================================== */
+async function loadOverview() {
+  try {
+    const [usersSnap, opsSnap, bookingsSnap, txnSnap] = await Promise.all([
+      db.collection('users').get(),
+      db.collection('operators').get(),
+      db.collection('bookings').get(),
+      db.collection('transactions').get()
+    ]);
+
+    const bookings = bookingsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+    CACHE.bookings = bookings;
+
+    document.getElementById('statUsers').textContent = usersSnap.size;
+    document.getElementById('statOperators').textContent = opsSnap.size;
+    document.getElementById('statBookings').textContent = bookings.length;
+
+    let totalRevenue = 0, monthlyRevenue = 0;
+    const now = new Date();
+    txnSnap.docs.forEach(d => {
+      const t = d.data();
+      if (t.type === 'income') {
+        totalRevenue += Number(t.amount || 0);
+        const tDate = new Date(t.date);
+        if (tDate.getMonth() === now.getMonth() && tDate.getFullYear() === now.getFullYear()) {
+          monthlyRevenue += Number(t.amount || 0);
+        }
+      }
+    });
+    document.getElementById('statRevenue').textContent = '₹' + totalRevenue.toLocaleString('en-IN');
+    document.getElementById('statMonthly').textContent = '₹' + monthlyRevenue.toLocaleString('en-IN');
+
+    renderCharts(bookings);
+  } catch (e) {
+    console.error('Overview load error', e);
+  }
+}
+
+function renderCharts(bookings) {
+  // Last 7 days bookings
+  const days = [];
+  const counts = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const label = d.toLocaleDateString('en-IN', { weekday: 'short' });
+    days.push(label);
+    const dayStr = d.toDateString();
+    counts.push(bookings.filter(b => new Date(b.createdAt).toDateString() === dayStr).length);
+  }
+
+  const ctx1 = document.getElementById('bookingsChart');
+  if (ctx1._chart) ctx1._chart.destroy();
+  ctx1._chart = new Chart(ctx1, {
+    type: 'line',
+    data: { labels: days, datasets: [{ label: 'Bookings', data: counts, borderColor: '#0B4F4A', backgroundColor: 'rgba(11,79,74,0.1)', fill: true, tension: 0.3 }] },
+    options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+  });
+
+  // Status breakdown
+  const statuses = ['Pending','Approved','In Progress','Completed','Rejected'];
+  const statusCounts = statuses.map(s => bookings.filter(b => b.status === s).length);
+  const ctx2 = document.getElementById('statusChart');
+  if (ctx2._chart) ctx2._chart.destroy();
+  ctx2._chart = new Chart(ctx2, {
+    type: 'doughnut',
+    data: { labels: statuses, datasets: [{ data: statusCounts, backgroundColor: ['#F4A024','#1A5FB4','#5B3FBF','#1E8E5A','#E04F4F'] }] },
+    options: { plugins: { legend: { position: 'bottom' } } }
+  });
+
+  // Service popularity
+  const serviceCounts = {};
+  bookings.forEach(b => { serviceCounts[b.serviceType] = (serviceCounts[b.serviceType]||0) + 1; });
+  const sorted = Object.entries(serviceCounts).sort((a,b) => b[1]-a[1]).slice(0,8);
+  const ctx3 = document.getElementById('popularityChart');
+  if (ctx3._chart) ctx3._chart.destroy();
+  ctx3._chart = new Chart(ctx3, {
+    type: 'bar',
+    data: { labels: sorted.map(s=>s[0]), datasets: [{ label: 'Requests', data: sorted.map(s=>s[1]), backgroundColor: '#F4A024' }] },
+    options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+  });
+}
+
+/* ===================================================
+   BOOKINGS
+   =================================================== */
+let currentBookingFilter = 'all';
+async function loadAllBookings() {
+  try {
+    const snap = await db.collection('bookings').orderBy('createdAt','desc').get();
+    CACHE.bookings = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderAdminBookings();
+  } catch (e) {
+    document.getElementById('bookingsTableBody').innerHTML = '<tr><td colspan="7" class="text-center text-gray-400 py-6">Could not load bookings.</td></tr>';
+  }
+}
+
+function statusClass(status) {
+  const map = { 'Pending':'status-pending','Approved':'status-approved','In Progress':'status-progress','Completed':'status-completed','Rejected':'status-rejected' };
+  return map[status] || 'status-pending';
+}
+
+function renderAdminBookings() {
+  const search = (document.getElementById('bookingSearch').value || '').toLowerCase();
+  let filtered = currentBookingFilter === 'all' ? CACHE.bookings : CACHE.bookings.filter(b => b.status === currentBookingFilter);
+  if (search) {
+    filtered = filtered.filter(b => (b.name||'').toLowerCase().includes(search) || (b.mobile||'').includes(search));
+  }
+
+  const tbody = document.getElementById('bookingsTableBody');
+  if (!filtered.length) {
+    tbody.innerHTML = '<tr><td colspan="7" class="text-center text-gray-400 py-6">No bookings found.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = filtered.map(b => `
+    <tr>
+      <td class="whitespace-nowrap">${new Date(b.createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}</td>
+      <td>${b.name}</td>
+      <td>${b.mobile}</td>
+      <td>${b.serviceType}</td>
+      <td><span class="status-badge ${statusClass(b.status)}">${b.status}</span></td>
+      <td>${b.documentURL ? `<a href="${b.documentURL}" target="_blank" class="text-[var(--color-primary)] underline">View</a>` : '-'}</td>
+      <td><button onclick="openBookingModal('${b.id}')" class="text-xs px-3 py-1.5 rounded-full bg-[var(--color-primary)] text-white font-700">Manage</button></td>
+    </tr>
+  `).join('');
+}
+
+function filterAdminBookings(status) {
+  currentBookingFilter = status;
+  document.querySelectorAll('[data-bfilter]').forEach(b => {
+    if (b.dataset.bfilter === status) { b.classList.remove('bg-gray-100','text-gray-600'); b.classList.add('bg-[var(--color-primary)]','text-white'); }
+    else { b.classList.add('bg-gray-100','text-gray-600'); b.classList.remove('bg-[var(--color-primary)]','text-white'); }
+  });
+  renderAdminBookings();
+}
+
+function openBookingModal(id) {
+  const b = CACHE.bookings.find(x => x.id === id);
+  if (!b) return;
+  document.getElementById('bookingModalContent').innerHTML = `
+    <div class="font-display font-700 text-lg mb-1">${b.serviceType}</div>
+    <div class="text-xs text-gray-400 mb-4">Booking ID: ${b.id.slice(0,8).toUpperCase()} • ${new Date(b.createdAt).toLocaleString('en-IN')}</div>
+    <div class="space-y-2 text-sm mb-4">
+      <div><strong>Name:</strong> ${b.name}</div>
+      <div><strong>Mobile:</strong> ${b.mobile}</div>
+      <div><strong>Address:</strong> ${b.address}</div>
+      <div><strong>Category:</strong> ${b.category}</div>
+      ${b.notes ? `<div><strong>Notes:</strong> ${b.notes}</div>` : ''}
+      ${b.documentURL ? `<div><a href="${b.documentURL}" target="_blank" class="text-[var(--color-primary)] underline">📎 View Document</a></div>` : ''}
+    </div>
+    <div class="space-y-3">
+      <div>
+        <label class="text-sm font-600 block mb-1">Update Status</label>
+        <select id="modalStatus" class="calc-input">
+          <option value="Pending" ${b.status==='Pending'?'selected':''}>Pending</option>
+          <option value="Approved" ${b.status==='Approved'?'selected':''}>Approved</option>
+          <option value="In Progress" ${b.status==='In Progress'?'selected':''}>In Progress</option>
+          <option value="Completed" ${b.status==='Completed'?'selected':''}>Completed</option>
+          <option value="Rejected" ${b.status==='Rejected'?'selected':''}>Rejected</option>
+        </select>
+      </div>
+      <div>
+        <label class="text-sm font-600 block mb-1">Note to Customer</label>
+        <textarea id="modalNote" rows="2" class="calc-input">${b.adminNote||''}</textarea>
+      </div>
+      <button onclick="updateBooking('${b.id}')" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Update Booking</button>
+      <div id="modalUpdateMsg" class="text-sm text-center hidden"></div>
+    </div>
+  `;
+  openModal('bookingModal');
+}
+
+async function updateBooking(id) {
+  const status = document.getElementById('modalStatus').value;
+  const adminNote = document.getElementById('modalNote').value;
+  const b = CACHE.bookings.find(x => x.id === id);
+
+  try {
+    await db.collection('bookings').doc(id).update({ status, adminNote });
+
+    // Notify customer if status changed
+    if (status !== b.status) {
+      await db.collection('notifications').add({
+        userId: b.userId,
+        title: 'Booking Status Updated',
+        message: `Your request for "${b.serviceType}" is now: ${status}.${adminNote ? ' Note: ' + adminNote : ''}`,
+        read: false,
+        createdAt: new Date().toISOString()
+      });
+    }
+
+    document.getElementById('modalUpdateMsg').textContent = '✓ Updated successfully!';
+    document.getElementById('modalUpdateMsg').className = 'text-sm text-center text-[var(--color-success)]';
+    document.getElementById('modalUpdateMsg').classList.remove('hidden');
+
+    b.status = status; b.adminNote = adminNote;
+    renderAdminBookings();
+    setTimeout(() => closeModal('bookingModal'), 800);
+  } catch (e) {
+    document.getElementById('modalUpdateMsg').textContent = 'Update failed.';
+    document.getElementById('modalUpdateMsg').className = 'text-sm text-center text-[var(--color-danger)]';
+    document.getElementById('modalUpdateMsg').classList.remove('hidden');
+  }
+}
+
+function exportBookingsExcel() {
+  const data = CACHE.bookings.map(b => ({
+    Date: new Date(b.createdAt).toLocaleString('en-IN'),
+    Name: b.name, Mobile: b.mobile, Address: b.address,
+    Category: b.category, ServiceType: b.serviceType,
+    Status: b.status, Notes: b.notes||'', AdminNote: b.adminNote||''
+  }));
+  const ws = XLSX.utils.json_to_sheet(data);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Bookings');
+  XLSX.writeFile(wb, `bookings_${new Date().toISOString().slice(0,10)}.xlsx`);
+}
+
+/* ===================================================
+   USERS
+   =================================================== */
+async function loadUsers() {
+  try {
+    const [usersSnap, bookingsSnap] = await Promise.all([
+      db.collection('users').get(),
+      db.collection('bookings').get()
+    ]);
+    CACHE.users = usersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+    const bookings = bookingsSnap.docs.map(d => d.data());
+    CACHE.users.forEach(u => {
+      u.bookingCount = bookings.filter(b => b.userId === u.uid || b.userId === u.id).length;
+    });
+    renderUsers();
+  } catch (e) {
+    document.getElementById('usersTableBody').innerHTML = '<tr><td colspan="5" class="text-center text-gray-400 py-6">Could not load users.</td></tr>';
+  }
+}
+
+function renderUsers() {
+  const search = (document.getElementById('userSearch').value || '').toLowerCase();
+  let filtered = CACHE.users;
+  if (search) {
+    filtered = filtered.filter(u => (u.name||'').toLowerCase().includes(search) || (u.mobile||'').includes(search) || (u.email||'').toLowerCase().includes(search));
+  }
+  const tbody = document.getElementById('usersTableBody');
+  if (!filtered.length) {
+    tbody.innerHTML = '<tr><td colspan="5" class="text-center text-gray-400 py-6">No users found.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = filtered.map(u => `
+    <tr>
+      <td>${u.name || '-'}</td>
+      <td>${u.mobile || u.email || '-'}</td>
+      <td>${u.address || '-'}</td>
+      <td>${u.createdAt ? new Date(u.createdAt).toLocaleDateString('en-IN') : '-'}</td>
+      <td>${u.bookingCount}</td>
+    </tr>
+  `).join('');
+}
+
+/* ===================================================
+   OPERATORS
+   =================================================== */
+async function loadOperators() {
+  try {
+    const snap = await db.collection('operators').get();
+    CACHE.operators = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderOperators();
+  } catch (e) {
+    document.getElementById('operatorsTableBody').innerHTML = '<tr><td colspan="5" class="text-center text-gray-400 py-6">Could not load operators.</td></tr>';
+  }
+}
+
+function renderOperators() {
+  const tbody = document.getElementById('operatorsTableBody');
+  if (!CACHE.operators.length) {
+    tbody.innerHTML = '<tr><td colspan="5" class="text-center text-gray-400 py-6">No operators added yet.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = CACHE.operators.map(o => `
+    <tr>
+      <td>${o.name}</td>
+      <td>${o.username}</td>
+      <td>${o.mobile || '-'}</td>
+      <td><span class="status-badge status-completed">Active</span></td>
+      <td><button onclick="deleteOperator('${o.id}')" class="text-xs px-3 py-1.5 rounded-full bg-[var(--color-danger)] text-white font-700">Remove</button></td>
+    </tr>
+  `).join('');
+}
+
+function openOperatorModal() {
+  document.getElementById('opName').value = '';
+  document.getElementById('opUsername').value = '';
+  document.getElementById('opPassword').value = '';
+  document.getElementById('opMobile').value = '';
+  openModal('operatorModal');
+}
+
+async function saveOperator(e) {
+  e.preventDefault();
+  try {
+    await db.collection('operators').add({
+      name: document.getElementById('opName').value,
+      username: document.getElementById('opUsername').value,
+      password: document.getElementById('opPassword').value,
+      mobile: document.getElementById('opMobile').value,
+      createdAt: new Date().toISOString()
+    });
+    closeModal('operatorModal');
+    loadOperators();
+  } catch (e) { alert('Could not add operator.'); }
+}
+
+async function deleteOperator(id) {
+  if (!confirm('Remove this operator?')) return;
+  await db.collection('operators').doc(id).delete();
+  loadOperators();
+}
+
+/* ===================================================
+   SERVICES MANAGEMENT
+   =================================================== */
+const CATEGORY_LABELS = { csc: 'CSC Services', banking: 'Banking Services', govt: 'Government Services', utility: 'Utility Services' };
+
+async function loadServicesAdmin() {
+  try {
+    const snap = await db.collection('services').orderBy('order','asc').get();
+    CACHE.services = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderServicesAdmin();
+  } catch (e) {
+    document.getElementById('servicesGrid').innerHTML = '<div class="text-sm text-gray-400 col-span-full text-center py-6">No services yet. Click "+ Add Service" to create the first one.</div>';
+  }
+}
+
+function renderServicesAdmin() {
+  const grid = document.getElementById('servicesGrid');
+  if (!CACHE.services.length) {
+    grid.innerHTML = '<div class="text-sm text-gray-400 col-span-full text-center py-6">No services yet. Click "+ Add Service" to create the first one.</div>';
+    return;
+  }
+  grid.innerHTML = CACHE.services.map(s => `
+    <div class="seva-card p-4">
+      <div class="flex items-start justify-between">
+        <span class="seva-token">${s.serviceId || s.id}</span>
+        <span class="text-xs text-gray-400">${CATEGORY_LABELS[s.cat]||s.cat}</span>
+      </div>
+      <div class="font-display font-700 mt-2">${s.name}</div>
+      <div class="text-xs text-gray-500 mt-1">${s.desc||''}</div>
+      ${s.price ? `<div class="text-sm font-700 text-[var(--color-primary)] mt-2">${s.price}</div>` : ''}
+      <div class="flex gap-2 mt-3">
+        <button onclick="editService('${s.id}')" class="flex-1 py-1.5 rounded-full bg-gray-100 text-xs font-700">Edit</button>
+        <button onclick="deleteService('${s.id}')" class="flex-1 py-1.5 rounded-full bg-[var(--color-danger)] text-white text-xs font-700">Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openServiceModal() {
+  document.getElementById('serviceModalTitle').textContent = 'Add Service';
+  document.getElementById('serviceEditId').value = '';
+  document.getElementById('serviceId').value = '';
+  document.getElementById('serviceName').value = '';
+  document.getElementById('serviceCategory').value = 'csc';
+  document.getElementById('serviceDesc').value = '';
+  document.getElementById('servicePrice').value = '';
+  document.getElementById('serviceImg').value = '';
+  document.getElementById('serviceOrder').value = CACHE.services.length;
+  openModal('serviceModal');
+}
+
+function editService(id) {
+  const s = CACHE.services.find(x => x.id === id);
+  if (!s) return;
+  document.getElementById('serviceModalTitle').textContent = 'Edit Service';
+  document.getElementById('serviceEditId').value = s.id;
+  document.getElementById('serviceId').value = s.serviceId || '';
+  document.getElementById('serviceName').value = s.name || '';
+  document.getElementById('serviceCategory').value = s.cat || 'csc';
+  document.getElementById('serviceDesc').value = s.desc || '';
+  document.getElementById('servicePrice').value = s.price || '';
+  document.getElementById('serviceImg').value = s.img || '';
+  document.getElementById('serviceOrder').value = s.order || 0;
+  openModal('serviceModal');
+}
+
+async function saveService(e) {
+  e.preventDefault();
+  const editId = document.getElementById('serviceEditId').value;
+  const data = {
+    serviceId: document.getElementById('serviceId').value,
+    name: document.getElementById('serviceName').value,
+    cat: document.getElementById('serviceCategory').value,
+    desc: document.getElementById('serviceDesc').value,
+    price: document.getElementById('servicePrice').value,
+    img: document.getElementById('serviceImg').value,
+    order: parseInt(document.getElementById('serviceOrder').value) || 0
+  };
+  try {
+    if (editId) {
+      await db.collection('services').doc(editId).update(data);
+    } else {
+      await db.collection('services').add(data);
+    }
+    closeModal('serviceModal');
+    loadServicesAdmin();
+  } catch (e) { alert('Could not save service.'); }
+}
+
+async function deleteService(id) {
+  if (!confirm('Delete this service?')) return;
+  await db.collection('services').doc(id).delete();
+  loadServicesAdmin();
+}
+
+/* ===================================================
+   HOMEPAGE CONTENT SETTINGS
+   =================================================== */
+async function loadHomepageSettings() {
+  try {
+    const doc = await db.collection('settings').doc('homepage').get();
+    const s = doc.exists ? doc.data() : {};
+    document.getElementById('cfgShopName').value = s.shopName || 'E-Seva Kendra';
+    document.getElementById('cfgTagline').value = s.tagline || 'Digital Seva & Banking Center';
+    document.getElementById('cfgHeroTagline').value = s.heroTagline || '';
+    document.getElementById('cfgWelcome').value = s.welcomeMessage || '';
+    document.getElementById('cfgOwnerName').value = s.ownerName || '';
+    document.getElementById('cfgOwnerExperience').value = s.ownerExperience || '';
+    document.getElementById('cfgAboutTitle').value = s.aboutTitle || '';
+    document.getElementById('cfgAboutDesc').value = s.aboutDesc || '';
+    document.getElementById('cfgPhone').value = s.phone || '';
+    document.getElementById('cfgWhatsapp').value = s.whatsapp || '';
+    document.getElementById('cfgEmail').value = s.email || '';
+    document.getElementById('cfgMapsLink').value = s.mapsLink || '';
+    document.getElementById('cfgAddress').value = s.address || '';
+    document.getElementById('cfgHoursStart').value = s.workingHoursStart != null ? s.workingHoursStart : 9;
+    document.getElementById('cfgHoursEnd').value = s.workingHoursEnd != null ? s.workingHoursEnd : 20;
+    document.getElementById('cfgWorkingHours').value = s.workingHours || '';
+  } catch (e) {}
+}
+
+async function saveHomepageSettings(e) {
+  e.preventDefault();
+  const data = {
+    shopName: document.getElementById('cfgShopName').value,
+    tagline: document.getElementById('cfgTagline').value,
+    heroTagline: document.getElementById('cfgHeroTagline').value,
+    welcomeMessage: document.getElementById('cfgWelcome').value,
+    ownerName: document.getElementById('cfgOwnerName').value,
+    ownerExperience: document.getElementById('cfgOwnerExperience').value,
+    aboutTitle: document.getElementById('cfgAboutTitle').value,
+    aboutDesc: document.getElementById('cfgAboutDesc').value,
+    phone: document.getElementById('cfgPhone').value,
+    whatsapp: document.getElementById('cfgWhatsapp').value,
+    email: document.getElementById('cfgEmail').value,
+    mapsLink: document.getElementById('cfgMapsLink').value,
+    address: document.getElementById('cfgAddress').value,
+    workingHoursStart: parseInt(document.getElementById('cfgHoursStart').value),
+    workingHoursEnd: parseInt(document.getElementById('cfgHoursEnd').value),
+    workingHours: document.getElementById('cfgWorkingHours').value
+  };
+  const msgEl = document.getElementById('contentSaveMsg');
+  try {
+    await db.collection('settings').doc('homepage').set(data, { merge: true });
+    msgEl.textContent = '✓ Saved successfully! Changes will appear on the homepage immediately.';
+    msgEl.className = 'text-sm text-[var(--color-success)]';
+    msgEl.classList.remove('hidden');
+  } catch (e) {
+    msgEl.textContent = 'Could not save. Please try again.';
+    msgEl.className = 'text-sm text-[var(--color-danger)]';
+    msgEl.classList.remove('hidden');
+  }
+}
+
+/* ===================================================
+   GALLERY MANAGEMENT
+   =================================================== */
+async function uploadGalleryPhoto() {
+  const file = document.getElementById('galleryUpload').files[0];
+  const caption = document.getElementById('galleryCaption').value;
+  const statusEl = document.getElementById('galleryUploadStatus');
+  if (!file) return;
+  statusEl.textContent = 'Uploading...';
+  statusEl.className = 'text-sm mt-2 text-gray-500';
+  statusEl.classList.remove('hidden');
+
+  try {
+    const storageRef = storage.ref(`gallery/${Date.now()}_${file.name}`);
+    await storageRef.put(file);
+    const url = await storageRef.getDownloadURL();
+    const snap = await db.collection('gallery').get();
+    await db.collection('gallery').add({ url, caption, order: snap.size, createdAt: new Date().toISOString() });
+    statusEl.textContent = '✓ Uploaded!';
+    statusEl.className = 'text-sm mt-2 text-[var(--color-success)]';
+    document.getElementById('galleryCaption').value = '';
+    loadGalleryAdmin();
+  } catch (e) {
+    statusEl.textContent = 'Upload failed.';
+    statusEl.className = 'text-sm mt-2 text-[var(--color-danger)]';
+  }
+}
+
+async function loadGalleryAdmin() {
+  try {
+    const snap = await db.collection('gallery').orderBy('order','asc').get();
+    const items = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    const grid = document.getElementById('galleryAdminGrid');
+    if (!items.length) {
+      grid.innerHTML = '<div class="text-sm text-gray-400 col-span-full text-center py-6">No photos uploaded yet.</div>';
+      return;
+    }
+    grid.innerHTML = items.map(g => `
+      <div class="seva-card p-2">
+        <img src="${g.url}" class="w-full h-28 object-cover rounded-lg"/>
+        <div class="text-xs mt-2 truncate">${g.caption||'-'}</div>
+        <button onclick="deleteGalleryItem('${g.id}')" class="w-full mt-2 py-1 rounded-full bg-[var(--color-danger)] text-white text-xs font-700">Delete</button>
+      </div>
+    `).join('');
+  } catch (e) {
+    document.getElementById('galleryAdminGrid').innerHTML = '<div class="text-sm text-gray-400 col-span-full text-center py-6">No photos uploaded yet.</div>';
+  }
+}
+
+async function deleteGalleryItem(id) {
+  if (!confirm('Delete this photo?')) return;
+  await db.collection('gallery').doc(id).delete();
+  loadGalleryAdmin();
+}
+
+/* ===================================================
+   REVIEWS MANAGEMENT
+   =================================================== */
+async function loadReviewsAdmin() {
+  try {
+    const snap = await db.collection('reviews').orderBy('order','asc').get();
+    const items = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    const list = document.getElementById('reviewsAdminList');
+    if (!items.length) {
+      list.innerHTML = '<div class="text-sm text-gray-400 text-center py-6">No reviews yet.</div>';
+      return;
+    }
+    list.innerHTML = items.map(r => `
+      <div class="seva-card p-4 flex items-center justify-between gap-3">
+        <div>
+          <div class="font-display font-700 text-sm">${r.name} <span class="text-[var(--color-accent)]">${'★'.repeat(r.rating||5)}</span></div>
+          <div class="text-sm text-gray-600 mt-1">${r.text}</div>
+        </div>
+        <div class="flex gap-2 shrink-0">
+          <button onclick='editReview("${r.id}")' class="px-3 py-1.5 rounded-full bg-gray-100 text-xs font-700">Edit</button>
+          <button onclick="deleteReview('${r.id}')" class="px-3 py-1.5 rounded-full bg-[var(--color-danger)] text-white text-xs font-700">Delete</button>
+        </div>
+      </div>
+    `).join('');
+    CACHE.reviews = items;
+  } catch (e) {
+    document.getElementById('reviewsAdminList').innerHTML = '<div class="text-sm text-gray-400 text-center py-6">No reviews yet.</div>';
+  }
+}
+
+function editReview(id) {
+  const r = CACHE.reviews.find(x => x.id === id);
+  if (!r) return;
+  document.getElementById('reviewFormTitle').textContent = 'Edit Review';
+  document.getElementById('reviewEditId').value = r.id;
+  document.getElementById('reviewName').value = r.name;
+  document.getElementById('reviewRating').value = r.rating;
+  document.getElementById('reviewText').value = r.text;
+  window.scrollTo(0,0);
+}
+
+async function saveReview(e) {
+  e.preventDefault();
+  const editId = document.getElementById('reviewEditId').value;
+  const data = {
+    name: document.getElementById('reviewName').value,
+    rating: parseInt(document.getElementById('reviewRating').value),
+    text: document.getElementById('reviewText').value
+  };
+  try {
+    if (editId) {
+      await db.collection('reviews').doc(editId).update(data);
+    } else {
+      const snap = await db.collection('reviews').get();
+      await db.collection('reviews').add({ ...data, order: snap.size });
+    }
+    document.getElementById('reviewFormTitle').textContent = 'Add Review';
+    document.getElementById('reviewEditId').value = '';
+    e.target.reset();
+    loadReviewsAdmin();
+  } catch (e) { alert('Could not save review.'); }
+}
+
+async function deleteReview(id) {
+  if (!confirm('Delete this review?')) return;
+  await db.collection('reviews').doc(id).delete();
+  loadReviewsAdmin();
+}
+
+/* ===================================================
+   ANNOUNCEMENTS
+   =================================================== */
+async function loadAnnouncementSettings() {
+  try {
+    const doc = await db.collection('settings').doc('homepage').get();
+    document.getElementById('announcementText').value = (doc.exists && doc.data().announcement) || '';
+  } catch (e) {}
+}
+
+async function saveAnnouncement(e) {
+  e.preventDefault();
+  const msgEl = document.getElementById('announcementMsg');
+  try {
+    await db.collection('settings').doc('homepage').set({ announcement: document.getElementById('announcementText').value }, { merge: true });
+    msgEl.textContent = '✓ Saved!';
+    msgEl.className = 'text-sm text-[var(--color-success)]';
+    msgEl.classList.remove('hidden');
+  } catch (e) {
+    msgEl.textContent = 'Could not save.';
+    msgEl.className = 'text-sm text-[var(--color-danger)]';
+    msgEl.classList.remove('hidden');
+  }
+}
+
+/* ===================================================
+   FINANCE
+   =================================================== */
+async function addTransaction(e, type) {
+  e.preventDefault();
+  const form = e.target;
+  try {
+    await db.collection('transactions').add({
+      title: form.title.value,
+      amount: parseFloat(form.amount.value),
+      date: form.date.value,
+      type,
+      createdAt: new Date().toISOString()
+    });
+    form.reset();
+    loadTransactions();
+    loadOverview();
+  } catch (e) { alert('Could not add transaction.'); }
+}
+
+async function loadTransactions() {
+  try {
+    const snap = await db.collection('transactions').orderBy('date','desc').limit(50).get();
+    const items = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    const tbody = document.getElementById('transactionsTableBody');
+    if (!items.length) {
+      tbody.innerHTML = '<tr><td colspan="5" class="text-center text-gray-400 py-6">No transactions yet.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = items.map(t => `
+      <tr>
+        <td>${new Date(t.date).toLocaleDateString('en-IN')}</td>
+        <td>${t.title}</td>
+        <td><span class="status-badge ${t.type==='income'?'status-completed':'status-rejected'}">${t.type}</span></td>
+        <td class="${t.type==='income'?'text-[var(--color-success)]':'text-[var(--color-danger)]'} font-700">₹${Number(t.amount).toLocaleString('en-IN')}</td>
+        <td><button onclick="deleteTransaction('${t.id}')" class="text-xs px-3 py-1.5 rounded-full bg-gray-100 font-700">Delete</button></td>
+      </tr>
+    `).join('');
+  } catch (e) {
+    document.getElementById('transactionsTableBody').innerHTML = '<tr><td colspan="5" class="text-center text-gray-400 py-6">No transactions yet.</td></tr>';
+  }
+}
+
+async function deleteTransaction(id) {
+  if (!confirm('Delete this transaction?')) return;
+  await db.collection('transactions').doc(id).delete();
+  loadTransactions();
+  loadOverview();
+}
+
+/* ===================================================
+   SEND NOTIFICATION
+   =================================================== */
+async function sendNotification(e) {
+  e.preventDefault();
+  const target = document.getElementById('notifTarget').value;
+  const title = document.getElementById('notifTitle').value;
+  const message = document.getElementById('notifMessage').value;
+  const msgEl = document.getElementById('notifSendMsg');
+
+  try {
+    if (target === 'all') {
+      const usersSnap = await db.collection('users').get();
+      const batch = db.batch();
+      usersSnap.docs.forEach(u => {
+        const ref = db.collection('notifications').doc();
+        batch.set(ref, { userId: u.id, title, message, read: false, createdAt: new Date().toISOString() });
+      });
+      await batch.commit();
+    } else {
+      const mobile = document.getElementById('notifMobile').value;
+      const usersSnap = await db.collection('users').where('mobile','==', '+91'+mobile).get();
+      if (usersSnap.empty) {
+        msgEl.textContent = 'No user found with this mobile number.';
+        msgEl.className = 'text-sm text-[var(--color-danger)]';
+        msgEl.classList.remove('hidden');
+        return;
+      }
+      await db.collection('notifications').add({ userId: usersSnap.docs[0].id, title, message, read: false, createdAt: new Date().toISOString() });
+    }
+    msgEl.textContent = '✓ Notification sent successfully!';
+    msgEl.className = 'text-sm text-[var(--color-success)]';
+    msgEl.classList.remove('hidden');
+    e.target.reset();
+  } catch (e) {
+    msgEl.textContent = 'Could not send notification.';
+    msgEl.className = 'text-sm text-[var(--color-danger)]';
+    msgEl.classList.remove('hidden');
+  }
+}
+
+/* ===================================================
+   SUPPORT TICKETS
+   =================================================== */
+async function loadTicketsAdmin() {
+  try {
+    const snap = await db.collection('supportTickets').orderBy('createdAt','desc').get();
+    const items = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    const list = document.getElementById('adminTicketsList');
+    if (!items.length) {
+      list.innerHTML = '<div class="text-sm text-gray-400 text-center py-6">No support tickets yet.</div>';
+      return;
+    }
+    list.innerHTML = items.map(t => `
+      <div class="seva-card p-4">
+        <div class="flex items-center justify-between">
+          <div class="font-display font-700 text-sm">${t.subject} <span class="text-xs text-gray-400">— ${t.userName||'User'}</span></div>
+          <span class="status-badge ${t.status==='Open'?'status-open':'status-closed'}">${t.status}</span>
+        </div>
+        <div class="text-sm text-gray-600 mt-1">${t.description}</div>
+        <textarea id="ticketReply_${t.id}" rows="2" class="calc-input mt-2" placeholder="Write a reply...">${t.reply||''}</textarea>
+        <div class="flex gap-2 mt-2">
+          <button onclick="replyTicket('${t.id}', 'Open')" class="px-3 py-1.5 rounded-full bg-[var(--color-primary)] text-white text-xs font-700">Send Reply</button>
+          <button onclick="replyTicket('${t.id}', 'Closed')" class="px-3 py-1.5 rounded-full bg-[var(--color-success)] text-white text-xs font-700">Reply &amp; Close</button>
+        </div>
+      </div>
+    `).join('');
+  } catch (e) {
+    document.getElementById('adminTicketsList').innerHTML = '<div class="text-sm text-gray-400 text-center py-6">No support tickets yet.</div>';
+  }
+}
+
+async function replyTicket(id, status) {
+  const reply = document.getElementById(`ticketReply_${id}`).value;
+  try {
+    await db.collection('supportTickets').doc(id).update({ reply, status });
+    loadTicketsAdmin();
+  } catch (e) { alert('Could not send reply.'); }
+}
+
+/* ===================================================
+   SECTION TOGGLES & SEO
+   =================================================== */
+async function loadSectionToggles() {
+  try {
+    const doc = await db.collection('settings').doc('sections').get();
+    const data = doc.exists ? doc.data() : {};
+    document.querySelectorAll('[data-section]').forEach(t => {
+      const visible = data[t.dataset.section] !== false; // default true
+      t.classList.toggle('on', visible);
+    });
+  } catch (e) {}
+}
+
+function toggleSection(el) {
+  el.classList.toggle('on');
+}
+
+async function saveSectionToggles() {
+  const data = {};
+  document.querySelectorAll('[data-section]').forEach(t => {
+    data[t.dataset.section] = t.classList.contains('on');
+  });
+  const msgEl = document.getElementById('sectionToggleMsg');
+  try {
+    await db.collection('settings').doc('sections').set(data, { merge: true });
+    msgEl.textContent = '✓ Saved!';
+    msgEl.className = 'text-sm text-[var(--color-success)]';
+    msgEl.classList.remove('hidden');
+  } catch (e) {
+    msgEl.textContent = 'Could not save.';
+    msgEl.className = 'text-sm text-[var(--color-danger)]';
+    msgEl.classList.remove('hidden');
+  }
+}
+
+async function loadSEO() {
+  try {
+    const doc = await db.collection('settings').doc('seo').get();
+    const data = doc.exists ? doc.data() : {};
+    document.getElementById('seoTitle').value = data.title || '';
+    document.getElementById('seoDesc').value = data.description || '';
+    document.getElementById('seoKeywords').value = data.keywords || '';
+  } catch (e) {}
+}
+
+async function saveSEO() {
+  const data = {
+    title: document.getElementById('seoTitle').value,
+    description: document.getElementById('seoDesc').value,
+    keywords: document.getElementById('seoKeywords').value
+  };
+  const msgEl = document.getElementById('seoMsg');
+  try {
+    await db.collection('settings').doc('seo').set(data, { merge: true });
+    msgEl.textContent = '✓ Saved!';
+    msgEl.className = 'text-sm text-[var(--color-success)]';
+    msgEl.classList.remove('hidden');
+  } catch (e) {
+    msgEl.textContent = 'Could not save.';
+    msgEl.className = 'text-sm text-[var(--color-danger)]';
+    msgEl.classList.remove('hidden');
+  }
+}
+
+/* ===================================================
+   STARTUP
+   =================================================== */
+checkSession();
+</script>
+</body>
+</html>
