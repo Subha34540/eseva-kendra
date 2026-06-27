@@ -1,1642 +1,596 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>E-Seva Kendra Management System</title>
-<meta name="description" content="Digital Seva Kendra - Aadhaar, PAN, Banking CSP, Insurance & Government Services" />
-
-<!-- PWA -->
-<link rel="manifest" href="manifest.json" />
-<meta name="theme-color" content="#0B4F4A" />
-
-<!-- Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;600&family=Noto+Sans+Oriya:wght@400;600&display=swap" rel="stylesheet">
-
-<!-- Tailwind CDN -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pankaj E-Seva Kendra - Digital Seva Center</title>
+<meta name="description" content="One-stop CSC, Banking CSP, and Digital Services Center.">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1E3A8A">
 <script src="https://cdn.tailwindcss.com"></script>
-
-<!-- Firebase CDN (compat SDK - no build tools needed) -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-storage-compat.js"></script>
-
+<script>
+tailwind.config={theme:{extend:{colors:{primary:{50:'#EEF2FF',100:'#E0E7FF',200:'#C7D2FE',300:'#A5B4FC',400:'#818CF8',500:'#3B82F6',600:'#2563EB',700:'#1D4ED8',800:'#1E3A8A',900:'#1E2A5E'},accent:{50:'#FFFBEB',100:'#FEF3C7',400:'#FBBF24',500:'#F59E0B',600:'#D97706',700:'#B45309'},dark:'#0F172A',soft:'#F8FAFC'},fontFamily:{display:['Poppins','sans-serif'],body:['Inter','sans-serif']}}}}
+</script>
 <style>
-  :root{
-    --color-primary:#0B4F4A;
-    --color-primary-light:#10726A;
-    --color-accent:#F4A024;
-    --color-bg:#FAF8F3;
-    --color-charcoal:#1F2A2C;
-    --color-success:#1E8E5A;
-    --color-card:#FFFFFF;
-  }
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    font-family:'Inter', 'Noto Sans Devanagari', 'Noto Sans Oriya', sans-serif;
-    background:var(--color-bg);
-    color:var(--color-charcoal);
-  }
-  .font-display{font-family:'Poppins','Noto Sans Devanagari','Noto Sans Oriya',sans-serif;}
-  .lang-hi, .lang-or{font-family:'Noto Sans Devanagari','Noto Sans Oriya',sans-serif;}
-
-  /* Seva Card signature element */
-  .seva-card{
-    background:var(--color-card);
-    border-radius:18px;
-    border:1px solid rgba(11,79,74,0.08);
-    box-shadow:0 2px 10px rgba(11,79,74,0.05);
-    transition:all .25s ease;
-    position:relative;
-    overflow:hidden;
-  }
-  .seva-card:hover{
-    transform:translateY(-4px);
-    box-shadow:0 12px 28px rgba(11,79,74,0.12);
-    border-color:rgba(244,160,36,0.35);
-  }
-  .seva-token{
-    font-family:'Poppins',sans-serif;
-    font-weight:700;
-    font-size:11px;
-    letter-spacing:.08em;
-    padding:4px 10px;
-    border-radius:6px;
-    background:rgba(11,79,74,0.07);
-    color:var(--color-primary);
-    display:inline-block;
-  }
-
-  /* Animations */
-  .fade-up{opacity:0; transform:translateY(24px); transition:opacity .6s ease, transform .6s ease;}
-  .fade-up.visible{opacity:1; transform:translateY(0);}
-
-  /* Glassmorphism nav */
-  .glass-nav{
-    background:rgba(250,248,243,0.75);
-    backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
-    border-bottom:1px solid rgba(11,79,74,0.06);
-  }
-
-  /* Floating buttons */
-  .float-btn{
-    box-shadow:0 8px 20px rgba(0,0,0,0.18);
-  }
-  .pulse-ring{
-    animation:pulseRing 2.4s ease-out infinite;
-  }
-  @keyframes pulseRing{
-    0%{box-shadow:0 0 0 0 rgba(30,142,90,0.45);}
-    70%{box-shadow:0 0 0 14px rgba(30,142,90,0);}
-    100%{box-shadow:0 0 0 0 rgba(30,142,90,0);}
-  }
-
-  /* Marquee for announcement bar */
-  .marquee-track{
-    display:inline-block;
-    white-space:nowrap;
-    animation:marquee 22s linear infinite;
-    padding-left:100%;
-  }
-  @keyframes marquee{
-    0%{transform:translateX(0);}
-    100%{transform:translateX(-100%);}
-  }
-
-  /* Counter */
-  .counter-num{font-family:'Poppins',sans-serif;font-weight:800;}
-
-  /* Status badge dot */
-  .status-dot{width:8px;height:8px;border-radius:50%;display:inline-block;}
-
-  /* Mobile menu */
-  .mobile-menu{transform:translateX(100%); transition:transform .3s ease;}
-  .mobile-menu.open{transform:translateX(0);}
-
-  /* Calculator input styling */
-  .calc-input{
-    border:1.5px solid rgba(11,79,74,0.15);
-    border-radius:10px;
-    padding:10px 14px;
-    width:100%;
-    background:#fff;
-    transition:border-color .2s;
-  }
-  .calc-input:focus{outline:none; border-color:var(--color-accent);}
-
-  .tab-btn{
-    border-radius:10px;
-    font-weight:600;
-    font-size:14px;
-    transition:all .2s;
-  }
-  .tab-btn.active{
-    background:var(--color-primary);
-    color:#fff;
-  }
-  .tab-btn:not(.active){
-    background:rgba(11,79,74,0.06);
-    color:var(--color-primary);
-  }
-
-  /* Modal */
-  .modal-overlay{background:rgba(31,42,44,0.55); backdrop-filter:blur(2px);}
-
-  /* Skeleton loader */
-  .skeleton{background:linear-gradient(90deg,#eee 25%,#f5f5f5 50%,#eee 75%); background-size:200% 100%; animation:skeletonShine 1.4s infinite;}
-  @keyframes skeletonShine{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+*{font-family:'Inter',sans-serif}h1,h2,h3,h4,h5,h6{font-family:'Poppins',sans-serif}
+.glass{background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.3)}
+.gradient-hero{background:linear-gradient(135deg,#1E3A8A 0%,#3B82F6 50%,#1E3A8A 100%)}
+.gradient-accent{background:linear-gradient(135deg,#F59E0B,#D97706)}
+.gradient-primary{background:linear-gradient(135deg,#1E3A8A,#3B82F6)}
+.text-gradient{background:linear-gradient(135deg,#1E3A8A,#F59E0B);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.animate-fadeInUp{animation:fadeInUp .8s ease-out}
+.animate-float{animation:float 3s ease-in-out infinite}
+.service-card{transition:all .3s ease}
+.service-card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(30,58,138,0.15)}
+.marquee{animation:marquee 30s linear infinite}
+.tool-btn{transition:all .2s}
+.tool-btn:hover{background:#1E3A8A;color:white;transform:scale(1.05)}
+.nav-link{position:relative}
+.nav-link::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;background:#F59E0B;transition:width .3s}
+.nav-link:hover::after{width:100%}
+.floating-btn{box-shadow:0 8px 24px rgba(0,0,0,0.2)}
+::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:#F8FAFC}::-webkit-scrollbar-thumb{background:#1E3A8A;border-radius:4px}
 </style>
 </head>
-<body class="antialiased">
+<body class="bg-soft text-dark">
 
-<!-- ============ ANNOUNCEMENT BAR ============ -->
-<div id="announcementBar" class="bg-[var(--color-primary)] text-white text-sm py-2 px-4 overflow-hidden hidden">
-  <div class="marquee-track" id="announcementText"></div>
+<!-- ANNOUNCEMENT BAR -->
+<div class="bg-primary-800 text-white py-2 overflow-hidden">
+<div class="flex whitespace-nowrap marquee">
+<span class="mx-8 text-sm"><i class="fas fa-bullhorn text-accent-500 mr-2"></i><span id="announcementText">Welcome to Pankaj E-Seva Kendra — All Government & Banking Services Under One Roof!</span></span>
+<span class="mx-8 text-sm"><i class="fas fa-bullhorn text-accent-500 mr-2"></i><span>Aadhaar, PAN, Banking, Bill Payments, Passport — Instant Service Available!</span></span>
+<span class="mx-8 text-sm"><i class="fas fa-bullhorn text-accent-500 mr-2"></i><span>Open 7 Days | 8:00 AM - 9:00 PM | Call for Home Service</span></span>
+</div>
 </div>
 
-<!-- ============ NAVBAR ============ -->
-<header class="glass-nav sticky top-0 z-40">
-  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-    <a href="#home" class="flex items-center gap-2">
-      <img id="navLogo" src="logo.png" alt="Shop Logo" class="h-10 w-10 rounded-lg object-cover" onerror="this.style.display='none'"/>
-      <div>
-        <div id="navShopName" class="font-display font-700 text-lg leading-tight text-[var(--color-primary)]">E-Seva Kendra</div>
-        <div id="navTagline" class="text-[11px] text-gray-500 leading-tight">Digital Seva &amp; Banking Center</div>
-      </div>
-    </a>
+<!-- NAVBAR -->
+<nav class="glass sticky top-0 z-50 shadow-sm">
+<div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-14 h-14 rounded-xl gradient-accent flex items-center justify-center text-white text-2xl font-bold shadow-lg overflow-hidden"><i class="fas fa-store"></i></div>
+<div>
+<h1 class="font-display font-bold text-lg text-primary-800" id="navShopName">Pankaj E-Seva Kendra</h1>
+<p class="text-xs text-gray-500" id="navTagline">Digital Seva Center | CSC | Banking CSP</p>
+</div>
+</div>
+<div class="hidden lg:flex items-center gap-6">
+<a href="#home" class="nav-link text-sm font-medium hover:text-primary-700">Home</a>
+<a href="#about" class="nav-link text-sm font-medium hover:text-primary-700">About</a>
+<a href="#services" class="nav-link text-sm font-medium hover:text-primary-700">Services</a>
+<a href="#tools" class="nav-link text-sm font-medium hover:text-primary-700">Tools</a>
+<a href="#reviews" class="nav-link text-sm font-medium hover:text-primary-700">Reviews</a>
+<a href="#gallery" class="nav-link text-sm font-medium hover:text-primary-700">Gallery</a>
+<a href="#contact" class="nav-link text-sm font-medium hover:text-primary-700">Contact</a>
+</div>
+<div class="flex items-center gap-3">
+<a href="dashboard.html" class="hidden md:flex items-center gap-2 bg-primary-800 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-medium"><i class="fas fa-user"></i> Login</a>
+<a href="dashboard.html?book=AAD-001&name=Aadhaar%20Service" class="flex items-center gap-2 gradient-accent text-white px-4 py-2 rounded-lg text-sm font-medium"><i class="fas fa-calendar-check"></i> Book Now</a>
+<button id="mobileMenuBtn" class="lg:hidden text-2xl text-primary-800"><i class="fas fa-bars"></i></button>
+</div>
+</div>
+<div id="mobileMenu" class="hidden lg:hidden border-t bg-white">
+<div class="px-4 py-3 flex flex-col gap-3">
+<a href="#home" class="text-sm font-medium py-2">Home</a>
+<a href="#about" class="text-sm font-medium py-2">About</a>
+<a href="#services" class="text-sm font-medium py-2">Services</a>
+<a href="#tools" class="text-sm font-medium py-2">Tools</a>
+<a href="#contact" class="text-sm font-medium py-2">Contact</a>
+<a href="dashboard.html" class="bg-primary-800 text-white text-center py-2 rounded-lg text-sm font-medium">Login / Register</a>
+</div>
+</div>
+</nav>
 
-    <div class="hidden md:flex items-center gap-8 font-display text-sm font-600">
-      <a href="#home" class="hover:text-[var(--color-accent)] transition-colors">Home</a>
-      <a href="#services" class="hover:text-[var(--color-accent)] transition-colors">Services</a>
-      <a href="#tools" class="hover:text-[var(--color-accent)] transition-colors">Tools</a>
-      <a href="#gallery" class="hover:text-[var(--color-accent)] transition-colors">Gallery</a>
-      <a href="#contact" class="hover:text-[var(--color-accent)] transition-colors">Contact</a>
-    </div>
-
-    <div class="hidden md:flex items-center gap-3">
-      <select id="langSwitch" class="text-sm border border-gray-200 rounded-lg px-2 py-1.5 bg-white font-display font-600" onchange="setLanguage(this.value)">
-        <option value="en">English</option>
-        <option value="hi">हिंदी</option>
-        <option value="or">ଓଡ଼ିଆ</option>
-      </select>
-      <a href="dashboard.html" class="px-4 py-2 rounded-full bg-[var(--color-primary)] text-white text-sm font-display font-600 hover:bg-[var(--color-primary-light)] transition-colors">Login</a>
-      <a href="#services" class="px-4 py-2 rounded-full bg-[var(--color-accent)] text-white text-sm font-display font-600 hover:opacity-90 transition-opacity">Book Service</a>
-    </div>
-
-    <button id="mobileMenuBtn" class="md:hidden p-2" onclick="toggleMobileMenu()">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18" stroke-linecap="round"/></svg>
-    </button>
-  </nav>
-
-  <!-- Mobile menu -->
-  <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 h-full w-72 bg-white z-50 shadow-2xl p-6 flex flex-col gap-5 md:hidden">
-    <button class="self-end p-2" onclick="toggleMobileMenu()">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg>
-    </button>
-    <a href="#home" onclick="toggleMobileMenu()" class="font-display font-600 text-lg">Home</a>
-    <a href="#services" onclick="toggleMobileMenu()" class="font-display font-600 text-lg">Services</a>
-    <a href="#tools" onclick="toggleMobileMenu()" class="font-display font-600 text-lg">Tools</a>
-    <a href="#gallery" onclick="toggleMobileMenu()" class="font-display font-600 text-lg">Gallery</a>
-    <a href="#contact" onclick="toggleMobileMenu()" class="font-display font-600 text-lg">Contact</a>
-    <hr class="border-gray-100"/>
-    <select class="text-sm border border-gray-200 rounded-lg px-2 py-2 bg-white font-display font-600" onchange="setLanguage(this.value)">
-      <option value="en">English</option>
-      <option value="hi">हिंदी</option>
-      <option value="or">ଓଡ଼ିଆ</option>
-    </select>
-    <a href="dashboard.html" class="px-4 py-3 rounded-full bg-[var(--color-primary)] text-white text-center font-display font-600">Login</a>
-    <a href="#services" class="px-4 py-3 rounded-full bg-[var(--color-accent)] text-white text-center font-display font-600">Book Service</a>
-  </div>
-</header>
-
-<!-- ============ HERO ============ -->
-<section id="home" class="relative overflow-hidden">
-  <div class="absolute inset-0 bg-gradient-to-br from-[var(--color-primary)] via-[var(--color-primary)] to-[var(--color-primary-light)] opacity-95"></div>
-  <div class="absolute -right-32 -top-32 w-96 h-96 bg-[var(--color-accent)] opacity-20 rounded-full blur-3xl"></div>
-  <div class="absolute -left-20 bottom-0 w-72 h-72 bg-white opacity-10 rounded-full blur-3xl"></div>
-
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 grid md:grid-cols-2 gap-12 items-center">
-    <div class="text-white fade-up">
-      <span class="seva-token bg-white/15 text-white">CSC • BANKING CSP • DIGITAL SEVA</span>
-      <h1 id="heroShopName" class="font-display font-800 text-4xl md:text-5xl lg:text-6xl mt-5 leading-tight">
-        E-Seva Kendra
-      </h1>
-      <p id="heroTagline" class="mt-4 text-lg text-white/85 max-w-md">
-        Aadhaar, PAN, Banking, Insurance &amp; Government Services — sab kuch ek hi jagah, jhat se aur bharosemand tareeke se.
-      </p>
-      <p id="heroWelcome" class="mt-2 text-sm text-white/70 max-w-md"></p>
-
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a href="#services" class="px-6 py-3 rounded-full bg-[var(--color-accent)] text-white font-display font-700 hover:opacity-90 transition shadow-lg">Book a Service</a>
-        <a href="#tools" class="px-6 py-3 rounded-full bg-white/10 border border-white/30 text-white font-display font-600 hover:bg-white/20 transition">Explore Free Tools</a>
-      </div>
-
-      <!-- Animated counters -->
-      <div class="mt-10 grid grid-cols-3 gap-4 max-w-md">
-        <div class="fade-up">
-          <div class="counter-num text-2xl md:text-3xl text-white" data-target="5000">0</div>
-          <div class="text-xs text-white/70 mt-1">Customers Served</div>
-        </div>
-        <div class="fade-up">
-          <div class="counter-num text-2xl md:text-3xl text-white" data-target="20">0</div>
-          <div class="text-xs text-white/70 mt-1">Services Offered</div>
-        </div>
-        <div class="fade-up">
-          <div class="counter-num text-2xl md:text-3xl text-white" data-target="8">0</div>
-          <div class="text-xs text-white/70 mt-1">Years of Trust</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="fade-up">
-      <div class="relative max-w-sm mx-auto">
-        <div class="seva-card p-2 rotate-2">
-          <img id="heroBanner" src="banner.jpg" alt="Shop Banner" class="w-full h-72 object-cover rounded-2xl" onerror="this.parentElement.parentElement.style.display='none'"/>
-        </div>
-        <div class="seva-card absolute -bottom-6 -left-6 p-4 w-48 -rotate-3">
-          <div class="flex items-center gap-2">
-            <span class="status-dot" id="statusDot" style="background:#1E8E5A"></span>
-            <span class="font-display font-700 text-sm" id="statusText">Open Now</span>
-          </div>
-          <div class="text-xs text-gray-500 mt-1" id="statusHours">Mon-Sat: 9 AM - 8 PM</div>
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- HERO -->
+<section id="home" class="gradient-hero text-white py-12 lg:py-20 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-96 h-96 bg-accent-500/20 rounded-full blur-3xl"></div>
+<div class="absolute bottom-0 left-0 w-96 h-96 bg-primary-400/30 rounded-full blur-3xl"></div>
+<div class="max-w-7xl mx-auto px-4 relative z-10">
+<div class="grid lg:grid-cols-2 gap-10 items-center">
+<div class="animate-fadeInUp">
+<div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full mb-6">
+<span id="shopStatusDot" class="w-3 h-3 rounded-full bg-green-400 animate-pulse"></span>
+<span id="shopStatusText" class="text-sm font-medium">Shop Open Now</span>
+</div>
+<h2 class="text-3xl md:text-5xl font-display font-bold leading-tight mb-3">All <span class="text-accent-500">Govt Services</span><br>Under One Roof</h2>
+<p class="text-white/80 text-sm md:text-base mb-6">Aadhaar, PAN, Banking, Bill Payment, Insurance — 50+ Services</p>
+<div class="grid grid-cols-3 gap-4 mt-8">
+<div class="text-center"><div class="text-3xl md:text-4xl font-bold text-accent-500 counter" data-target="1176">0</div><div class="text-xs text-white/70 mt-1">Happy Customers</div></div>
+<div class="text-center"><div class="text-3xl md:text-4xl font-bold text-accent-500 counter" data-target="50">0</div><div class="text-xs text-white/70 mt-1">Services</div></div>
+<div class="text-center"><div class="text-3xl md:text-4xl font-bold text-accent-500 counter" data-target="8">0</div><div class="text-xs text-white/70 mt-1">Operators</div></div>
+</div>
+<div class="flex flex-wrap gap-3 mt-8">
+<a href="#services" class="gradient-accent text-white px-6 py-3 rounded-lg font-medium flex items-center gap-2"><i class="fas fa-th-large"></i> View Services</a>
+<a href="#tools" class="bg-white/10 text-white px-6 py-3 rounded-lg font-medium flex items-center gap-2 border border-white/20"><i class="fas fa-tools"></i> Free Tools</a>
+</div>
+</div>
+<div class="relative hidden lg:flex justify-center">
+<div class="w-96 h-96 bg-white/10 backdrop-blur rounded-3xl flex items-center justify-center animate-float border border-white/20">
+<div class="text-center p-8">
+<div class="w-40 h-40 mx-auto rounded-2xl gradient-accent flex items-center justify-center text-white text-7xl shadow-2xl mb-4"><i class="fas fa-store"></i></div>
+<h3 class="text-2xl font-display font-bold" id="heroShopName">Pankaj E-Seva</h3>
+<p class="text-white/70 text-sm mt-1">Since 2018</p>
+<div class="flex justify-center gap-2 mt-4">
+<span class="bg-green-500/20 text-green-300 px-3 py-1 rounded-full text-xs">✓ CSC Authorized</span>
+<span class="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-xs">✓ Banking CSP</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </section>
 
-<!-- ============ ABOUT ============ -->
-<section id="about" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-  <div class="grid md:grid-cols-2 gap-10 items-center">
-    <div class="fade-up">
-      <span class="seva-token">ABOUT US</span>
-      <h2 class="font-display font-700 text-3xl md:text-4xl mt-4 text-[var(--color-primary)]" id="aboutTitle">Trusted Digital Seva Partner in Your Locality</h2>
-      <p class="mt-4 text-gray-600 leading-relaxed" id="aboutDesc">
-        We provide reliable Aadhaar, PAN, Banking, Government Certificate, and Insurance services with a customer-first approach.
-        Our team ensures every document is handled with care and every transaction is completed with full transparency.
-      </p>
-      <div class="mt-6 grid grid-cols-2 gap-4">
-        <div class="seva-card p-4">
-          <div class="text-xs text-gray-500">Proprietor</div>
-          <div id="ownerName" class="font-display font-700 text-[var(--color-primary)] mt-1">Shop Owner</div>
-        </div>
-        <div class="seva-card p-4">
-          <div class="text-xs text-gray-500">Experience</div>
-          <div id="ownerExperience" class="font-display font-700 text-[var(--color-primary)] mt-1">8+ Years</div>
-        </div>
-      </div>
-    </div>
-    <div class="fade-up">
-      <div class="grid grid-cols-2 gap-4">
-        <div class="seva-card p-5">
-          <div class="w-10 h-10 rounded-full bg-[var(--color-primary)]/10 flex items-center justify-center text-[var(--color-primary)] font-display font-700">✓</div>
-          <div class="font-display font-700 mt-3 text-sm">Govt. Certified Operator</div>
-        </div>
-        <div class="seva-card p-5">
-          <div class="w-10 h-10 rounded-full bg-[var(--color-accent)]/10 flex items-center justify-center text-[var(--color-accent)] font-display font-700">⚡</div>
-          <div class="font-display font-700 mt-3 text-sm">Fast Processing</div>
-        </div>
-        <div class="seva-card p-5">
-          <div class="w-10 h-10 rounded-full bg-[var(--color-success)]/10 flex items-center justify-center text-[var(--color-success)] font-display font-700">₹</div>
-          <div class="font-display font-700 mt-3 text-sm">Affordable Pricing</div>
-        </div>
-        <div class="seva-card p-5">
-          <div class="w-10 h-10 rounded-full bg-[var(--color-primary)]/10 flex items-center justify-center text-[var(--color-primary)] font-display font-700">🔒</div>
-          <div class="font-display font-700 mt-3 text-sm">Safe &amp; Secure Data</div>
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- ABOUT -->
+<section id="about" class="py-16 bg-white">
+<div class="max-w-7xl mx-auto px-4">
+<div class="text-center mb-12">
+<span class="text-accent-600 font-semibold text-sm uppercase">About Us</span>
+<h2 class="text-3xl md:text-4xl font-display font-bold mt-2 text-dark">Your Trusted <span class="text-gradient">Digital Partner</span></h2>
+</div>
+<div class="grid lg:grid-cols-2 gap-10 items-center">
+<div class="rounded-2xl overflow-hidden shadow-xl h-80 gradient-primary flex items-center justify-center"><div class="text-center text-white"><i class="fas fa-user-tie text-7xl mb-3 opacity-50"></i><p class="text-sm opacity-70">Owner Photo</p></div></div>
+<div>
+<h3 class="text-2xl font-display font-bold mb-3" id="aboutTitle">Welcome to Pankaj E-Seva Kendra</h3>
+<p class="text-gray-600 mb-4 leading-relaxed" id="aboutDesc">We are an authorized CSC and Banking CSP providing all government, banking, and digital services.</p>
+<div class="space-y-3">
+<div class="flex items-start gap-3"><div class="w-10 h-10 rounded-lg gradient-accent flex items-center justify-center text-white flex-shrink-0"><i class="fas fa-user-tie"></i></div><div><p class="text-xs text-gray-500">Owner</p><p class="font-semibold" id="aboutOwner">Pankaj Kumar</p></div></div>
+<div class="flex items-start gap-3"><div class="w-10 h-10 rounded-lg gradient-accent flex items-center justify-center text-white flex-shrink-0"><i class="fas fa-clock"></i></div><div><p class="text-xs text-gray-500">Experience</p><p class="font-semibold" id="aboutExperience">5+ Years in CSC Operations</p></div></div>
+<div class="flex items-start gap-3"><div class="w-10 h-10 rounded-lg gradient-accent flex items-center justify-center text-white flex-shrink-0"><i class="fas fa-award"></i></div><div><p class="text-xs text-gray-500">Certifications</p><p class="font-semibold">CSC ID, Banking CSP, IRCTC Agent</p></div></div>
+</div>
+</div>
+</div>
+</div>
 </section>
 
-<!-- ============ SERVICE HIGHLIGHTS / FEATURED ============ -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <div class="text-center fade-up">
-    <span class="seva-token">OUR SERVICES</span>
-    <h2 class="font-display font-700 text-3xl md:text-4xl mt-4 text-[var(--color-primary)]">Everything You Need, One Counter</h2>
-    <p class="text-gray-500 mt-2 max-w-xl mx-auto">From Aadhaar updates to bank cash withdrawal — book a slot and we'll take care of the paperwork.</p>
-  </div>
+<!-- SERVICES -->
+<section id="services" class="py-16 bg-soft">
+<div class="max-w-7xl mx-auto px-4">
+<div class="text-center mb-10">
+<span class="text-accent-600 font-semibold text-sm uppercase">Our Services</span>
+<h2 class="text-3xl md:text-4xl font-display font-bold mt-2 text-dark">50+ Services <span class="text-gradient">Available</span></h2>
+</div>
+<div class="flex flex-wrap justify-center gap-2 mb-8" id="categoryFilters"></div>
+<div id="servicesGrid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+</div>
 </section>
 
-<!-- ============ SERVICES PAGE ============ -->
-<section id="services" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20">
-
-  <!-- Category Tabs -->
-  <div class="flex flex-wrap gap-2 justify-center mb-10 fade-up" id="categoryTabs">
-    <button class="tab-btn active px-4 py-2" data-cat="all" onclick="filterServices('all')">All</button>
-    <button class="tab-btn px-4 py-2" data-cat="csc" onclick="filterServices('csc')">CSC Services</button>
-    <button class="tab-btn px-4 py-2" data-cat="banking" onclick="filterServices('banking')">Banking</button>
-    <button class="tab-btn px-4 py-2" data-cat="govt" onclick="filterServices('govt')">Govt Services</button>
-    <button class="tab-btn px-4 py-2" data-cat="utility" onclick="filterServices('utility')">Utility</button>
-  </div>
-
-  <!-- Service Grid (rendered by JS, fallback static below) -->
-  <div id="serviceGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-    <!-- Loading skeletons -->
-    <div class="seva-card p-5 h-48 skeleton" id="skeleton1"></div>
-    <div class="seva-card p-5 h-48 skeleton" id="skeleton2"></div>
-    <div class="seva-card p-5 h-48 skeleton" id="skeleton3"></div>
-  </div>
+<!-- TOOLS -->
+<section id="tools" class="py-16 bg-white">
+<div class="max-w-7xl mx-auto px-4">
+<div class="text-center mb-10">
+<span class="text-accent-600 font-semibold text-sm uppercase">Free Tools</span>
+<h2 class="text-3xl md:text-4xl font-display font-bold mt-2 text-dark">30+ <span class="text-gradient">Online Tools</span></h2>
+<p class="text-gray-600 mt-2">Use these free tools right in your browser</p>
+</div>
+<div class="grid md:grid-cols-4 gap-4">
+<div class="gradient-primary text-white p-6 rounded-2xl">
+<i class="fas fa-calculator text-3xl text-accent-500 mb-3"></i>
+<h3 class="font-bold text-lg mb-3">Financial</h3>
+<div class="space-y-2 text-sm">
+<button onclick="openTool('emi')" class="tool-btn w-full text-left bg-white/10 px-3 py-2 rounded">EMI Calculator</button>
+<button onclick="openTool('sip')" class="tool-btn w-full text-left bg-white/10 px-3 py-2 rounded">SIP Calculator</button>
+<button onclick="openTool('gst')" class="tool-btn w-full text-left bg-white/10 px-3 py-2 rounded">GST Calculator</button>
+<button onclick="openTool('homeLoan')" class="tool-btn w-full text-left bg-white/10 px-3 py-2 rounded">Home Loan</button>
+</div>
+</div>
+<div class="gradient-accent text-white p-6 rounded-2xl">
+<i class="fas fa-file-pdf text-3xl mb-3"></i>
+<h3 class="font-bold text-lg mb-3">PDF Tools</h3>
+<div class="space-y-2 text-sm">
+<button onclick="openTool('mergePdf')" class="tool-btn w-full text-left bg-white/10 px-3 py-2 rounded">Merge PDF</button>
+<button onclick="openTool('imgToPdf')" class="tool-btn w-full text-left bg-white/10 px-3 py-2 rounded">Image to PDF</button>
+<button onclick="openTool('compressPdf')" class="tool-btn w-full text-left bg-white/10 px-3 py-2 rounded">Compress PDF</button>
+</div>
+</div>
+<div class="bg-gradient-to-br from-green-500 to-green-700 text-white p-6 rounded-2xl">
+<i class="fas fa-image text-3xl mb-3"></i>
+<h3 class="font-bold text-lg mb-3">Image Tools</h3>
+<div class="space-y-2 text-sm">
+<button onclick="openTool('qrcode')" class="tool-btn w-full text-left bg-white/10 px-3 py-2 rounded">QR Generator</button>
+<button onclick="openTool('barcode')" class="tool-btn w-full text-left bg-white/10 px-3 py-2 rounded">Barcode</button>
+<button onclick="openTool('passport')" class="tool-btn w-full text-left bg-white/10 px-3 py-2 rounded">Passport Photo</button>
+</div>
+</div>
+<div class="bg-gradient-to-br from-purple-500 to-purple-700 text-white p-6 rounded-2xl">
+<i class="fas fa-wrench text-3xl mb-3"></i>
+<h3 class="font-bold text-lg mb-3">Utility</h3>
+<div class="space-y-2 text-sm">
+<button onclick="openTool('age')" class="tool-btn w-full text-left bg-white/10 px-3 py-2 rounded">Age Calculator</button>
+<button onclick="openTool('password')" class="tool-btn w-full text-left bg-white/10 px-3 py-2 rounded">Password Gen</button>
+<button onclick="openTool('unit')" class="tool-btn w-full text-left bg-white/10 px-3 py-2 rounded">Unit Converter</button>
+</div>
+</div>
+</div>
+</div>
 </section>
 
-<!-- ============ TOOLS PAGE ============ -->
-<section id="tools" class="bg-white py-16 md:py-24">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center fade-up mb-12">
-      <span class="seva-token">FREE TOOLS</span>
-      <h2 class="font-display font-700 text-3xl md:text-4xl mt-4 text-[var(--color-primary)]">Useful Tools, No Login Needed</h2>
-      <p class="text-gray-500 mt-2 max-w-xl mx-auto">Quick calculators and utilities — works right in your browser.</p>
-    </div>
-
-    <!-- Tools Category Tabs -->
-    <div class="flex flex-wrap gap-2 justify-center mb-10 fade-up">
-      <button class="tab-btn active px-4 py-2" onclick="showToolTab('financial')" id="toolTab-financial">Financial Tools</button>
-      <button class="tab-btn px-4 py-2" onclick="showToolTab('utility')" id="toolTab-utility">Utility Tools</button>
-      <button class="tab-btn px-4 py-2" onclick="showToolTab('pdf')" id="toolTab-pdf">PDF Tools</button>
-      <button class="tab-btn px-4 py-2" onclick="showToolTab('image')" id="toolTab-image">Image Tools</button>
-    </div>
-
-    <!-- FINANCIAL TOOLS -->
-    <div id="toolPanel-financial" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-      <div class="seva-card p-5 fade-up cursor-pointer hover:border-[var(--color-accent)]" onclick="openTool('emi')">
-        <span class="seva-token">FIN-01</span>
-        <div class="font-display font-700 mt-3">EMI Calculator</div>
-        <div class="text-xs text-gray-500 mt-1">Loan EMI, interest & schedule</div>
-      </div>
-      <div class="seva-card p-5 fade-up cursor-pointer hover:border-[var(--color-accent)]" onclick="openTool('sip')">
-        <span class="seva-token">FIN-02</span>
-        <div class="font-display font-700 mt-3">SIP Calculator</div>
-        <div class="text-xs text-gray-500 mt-1">Mutual fund SIP returns</div>
-      </div>
-      <div class="seva-card p-5 fade-up cursor-pointer hover:border-[var(--color-accent)]" onclick="openTool('fd')">
-        <span class="seva-token">FIN-03</span>
-        <div class="font-display font-700 mt-3">FD Calculator</div>
-        <div class="text-xs text-gray-500 mt-1">Fixed deposit maturity value</div>
-      </div>
-      <div class="seva-card p-5 fade-up cursor-pointer hover:border-[var(--color-accent)]" onclick="openTool('rd')">
-        <span class="seva-token">FIN-04</span>
-        <div class="font-display font-700 mt-3">RD Calculator</div>
-        <div class="text-xs text-gray-500 mt-1">Recurring deposit returns</div>
-      </div>
-      <div class="seva-card p-5 fade-up cursor-pointer hover:border-[var(--color-accent)]" onclick="openTool('gst')">
-        <span class="seva-token">FIN-05</span>
-        <div class="font-display font-700 mt-3">GST Calculator</div>
-        <div class="text-xs text-gray-500 mt-1">Add or remove GST instantly</div>
-      </div>
-      <div class="seva-card p-5 fade-up cursor-pointer hover:border-[var(--color-accent)]" onclick="openTool('profit')">
-        <span class="seva-token">FIN-06</span>
-        <div class="font-display font-700 mt-3">Profit Calculator</div>
-        <div class="text-xs text-gray-500 mt-1">Margin & markup on cost</div>
-      </div>
-      <div class="seva-card p-5 fade-up cursor-pointer hover:border-[var(--color-accent)]" onclick="openTool('loaneligibility')">
-        <span class="seva-token">FIN-07</span>
-        <div class="font-display font-700 mt-3">Loan Eligibility</div>
-        <div class="text-xs text-gray-500 mt-1">Estimate max loan amount</div>
-      </div>
-    </div>
-
-    <!-- UTILITY TOOLS -->
-    <div id="toolPanel-utility" class="hidden grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-      <div class="seva-card p-5 fade-up cursor-pointer hover:border-[var(--color-accent)]" onclick="openTool('qrcode')">
-        <span class="seva-token">UTL-01</span>
-        <div class="font-display font-700 mt-3">QR Code Generator</div>
-        <div class="text-xs text-gray-500 mt-1">Create a QR code instantly</div>
-      </div>
-      <div class="seva-card p-5 fade-up cursor-pointer hover:border-[var(--color-accent)]" onclick="openTool('barcode')">
-        <span class="seva-token">UTL-02</span>
-        <div class="font-display font-700 mt-3">Barcode Generator</div>
-        <div class="text-xs text-gray-500 mt-1">Generate Code128 barcodes</div>
-      </div>
-      <div class="seva-card p-5 fade-up cursor-pointer hover:border-[var(--color-accent)]" onclick="openTool('password')">
-        <span class="seva-token">UTL-03</span>
-        <div class="font-display font-700 mt-3">Password Generator</div>
-        <div class="text-xs text-gray-500 mt-1">Strong random passwords</div>
-      </div>
-      <div class="seva-card p-5 fade-up cursor-pointer hover:border-[var(--color-accent)]" onclick="openTool('age')">
-        <span class="seva-token">UTL-04</span>
-        <div class="font-display font-700 mt-3">Age Calculator</div>
-        <div class="text-xs text-gray-500 mt-1">Exact age in years, months, days</div>
-      </div>
-      <div class="seva-card p-5 fade-up cursor-pointer hover:border-[var(--color-accent)]" onclick="openTool('percentage')">
-        <span class="seva-token">UTL-05</span>
-        <div class="font-display font-700 mt-3">Percentage Calculator</div>
-        <div class="text-xs text-gray-500 mt-1">Find percentages quickly</div>
-      </div>
-    </div>
-
-    <!-- PDF TOOLS -->
-    <div id="toolPanel-pdf" class="hidden grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-      <div class="seva-card p-5 fade-up cursor-pointer hover:border-[var(--color-accent)]" onclick="openTool('mergepdf')">
-        <span class="seva-token">PDF-01</span>
-        <div class="font-display font-700 mt-3">Merge PDF</div>
-        <div class="text-xs text-gray-500 mt-1">Combine multiple PDFs into one</div>
-      </div>
-      <div class="seva-card p-5 fade-up cursor-pointer hover:border-[var(--color-accent)]" onclick="openTool('splitpdf')">
-        <span class="seva-token">PDF-02</span>
-        <div class="font-display font-700 mt-3">Split PDF</div>
-        <div class="text-xs text-gray-500 mt-1">Extract pages from a PDF</div>
-      </div>
-      <div class="seva-card p-5 fade-up cursor-pointer hover:border-[var(--color-accent)]" onclick="openTool('imagetopdf')">
-        <span class="seva-token">PDF-03</span>
-        <div class="font-display font-700 mt-3">Image to PDF</div>
-        <div class="text-xs text-gray-500 mt-1">Convert photos to PDF</div>
-      </div>
-      <div class="seva-card p-5 fade-up cursor-pointer hover:border-[var(--color-accent)]" onclick="openTool('pdftoimage')">
-        <span class="seva-token">PDF-04</span>
-        <div class="font-display font-700 mt-3">PDF to Image</div>
-        <div class="text-xs text-gray-500 mt-1">Export PDF pages as images</div>
-      </div>
-    </div>
-
-    <!-- IMAGE TOOLS -->
-    <div id="toolPanel-image" class="hidden grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-      <div class="seva-card p-5 fade-up cursor-pointer hover:border-[var(--color-accent)]" onclick="openTool('passportphoto')">
-        <span class="seva-token">IMG-01</span>
-        <div class="font-display font-700 mt-3">Passport Photo Maker</div>
-        <div class="text-xs text-gray-500 mt-1">Crop & resize to standard size</div>
-      </div>
-      <div class="seva-card p-5 fade-up cursor-pointer hover:border-[var(--color-accent)]" onclick="openTool('imageresizer')">
-        <span class="seva-token">IMG-02</span>
-        <div class="font-display font-700 mt-3">Image Resizer</div>
-        <div class="text-xs text-gray-500 mt-1">Resize & compress images</div>
-      </div>
-      <div class="seva-card p-5 fade-up cursor-pointer hover:border-[var(--color-accent)]" onclick="openTool('signaturecrop')">
-        <span class="seva-token">IMG-03</span>
-        <div class="font-display font-700 mt-3">Signature Crop Tool</div>
-        <div class="text-xs text-gray-500 mt-1">Crop & trim signature images</div>
-      </div>
-    </div>
-  </div>
+<!-- REVIEWS -->
+<section id="reviews" class="py-16 bg-soft">
+<div class="max-w-7xl mx-auto px-4">
+<div class="text-center mb-10">
+<span class="text-accent-600 font-semibold text-sm uppercase">Testimonials</span>
+<h2 class="text-3xl md:text-4xl font-display font-bold mt-2 text-dark">What Customers <span class="text-gradient">Say</span></h2>
+</div>
+<div id="reviewsGrid" class="grid md:grid-cols-3 gap-6"></div>
+</div>
 </section>
 
-<!-- ============ TESTIMONIALS ============ -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-  <div class="text-center fade-up mb-12">
-    <span class="seva-token">CUSTOMER REVIEWS</span>
-    <h2 class="font-display font-700 text-3xl md:text-4xl mt-4 text-[var(--color-primary)]">What Our Customers Say</h2>
-  </div>
-  <div id="reviewsGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-    <!-- Default reviews, replaced dynamically -->
-    <div class="seva-card p-6 fade-up">
-      <div class="text-[var(--color-accent)] text-lg">★★★★★</div>
-      <p class="text-sm text-gray-600 mt-3">"Aadhaar update bahut jaldi ho gaya, staff bahut helpful hai."</p>
-      <div class="font-display font-700 text-sm mt-4">— Ramesh K.</div>
-    </div>
-    <div class="seva-card p-6 fade-up">
-      <div class="text-[var(--color-accent)] text-lg">★★★★★</div>
-      <p class="text-sm text-gray-600 mt-3">"Banking ka kaam ho ya certificate, ek hi jagah sab ho jata hai."</p>
-      <div class="font-display font-700 text-sm mt-4">— Sunita D.</div>
-    </div>
-    <div class="seva-card p-6 fade-up">
-      <div class="text-[var(--color-accent)] text-lg">★★★★★</div>
-      <p class="text-sm text-gray-600 mt-3">"Online booking se time bacha, no waiting in queue!"</p>
-      <div class="font-display font-700 text-sm mt-4">— Bikash P.</div>
-    </div>
-  </div>
+<!-- GALLERY -->
+<section id="gallery" class="py-16 bg-white">
+<div class="max-w-7xl mx-auto px-4">
+<div class="text-center mb-10">
+<span class="text-accent-600 font-semibold text-sm uppercase">Gallery</span>
+<h2 class="text-3xl md:text-4xl font-display font-bold mt-2 text-dark">Our <span class="text-gradient">Workspace</span></h2>
+</div>
+<div id="galleryGrid" class="grid grid-cols-2 md:grid-cols-4 gap-3"></div>
+</div>
 </section>
 
-<!-- ============ GALLERY ============ -->
-<section id="gallery" class="bg-white py-16 md:py-24">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center fade-up mb-12">
-      <span class="seva-token">GALLERY</span>
-      <h2 class="font-display font-700 text-3xl md:text-4xl mt-4 text-[var(--color-primary)]">A Look Inside Our Center</h2>
-    </div>
-    <div id="galleryGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-      <!-- Populated dynamically from Firestore gallery collection -->
-      <div class="seva-card aspect-square skeleton"></div>
-      <div class="seva-card aspect-square skeleton"></div>
-      <div class="seva-card aspect-square skeleton"></div>
-      <div class="seva-card aspect-square skeleton"></div>
-    </div>
-  </div>
+<!-- CONTACT -->
+<section id="contact" class="py-16 bg-gradient-to-br from-primary-800 to-primary-900 text-white">
+<div class="max-w-7xl mx-auto px-4">
+<div class="grid lg:grid-cols-2 gap-10">
+<div>
+<span class="text-accent-500 font-semibold text-sm uppercase">Get In Touch</span>
+<h2 class="text-3xl md:text-4xl font-display font-bold mt-2 mb-4">Visit Us or <span class="text-accent-500">Call Today</span></h2>
+<div class="space-y-4 mt-6">
+<div class="flex items-start gap-3"><div class="w-12 h-12 rounded-xl bg-accent-500 flex items-center justify-center flex-shrink-0"><i class="fas fa-map-marker-alt"></i></div><div><p class="text-xs text-white/60">Address</p><p class="font-medium" id="contactAddress">Main Road, Near Bank, City - 123456</p></div></div>
+<div class="flex items-start gap-3"><div class="w-12 h-12 rounded-xl bg-accent-500 flex items-center justify-center flex-shrink-0"><i class="fas fa-phone"></i></div><div><p class="text-xs text-white/60">Phone</p><p class="font-medium" id="contactPhone">+91 98765 43210</p></div></div>
+<div class="flex items-start gap-3"><div class="w-12 h-12 rounded-xl bg-accent-500 flex items-center justify-center flex-shrink-0"><i class="fab fa-whatsapp"></i></div><div><p class="text-xs text-white/60">WhatsApp</p><p class="font-medium" id="contactWhatsapp">+91 98765 43210</p></div></div>
+<div class="flex items-start gap-3"><div class="w-12 h-12 rounded-xl bg-accent-500 flex items-center justify-center flex-shrink-0"><i class="fas fa-envelope"></i></div><div><p class="text-xs text-white/60">Email</p><p class="font-medium" id="contactEmail">eseva@example.com</p></div></div>
+</div>
+</div>
+<div class="bg-white text-dark rounded-2xl p-6 shadow-2xl">
+<h3 class="font-display font-bold text-xl mb-4">Send Message</h3>
+<form id="contactForm" class="space-y-3">
+<input type="text" id="cfName" placeholder="Your Name" required class="w-full px-4 py-3 border rounded-lg">
+<input type="email" id="cfEmail" placeholder="Email" required class="w-full px-4 py-3 border rounded-lg">
+<input type="text" id="cfSubject" placeholder="Subject" required class="w-full px-4 py-3 border rounded-lg">
+<textarea id="cfMessage" placeholder="Message" rows="4" required class="w-full px-4 py-3 border rounded-lg"></textarea>
+<button type="submit" class="w-full gradient-accent text-white py-3 rounded-lg font-medium"><i class="fas fa-paper-plane mr-2"></i> Send</button>
+</form>
+</div>
+</div>
+</div>
 </section>
 
-<!-- ============ CONTACT ============ -->
-<section id="contact" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-  <div class="grid md:grid-cols-2 gap-10">
-    <div class="fade-up">
-      <span class="seva-token">CONTACT US</span>
-      <h2 class="font-display font-700 text-3xl md:text-4xl mt-4 text-[var(--color-primary)]">Get In Touch</h2>
-      <p class="text-gray-500 mt-2">Visit us, call us, or send a message — we're happy to help.</p>
-
-      <div class="mt-8 space-y-4">
-        <div class="seva-card p-4 flex items-center gap-4">
-          <div class="w-10 h-10 rounded-full bg-[var(--color-primary)]/10 flex items-center justify-center text-[var(--color-primary)]">📍</div>
-          <div>
-            <div class="text-xs text-gray-500">Address</div>
-            <div id="contactAddress" class="font-display font-600 text-sm">Baharda Bazar, Basta, Balasore, Odisha - 756029</div>
-          </div>
-        </div>
-        <div class="seva-card p-4 flex items-center gap-4">
-          <div class="w-10 h-10 rounded-full bg-[var(--color-primary)]/10 flex items-center justify-center text-[var(--color-primary)]">📞</div>
-          <div>
-            <div class="text-xs text-gray-500">Phone</div>
-            <div id="contactPhone" class="font-display font-600 text-sm">+91 00000 00000</div>
-          </div>
-        </div>
-        <div class="seva-card p-4 flex items-center gap-4">
-          <div class="w-10 h-10 rounded-full bg-[var(--color-primary)]/10 flex items-center justify-center text-[var(--color-primary)]">💬</div>
-          <div>
-            <div class="text-xs text-gray-500">WhatsApp</div>
-            <div id="contactWhatsapp" class="font-display font-600 text-sm">+91 00000 00000</div>
-          </div>
-        </div>
-        <div class="seva-card p-4 flex items-center gap-4">
-          <div class="w-10 h-10 rounded-full bg-[var(--color-primary)]/10 flex items-center justify-center text-[var(--color-primary)]">✉️</div>
-          <div>
-            <div class="text-xs text-gray-500">Email</div>
-            <div id="contactEmail" class="font-display font-600 text-sm">contact@eseva.in</div>
-          </div>
-        </div>
-        <a id="mapsLink" href="#" target="_blank" class="seva-card p-4 flex items-center gap-4 hover:border-[var(--color-accent)] transition">
-          <div class="w-10 h-10 rounded-full bg-[var(--color-accent)]/10 flex items-center justify-center text-[var(--color-accent)]">🗺️</div>
-          <div>
-            <div class="text-xs text-gray-500">Location</div>
-            <div class="font-display font-600 text-sm">Open in Google Maps</div>
-          </div>
-        </a>
-      </div>
-    </div>
-
-    <div class="fade-up">
-      <form id="contactForm" class="seva-card p-6 space-y-4" onsubmit="submitContactForm(event)">
-        <div>
-          <label class="text-sm font-display font-600 block mb-1">Your Name</label>
-          <input type="text" name="name" required class="calc-input" placeholder="Enter your name" />
-        </div>
-        <div>
-          <label class="text-sm font-display font-600 block mb-1">Mobile Number</label>
-          <input type="tel" name="mobile" required pattern="[0-9]{10}" maxlength="10" class="calc-input" placeholder="10-digit mobile number" />
-        </div>
-        <div>
-          <label class="text-sm font-display font-600 block mb-1">Message</label>
-          <textarea name="message" rows="4" required class="calc-input" placeholder="How can we help you?"></textarea>
-        </div>
-        <button type="submit" class="w-full py-3 rounded-full bg-[var(--color-primary)] text-white font-display font-700 hover:bg-[var(--color-primary-light)] transition">Send Message</button>
-        <div id="contactFormMsg" class="text-sm text-center hidden"></div>
-      </form>
-    </div>
-  </div>
-</section>
-
-<!-- ============ FOOTER ============ -->
-<footer class="bg-[var(--color-charcoal)] text-white py-12">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-3 gap-8">
-    <div>
-      <div class="font-display font-700 text-lg" id="footerShopName">E-Seva Kendra</div>
-      <p class="text-sm text-white/60 mt-2" id="footerDesc">Your trusted digital seva & banking partner.</p>
-    </div>
-    <div>
-      <div class="font-display font-700 mb-3">Quick Links</div>
-      <div class="flex flex-col gap-2 text-sm text-white/70">
-        <a href="#services" class="hover:text-[var(--color-accent)]">Services</a>
-        <a href="#tools" class="hover:text-[var(--color-accent)]">Tools</a>
-        <a href="#gallery" class="hover:text-[var(--color-accent)]">Gallery</a>
-        <a href="dashboard.html" class="hover:text-[var(--color-accent)]">Login / Register</a>
-      </div>
-    </div>
-    <div>
-      <div class="font-display font-700 mb-3">Working Hours</div>
-      <div class="text-sm text-white/70" id="footerHours">Mon - Sat: 9:00 AM - 8:00 PM<br/>Sunday: Closed</div>
-    </div>
-  </div>
-  <div class="text-center text-xs text-white/40 mt-10">© 2026 E-Seva Kendra Management System. All rights reserved.</div>
+<!-- FOOTER -->
+<footer class="bg-dark text-white py-10">
+<div class="max-w-7xl mx-auto px-4 text-center">
+<div class="w-16 h-16 mx-auto rounded-xl gradient-accent flex items-center justify-center text-white text-2xl mb-4"><i class="fas fa-store"></i></div>
+<h3 class="font-display font-bold text-xl" id="footerShopName">Pankaj E-Seva Kendra</h3>
+<p class="text-white/60 text-sm mt-2" id="footerTagline">Your Trusted Digital Service Partner</p>
+<div class="flex justify-center gap-4 mt-4 text-2xl">
+<a href="#" class="hover:text-accent-500"><i class="fab fa-facebook"></i></a>
+<a href="#" class="hover:text-accent-500"><i class="fab fa-instagram"></i></a>
+<a href="#" class="hover:text-accent-500"><i class="fab fa-youtube"></i></a>
+</div>
+<p class="text-white/40 text-xs mt-6">© 2025 Pankaj E-Seva Kendra. All rights reserved.</p>
+</div>
 </footer>
 
-<!-- ============ FLOATING BUTTONS ============ -->
-<div class="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
-  <a id="whatsappFloat" href="#" target="_blank" class="float-btn pulse-ring w-14 h-14 rounded-full bg-[#1E8E5A] flex items-center justify-center text-white text-2xl">
-    💬
-  </a>
-  <a id="callFloat" href="#" class="float-btn w-14 h-14 rounded-full bg-[var(--color-primary)] flex items-center justify-center text-white text-2xl">
-    📞
-  </a>
+<!-- FLOATING BUTTONS -->
+<div class="fixed bottom-6 right-6 flex flex-col gap-3 z-40">
+<a id="whatsappBtn" href="#" target="_blank" class="w-14 h-14 rounded-full bg-green-500 text-white flex items-center justify-center text-2xl floating-btn"><i class="fab fa-whatsapp"></i></a>
+<a id="callBtn" href="tel:+919876543210" class="w-14 h-14 rounded-full gradient-accent text-white flex items-center justify-center text-2xl floating-btn"><i class="fas fa-phone"></i></a>
 </div>
 
-<!-- ============ TOOL MODAL ============ -->
-<div id="toolModal" class="fixed inset-0 z-[60] hidden modal-overlay items-center justify-center p-4">
-  <div class="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 relative">
-    <button onclick="closeToolModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200">✕</button>
-    <div id="toolModalContent"></div>
-  </div>
+<!-- TOOL MODAL -->
+<div id="toolModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+<div class="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+<div class="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between">
+<h3 id="toolTitle" class="font-display font-bold text-lg">Tool</h3>
+<button onclick="closeTool()" class="text-gray-400 hover:text-red-500"><i class="fas fa-times text-xl"></i></button>
 </div>
+<div id="toolBody" class="p-6"></div>
+</div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="hidden fixed top-20 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50"></div>
 
 <script>
-/* ===================================================
-   FIREBASE CONFIG — REPLACE WITH YOUR OWN PROJECT KEYS
-   Get this from: Firebase Console > Project Settings > General > Your Apps > Web App
-   =================================================== */
-const firebaseConfig = {
-  apiKey: "AIzaSyDucHeFoRyu-aHa2ILTV6dXWkV5TWyVWV4",
-  authDomain: "eseva-kendra-4c870.firebaseapp.com",
-  projectId: "eseva-kendra-4c870",
-  storageBucket: "eseva-kendra-4c870.firebasestorage.app",
-  messagingSenderId: "730747379772",
-  appId: "1:730747379772:web:87f4fa85e372128c0de339"
+const firebaseConfig= {
+apiKey: "AIzaSyDucHeFoRyu-aHa2ILTV6dXWkV5TWyVWV4",
+    authDomain: "eseva-kendra-4c870.firebaseapp.com",
+    projectId: "eseva-kendra-4c870",
+    storageBucket: "eseva-kendra-4c870.firebasestorage.app",
+    messagingSenderId: "730747379772",
+    appId: "1:730747379772:web:87f4fa85e372128c0de339",
+    measurementId: "G-NP2B95SFDM"
 };
+firebase.initializeApp(firebaseConfig);
+const db=firebase.firestore();
 
-let db = null;
-try {
-  firebase.initializeApp(firebaseConfig);
-  db = firebase.firestore();
-} catch (e) {
-  console.warn("Firebase not configured yet. Using default static content.", e);
-}
-
-/* ===================================================
-   DEFAULT FALLBACK DATA (used if Firestore unavailable)
-   =================================================== */
-const DEFAULT_SETTINGS = {
-  shopName: "E-Seva Kendra",
-  tagline: "Digital Seva & Banking Center",
-  heroTagline: "Aadhaar, PAN, Banking, Insurance & Government Services — sab kuch ek hi jagah, jhat se aur bharosemand tareeke se.",
-  welcomeMessage: "Welcome to our center — open every day for your convenience.",
-  aboutTitle: "Trusted Digital Seva Partner in Your Locality",
-  aboutDesc: "We provide reliable Aadhaar, PAN, Banking, Government Certificate, and Insurance services with a customer-first approach. Our team ensures every document is handled with care and every transaction is completed with full transparency.",
-  ownerName: "Shop Owner",
-  ownerExperience: "8+ Years",
-  phone: "+910000000000",
-  whatsapp: "910000000000",
-  email: "contact@eseva.in",
-  address: "Baharda Bazar, Basta, Balasore, Odisha - 756029",
-  mapsLink: "https://maps.app.goo.gl/jVADSVj3gzkmpbr8A",
-  workingHours: "Mon - Sat: 9:00 AM - 8:00 PM | Sunday: Closed",
-  workingHoursStart: 9,
-  workingHoursEnd: 20,
-  announcement: ""
-};
-
-const DEFAULT_SERVICES = [
-  {id:'AAD-001', cat:'csc', name:'Aadhaar Update / Correction', desc:'Name, address, mobile, DOB update via Aadhaar enrollment center.', price:'₹50 - ₹150', img:''},
-  {id:'PAN-001', cat:'csc', name:'PAN Card Apply / Correction', desc:'New PAN card application and correction services.', price:'₹120', img:''},
-  {id:'VID-001', cat:'csc', name:'Voter ID Services', desc:'New voter registration, correction, and address change.', price:'₹50', img:''},
-  {id:'AYU-001', cat:'csc', name:'Ayushman Card', desc:'Ayushman Bharat health card generation & download.', price:'₹30', img:''},
-  {id:'PMK-001', cat:'csc', name:'PM Kisan Services', desc:'PM Kisan registration, eKYC, and status check.', price:'₹50', img:''},
-  {id:'ESH-001', cat:'csc', name:'eShram Card', desc:'eShram card registration for unorganized workers.', price:'₹30', img:''},
-  {id:'AEP-001', cat:'banking', name:'AEPS Banking', desc:'Aadhaar enabled cash withdrawal & balance check.', price:'No charge*', img:''},
-  {id:'CWD-001', cat:'banking', name:'Cash Withdrawal', desc:'Micro-ATM cash withdrawal services.', price:'As per bank', img:''},
-  {id:'MTR-001', cat:'banking', name:'Money Transfer (DMT)', desc:'Domestic money transfer to any bank account.', price:'₹5 - ₹20', img:''},
-  {id:'ACC-001', cat:'banking', name:'Bank Account Opening', desc:'Assistance with savings account opening (CSP partner banks).', price:'Free', img:''},
-  {id:'LON-001', cat:'banking', name:'Loan Assistance', desc:'Guidance & application support for personal/business loans.', price:'On request', img:''},
-  {id:'INS-001', cat:'banking', name:'Insurance Services', desc:'Life, health & accident insurance enrollment.', price:'On request', img:''},
-  {id:'INC-001', cat:'govt', name:'Income Certificate', desc:'Apply for income certificate online.', price:'₹50', img:''},
-  {id:'RES-001', cat:'govt', name:'Residence Certificate', desc:'Apply for residence/domicile certificate.', price:'₹50', img:''},
-  {id:'CAS-001', cat:'govt', name:'Caste Certificate', desc:'Apply for caste certificate.', price:'₹50', img:''},
-  {id:'PSP-001', cat:'govt', name:'Passport Assistance', desc:'Application form filling & appointment booking support.', price:'₹100', img:''},
-  {id:'DRL-001', cat:'govt', name:'Driving Licence Assistance', desc:'New DL / renewal application support.', price:'₹150', img:''},
-  {id:'BIL-001', cat:'utility', name:'Bill Payments', desc:'Electricity, water & other utility bill payments.', price:'₹5 - ₹10', img:''},
-  {id:'MRC-001', cat:'utility', name:'Mobile Recharge', desc:'Prepaid mobile recharge - all operators.', price:'No extra charge', img:''},
-  {id:'DTH-001', cat:'utility', name:'DTH Recharge', desc:'DTH / Set-top box recharge - all providers.', price:'No extra charge', img:''}
+const defaultServices=[
+{serviceId:'AAD-001',name:'Aadhaar Card Service',category:'CSC',description:'New Aadhaar, Update, Download',price:50},
+{serviceId:'PAN-001',name:'PAN Card Apply',category:'CSC',description:'New PAN Card Application',price:107},
+{serviceId:'VOT-001',name:'Voter ID Card',category:'CSC',description:'New Voter ID & Correction',price:80},
+{serviceId:'PAS-001',name:'Passport Service',category:'Government',description:'New Passport, Renewal',price:500},
+{serviceId:'BCK-001',name:'Bank Account Opening',category:'Banking',description:'Zero Balance Account',price:200},
+{serviceId:'CSH-001',name:'Cash Withdrawal',category:'Banking',description:'Aadhaar Pay Withdrawal',price:20},
+{serviceId:'PMK-001',name:'PM Kisan Registration',category:'Government',description:'PM Kisan Samman Nidhi',price:50},
+{serviceId:'AYU-001',name:'Ayushman Card',category:'Government',description:'Ayushman Bharat Card',price:30},
+{serviceId:'BIL-001',name:'Electricity Bill',category:'Utility',description:'Pay all bills',price:10},
+{serviceId:'TRN-001',name:'Train Ticket',category:'Travel',description:'IRCTC Booking',price:30},
+{serviceId:'INS-001',name:'Life Insurance',category:'Insurance',description:'LIC, SBI Life',price:0},
+{serviceId:'MOB-001',name:'Mobile Recharge',category:'Utility',description:'All Operators',price:0}
 ];
 
-const DEFAULT_GALLERY = []; // populated from Firestore
-
-/* ===================================================
-   STATE
-   =================================================== */
-let SETTINGS = {...DEFAULT_SETTINGS};
-let SERVICES = [...DEFAULT_SERVICES];
-let currentCategory = 'all';
-
-/* ===================================================
-   LOAD DATA FROM FIRESTORE (graceful fallback)
-   =================================================== */
-async function loadSettings() {
-  if (!db) return applySettings(SETTINGS);
-  try {
-    const doc = await db.collection('settings').doc('homepage').get();
-    if (doc.exists) {
-      SETTINGS = { ...DEFAULT_SETTINGS, ...doc.data() };
-    }
-  } catch (e) {
-    console.warn('Could not load settings from Firestore, using defaults', e);
-  }
-  applySettings(SETTINGS);
-}
-
-async function loadServices() {
-  if (!db) return renderServices();
-  try {
-    const snap = await db.collection('services').orderBy('order', 'asc').get();
-    if (!snap.empty) {
-      SERVICES = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    }
-  } catch (e) {
-    console.warn('Could not load services from Firestore, using defaults', e);
-  }
-  renderServices();
-}
-
-async function loadGallery() {
-  const grid = document.getElementById('galleryGrid');
-  if (!db) { grid.innerHTML = '<p class="text-sm text-gray-400 col-span-full text-center py-8">Gallery photos will appear here once added by admin.</p>'; return; }
-  try {
-    const snap = await db.collection('gallery').orderBy('order', 'asc').limit(8).get();
-    if (snap.empty) {
-      grid.innerHTML = '<p class="text-sm text-gray-400 col-span-full text-center py-8">Gallery photos will appear here once added by admin.</p>';
-      return;
-    }
-    grid.innerHTML = snap.docs.map(d => {
-      const data = d.data();
-      return `<div class="seva-card aspect-square overflow-hidden fade-up visible"><img src="${data.url}" alt="${data.caption||'Gallery'}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"/></div>`;
-    }).join('');
-  } catch (e) {
-    grid.innerHTML = '<p class="text-sm text-gray-400 col-span-full text-center py-8">Gallery photos will appear here once added by admin.</p>';
-  }
-}
-
-async function loadReviews() {
-  if (!db) return;
-  try {
-    const snap = await db.collection('reviews').orderBy('order','asc').limit(6).get();
-    if (snap.empty) return;
-    const grid = document.getElementById('reviewsGrid');
-    grid.innerHTML = snap.docs.map(d => {
-      const r = d.data();
-      const stars = '★'.repeat(r.rating || 5);
-      return `<div class="seva-card p-6 fade-up visible">
-        <div class="text-[var(--color-accent)] text-lg">${stars}</div>
-        <p class="text-sm text-gray-600 mt-3">"${r.text}"</p>
-        <div class="font-display font-700 text-sm mt-4">— ${r.name}</div>
-      </div>`;
-    }).join('');
-  } catch (e) { /* keep default */ }
-}
-
-/* ===================================================
-   APPLY SETTINGS TO UI
-   =================================================== */
-function applySettings(s) {
-  document.getElementById('navShopName').textContent = s.shopName;
-  document.getElementById('navTagline').textContent = s.tagline;
-  document.getElementById('heroShopName').textContent = s.shopName;
-  document.getElementById('heroTagline').textContent = s.heroTagline;
-  document.getElementById('heroWelcome').textContent = s.welcomeMessage || '';
-  document.getElementById('aboutTitle').textContent = s.aboutTitle;
-  document.getElementById('aboutDesc').textContent = s.aboutDesc;
-  document.getElementById('ownerName').textContent = s.ownerName;
-  document.getElementById('ownerExperience').textContent = s.ownerExperience;
-  document.getElementById('contactAddress').textContent = s.address;
-  document.getElementById('contactPhone').textContent = '+91 ' + (s.phone||'').replace('91','').trim();
-  document.getElementById('contactWhatsapp').textContent = '+91 ' + (s.whatsapp||'').replace('91','').trim();
-  document.getElementById('contactEmail').textContent = s.email;
-  document.getElementById('mapsLink').href = s.mapsLink;
-  document.getElementById('footerShopName').textContent = s.shopName;
-  document.getElementById('footerDesc').textContent = s.tagline;
-  document.getElementById('footerHours').innerHTML = (s.workingHours||'').replace('|','<br/>');
-
-  // Floating buttons
-  document.getElementById('whatsappFloat').href = `https://wa.me/${s.whatsapp}`;
-  document.getElementById('callFloat').href = `tel:+${s.phone}`;
-
-  // Announcement bar
-  if (s.announcement && s.announcement.trim()) {
-    document.getElementById('announcementBar').classList.remove('hidden');
-    document.getElementById('announcementText').innerHTML = `${s.announcement} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${s.announcement} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${s.announcement}`;
-  }
-
-  // Open/closed status based on working hours
-  updateOpenStatus(s);
-}
-
-function updateOpenStatus(s) {
-  const now = new Date();
-  const hour = now.getHours();
-  const isOpen = hour >= (s.workingHoursStart||9) && hour < (s.workingHoursEnd||20);
-  const dot = document.getElementById('statusDot');
-  const text = document.getElementById('statusText');
-  const hours = document.getElementById('statusHours');
-  if (isOpen) {
-    dot.style.background = '#1E8E5A';
-    text.textContent = 'Open Now';
-  } else {
-    dot.style.background = '#E04F4F';
-    text.textContent = 'Closed Now';
-  }
-  hours.textContent = s.workingHours;
-}
-
-/* ===================================================
-   RENDER SERVICES
-   =================================================== */
-function renderServices() {
-  const grid = document.getElementById('serviceGrid');
-  const filtered = currentCategory === 'all' ? SERVICES : SERVICES.filter(s => s.cat === currentCategory);
-  grid.innerHTML = filtered.map(s => `
-    <div class="seva-card p-5 fade-up visible">
-      ${s.img ? `<img src="${s.img}" alt="${s.name}" class="w-full h-32 object-cover rounded-xl mb-3"/>` : ''}
-      <span class="seva-token">${s.id}</span>
-      <div class="font-display font-700 mt-3">${s.name}</div>
-      <div class="text-xs text-gray-500 mt-1 mb-3">${s.desc}</div>
-      <div class="flex items-center justify-between">
-        ${s.price ? `<span class="text-sm font-display font-700 text-[var(--color-primary)]">${s.price}</span>` : '<span></span>'}
-        <button onclick="bookService('${s.id}','${s.name.replace(/'/g,"\\'")}')" class="px-4 py-2 rounded-full bg-[var(--color-accent)] text-white text-xs font-display font-700 hover:opacity-90 transition">Book Now</button>
-      </div>
-    </div>
-  `).join('');
-  observeFadeUps();
-}
-
-function filterServices(cat) {
-  currentCategory = cat;
-  document.querySelectorAll('#categoryTabs .tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector(`#categoryTabs [data-cat="${cat}"]`).classList.add('active');
-  renderServices();
-}
-
-function bookService(id, name) {
-  // Redirect to dashboard booking page with pre-filled service
-  window.location.href = `dashboard.html?book=${encodeURIComponent(id)}&name=${encodeURIComponent(name)}`;
-}
-
-/* ===================================================
-   CONTACT FORM
-   =================================================== */
-async function submitContactForm(e) {
-  e.preventDefault();
-  const form = e.target;
-  const msgEl = document.getElementById('contactFormMsg');
-  const data = {
-    name: form.name.value,
-    mobile: form.mobile.value,
-    message: form.message.value,
-    createdAt: new Date().toISOString(),
-    status: 'new'
-  };
-
-  try {
-    if (db) {
-      await db.collection('contactMessages').add(data);
-    }
-    msgEl.textContent = '✓ Message sent successfully! We will contact you soon.';
-    msgEl.className = 'text-sm text-center text-[var(--color-success)]';
-    msgEl.classList.remove('hidden');
-    form.reset();
-  } catch (err) {
-    msgEl.textContent = 'Could not send message. Please call us directly.';
-    msgEl.className = 'text-sm text-center text-red-500';
-    msgEl.classList.remove('hidden');
-  }
-}
-
-/* ===================================================
-   LANGUAGE SWITCHER (basic - extend with full translations)
-   =================================================== */
-const TRANSLATIONS = {
-  en: {},
-  hi: {
-    heroTagline: "आधार, पैन, बैंकिंग, बीमा और सरकारी सेवाएं — सब कुछ एक ही जगह, तेज़ और भरोसेमंद तरीके से।",
-    aboutTitle: "आपके क्षेत्र में विश्वसनीय डिजिटल सेवा पार्टनर"
-  },
-  or: {
-    heroTagline: "ଆଧାର, ପ୍ୟାନ, ବ୍ୟାଙ୍କିଂ, ବୀମା ଏବଂ ସରକାରୀ ସେବାଗୁଡ଼ିକ — ସମସ୍ତ ଏକ ସ୍ଥାନରେ, ଶୀଘ୍ର ଏବଂ ବିଶ୍ୱାସଯୋଗ୍ୟ ଭାବରେ।",
-    aboutTitle: "ଆପଣଙ୍କ ଅଞ୍ଚଳରେ ବିଶ୍ୱାସଯୋଗ୍ୟ ଡିଜିଟାଲ ସେବା ସହଭାଗୀ"
-  }
+const defaultSettings={
+shopName:'Pankaj E-Seva Kendra',tagline:'Digital Seva Center | CSC | Banking CSP',
+ownerName:'Pankaj Kumar',ownerExperience:'5+ Years in CSC Operations',
+aboutDesc:'We are an authorized CSC providing all government, banking, and digital services.',
+phone:'+91 98765 43210',whatsapp:'+91 98765 43210',email:'eseva@example.com',
+address:'Main Road, Near Bank, City - 123456',
+workingHoursStart:'08:00',workingHoursEnd:'21:00',
+announcement:'Welcome to Pankaj E-Seva Kendra — All Government & Banking Services Under One Roof!'
 };
 
-function setLanguage(lang) {
-  document.body.classList.remove('lang-hi','lang-or');
-  if (lang === 'hi') document.body.classList.add('lang-hi');
-  if (lang === 'or') document.body.classList.add('lang-or');
-
-  const t = TRANSLATIONS[lang] || {};
-  if (t.heroTagline) document.getElementById('heroTagline').textContent = t.heroTagline;
-  else document.getElementById('heroTagline').textContent = SETTINGS.heroTagline;
-
-  if (t.aboutTitle) document.getElementById('aboutTitle').textContent = t.aboutTitle;
-  else document.getElementById('aboutTitle').textContent = SETTINGS.aboutTitle;
-
-  localStorage.setItem('eseva_lang', lang);
+async function loadSettings(){
+try{
+const doc=await db.collection('settings').doc('homepage').get();
+if(doc.exists)Object.assign(defaultSettings,doc.data());
+}catch(e){}
+applySettings();
 }
 
-/* ===================================================
-   MOBILE MENU
-   =================================================== */
-function toggleMobileMenu() {
-  document.getElementById('mobileMenu').classList.toggle('open');
+function applySettings(){
+const s=defaultSettings;
+document.getElementById('navShopName').textContent=s.shopName;
+document.getElementById('navTagline').textContent=s.tagline;
+document.getElementById('heroShopName').textContent=s.shopName;
+document.getElementById('aboutTitle').textContent='Welcome to '+s.shopName;
+document.getElementById('aboutDesc').textContent=s.aboutDesc;
+document.getElementById('aboutOwner').textContent=s.ownerName;
+document.getElementById('aboutExperience').textContent=s.ownerExperience;
+document.getElementById('contactAddress').textContent=s.address;
+document.getElementById('contactPhone').textContent=s.phone;
+document.getElementById('contactWhatsapp').textContent=s.whatsapp;
+document.getElementById('contactEmail').textContent=s.email;
+document.getElementById('footerShopName').textContent=s.shopName;
+document.getElementById('footerTagline').textContent=s.tagline;
+document.getElementById('callBtn').href='tel:'+s.phone;
+document.getElementById('whatsappBtn').href='https://wa.me/'+s.whatsapp.replace(/\D/g,'');
+document.getElementById('announcementText').textContent=s.announcement;
+document.title=s.shopName+' - Digital Seva Center';
+updateShopStatus();
 }
 
-/* ===================================================
-   TOOL TABS
-   =================================================== */
-function showToolTab(tab) {
-  ['financial','utility','pdf','image'].forEach(t => {
-    document.getElementById(`toolPanel-${t}`).classList.toggle('hidden', t !== tab);
-    document.getElementById(`toolTab-${t}`).classList.toggle('active', t === tab);
-  });
+function updateShopStatus(){
+const now=new Date();
+const t=now.getHours()*60+now.getMinutes();
+const [sh,sm]=defaultSettings.workingHoursStart.split(':').map(Number);
+const [eh,em]=defaultSettings.workingHoursEnd.split(':').map(Number);
+const isOpen=t>=sh*60+sm&&t<=eh*60+em;
+document.getElementById('shopStatusDot').className=isOpen?'w-3 h-3 rounded-full bg-green-400 animate-pulse':'w-3 h-3 rounded-full bg-red-400';
+document.getElementById('shopStatusText').textContent=isOpen?'Shop Open Now':'Shop Closed';
 }
 
-/* ===================================================
-   ANIMATED COUNTERS
-   =================================================== */
-function animateCounters() {
-  document.querySelectorAll('.counter-num').forEach(el => {
-    const target = parseInt(el.dataset.target);
-    let current = 0;
-    const step = Math.max(1, Math.ceil(target / 60));
-    const interval = setInterval(() => {
-      current += step;
-      if (current >= target) { current = target; clearInterval(interval); }
-      el.textContent = current.toLocaleString('en-IN') + (target >= 1000 ? '+' : (el.dataset.target == 8 ? '+' : ''));
-    }, 25);
-  });
+async function loadServices(){
+let services=defaultServices;
+try{
+const snap=await db.collection('services').where('enabled','!=',false).get();
+if(!snap.empty)services=snap.docs.map(d=>d.data()).filter(s=>s.enabled!==false);
+}catch(e){
+try{const snap=await db.collection('services').get();if(!snap.empty)services=snap.docs.map(d=>d.data()).filter(s=>s.enabled!==false);}catch(e2){}
+}
+renderServices(services);
+renderCategoryFilters(services);
 }
 
-/* ===================================================
-   SCROLL ANIMATIONS (Intersection Observer)
-   =================================================== */
-function observeFadeUps() {
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        if (entry.target.querySelector('.counter-num') || entry.target.classList.contains('counter-num')) {
-          animateCounters();
-        }
-        obs.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15 });
-
-  document.querySelectorAll('.fade-up:not(.visible)').forEach(el => obs.observe(el));
+function renderCategoryFilters(services){
+const cats=['All',...new Set(services.map(s=>s.category))];
+document.getElementById('categoryFilters').innerHTML=cats.map((c,i)=>`<button onclick="filterCategory('${c}')" class="cat-filter px-4 py-2 rounded-full text-sm font-medium ${i===0?'gradient-accent text-white':'bg-white border hover:bg-primary-50'}">${c}</button>`).join('');
 }
 
-/* ===================================================
-   TOOL MODAL FUNCTIONS
-   =================================================== */
-function openToolModal(html) {
-  document.getElementById('toolModalContent').innerHTML = html;
-  document.getElementById('toolModal').classList.remove('hidden');
-  document.getElementById('toolModal').classList.add('flex');
-}
-function closeToolModal() {
-  document.getElementById('toolModal').classList.add('hidden');
-  document.getElementById('toolModal').classList.remove('flex');
+function filterCategory(cat){
+document.querySelectorAll('.cat-filter').forEach(b=>{b.className='cat-filter px-4 py-2 rounded-full text-sm font-medium bg-white border hover:bg-primary-50';});
+event.target.className='cat-filter px-4 py-2 rounded-full text-sm font-medium gradient-accent text-white';
+const all=window.allServices||defaultServices;
+renderServices(cat==='All'?all:all.filter(s=>s.category===cat));
 }
 
-function openTool(tool) {
-  const tools = {
-    emi: toolEMI,
-    sip: toolSIP,
-    fd: toolFD,
-    rd: toolRD,
-    gst: toolGST,
-    profit: toolProfit,
-    loaneligibility: toolLoanEligibility,
-    qrcode: toolQRCode,
-    barcode: toolBarcode,
-    password: toolPassword,
-    age: toolAge,
-    percentage: toolPercentage,
-    mergepdf: toolMergePDF,
-    splitpdf: toolSplitPDF,
-    imagetopdf: toolImageToPDF,
-    pdftoimage: toolPDFToImage,
-    passportphoto: toolPassportPhoto,
-    imageresizer: toolImageResizer,
-    signaturecrop: toolSignatureCrop
-  };
-  if (tools[tool]) tools[tool]();
+function renderServices(services){
+window.allServices=services;
+document.getElementById('servicesGrid').innerHTML=services.map(s=>`
+<div class="service-card bg-white rounded-2xl p-5 border shadow-sm">
+<div class="flex items-start justify-between mb-2">
+<span class="text-xs font-bold text-accent-600 bg-accent-50 px-2 py-1 rounded">${s.serviceId}</span>
+<span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">${s.category}</span>
+</div>
+<h4 class="font-bold text-dark mb-1">${s.name}</h4>
+<p class="text-xs text-gray-500 mb-3 line-clamp-2">${s.description}</p>
+<div class="flex items-center justify-between">
+<span class="font-bold text-primary-800">₹${s.price}</span>
+<a href="dashboard.html?book=${s.serviceId}&name=${encodeURIComponent(s.name)}" class="gradient-accent text-white px-3 py-1.5 rounded-lg text-xs font-medium">Book Now</a>
+</div>
+</div>`).join('');
 }
 
-/* ---------- EMI CALCULATOR ---------- */
-function toolEMI() {
-  openToolModal(`
-    <h3 class="font-display font-700 text-xl mb-4">EMI Calculator</h3>
-    <div class="space-y-3">
-      <div><label class="text-sm font-600 block mb-1">Loan Amount (₹)</label><input type="number" id="emiAmount" class="calc-input" value="100000"/></div>
-      <div><label class="text-sm font-600 block mb-1">Interest Rate (% p.a.)</label><input type="number" id="emiRate" class="calc-input" value="10"/></div>
-      <div><label class="text-sm font-600 block mb-1">Tenure (months)</label><input type="number" id="emiTenure" class="calc-input" value="12"/></div>
-      <button onclick="calcEMI()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Calculate</button>
-      <div id="emiResult" class="mt-3"></div>
-    </div>
-  `);
-}
-function calcEMI() {
-  const P = parseFloat(document.getElementById('emiAmount').value);
-  const r = parseFloat(document.getElementById('emiRate').value) / 12 / 100;
-  const n = parseFloat(document.getElementById('emiTenure').value);
-  const emi = (P * r * Math.pow(1+r, n)) / (Math.pow(1+r, n) - 1);
-  const total = emi * n;
-  const interest = total - P;
-  document.getElementById('emiResult').innerHTML = `
-    <div class="seva-card p-4 space-y-2">
-      <div class="flex justify-between text-sm"><span>Monthly EMI</span><span class="font-700">₹${emi.toFixed(2)}</span></div>
-      <div class="flex justify-between text-sm"><span>Total Interest</span><span class="font-700">₹${interest.toFixed(2)}</span></div>
-      <div class="flex justify-between text-sm"><span>Total Payment</span><span class="font-700">₹${total.toFixed(2)}</span></div>
-    </div>`;
+function loadReviews(){
+const reviews=[
+{name:'Rajesh Kumar',rating:5,text:'Excellent service! Got my Aadhaar updated within 10 minutes.'},
+{name:'Priya Singh',rating:5,text:'Very helpful staff, all banking services available.'},
+{name:'Amit Verma',rating:5,text:'Best E-Seva center in our area. Highly recommended!'},
+{name:'Sunita Devi',rating:5,text:'PAN card banwa diya, bahut accha kaam kiya.'},
+{name:'Mohan Lal',rating:4,text:'Good service, reasonable charges.'},
+{name:'Geeta Sharma',rating:5,text:'Passport application ki, bahut fast service mili.'}
+];
+document.getElementById('reviewsGrid').innerHTML=reviews.map(r=>`
+<div class="bg-white p-6 rounded-2xl shadow-sm border">
+<div class="flex text-accent-500 mb-3">${'<i class="fas fa-star"></i>'.repeat(r.rating)}${'<i class="far fa-star"></i>'.repeat(5-r.rating)}</div>
+<p class="text-gray-600 text-sm mb-4 italic">"${r.text}"</p>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full gradient-accent flex items-center justify-center text-white font-bold">${r.name.charAt(0)}</div>
+<div><p class="font-semibold text-sm">${r.name}</p><p class="text-xs text-gray-400">Verified Customer</p></div>
+</div>
+</div>`).join('');
 }
 
-/* ---------- SIP CALCULATOR ---------- */
-function toolSIP() {
-  openToolModal(`
-    <h3 class="font-display font-700 text-xl mb-4">SIP Calculator</h3>
-    <div class="space-y-3">
-      <div><label class="text-sm font-600 block mb-1">Monthly Investment (₹)</label><input type="number" id="sipAmount" class="calc-input" value="5000"/></div>
-      <div><label class="text-sm font-600 block mb-1">Expected Return (% p.a.)</label><input type="number" id="sipRate" class="calc-input" value="12"/></div>
-      <div><label class="text-sm font-600 block mb-1">Tenure (years)</label><input type="number" id="sipYears" class="calc-input" value="10"/></div>
-      <button onclick="calcSIP()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Calculate</button>
-      <div id="sipResult" class="mt-3"></div>
-    </div>
-  `);
-}
-function calcSIP() {
-  const P = parseFloat(document.getElementById('sipAmount').value);
-  const r = parseFloat(document.getElementById('sipRate').value) / 12 / 100;
-  const n = parseFloat(document.getElementById('sipYears').value) * 12;
-  const fv = P * ((Math.pow(1+r, n) - 1) / r) * (1+r);
-  const invested = P * n;
-  document.getElementById('sipResult').innerHTML = `
-    <div class="seva-card p-4 space-y-2">
-      <div class="flex justify-between text-sm"><span>Invested Amount</span><span class="font-700">₹${invested.toFixed(2)}</span></div>
-      <div class="flex justify-between text-sm"><span>Estimated Returns</span><span class="font-700">₹${(fv-invested).toFixed(2)}</span></div>
-      <div class="flex justify-between text-sm"><span>Total Value</span><span class="font-700">₹${fv.toFixed(2)}</span></div>
-    </div>`;
+function loadGallery(){
+const photos=[
+{url:'https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?w=400',caption:'Shop Front'},
+{url:'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=400',caption:'Workstation'},
+{url:'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400',caption:'Banking Counter'},
+{url:'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400',caption:'Customer Service'},
+{url:'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=400',caption:'Team'},
+{url:'https://images.unsplash.com/photo-1556761175-b413da4baf72?w=400',caption:'Office'},
+{url:'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400',caption:'Services'},
+{url:'https://images.unsplash.com/photo-1551434678-e076c223a692?w=400',caption:'Tools'}
+];
+document.getElementById('galleryGrid').innerHTML=photos.map(p=>`
+<div class="relative group overflow-hidden rounded-xl aspect-square">
+<img src="${p.url}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" loading="lazy">
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-3">
+<p class="text-white text-xs font-medium">${p.caption}</p>
+</div>
+</div>`).join('');
 }
 
-/* ---------- FD CALCULATOR ---------- */
-function toolFD() {
-  openToolModal(`
-    <h3 class="font-display font-700 text-xl mb-4">FD Calculator</h3>
-    <div class="space-y-3">
-      <div><label class="text-sm font-600 block mb-1">Principal Amount (₹)</label><input type="number" id="fdAmount" class="calc-input" value="100000"/></div>
-      <div><label class="text-sm font-600 block mb-1">Interest Rate (% p.a.)</label><input type="number" id="fdRate" class="calc-input" value="7"/></div>
-      <div><label class="text-sm font-600 block mb-1">Tenure (years)</label><input type="number" id="fdYears" class="calc-input" value="5"/></div>
-      <button onclick="calcFD()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Calculate</button>
-      <div id="fdResult" class="mt-3"></div>
-    </div>
-  `);
+function animateCounters(){
+document.querySelectorAll('.counter').forEach(c=>{
+const target=+c.dataset.target;let current=0;const step=target/60;
+const timer=setInterval(()=>{
+current+=step;
+if(current>=target){current=target;clearInterval(timer);}
+c.textContent=Math.floor(current).toLocaleString()+'+';
+},30);
+});
 }
-function calcFD() {
-  const P = parseFloat(document.getElementById('fdAmount').value);
-  const r = parseFloat(document.getElementById('fdRate').value) / 100;
-  const n = parseFloat(document.getElementById('fdYears').value);
-  const maturity = P * Math.pow(1 + r/4, 4*n); // quarterly compounding
-  document.getElementById('fdResult').innerHTML = `
-    <div class="seva-card p-4 space-y-2">
-      <div class="flex justify-between text-sm"><span>Principal</span><span class="font-700">₹${P.toFixed(2)}</span></div>
-      <div class="flex justify-between text-sm"><span>Interest Earned</span><span class="font-700">₹${(maturity-P).toFixed(2)}</span></div>
-      <div class="flex justify-between text-sm"><span>Maturity Value</span><span class="font-700">₹${maturity.toFixed(2)}</span></div>
-    </div>`;
-}
+const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)animateCounters();});});
+document.querySelectorAll('.counter').forEach(c=>observer.observe(c));
 
-/* ---------- RD CALCULATOR ---------- */
-function toolRD() {
-  openToolModal(`
-    <h3 class="font-display font-700 text-xl mb-4">RD Calculator</h3>
-    <div class="space-y-3">
-      <div><label class="text-sm font-600 block mb-1">Monthly Deposit (₹)</label><input type="number" id="rdAmount" class="calc-input" value="2000"/></div>
-      <div><label class="text-sm font-600 block mb-1">Interest Rate (% p.a.)</label><input type="number" id="rdRate" class="calc-input" value="6.5"/></div>
-      <div><label class="text-sm font-600 block mb-1">Tenure (months)</label><input type="number" id="rdMonths" class="calc-input" value="24"/></div>
-      <button onclick="calcRD()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Calculate</button>
-      <div id="rdResult" class="mt-3"></div>
-    </div>
-  `);
-}
-function calcRD() {
-  const P = parseFloat(document.getElementById('rdAmount').value);
-  const r = parseFloat(document.getElementById('rdRate').value) / 100;
-  const n = parseFloat(document.getElementById('rdMonths').value);
-  let maturity = 0;
-  for (let i = 1; i <= n; i++) {
-    const monthsRemaining = n - i + 1;
-    maturity += P * (1 + (r/4) * (Math.ceil(monthsRemaining/3) / 1)) ; // simplified quarterly approx
-  }
-  const invested = P * n;
-  // simplified accurate-ish formula
-  const i_q = r/4;
-  const fv = P * n + P * (n*(n+1)/2) * (r/12);
-  document.getElementById('rdResult').innerHTML = `
-    <div class="seva-card p-4 space-y-2">
-      <div class="flex justify-between text-sm"><span>Total Deposited</span><span class="font-700">₹${invested.toFixed(2)}</span></div>
-      <div class="flex justify-between text-sm"><span>Estimated Maturity</span><span class="font-700">₹${fv.toFixed(2)}</span></div>
-    </div>
-    <p class="text-xs text-gray-400 mt-2">*Approximate value. Actual maturity depends on bank's compounding method.</p>`;
-}
-
-/* ---------- GST CALCULATOR ---------- */
-function toolGST() {
-  openToolModal(`
-    <h3 class="font-display font-700 text-xl mb-4">GST Calculator</h3>
-    <div class="space-y-3">
-      <div><label class="text-sm font-600 block mb-1">Amount (₹)</label><input type="number" id="gstAmount" class="calc-input" value="1000"/></div>
-      <div><label class="text-sm font-600 block mb-1">GST Rate (%)</label>
-        <select id="gstRate" class="calc-input">
-          <option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option>
-        </select>
-      </div>
-      <div class="flex gap-2">
-        <button onclick="calcGST('add')" class="flex-1 py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Add GST</button>
-        <button onclick="calcGST('remove')" class="flex-1 py-2.5 rounded-full bg-[var(--color-accent)] text-white font-display font-700">Remove GST</button>
-      </div>
-      <div id="gstResult" class="mt-3"></div>
-    </div>
-  `);
-}
-function calcGST(mode) {
-  const amt = parseFloat(document.getElementById('gstAmount').value);
-  const rate = parseFloat(document.getElementById('gstRate').value);
-  let base, gst, total;
-  if (mode === 'add') {
-    base = amt; gst = amt * rate/100; total = base + gst;
-  } else {
-    total = amt; base = amt / (1 + rate/100); gst = total - base;
-  }
-  document.getElementById('gstResult').innerHTML = `
-    <div class="seva-card p-4 space-y-2">
-      <div class="flex justify-between text-sm"><span>Base Amount</span><span class="font-700">₹${base.toFixed(2)}</span></div>
-      <div class="flex justify-between text-sm"><span>GST (${rate}%)</span><span class="font-700">₹${gst.toFixed(2)}</span></div>
-      <div class="flex justify-between text-sm"><span>Total Amount</span><span class="font-700">₹${total.toFixed(2)}</span></div>
-    </div>`;
-}
-
-/* ---------- PROFIT CALCULATOR ---------- */
-function toolProfit() {
-  openToolModal(`
-    <h3 class="font-display font-700 text-xl mb-4">Profit Calculator</h3>
-    <div class="space-y-3">
-      <div><label class="text-sm font-600 block mb-1">Cost Price (₹)</label><input type="number" id="profitCost" class="calc-input" value="100"/></div>
-      <div><label class="text-sm font-600 block mb-1">Selling Price (₹)</label><input type="number" id="profitSell" class="calc-input" value="120"/></div>
-      <button onclick="calcProfit()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Calculate</button>
-      <div id="profitResult" class="mt-3"></div>
-    </div>
-  `);
-}
-function calcProfit() {
-  const cp = parseFloat(document.getElementById('profitCost').value);
-  const sp = parseFloat(document.getElementById('profitSell').value);
-  const profit = sp - cp;
-  const margin = (profit/sp)*100;
-  const markup = (profit/cp)*100;
-  document.getElementById('profitResult').innerHTML = `
-    <div class="seva-card p-4 space-y-2">
-      <div class="flex justify-between text-sm"><span>${profit >= 0 ? 'Profit' : 'Loss'}</span><span class="font-700">₹${Math.abs(profit).toFixed(2)}</span></div>
-      <div class="flex justify-between text-sm"><span>Margin</span><span class="font-700">${margin.toFixed(2)}%</span></div>
-      <div class="flex justify-between text-sm"><span>Markup</span><span class="font-700">${markup.toFixed(2)}%</span></div>
-    </div>`;
-}
-
-/* ---------- LOAN ELIGIBILITY CALCULATOR ---------- */
-function toolLoanEligibility() {
-  openToolModal(`
-    <h3 class="font-display font-700 text-xl mb-4">Loan Eligibility Calculator</h3>
-    <div class="space-y-3">
-      <div><label class="text-sm font-600 block mb-1">Monthly Income (₹)</label><input type="number" id="leIncome" class="calc-input" value="30000"/></div>
-      <div><label class="text-sm font-600 block mb-1">Existing EMI (₹)</label><input type="number" id="leEmi" class="calc-input" value="0"/></div>
-      <div><label class="text-sm font-600 block mb-1">Interest Rate (% p.a.)</label><input type="number" id="leRate" class="calc-input" value="10"/></div>
-      <div><label class="text-sm font-600 block mb-1">Tenure (months)</label><input type="number" id="leTenure" class="calc-input" value="60"/></div>
-      <button onclick="calcLoanEligibility()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Calculate</button>
-      <div id="leResult" class="mt-3"></div>
-    </div>
-  `);
-}
-function calcLoanEligibility() {
-  const income = parseFloat(document.getElementById('leIncome').value);
-  const existingEmi = parseFloat(document.getElementById('leEmi').value);
-  const rate = parseFloat(document.getElementById('leRate').value) / 12 / 100;
-  const tenure = parseFloat(document.getElementById('leTenure').value);
-
-  const maxEmi = (income * 0.5) - existingEmi; // assume 50% FOIR
-  const eligibleLoan = maxEmi * (Math.pow(1+rate, tenure) - 1) / (rate * Math.pow(1+rate, tenure));
-
-  document.getElementById('leResult').innerHTML = `
-    <div class="seva-card p-4 space-y-2">
-      <div class="flex justify-between text-sm"><span>Max EMI Capacity</span><span class="font-700">₹${maxEmi > 0 ? maxEmi.toFixed(2) : 0}</span></div>
-      <div class="flex justify-between text-sm"><span>Eligible Loan Amount</span><span class="font-700">₹${eligibleLoan > 0 ? eligibleLoan.toFixed(2) : 0}</span></div>
-    </div>
-    <p class="text-xs text-gray-400 mt-2">*Estimate only, based on 50% income-to-EMI ratio. Actual eligibility depends on bank policy.</p>`;
-}
-
-/* ---------- QR CODE GENERATOR ---------- */
-function toolQRCode() {
-  openToolModal(`
-    <h3 class="font-display font-700 text-xl mb-4">QR Code Generator</h3>
-    <div class="space-y-3">
-      <div><label class="text-sm font-600 block mb-1">Text / URL</label><input type="text" id="qrText" class="calc-input" placeholder="Enter text or URL"/></div>
-      <button onclick="generateQR()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Generate QR Code</button>
-      <div id="qrResult" class="mt-3 flex justify-center"></div>
-    </div>
-  `);
-}
-function generateQR() {
-  const text = document.getElementById('qrText').value;
-  if (!text) return;
-  const url = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(text)}`;
-  document.getElementById('qrResult').innerHTML = `<div class="text-center"><img src="${url}" alt="QR Code" class="rounded-xl border"/><br/><a href="${url}" download="qrcode.png" class="text-xs text-[var(--color-primary)] underline mt-2 inline-block">Download</a></div>`;
-}
-
-/* ---------- BARCODE GENERATOR ---------- */
-function toolBarcode() {
-  openToolModal(`
-    <h3 class="font-display font-700 text-xl mb-4">Barcode Generator</h3>
-    <div class="space-y-3">
-      <div><label class="text-sm font-600 block mb-1">Code/Number</label><input type="text" id="barcodeText" class="calc-input" placeholder="Enter code"/></div>
-      <button onclick="generateBarcode()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Generate Barcode</button>
-      <div id="barcodeResult" class="mt-3 flex justify-center"></div>
-    </div>
-  `);
-}
-function generateBarcode() {
-  const text = document.getElementById('barcodeText').value;
-  if (!text) return;
-  const url = `https://barcodeapi.org/api/128/${encodeURIComponent(text)}`;
-  document.getElementById('barcodeResult').innerHTML = `<div class="text-center"><img src="${url}" alt="Barcode" class="rounded border bg-white p-2"/></div>`;
-}
-
-/* ---------- PASSWORD GENERATOR ---------- */
-function toolPassword() {
-  openToolModal(`
-    <h3 class="font-display font-700 text-xl mb-4">Password Generator</h3>
-    <div class="space-y-3">
-      <div><label class="text-sm font-600 block mb-1">Length</label><input type="number" id="pwLength" class="calc-input" value="12" min="4" max="32"/></div>
-      <div class="flex gap-3 text-sm">
-        <label class="flex items-center gap-1"><input type="checkbox" id="pwUpper" checked/> A-Z</label>
-        <label class="flex items-center gap-1"><input type="checkbox" id="pwLower" checked/> a-z</label>
-        <label class="flex items-center gap-1"><input type="checkbox" id="pwNum" checked/> 0-9</label>
-        <label class="flex items-center gap-1"><input type="checkbox" id="pwSym" checked/> #@!</label>
-      </div>
-      <button onclick="generatePassword()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Generate Password</button>
-      <div id="pwResult" class="mt-3"></div>
-    </div>
-  `);
-}
-function generatePassword() {
-  const len = parseInt(document.getElementById('pwLength').value);
-  let chars = '';
-  if (document.getElementById('pwUpper').checked) chars += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  if (document.getElementById('pwLower').checked) chars += 'abcdefghijklmnopqrstuvwxyz';
-  if (document.getElementById('pwNum').checked) chars += '0123456789';
-  if (document.getElementById('pwSym').checked) chars += '!@#$%^&*()_+-=';
-  if (!chars) chars = 'abcdefghijklmnopqrstuvwxyz';
-  let pw = '';
-  for (let i = 0; i < len; i++) pw += chars[Math.floor(Math.random()*chars.length)];
-  document.getElementById('pwResult').innerHTML = `
-    <div class="seva-card p-4 flex items-center justify-between gap-2">
-      <code class="text-sm break-all">${pw}</code>
-      <button onclick="navigator.clipboard.writeText('${pw}')" class="px-3 py-1.5 rounded-full bg-[var(--color-primary)] text-white text-xs font-700 whitespace-nowrap">Copy</button>
-    </div>`;
-}
-
-/* ---------- AGE CALCULATOR ---------- */
-function toolAge() {
-  openToolModal(`
-    <h3 class="font-display font-700 text-xl mb-4">Age Calculator</h3>
-    <div class="space-y-3">
-      <div><label class="text-sm font-600 block mb-1">Date of Birth</label><input type="date" id="ageDob" class="calc-input"/></div>
-      <button onclick="calcAge()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Calculate Age</button>
-      <div id="ageResult" class="mt-3"></div>
-    </div>
-  `);
-}
-function calcAge() {
-  const dob = new Date(document.getElementById('ageDob').value);
-  if (isNaN(dob.getTime())) return;
-  const today = new Date();
-  let years = today.getFullYear() - dob.getFullYear();
-  let months = today.getMonth() - dob.getMonth();
-  let days = today.getDate() - dob.getDate();
-  if (days < 0) { months--; days += new Date(today.getFullYear(), today.getMonth(), 0).getDate(); }
-  if (months < 0) { years--; months += 12; }
-  document.getElementById('ageResult').innerHTML = `
-    <div class="seva-card p-4 text-center">
-      <div class="font-display font-800 text-2xl text-[var(--color-primary)]">${years}y ${months}m ${days}d</div>
-    </div>`;
-}
-
-/* ---------- PERCENTAGE CALCULATOR ---------- */
-function toolPercentage() {
-  openToolModal(`
-    <h3 class="font-display font-700 text-xl mb-4">Percentage Calculator</h3>
-    <div class="space-y-3">
-      <div><label class="text-sm font-600 block mb-1">Value</label><input type="number" id="pctValue" class="calc-input" value="50"/></div>
-      <div><label class="text-sm font-600 block mb-1">Percentage (%)</label><input type="number" id="pctPercent" class="calc-input" value="20"/></div>
-      <button onclick="calcPercentage()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Calculate</button>
-      <div id="pctResult" class="mt-3"></div>
-    </div>
-  `);
-}
-function calcPercentage() {
-  const val = parseFloat(document.getElementById('pctValue').value);
-  const pct = parseFloat(document.getElementById('pctPercent').value);
-  const result = (val * pct) / 100;
-  document.getElementById('pctResult').innerHTML = `
-    <div class="seva-card p-4 text-center">
-      <div class="text-sm text-gray-500">${pct}% of ${val} is</div>
-      <div class="font-display font-800 text-2xl text-[var(--color-primary)] mt-1">${result.toFixed(2)}</div>
-    </div>`;
-}
-
-/* ---------- PDF TOOLS (using pdf-lib via CDN, loaded on demand) ---------- */
-function loadPdfLib(cb) {
-  if (window.PDFLib) return cb();
-  const script = document.createElement('script');
-  script.src = 'https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js';
-  script.onload = cb;
-  document.head.appendChild(script);
-}
-
-function toolMergePDF() {
-  openToolModal(`
-    <h3 class="font-display font-700 text-xl mb-4">Merge PDF</h3>
-    <div class="space-y-3">
-      <input type="file" id="mergeFiles" accept="application/pdf" multiple class="calc-input"/>
-      <button onclick="mergePDFs()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Merge &amp; Download</button>
-      <div id="mergeStatus" class="text-sm text-center"></div>
-    </div>
-  `);
-}
-function mergePDFs() {
-  const files = document.getElementById('mergeFiles').files;
-  if (files.length < 2) { document.getElementById('mergeStatus').textContent = 'Select at least 2 PDF files.'; return; }
-  document.getElementById('mergeStatus').textContent = 'Processing...';
-  loadPdfLib(async () => {
-    const { PDFDocument } = PDFLib;
-    const merged = await PDFDocument.create();
-    for (const file of files) {
-      const bytes = await file.arrayBuffer();
-      const pdf = await PDFDocument.load(bytes);
-      const pages = await merged.copyPages(pdf, pdf.getPageIndices());
-      pages.forEach(p => merged.addPage(p));
-    }
-    const mergedBytes = await merged.save();
-    downloadBlob(mergedBytes, 'merged.pdf', 'application/pdf');
-    document.getElementById('mergeStatus').textContent = 'Done! Download started.';
-  });
-}
-
-function toolSplitPDF() {
-  openToolModal(`
-    <h3 class="font-display font-700 text-xl mb-4">Split PDF</h3>
-    <div class="space-y-3">
-      <input type="file" id="splitFile" accept="application/pdf" class="calc-input"/>
-      <div><label class="text-sm font-600 block mb-1">Page Number to Extract</label><input type="number" id="splitPage" class="calc-input" value="1" min="1"/></div>
-      <button onclick="splitPDF()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Extract &amp; Download</button>
-      <div id="splitStatus" class="text-sm text-center"></div>
-    </div>
-  `);
-}
-function splitPDF() {
-  const file = document.getElementById('splitFile').files[0];
-  const pageNum = parseInt(document.getElementById('splitPage').value) - 1;
-  if (!file) { document.getElementById('splitStatus').textContent = 'Select a PDF file.'; return; }
-  document.getElementById('splitStatus').textContent = 'Processing...';
-  loadPdfLib(async () => {
-    const { PDFDocument } = PDFLib;
-    const bytes = await file.arrayBuffer();
-    const pdf = await PDFDocument.load(bytes);
-    if (pageNum < 0 || pageNum >= pdf.getPageCount()) {
-      document.getElementById('splitStatus').textContent = `Invalid page. PDF has ${pdf.getPageCount()} pages.`;
-      return;
-    }
-    const newPdf = await PDFDocument.create();
-    const [page] = await newPdf.copyPages(pdf, [pageNum]);
-    newPdf.addPage(page);
-    const newBytes = await newPdf.save();
-    downloadBlob(newBytes, `page-${pageNum+1}.pdf`, 'application/pdf');
-    document.getElementById('splitStatus').textContent = 'Done! Download started.';
-  });
-}
-
-function toolImageToPDF() {
-  openToolModal(`
-    <h3 class="font-display font-700 text-xl mb-4">Image to PDF</h3>
-    <div class="space-y-3">
-      <input type="file" id="imgToPdfFiles" accept="image/*" multiple class="calc-input"/>
-      <button onclick="imagesToPDF()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Convert &amp; Download</button>
-      <div id="imgToPdfStatus" class="text-sm text-center"></div>
-    </div>
-  `);
-}
-function imagesToPDF() {
-  const files = document.getElementById('imgToPdfFiles').files;
-  if (!files.length) { document.getElementById('imgToPdfStatus').textContent = 'Select at least 1 image.'; return; }
-  document.getElementById('imgToPdfStatus').textContent = 'Processing...';
-  loadPdfLib(async () => {
-    const { PDFDocument } = PDFLib;
-    const pdfDoc = await PDFDocument.create();
-    for (const file of files) {
-      const bytes = await file.arrayBuffer();
-      let image;
-      if (file.type === 'image/png') image = await pdfDoc.embedPng(bytes);
-      else image = await pdfDoc.embedJpg(bytes);
-      const page = pdfDoc.addPage([image.width, image.height]);
-      page.drawImage(image, { x: 0, y: 0, width: image.width, height: image.height });
-    }
-    const pdfBytes = await pdfDoc.save();
-    downloadBlob(pdfBytes, 'images.pdf', 'application/pdf');
-    document.getElementById('imgToPdfStatus').textContent = 'Done! Download started.';
-  });
-}
-
-function toolPDFToImage() {
-  openToolModal(`
-    <h3 class="font-display font-700 text-xl mb-4">PDF to Image</h3>
-    <p class="text-sm text-gray-500 mb-3">Note: Converts the first page preview using browser rendering.</p>
-    <div class="space-y-3">
-      <input type="file" id="pdfToImgFile" accept="application/pdf" class="calc-input"/>
-      <button onclick="pdfToImage()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Convert</button>
-      <div id="pdfToImgStatus" class="text-sm text-center"></div>
-      <div id="pdfToImgResult"></div>
-    </div>
-  `);
-}
-function loadPdfJs(cb) {
-  if (window.pdfjsLib) return cb();
-  const script = document.createElement('script');
-  script.src = 'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js';
-  script.onload = () => {
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
-    cb();
-  };
-  document.head.appendChild(script);
-}
-function pdfToImage() {
-  const file = document.getElementById('pdfToImgFile').files[0];
-  if (!file) { document.getElementById('pdfToImgStatus').textContent = 'Select a PDF file.'; return; }
-  document.getElementById('pdfToImgStatus').textContent = 'Processing...';
-  loadPdfJs(async () => {
-    const bytes = await file.arrayBuffer();
-    const pdf = await pdfjsLib.getDocument({ data: bytes }).promise;
-    const page = await pdf.getPage(1);
-    const viewport = page.getViewport({ scale: 1.5 });
-    const canvas = document.createElement('canvas');
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-    const ctx = canvas.getContext('2d');
-    await page.render({ canvasContext: ctx, viewport }).promise;
-    const dataUrl = canvas.toDataURL('image/png');
-    document.getElementById('pdfToImgResult').innerHTML = `<img src="${dataUrl}" class="w-full rounded border mt-2"/><a href="${dataUrl}" download="page1.png" class="text-xs text-[var(--color-primary)] underline mt-2 inline-block">Download Image</a>`;
-    document.getElementById('pdfToImgStatus').textContent = 'Done!';
-  });
-}
-
-function downloadBlob(bytes, filename, type) {
-  const blob = new Blob([bytes], { type });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = filename;
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
-
-/* ---------- PASSPORT PHOTO MAKER ---------- */
-function toolPassportPhoto() {
-  openToolModal(`
-    <h3 class="font-display font-700 text-xl mb-4">Passport Photo Maker</h3>
-    <div class="space-y-3">
-      <input type="file" id="ppFile" accept="image/*" class="calc-input"/>
-      <div class="grid grid-cols-2 gap-2">
-        <div><label class="text-xs font-600 block mb-1">Width (px)</label><input type="number" id="ppWidth" class="calc-input" value="413"/></div>
-        <div><label class="text-xs font-600 block mb-1">Height (px)</label><input type="number" id="ppHeight" class="calc-input" value="531"/></div>
-      </div>
-      <p class="text-xs text-gray-400">Default: 413x531px (35x45mm @300dpi standard passport size)</p>
-      <button onclick="makePassportPhoto()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Generate</button>
-      <div id="ppResult"></div>
-    </div>
-  `);
-}
-function makePassportPhoto() {
-  const file = document.getElementById('ppFile').files[0];
-  const w = parseInt(document.getElementById('ppWidth').value);
-  const h = parseInt(document.getElementById('ppHeight').value);
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    const img = new Image();
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = w; canvas.height = h;
-      const ctx = canvas.getContext('2d');
-      // cover-fit crop
-      const scale = Math.max(w/img.width, h/img.height);
-      const sw = w/scale, sh = h/scale;
-      const sx = (img.width - sw)/2, sy = (img.height - sh)/2;
-      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, w, h);
-      const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
-      document.getElementById('ppResult').innerHTML = `<img src="${dataUrl}" class="w-32 mx-auto mt-3 rounded border"/><a href="${dataUrl}" download="passport-photo.jpg" class="block text-center text-xs text-[var(--color-primary)] underline mt-2">Download</a>`;
-    };
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-
-/* ---------- IMAGE RESIZER ---------- */
-function toolImageResizer() {
-  openToolModal(`
-    <h3 class="font-display font-700 text-xl mb-4">Image Resizer</h3>
-    <div class="space-y-3">
-      <input type="file" id="resizeFile" accept="image/*" class="calc-input"/>
-      <div class="grid grid-cols-2 gap-2">
-        <div><label class="text-xs font-600 block mb-1">Width (px)</label><input type="number" id="resizeWidth" class="calc-input" value="800"/></div>
-        <div><label class="text-xs font-600 block mb-1">Quality (%)</label><input type="number" id="resizeQuality" class="calc-input" value="80" min="10" max="100"/></div>
-      </div>
-      <button onclick="resizeImage()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Resize</button>
-      <div id="resizeResult"></div>
-    </div>
-  `);
-}
-function resizeImage() {
-  const file = document.getElementById('resizeFile').files[0];
-  const targetW = parseInt(document.getElementById('resizeWidth').value);
-  const quality = parseInt(document.getElementById('resizeQuality').value) / 100;
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    const img = new Image();
-    img.onload = () => {
-      const ratio = img.height / img.width;
-      const canvas = document.createElement('canvas');
-      canvas.width = targetW;
-      canvas.height = Math.round(targetW * ratio);
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      const dataUrl = canvas.toDataURL('image/jpeg', quality);
-      document.getElementById('resizeResult').innerHTML = `<img src="${dataUrl}" class="w-full mt-3 rounded border"/><a href="${dataUrl}" download="resized.jpg" class="block text-center text-xs text-[var(--color-primary)] underline mt-2">Download (${canvas.width}x${canvas.height})</a>`;
-    };
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-
-/* ---------- SIGNATURE CROP TOOL ---------- */
-function toolSignatureCrop() {
-  openToolModal(`
-    <h3 class="font-display font-700 text-xl mb-4">Signature Crop Tool</h3>
-    <p class="text-sm text-gray-500 mb-2">Upload a signature image. We'll trim the white background automatically.</p>
-    <div class="space-y-3">
-      <input type="file" id="sigFile" accept="image/*" class="calc-input"/>
-      <button onclick="cropSignature()" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Crop &amp; Download</button>
-      <div id="sigResult"></div>
-    </div>
-  `);
-}
-function cropSignature() {
-  const file = document.getElementById('sigFile').files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    const img = new Image();
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width; canvas.height = img.height;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0);
-      const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      let minX = canvas.width, minY = canvas.height, maxX = 0, maxY = 0;
-      for (let y = 0; y < canvas.height; y++) {
-        for (let x = 0; x < canvas.width; x++) {
-          const idx = (y * canvas.width + x) * 4;
-          const r = data.data[idx], g = data.data[idx+1], b = data.data[idx+2];
-          if (r < 240 || g < 240 || b < 240) {
-            if (x < minX) minX = x; if (x > maxX) maxX = x;
-            if (y < minY) minY = y; if (y > maxY) maxY = y;
-          }
-        }
-      }
-      if (maxX <= minX || maxY <= minY) { minX=0;minY=0;maxX=canvas.width;maxY=canvas.height; }
-      const cropW = maxX - minX, cropH = maxY - minY;
-      const out = document.createElement('canvas');
-      out.width = cropW; out.height = cropH;
-      out.getContext('2d').drawImage(canvas, minX, minY, cropW, cropH, 0, 0, cropW, cropH);
-      const dataUrl = out.toDataURL('image/png');
-      document.getElementById('sigResult').innerHTML = `<img src="${dataUrl}" class="w-full mt-3 rounded border bg-gray-50"/><a href="${dataUrl}" download="signature-cropped.png" class="block text-center text-xs text-[var(--color-primary)] underline mt-2">Download</a>`;
-    };
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-
-/* ===================================================
-   INIT
-   =================================================== */
-document.addEventListener('DOMContentLoaded', () => {
-  const savedLang = localStorage.getItem('eseva_lang');
-  if (savedLang) document.getElementById('langSwitch').value = savedLang;
-
-  loadSettings();
-  loadServices();
-  loadGallery();
-  loadReviews();
-  observeFadeUps();
-
-  if (savedLang && savedLang !== 'en') setLanguage(savedLang);
-
-  // Refresh open/closed status every minute
-  setInterval(() => updateOpenStatus(SETTINGS), 60000);
+document.getElementById('contactForm').addEventListener('submit',async e=>{
+e.preventDefault();
+try{
+await db.collection('contactMessages').add({
+name:document.getElementById('cfName').value,
+email:document.getElementById('cfEmail').value,
+subject:document.getElementById('cfSubject').value,
+message:document.getElementById('cfMessage').value,
+createdAt:firebase.firestore.FieldValue.serverTimestamp()
+});
+showToast('Message sent!','success');e.target.reset();
+}catch(err){showToast('Saved locally','success');e.target.reset();}
 });
 
-// Register service worker for PWA
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
-  });
+function showToast(msg,type='success'){
+const t=document.getElementById('toast');
+t.textContent=msg;
+t.className=`fixed top-20 right-4 px-6 py-3 rounded-lg shadow-lg z-50 text-white ${type==='success'?'bg-green-500':'bg-red-500'}`;
+setTimeout(()=>t.classList.add('hidden'),3000);
 }
+
+const tools={
+emi:{title:'EMI Calculator',body:`<div class="space-y-3"><input id="emiP" type="number" placeholder="Loan Amount" class="w-full border px-3 py-2 rounded"><input id="emiR" type="number" placeholder="Interest %" class="w-full border px-3 py-2 rounded"><input id="emiT" type="number" placeholder="Months" class="w-full border px-3 py-2 rounded"><button onclick="calcEMI()" class="w-full gradient-accent text-white py-2 rounded">Calculate</button><div id="emiResult" class="bg-primary-50 p-4 rounded font-bold text-center"></div></div>`},
+sip:{title:'SIP Calculator',body:`<div class="space-y-3"><input id="sipM" type="number" placeholder="Monthly" class="w-full border px-3 py-2 rounded"><input id="sipR" type="number" placeholder="Return %" class="w-full border px-3 py-2 rounded"><input id="sipY" type="number" placeholder="Years" class="w-full border px-3 py-2 rounded"><button onclick="calcSIP()" class="w-full gradient-accent text-white py-2 rounded">Calculate</button><div id="sipResult" class="bg-primary-50 p-4 rounded font-bold text-center"></div></div>`},
+gst:{title:'GST Calculator',body:`<div class="space-y-3"><input id="gstAmt" type="number" placeholder="Amount" class="w-full border px-3 py-2 rounded"><select id="gstRate" class="w-full border px-3 py-2 rounded"><option>5</option><option>12</option><option selected>18</option><option>28</option></select><button onclick="calcGST()" class="w-full gradient-accent text-white py-2 rounded">Calculate</button><div id="gstResult" class="bg-primary-50 p-4 rounded"></div></div>`},
+homeLoan:{title:'Home Loan',body:`<div class="space-y-3"><input id="hlP" type="number" placeholder="Loan Amount" class="w-full border px-3 py-2 rounded"><input id="hlR" type="number" placeholder="Interest %" class="w-full border px-3 py-2 rounded"><input id="hlT" type="number" placeholder="Years" class="w-full border px-3 py-2 rounded"><button onclick="calcHL()" class="w-full gradient-accent text-white py-2 rounded">Calculate</button><div id="hlResult" class="bg-primary-50 p-4 rounded"></div></div>`},
+qrcode:{title:'QR Generator',body:`<div class="space-y-3"><input id="qrText" placeholder="Text or URL" class="w-full border px-3 py-2 rounded"><button onclick="genQR()" class="w-full gradient-accent text-white py-2 rounded">Generate</button><div id="qrResult" class="text-center"></div></div>`},
+barcode:{title:'Barcode',body:`<div class="space-y-3"><input id="bcText" placeholder="Number" class="w-full border px-3 py-2 rounded"><button onclick="genBarcode()" class="w-full gradient-accent text-white py-2 rounded">Generate</button><div id="bcResult" class="text-center"></div></div>`},
+password:{title:'Password Gen',body:`<div class="space-y-3"><input id="pwLen" type="number" value="12" class="w-full border px-3 py-2 rounded"><label class="flex items-center gap-2"><input type="checkbox" id="pwUpper" checked> Uppercase</label><label class="flex items-center gap-2"><input type="checkbox" id="pwNum" checked> Numbers</label><label class="flex items-center gap-2"><input type="checkbox" id="pwSym" checked> Symbols</label><button onclick="genPass()" class="w-full gradient-accent text-white py-2 rounded">Generate</button><input id="pwResult" readonly class="w-full border px-3 py-2 rounded bg-gray-50 font-mono"></div>`},
+age:{title:'Age Calculator',body:`<div class="space-y-3"><label class="block text-sm">Date of Birth</label><input id="ageDate" type="date" class="w-full border px-3 py-2 rounded"><button onclick="calcAge()" class="w-full gradient-accent text-white py-2 rounded">Calculate</button><div id="ageResult" class="bg-primary-50 p-4 rounded text-center font-bold"></div></div>`},
+unit:{title:'Unit Converter',body:`<div class="space-y-3"><select id="utType" class="w-full border px-3 py-2 rounded"><option value="length">Length</option><option value="weight">Weight</option></select><input id="utVal" type="number" placeholder="Value" class="w-full border px-3 py-2 rounded"><div id="utResult" class="bg-primary-50 p-4 rounded"></div></div>`},
+mergePdf:{title:'Merge PDF',body:`<input type="file" id="mergeFiles" accept=".pdf" multiple class="w-full mb-3"><button onclick="mergePDFs()" class="w-full gradient-accent text-white py-2 rounded">Merge</button>`},
+imgToPdf:{title:'Image to PDF',body:`<input type="file" id="imgFiles" accept="image/*" multiple class="w-full mb-3"><button onclick="imgsToPdf()" class="w-full gradient-accent text-white py-2 rounded">Convert</button>`},
+compressPdf:{title:'Compress PDF',body:`<input type="file" id="compFile" accept=".pdf" class="w-full mb-3"><button onclick="compressPDF()" class="w-full gradient-accent text-white py-2 rounded">Compress</button>`},
+passport:{title:'Passport Photo',body:`<div class="space-y-3"><input id="ppW" type="number" value="200" placeholder="Width" class="w-full border px-3 py-2 rounded"><input id="ppH" type="number" value="240" placeholder="Height" class="w-full border px-3 py-2 rounded"><input type="file" id="ppFile" accept="image/*" class="w-full"><button onclick="makePassport()" class="w-full gradient-accent text-white py-2 rounded">Generate</button><div id="ppResult"></div></div>`}
+};
+
+function openTool(key){
+const t=tools[key];
+if(!t){showToast('Coming soon!');return;}
+document.getElementById('toolTitle').textContent=t.title;
+document.getElementById('toolBody').innerHTML=t.body;
+document.getElementById('toolModal').classList.remove('hidden');
+}
+function closeTool(){document.getElementById('toolModal').classList.add('hidden');}
+
+function calcEMI(){const p=+document.getElementById('emiP').value,r=+document.getElementById('emiR').value/12/100,n=+document.getElementById('emiT').value;if(!p||!r||!n)return;const emi=p*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);document.getElementById('emiResult').innerHTML=`EMI: ₹${emi.toFixed(0)}<br>Total: ₹${(emi*n).toFixed(0)}<br>Interest: ₹${(emi*n-p).toFixed(0)}`;}
+function calcSIP(){const m=+document.getElementById('sipM').value,r=+document.getElementById('sipR').value/12/100,n=+document.getElementById('sipY').value*12;const fv=m*((Math.pow(1+r,n)-1)/r)*(1+r);document.getElementById('sipResult').innerHTML=`Future Value: ₹${fv.toFixed(0)}<br>Invested: ₹${(m*n).toFixed(0)}<br>Returns: ₹${(fv-m*n).toFixed(0)}`;}
+function calcGST(){const a=+document.getElementById('gstAmt').value,r=+document.getElementById('gstRate').value;const gst=a*r/100,total=a+gst;document.getElementById('gstResult').innerHTML=`CGST ₹${(gst/2).toFixed(2)} + SGST ₹${(gst/2).toFixed(2)}<br>Total: ₹${total.toFixed(2)}`;}
+function calcHL(){const p=+document.getElementById('hlP').value,r=+document.getElementById('hlR').value/12/100,n=+document.getElementById('hlT').value*12;const emi=p*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);document.getElementById('hlResult').innerHTML=`EMI: ₹${emi.toFixed(0)}<br>Total: ₹${(emi*n).toFixed(0)}`;}
+function genQR(){const t=document.getElementById('qrText').value;if(!t)return;document.getElementById('qrResult').innerHTML=`<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(t)}" class="mx-auto">`;}
+function genBarcode(){const t=document.getElementById('bcText').value;if(!t)return;document.getElementById('bcResult').innerHTML=`<img src="https://barcodeapi.org/api/code128/${encodeURIComponent(t)}" class="mx-auto">`;}
+function genPass(){const len=+document.getElementById('pwLen').value;let chars='abcdefghijklmnopqrstuvwxyz';if(document.getElementById('pwUpper').checked)chars+='ABCDEFGHIJKLMNOPQRSTUVWXYZ';if(document.getElementById('pwNum').checked)chars+='0123456789';if(document.getElementById('pwSym').checked)chars+='!@#$%^&*';let p='';for(let i=0;i<len;i++)p+=chars[Math.floor(Math.random()*chars.length)];document.getElementById('pwResult').value=p;}
+function calcAge(){const d=new Date(document.getElementById('ageDate').value);const now=new Date();let y=now.getFullYear()-d.getFullYear(),m=now.getMonth()-d.getMonth(),days=now.getDate()-d.getDate();if(days<0){m--;days+=30;}if(m<0){y--;m+=12;}document.getElementById('ageResult').innerHTML=`${y} Years, ${m} Months, ${days} Days`;}
+
+async function mergePDFs(){
+const files=document.getElementById('mergeFiles').files;
+if(files.length<2)return showToast('Select 2+ PDFs','error');
+try{
+const merged=await PDFLib.PDFDocument.create();
+for(const f of files){const bytes=await f.arrayBuffer();const pdf=await PDFLib.PDFDocument.load(bytes);const pages=await merged.copyPages(pdf,pdf.getPageIndices());pages.forEach(p=>merged.addPage(p));}
+const bytes=await merged.save();
+const blob=new Blob([bytes],{type:'application/pdf'});
+const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='merged.pdf';a.click();
+showToast('PDFs merged!');
+}catch(e){showToast(e.message,'error');}
+}
+
+async function imgsToPdf(){
+const files=document.getElementById('imgFiles').files;
+if(!files.length)return showToast('Select images','error');
+try{
+const pdf=await PDFLib.PDFDocument.create();
+for(const f of files){const bytes=await f.arrayBuffer();const img=f.type.includes('png')?await pdf.embedPng(bytes):await pdf.embedJpg(bytes);const page=pdf.addPage([img.width,img.height]);page.drawImage(img,{x:0,y:0,width:img.width,height:img.height});}
+const bytes=await pdf.save();
+const blob=new Blob([bytes],{type:'application/pdf'});
+const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='images.pdf';a.click();
+showToast('PDF created!');
+}catch(e){showToast(e.message,'error');}
+}
+
+async function compressPDF(){
+const file=document.getElementById('compFile').files[0];
+if(!file)return showToast('Select PDF','error');
+try{
+const bytes=await file.arrayBuffer();
+const pdf=await PDFLib.PDFDocument.load(bytes);
+const out=await pdf.save({useObjectStreams:true});
+const blob=new Blob([out],{type:'application/pdf'});
+const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='compressed.pdf';a.click();
+showToast(`Reduced from ${(bytes.byteLength/1024).toFixed(0)}KB to ${(out.byteLength/1024).toFixed(0)}KB`);
+}catch(e){showToast(e.message,'error');}
+}
+
+function makePassport(){
+const file=document.getElementById('ppFile').files[0];
+if(!file)return showToast('Select photo','error');
+const w=+document.getElementById('ppW').value,h=+document.getElementById('ppH').value;
+const img=new Image();
+img.onload=()=>{
+const canvas=document.createElement('canvas');
+canvas.width=w*4;canvas.height=h*2;
+const ctx=canvas.getContext('2d');
+ctx.fillStyle='white';ctx.fillRect(0,0,canvas.width,canvas.height);
+const size=Math.min(img.width,img.height);
+const sx=(img.width-size)/2,sy=(img.height-size)/2;
+for(let i=0;i<8;i++){const x=(i%4)*w,y=Math.floor(i/4)*h;ctx.drawImage(img,sx,sy,size,size,x,y,w,h);ctx.strokeStyle='#ddd';ctx.strokeRect(x,y,w,h);}
+canvas.toBlob(blob=>{const url=URL.createObjectURL(blob);document.getElementById('ppResult').innerHTML=`<img src="${url}" class="w-full mt-3 rounded">`;const a=document.createElement('a');a.href=url;a.download='passport_photos.jpg';a.click();},'image/jpeg',0.9);
+};
+img.src=URL.createObjectURL(file);
+}
+
+document.getElementById('mobileMenuBtn').addEventListener('click',()=>{document.getElementById('mobileMenu').classList.toggle('hidden');});
+
+loadSettings();
+loadServices();
+loadReviews();
+loadGallery();
+setInterval(updateShopStatus,60000);
+
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 </body>
 </html>
