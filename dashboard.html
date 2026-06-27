@@ -1,1082 +1,442 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>My Dashboard - E-Seva Kendra</title>
-<meta name="description" content="Login, book services and track your requests at E-Seva Kendra" />
-
-<link rel="manifest" href="manifest.json" />
-<meta name="theme-color" content="#0B4F4A" />
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;600&family=Noto+Sans+Oriya:wght@400;600&display=swap" rel="stylesheet">
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Pankaj E-Seva Kendra</title>
+<meta name="theme-color" content="#1E3A8A">
 <script src="https://cdn.tailwindcss.com"></script>
-
-<!-- Firebase CDN -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-storage-compat.js"></script>
-
+<script>
+tailwind.config={theme:{extend:{colors:{primary:{50:'#EEF2FF',500:'#6366F1',700:'#4338CA',800:'#1E3A8A'},accent:{500:'#F59E0B',600:'#D97706'},dark:'#0F172A',soft:'#F8FAFC'},fontFamily:{display:['Poppins','sans-serif'],body:['Inter','sans-serif']}}}}
+</script>
 <style>
-  :root{
-    --color-primary:#0B4F4A;
-    --color-primary-light:#10726A;
-    --color-accent:#F4A024;
-    --color-bg:#FAF8F3;
-    --color-charcoal:#1F2A2C;
-    --color-success:#1E8E5A;
-    --color-card:#FFFFFF;
-    --color-danger:#E04F4F;
-    --color-warning:#F4A024;
-  }
-  *{box-sizing:border-box;}
-  body{
-    font-family:'Inter', 'Noto Sans Devanagari', 'Noto Sans Oriya', sans-serif;
-    background:var(--color-bg);
-    color:var(--color-charcoal);
-  }
-  .font-display{font-family:'Poppins','Noto Sans Devanagari','Noto Sans Oriya',sans-serif;}
-
-  .seva-card{
-    background:var(--color-card);
-    border-radius:18px;
-    border:1px solid rgba(11,79,74,0.08);
-    box-shadow:0 2px 10px rgba(11,79,74,0.05);
-  }
-  .seva-token{
-    font-family:'Poppins',sans-serif;
-    font-weight:700;
-    font-size:11px;
-    letter-spacing:.08em;
-    padding:4px 10px;
-    border-radius:6px;
-    background:rgba(11,79,74,0.07);
-    color:var(--color-primary);
-    display:inline-block;
-  }
-  .calc-input{
-    border:1.5px solid rgba(11,79,74,0.15);
-    border-radius:10px;
-    padding:10px 14px;
-    width:100%;
-    background:#fff;
-    transition:border-color .2s;
-  }
-  .calc-input:focus{outline:none; border-color:var(--color-accent);}
-
-  .nav-link{
-    display:flex; align-items:center; gap:10px;
-    padding:10px 14px; border-radius:12px;
-    font-family:'Poppins',sans-serif; font-weight:600; font-size:14px;
-    color:#5a6b6a; transition:all .15s;
-  }
-  .nav-link:hover{background:rgba(11,79,74,0.06); color:var(--color-primary);}
-  .nav-link.active{background:var(--color-primary); color:#fff;}
-
-  .status-badge{
-    font-size:11px; font-weight:700; padding:4px 10px; border-radius:999px;
-    font-family:'Poppins',sans-serif; letter-spacing:.03em; display:inline-block;
-  }
-  .status-pending{background:#FEF3CD; color:#92660A;}
-  .status-approved{background:#DCEEFF; color:#1A5FB4;}
-  .status-progress{background:#E6E0FF; color:#5B3FBF;}
-  .status-completed{background:#DEF5E7; color:#1E8E5A;}
-  .status-rejected{background:#FCE1E1; color:#C0392B;}
-
-  .modal-overlay{background:rgba(31,42,44,0.55); backdrop-filter:blur(2px);}
-
-  .auth-tab{
-    flex:1; text-align:center; padding:10px; font-family:'Poppins',sans-serif;
-    font-weight:700; font-size:14px; border-radius:10px; cursor:pointer; transition:all .2s;
-    color:#5a6b6a;
-  }
-  .auth-tab.active{background:var(--color-primary); color:#fff;}
-
-  #recaptcha-container{ margin: 8px 0; }
-
-  .upload-zone{
-    border:2px dashed rgba(11,79,74,0.2); border-radius:14px; padding:24px;
-    text-align:center; cursor:pointer; transition:all .2s;
-  }
-  .upload-zone:hover{border-color:var(--color-accent); background:rgba(244,160,36,0.04);}
-
-  .skeleton{background:linear-gradient(90deg,#eee 25%,#f5f5f5 50%,#eee 75%); background-size:200% 100%; animation:skeletonShine 1.4s infinite;}
-  @keyframes skeletonShine{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
-
-  @media (max-width: 768px) {
-    .desktop-sidebar{ display:none; }
-    .mobile-bottom-nav{ display:flex; }
-  }
-  @media (min-width: 769px) {
-    .mobile-bottom-nav{ display:none; }
-  }
+*{font-family:'Inter',sans-serif}h1,h2,h3,h4,h5,h6{font-family:'Poppins',sans-serif}
+.glass{background:rgba(255,255,255,0.85);backdrop-filter:blur(20px)}
+.gradient-primary{background:linear-gradient(135deg,#1E3A8A,#3B82F6,#6366F1)}
+.gradient-accent{background:linear-gradient(135deg,#F59E0B,#D97706)}
+.btn-primary{background:linear-gradient(135deg,#1E3A8A,#3B82F6);transition:all .3s;box-shadow:0 4px 15px rgba(30,58,138,0.3)}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-accent{background:linear-gradient(135deg,#F59E0B,#D97706)}
+.stat-card{transition:all .3s}
+.stat-card:hover{transform:translateY(-4px);box-shadow:0 20px 40px -10px rgba(30,58,138,0.15)}
+.nav-item{position:relative;transition:all .3s;cursor:pointer}
+.nav-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#F59E0B,#D97706);border-radius:0 4px 4px 0;transform:scaleY(0);transition:transform .3s}
+.nav-item.active::before,.nav-item:hover::before{transform:scaleY(1)}
+.nav-item.active{background:linear-gradient(90deg,rgba(245,158,11,0.1),transparent);color:#1E3A8A;font-weight:600}
+.page{display:none}.page.active{display:block;animation:fadeInUp .5s ease-out}
+.input-field{border:2px solid #E5E7EB;transition:all .2s}
+.input-field:focus{border-color:#3B82F6;box-shadow:0 0 0 4px rgba(59,130,246,0.1);outline:none}
+.badge{font-size:.7rem;padding:.25rem .6rem;border-radius:9999px;font-weight:600}
+.badge-pending{background:#FEF3C7;color:#92400E}.badge-approved{background:#DBEAFE;color:#1E40AF}.badge-progress{background:#E9D5FF;color:#6B21A8}.badge-completed{background:#D1FAE5;color:#065F46}.badge-rejected{background:#FEE2E2;color:#991B1B}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
-<body class="antialiased">
+<body class="min-h-screen bg-soft">
 
-<!-- ============ AUTH SCREEN ============ -->
-<div id="authScreen" class="min-h-screen flex items-center justify-center px-4 py-10 bg-gradient-to-br from-[var(--color-primary)] via-[var(--color-primary)] to-[var(--color-primary-light)]">
-  <div class="w-full max-w-md">
-    <div class="text-center mb-6">
-      <img src="logo.png" alt="Logo" class="w-16 h-16 rounded-2xl mx-auto object-cover" onerror="this.style.display='none'"/>
-      <h1 class="font-display font-800 text-2xl text-white mt-3">E-Seva Kendra</h1>
-      <p class="text-white/70 text-sm mt-1">Login to book services &amp; track your requests</p>
-    </div>
-
-    <div class="seva-card p-6">
-      <!-- Auth method tabs -->
-      <div class="flex gap-2 mb-5 bg-[var(--color-bg)] p-1.5 rounded-xl">
-        <div class="auth-tab active" id="tabMobile" onclick="switchAuthTab('mobile')">Mobile OTP</div>
-        <div class="auth-tab" id="tabGoogle" onclick="switchAuthTab('google')">Google</div>
-      </div>
-
-      <!-- Mobile OTP login -->
-      <div id="authMobile">
-        <div id="mobileStep1">
-          <label class="text-sm font-display font-600 block mb-1">Mobile Number</label>
-          <div class="flex gap-2">
-            <span class="calc-input w-16 text-center !p-0 flex items-center justify-center font-700">+91</span>
-            <input type="tel" id="mobileInput" maxlength="10" pattern="[0-9]{10}" class="calc-input" placeholder="10-digit mobile number"/>
-          </div>
-          <div id="recaptcha-container"></div>
-          <button onclick="sendOTP()" class="w-full mt-4 py-3 rounded-full bg-[var(--color-primary)] text-white font-display font-700 hover:bg-[var(--color-primary-light)] transition">Send OTP</button>
-        </div>
-        <div id="mobileStep2" class="hidden">
-          <label class="text-sm font-display font-600 block mb-1">Enter OTP</label>
-          <input type="text" id="otpInput" maxlength="6" class="calc-input text-center tracking-widest text-lg font-700" placeholder="------"/>
-          <button onclick="verifyOTP()" class="w-full mt-4 py-3 rounded-full bg-[var(--color-primary)] text-white font-display font-700 hover:bg-[var(--color-primary-light)] transition">Verify &amp; Login</button>
-          <button onclick="resetMobileAuth()" class="w-full mt-2 py-2 text-sm text-gray-500 font-display font-600">← Change Number</button>
-        </div>
-      </div>
-
-      <!-- Google login -->
-      <div id="authGoogle" class="hidden">
-        <button onclick="loginWithGoogle()" class="w-full py-3 rounded-full border-2 border-gray-200 font-display font-700 flex items-center justify-center gap-3 hover:border-[var(--color-accent)] transition">
-          <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-          Continue with Google
-        </button>
-      </div>
-
-      <div id="authError" class="text-sm text-center text-[var(--color-danger)] mt-3 hidden"></div>
-
-      <p class="text-xs text-gray-400 text-center mt-5">By continuing, you agree to our terms of service and privacy policy.</p>
-    </div>
-
-    <div class="text-center mt-5">
-      <a href="index.html" class="text-white/70 text-sm hover:text-white">← Back to Home</a>
-    </div>
-  </div>
+<!-- LOGIN PAGE -->
+<div id="loginPage" class="min-h-screen flex items-center justify-center gradient-primary p-4">
+<div class="max-w-md w-full glass rounded-3xl shadow-2xl overflow-hidden p-8">
+<div class="text-center text-white mb-6">
+<div class="w-20 h-20 mx-auto rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-4xl mb-4"><i class="fas fa-store"></i></div>
+<h1 class="text-2xl font-display font-bold">Pankaj E-Seva Kendra</h1>
+<p class="text-white/80 text-sm mt-1">Customer Login</p>
+</div>
+<div class="bg-white rounded-2xl p-6">
+<div class="flex bg-soft rounded-xl p-1 mb-4">
+<button onclick="switchAuth('phone')" id="phoneTab" class="flex-1 py-2 rounded-lg text-sm font-semibold gradient-accent text-white"><i class="fas fa-phone mr-1"></i> OTP</button>
+<button onclick="switchAuth('google')" id="googleTab" class="flex-1 py-2 rounded-lg text-sm font-semibold text-gray-600"><i class="fab fa-google mr-1"></i> Google</button>
+</div>
+<div id="phoneAuth">
+<div id="phoneStep1">
+<div class="flex gap-2 mb-3">
+<div class="bg-soft border-2 border-gray-200 rounded-xl px-3 py-3 text-sm font-semibold">+91</div>
+<input type="tel" id="phoneNumber" maxlength="10" placeholder="9876543210" class="input-field flex-1 px-4 py-3 rounded-xl">
+</div>
+<div id="recaptcha-container"></div>
+<button onclick="sendOTP()" class="btn-primary w-full text-white py-3 rounded-xl font-semibold">Send OTP</button>
+</div>
+<div id="phoneStep2" class="hidden">
+<input type="text" id="otpCode" maxlength="6" placeholder="••••••" class="input-field w-full px-4 py-3 rounded-xl text-center text-2xl font-bold tracking-widest mb-3">
+<button onclick="verifyOTP()" class="btn-accent w-full text-white py-3 rounded-xl font-semibold">Verify & Login</button>
+</div>
+</div>
+<div id="googleAuth" class="hidden">
+<button onclick="googleLogin()" class="w-full border-2 border-gray-200 py-3 rounded-xl font-semibold flex items-center justify-center gap-3">
+<svg class="w-5 h-5" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.5-5.9 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.2-.1-2.3-.4-3.5z"/></svg>
+Continue with Google
+</button>
+</div>
+</div>
+</div>
 </div>
 
-<!-- ============ MAIN APP (after login) ============ -->
-<div id="appScreen" class="hidden min-h-screen flex">
+<!-- MAIN APP -->
+<div id="mainApp" class="hidden">
 
-  <!-- Desktop Sidebar -->
-  <aside class="desktop-sidebar w-64 bg-white border-r border-gray-100 p-5 flex flex-col gap-1 h-screen sticky top-0">
-    <a href="index.html" class="flex items-center gap-2 mb-6 px-2">
-      <img src="logo.png" alt="Logo" class="w-9 h-9 rounded-lg object-cover" onerror="this.style.display='none'"/>
-      <span class="font-display font-700 text-[var(--color-primary)]">E-Seva Kendra</span>
-    </a>
-    <a href="#dashboard" class="nav-link active" data-page="dashboard" onclick="showPage('dashboard')">
-      <span>🏠</span> Dashboard
-    </a>
-    <a href="#book" class="nav-link" data-page="book" onclick="showPage('book')">
-      <span>📝</span> Book Service
-    </a>
-    <a href="#bookings" class="nav-link" data-page="bookings" onclick="showPage('bookings')">
-      <span>📋</span> My Bookings
-    </a>
-    <a href="#documents" class="nav-link" data-page="documents" onclick="showPage('documents')">
-      <span>📁</span> Document Vault
-    </a>
-    <a href="#notifications" class="nav-link" data-page="notifications" onclick="showPage('notifications')">
-      <span>🔔</span> Notifications
-      <span id="notifBadgeDesktop" class="hidden ml-auto bg-[var(--color-accent)] text-white text-[10px] font-700 px-2 py-0.5 rounded-full"></span>
-    </a>
-    <a href="#support" class="nav-link" data-page="support" onclick="showPage('support')">
-      <span>🎫</span> Support Tickets
-    </a>
-    <a href="#profile" class="nav-link" data-page="profile" onclick="showPage('profile')">
-      <span>👤</span> Profile
-    </a>
-    <div class="mt-auto">
-      <button onclick="logout()" class="nav-link w-full text-left text-[var(--color-danger)]">
-        <span>🚪</span> Logout
-      </button>
-    </div>
-  </aside>
+<!-- HEADER -->
+<header class="glass sticky top-0 z-40 shadow-sm">
+<div class="px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl gradient-accent flex items-center justify-center text-white"><i class="fas fa-store"></i></div>
+<div><h1 class="font-display font-bold text-sm text-primary-800">Pankaj E-Seva</h1><p class="text-xs text-gray-500" id="userGreeting">Welcome</p></div>
+</div>
+<div class="flex items-center gap-2">
+<button onclick="showPage('notifications')" class="relative w-10 h-10 rounded-xl bg-soft flex items-center justify-center"><i class="fas fa-bell"></i><span id="notifBadge" class="hidden absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">0</span></button>
+<button onclick="logout()" class="text-xs bg-red-50 text-red-600 px-3 py-2 rounded-lg">Logout</button>
+</div>
+</div>
+</header>
 
-  <!-- Main content -->
-  <main class="flex-1 min-h-screen pb-24 md:pb-8">
-    <!-- Top bar -->
-    <header class="bg-white border-b border-gray-100 px-4 md:px-8 py-4 flex items-center justify-between sticky top-0 z-30">
-      <div>
-        <div class="font-display font-700 text-lg" id="pageTitle">Dashboard</div>
-        <div class="text-xs text-gray-400" id="pageSubtitle">Welcome back!</div>
-      </div>
-      <div class="flex items-center gap-3">
-        <button onclick="showPage('notifications')" class="relative p-2 rounded-full hover:bg-gray-100">
-          🔔
-          <span id="notifBadgeMobile" class="hidden absolute top-0 right-0 bg-[var(--color-accent)] text-white text-[9px] font-700 w-4 h-4 rounded-full flex items-center justify-center"></span>
-        </button>
-        <div id="userAvatar" class="w-9 h-9 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center font-display font-700 text-sm">U</div>
-      </div>
-    </header>
+<div class="flex">
+<!-- SIDEBAR -->
+<aside class="hidden lg:block w-64 min-h-screen bg-white border-r sticky top-16 self-start">
+<nav class="p-4 space-y-1">
+<div class="flex items-center gap-3 p-3 mb-4 rounded-xl bg-soft">
+<div class="w-12 h-12 rounded-full gradient-primary flex items-center justify-center text-white text-lg font-bold" id="sidebarAvatar"><i class="fas fa-user"></i></div>
+<div class="flex-1 min-w-0"><p class="font-semibold text-sm truncate" id="sidebarName">User</p><p class="text-xs text-gray-500 truncate" id="sidebarEmail">-</p></div>
+</div>
+<a onclick="showPage('home')" class="nav-item active flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm"><i class="fas fa-home w-5"></i> Dashboard</a>
+<a onclick="showPage('book')" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm"><i class="fas fa-calendar-plus w-5"></i> Book Service</a>
+<a onclick="showPage('bookings')" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm"><i class="fas fa-list w-5"></i> My Bookings</a>
+<a onclick="showPage('documents')" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm"><i class="fas fa-folder-open w-5"></i> Document Vault</a>
+<a onclick="showPage('notifications')" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm"><i class="fas fa-bell w-5"></i> Notifications</a>
+<a onclick="showPage('profile')" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm"><i class="fas fa-user-cog w-5"></i> Profile</a>
+</nav>
+</aside>
 
-    <div class="p-4 md:p-8">
+<!-- CONTENT -->
+<main class="flex-1 p-4 lg:p-6 pb-24 max-w-6xl mx-auto w-full">
 
-      <!-- ===== DASHBOARD PAGE ===== -->
-      <div id="page-dashboard" class="page-content">
-        <div class="seva-card p-6 mb-6 bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-light)] text-white">
-          <div class="text-sm text-white/70">Welcome back,</div>
-          <div id="welcomeName" class="font-display font-800 text-2xl mt-1">User</div>
-          <p class="text-sm text-white/80 mt-2 max-w-md">Book a new service, track your existing requests, or manage your documents — all in one place.</p>
-          <button onclick="showPage('book')" class="mt-4 px-5 py-2.5 rounded-full bg-[var(--color-accent)] font-display font-700 text-sm">+ Book New Service</button>
-        </div>
-
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          <div class="seva-card p-4">
-            <div class="text-xs text-gray-500">Total Bookings</div>
-            <div id="statTotal" class="font-display font-800 text-2xl text-[var(--color-primary)] mt-1">0</div>
-          </div>
-          <div class="seva-card p-4">
-            <div class="text-xs text-gray-500">Pending</div>
-            <div id="statPending" class="font-display font-800 text-2xl text-[#92660A] mt-1">0</div>
-          </div>
-          <div class="seva-card p-4">
-            <div class="text-xs text-gray-500">In Progress</div>
-            <div id="statProgress" class="font-display font-800 text-2xl text-[#5B3FBF] mt-1">0</div>
-          </div>
-          <div class="seva-card p-4">
-            <div class="text-xs text-gray-500">Completed</div>
-            <div id="statCompleted" class="font-display font-800 text-2xl text-[var(--color-success)] mt-1">0</div>
-          </div>
-        </div>
-
-        <div class="seva-card p-5">
-          <div class="font-display font-700 mb-4">Recent Bookings</div>
-          <div id="recentBookings" class="space-y-3">
-            <div class="text-sm text-gray-400 text-center py-6">Loading...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ===== BOOK SERVICE PAGE ===== -->
-      <div id="page-book" class="page-content hidden">
-        <div class="seva-card p-6 max-w-2xl">
-          <div class="font-display font-700 text-lg mb-1">Book a Service</div>
-          <p class="text-sm text-gray-500 mb-5">Fill in the details below and our team will contact you shortly.</p>
-          <form id="bookingForm" onsubmit="submitBooking(event)" class="space-y-4">
-            <div>
-              <label class="text-sm font-display font-600 block mb-1">Full Name</label>
-              <input type="text" name="name" id="bookName" required class="calc-input" placeholder="Enter your full name"/>
-            </div>
-            <div>
-              <label class="text-sm font-display font-600 block mb-1">Mobile Number</label>
-              <input type="tel" name="mobile" id="bookMobile" required pattern="[0-9]{10}" maxlength="10" class="calc-input" placeholder="10-digit mobile number"/>
-            </div>
-            <div>
-              <label class="text-sm font-display font-600 block mb-1">Address</label>
-              <textarea name="address" id="bookAddress" required rows="2" class="calc-input" placeholder="Your address"></textarea>
-            </div>
-            <div class="grid grid-cols-2 gap-3">
-              <div>
-                <label class="text-sm font-display font-600 block mb-1">Service Category</label>
-                <select name="category" id="bookCategory" required class="calc-input" onchange="updateServiceTypes()">
-                  <option value="">Select category</option>
-                  <option value="csc">CSC Services</option>
-                  <option value="banking">Banking Services</option>
-                  <option value="govt">Government Services</option>
-                  <option value="utility">Utility Services</option>
-                </select>
-              </div>
-              <div>
-                <label class="text-sm font-display font-600 block mb-1">Service Type</label>
-                <select name="serviceType" id="bookServiceType" required class="calc-input">
-                  <option value="">Select category first</option>
-                </select>
-              </div>
-            </div>
-            <div>
-              <label class="text-sm font-display font-600 block mb-1">Additional Notes</label>
-              <textarea name="notes" id="bookNotes" rows="3" class="calc-input" placeholder="Any specific requirements or details..."></textarea>
-            </div>
-            <div>
-              <label class="text-sm font-display font-600 block mb-1">Upload Document (optional)</label>
-              <div class="upload-zone" onclick="document.getElementById('bookDocument').click()">
-                <input type="file" id="bookDocument" class="hidden" accept="image/*,application/pdf" onchange="previewDoc(this)"/>
-                <div id="docUploadLabel">
-                  <div class="text-2xl mb-1">📎</div>
-                  <div class="text-sm text-gray-500">Click to upload Aadhaar / Photo / Document</div>
-                </div>
-              </div>
-            </div>
-            <button type="submit" class="w-full py-3 rounded-full bg-[var(--color-primary)] text-white font-display font-700 hover:bg-[var(--color-primary-light)] transition">Submit Booking</button>
-            <div id="bookingFormMsg" class="text-sm text-center hidden"></div>
-          </form>
-        </div>
-      </div>
-
-      <!-- ===== MY BOOKINGS PAGE ===== -->
-      <div id="page-bookings" class="page-content hidden">
-        <div class="flex flex-wrap gap-2 mb-5">
-          <button class="px-4 py-2 rounded-full text-sm font-display font-700 bg-[var(--color-primary)] text-white" onclick="filterBookings('all')" data-filter="all">All</button>
-          <button class="px-4 py-2 rounded-full text-sm font-display font-700 bg-gray-100 text-gray-600" onclick="filterBookings('Pending')" data-filter="Pending">Pending</button>
-          <button class="px-4 py-2 rounded-full text-sm font-display font-700 bg-gray-100 text-gray-600" onclick="filterBookings('Approved')" data-filter="Approved">Approved</button>
-          <button class="px-4 py-2 rounded-full text-sm font-display font-700 bg-gray-100 text-gray-600" onclick="filterBookings('In Progress')" data-filter="In Progress">In Progress</button>
-          <button class="px-4 py-2 rounded-full text-sm font-display font-700 bg-gray-100 text-gray-600" onclick="filterBookings('Completed')" data-filter="Completed">Completed</button>
-          <button class="px-4 py-2 rounded-full text-sm font-display font-700 bg-gray-100 text-gray-600" onclick="filterBookings('Rejected')" data-filter="Rejected">Rejected</button>
-        </div>
-        <div id="bookingsList" class="space-y-3">
-          <div class="seva-card p-5 h-24 skeleton"></div>
-          <div class="seva-card p-5 h-24 skeleton"></div>
-        </div>
-      </div>
-
-      <!-- ===== DOCUMENT VAULT PAGE ===== -->
-      <div id="page-documents" class="page-content hidden">
-        <div class="seva-card p-6 mb-5">
-          <div class="font-display font-700 mb-3">Upload New Document</div>
-          <div class="upload-zone" onclick="document.getElementById('vaultUpload').click()">
-            <input type="file" id="vaultUpload" class="hidden" accept="image/*,application/pdf" onchange="uploadToVault(this)"/>
-            <div class="text-2xl mb-1">📤</div>
-            <div class="text-sm text-gray-500">Click to upload (Aadhaar, PAN, Photo, etc.)</div>
-          </div>
-          <div id="vaultUploadStatus" class="text-sm text-center mt-2 hidden"></div>
-        </div>
-        <div id="vaultGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-          <div class="text-sm text-gray-400 text-center py-6 col-span-full">No documents uploaded yet.</div>
-        </div>
-      </div>
-
-      <!-- ===== NOTIFICATIONS PAGE ===== -->
-      <div id="page-notifications" class="page-content hidden">
-        <div id="notificationsList" class="space-y-3">
-          <div class="text-sm text-gray-400 text-center py-6">No notifications yet.</div>
-        </div>
-      </div>
-
-      <!-- ===== SUPPORT TICKETS PAGE ===== -->
-      <div id="page-support" class="page-content hidden">
-        <div class="seva-card p-6 mb-5 max-w-xl">
-          <div class="font-display font-700 mb-3">Raise a Support Ticket</div>
-          <form onsubmit="submitTicket(event)" class="space-y-3">
-            <div>
-              <label class="text-sm font-display font-600 block mb-1">Subject</label>
-              <input type="text" name="subject" required class="calc-input" placeholder="e.g. My Aadhaar booking status"/>
-            </div>
-            <div>
-              <label class="text-sm font-display font-600 block mb-1">Description</label>
-              <textarea name="description" required rows="3" class="calc-input" placeholder="Describe your issue..."></textarea>
-            </div>
-            <button type="submit" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Submit Ticket</button>
-          </form>
-        </div>
-        <div id="ticketsList" class="space-y-3">
-          <div class="text-sm text-gray-400 text-center py-6">No support tickets yet.</div>
-        </div>
-      </div>
-
-      <!-- ===== PROFILE PAGE ===== -->
-      <div id="page-profile" class="page-content hidden">
-        <div class="seva-card p-6 max-w-lg">
-          <div class="flex items-center gap-4 mb-5">
-            <div class="relative">
-              <img id="profilePhoto" src="" class="w-20 h-20 rounded-full object-cover bg-[var(--color-primary)] hidden"/>
-              <div id="profilePhotoPlaceholder" class="w-20 h-20 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center font-display font-800 text-2xl">U</div>
-              <button onclick="document.getElementById('profilePhotoInput').click()" class="absolute bottom-0 right-0 w-7 h-7 rounded-full bg-[var(--color-accent)] text-white flex items-center justify-center text-xs">✏️</button>
-              <input type="file" id="profilePhotoInput" accept="image/*" class="hidden" onchange="uploadProfilePhoto(this)"/>
-            </div>
-            <div>
-              <div id="profileNameDisplay" class="font-display font-700 text-lg">User</div>
-              <div id="profilePhoneDisplay" class="text-sm text-gray-400"></div>
-            </div>
-          </div>
-          <form onsubmit="saveProfile(event)" class="space-y-3">
-            <div>
-              <label class="text-sm font-display font-600 block mb-1">Full Name</label>
-              <input type="text" name="name" id="profileName" class="calc-input"/>
-            </div>
-            <div>
-              <label class="text-sm font-display font-600 block mb-1">Email</label>
-              <input type="email" name="email" id="profileEmail" class="calc-input"/>
-            </div>
-            <div>
-              <label class="text-sm font-display font-600 block mb-1">Address</label>
-              <textarea name="address" id="profileAddress" rows="2" class="calc-input"></textarea>
-            </div>
-            <button type="submit" class="w-full py-2.5 rounded-full bg-[var(--color-primary)] text-white font-display font-700">Save Changes</button>
-            <div id="profileMsg" class="text-sm text-center hidden"></div>
-          </form>
-        </div>
-      </div>
-
-    </div>
-  </main>
-
-  <!-- Mobile Bottom Nav -->
-  <nav class="mobile-bottom-nav fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-40 px-2 py-2">
-    <a href="#dashboard" class="flex-1 flex flex-col items-center gap-0.5 py-1 nav-link active" data-page="dashboard" onclick="showPage('dashboard')">
-      <span>🏠</span><span class="text-[10px]">Home</span>
-    </a>
-    <a href="#book" class="flex-1 flex flex-col items-center gap-0.5 py-1 nav-link" data-page="book" onclick="showPage('book')">
-      <span>📝</span><span class="text-[10px]">Book</span>
-    </a>
-    <a href="#bookings" class="flex-1 flex flex-col items-center gap-0.5 py-1 nav-link" data-page="bookings" onclick="showPage('bookings')">
-      <span>📋</span><span class="text-[10px]">Bookings</span>
-    </a>
-    <a href="#documents" class="flex-1 flex flex-col items-center gap-0.5 py-1 nav-link" data-page="documents" onclick="showPage('documents')">
-      <span>📁</span><span class="text-[10px]">Docs</span>
-    </a>
-    <a href="#profile" class="flex-1 flex flex-col items-center gap-0.5 py-1 nav-link" data-page="profile" onclick="showPage('profile')">
-      <span>👤</span><span class="text-[10px]">Profile</span>
-    </a>
-  </nav>
+<!-- HOME -->
+<div id="page-home" class="page active">
+<div class="gradient-primary rounded-2xl p-6 text-white mb-6">
+<p class="text-sm text-white/70">Welcome back 👋</p>
+<h2 class="text-2xl font-display font-bold mt-1" id="welcomeName">User</h2>
+<p class="text-sm text-white/80 mt-2">Book any service instantly!</p>
+<button onclick="showPage('book')" class="btn-accent mt-4 px-5 py-2 rounded-xl text-sm font-semibold text-white inline-flex items-center gap-2"><i class="fas fa-plus"></i> Book New Service</button>
+</div>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="stat-card bg-white p-4 rounded-2xl shadow-sm border"><div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mb-2"><i class="fas fa-calendar"></i></div><p class="text-2xl font-bold" id="statTotal">0</p><p class="text-xs text-gray-500">Total</p></div>
+<div class="stat-card bg-white p-4 rounded-2xl shadow-sm border"><div class="w-10 h-10 rounded-xl bg-yellow-100 text-yellow-600 flex items-center justify-center mb-2"><i class="fas fa-clock"></i></div><p class="text-2xl font-bold" id="statPending">0</p><p class="text-xs text-gray-500">Pending</p></div>
+<div class="stat-card bg-white p-4 rounded-2xl shadow-sm border"><div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center mb-2"><i class="fas fa-spinner"></i></div><p class="text-2xl font-bold" id="statProgress">0</p><p class="text-xs text-gray-500">In Progress</p></div>
+<div class="stat-card bg-white p-4 rounded-2xl shadow-sm border"><div class="w-10 h-10 rounded-xl bg-green-100 text-green-600 flex items-center justify-center mb-2"><i class="fas fa-check-circle"></i></div><p class="text-2xl font-bold" id="statCompleted">0</p><p class="text-xs text-gray-500">Completed</p></div>
+</div>
+<div class="bg-white rounded-2xl p-5 shadow-sm border">
+<h3 class="font-display font-bold text-lg mb-3">Recent Bookings</h3>
+<div id="recentBookings" class="space-y-3"></div>
+</div>
 </div>
 
-<!-- ============ DOC PREVIEW MODAL ============ -->
-<div id="docModal" class="fixed inset-0 z-[60] hidden modal-overlay items-center justify-center p-4">
-  <div class="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 relative">
-    <button onclick="closeDocModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200">✕</button>
-    <div id="docModalContent"></div>
-  </div>
+<!-- BOOK -->
+<div id="page-book" class="page">
+<div class="bg-white rounded-2xl p-6 shadow-sm border">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-12 h-12 rounded-xl gradient-accent flex items-center justify-center text-white"><i class="fas fa-calendar-plus"></i></div>
+<div><h2 class="font-display font-bold text-xl">Book a Service</h2><p class="text-sm text-gray-500">Fill the form below</p></div>
 </div>
+<form id="bookForm" class="space-y-4">
+<div class="grid sm:grid-cols-2 gap-4">
+<div><label class="block text-xs font-semibold text-gray-600 mb-1">Full Name *</label><input type="text" id="bkName" required class="input-field w-full px-4 py-3 rounded-xl"></div>
+<div><label class="block text-xs font-semibold text-gray-600 mb-1">Mobile *</label><input type="tel" id="bkMobile" maxlength="10" required class="input-field w-full px-4 py-3 rounded-xl"></div>
+</div>
+<div><label class="block text-xs font-semibold text-gray-600 mb-1">Address</label><textarea id="bkAddress" rows="2" class="input-field w-full px-4 py-3 rounded-xl"></textarea></div>
+<div class="grid sm:grid-cols-2 gap-4">
+<div><label class="block text-xs font-semibold text-gray-600 mb-1">Category *</label><select id="bkCategory" onchange="loadServices()" required class="input-field w-full px-4 py-3 rounded-xl"><option value="">Select</option><option>CSC</option><option>Banking</option><option>Government</option><option>Utility</option><option>Insurance</option><option>Travel</option></select></div>
+<div><label class="block text-xs font-semibold text-gray-600 mb-1">Service *</label><select id="bkService" required class="input-field w-full px-4 py-3 rounded-xl"><option value="">Select</option></select></div>
+</div>
+<div><label class="block text-xs font-semibold text-gray-600 mb-1">Notes</label><textarea id="bkNotes" rows="3" class="input-field w-full px-4 py-3 rounded-xl"></textarea></div>
+<div><label class="block text-xs font-semibold text-gray-600 mb-1">Upload Document</label><input type="file" id="bkFile" accept=".pdf,.jpg,.png" class="w-full text-sm"></div>
+<button type="submit" class="btn-primary w-full text-white py-3 rounded-xl font-semibold"><i class="fas fa-check-circle mr-2"></i> Submit</button>
+</form>
+</div>
+</div>
+
+<!-- BOOKINGS -->
+<div id="page-bookings" class="page">
+<div class="bg-white rounded-2xl p-5 shadow-sm border">
+<div class="flex items-center justify-between mb-5">
+<h2 class="font-display font-bold text-xl">My Bookings</h2>
+<select id="bookFilter" onchange="renderBookings()" class="text-xs px-3 py-2 rounded-lg border-2"><option value="all">All</option><option>Pending</option><option>Approved</option><option>In Progress</option><option>Completed</option><option>Rejected</option></select>
+</div>
+<div id="bookingsList" class="space-y-3"></div>
+</div>
+</div>
+
+<!-- DOCUMENTS -->
+<div id="page-documents" class="page">
+<div class="bg-white rounded-2xl p-6 shadow-sm border">
+<h2 class="font-display font-bold text-xl mb-4">Document Vault</h2>
+<form id="docForm" class="mb-5 p-4 bg-soft rounded-xl grid sm:grid-cols-3 gap-3">
+<input type="text" id="docName" placeholder="Document Name" required class="input-field px-3 py-2 rounded-lg">
+<select id="docType" class="input-field px-3 py-2 rounded-lg"><option>Aadhaar</option><option>PAN</option><option>Passport</option><option>Other</option></select>
+<input type="file" id="docFile" required class="text-xs">
+<button type="submit" class="btn-accent sm:col-span-3 px-5 py-2 rounded-lg text-white font-semibold"><i class="fas fa-upload mr-1"></i> Upload</button>
+</form>
+<div id="documentsList" class="grid sm:grid-cols-2 gap-3"></div>
+</div>
+</div>
+
+<!-- NOTIFICATIONS -->
+<div id="page-notifications" class="page">
+<div class="bg-white rounded-2xl p-6 shadow-sm border">
+<div class="flex items-center justify-between mb-5">
+<h2 class="font-display font-bold text-xl">Notifications</h2>
+<button onclick="markAllRead()" class="text-xs text-primary-600 font-semibold">Mark All Read</button>
+</div>
+<div id="notificationsList" class="space-y-3"></div>
+</div>
+</div>
+
+<!-- PROFILE -->
+<div id="page-profile" class="page">
+<div class="bg-white rounded-2xl p-6 shadow-sm border">
+<h2 class="font-display font-bold text-xl mb-5">My Profile</h2>
+<div class="flex flex-col items-center mb-6">
+<div class="w-24 h-24 rounded-full gradient-primary flex items-center justify-center text-white text-3xl font-bold" id="profileAvatar"><i class="fas fa-user"></i></div>
+<h3 class="font-bold mt-3" id="profileDisplayName">User</h3>
+<p class="text-sm text-gray-500" id="profileDisplayEmail">-</p>
+</div>
+<form id="profileForm" class="space-y-4">
+<div class="grid sm:grid-cols-2 gap-4">
+<div><label class="block text-xs font-semibold text-gray-600 mb-1">Name</label><input type="text" id="pfName" class="input-field w-full px-4 py-3 rounded-xl"></div>
+<div><label class="block text-xs font-semibold text-gray-600 mb-1">Email</label><input type="email" id="pfEmail" class="input-field w-full px-4 py-3 rounded-xl"></div>
+<div><label class="block text-xs font-semibold text-gray-600 mb-1">Mobile</label><input type="tel" id="pfMobile" class="input-field w-full px-4 py-3 rounded-xl" readonly></div>
+<div><label class="block text-xs font-semibold text-gray-600 mb-1">Address</label><input type="text" id="pfAddress" class="input-field w-full px-4 py-3 rounded-xl"></div>
+</div>
+<button type="submit" class="btn-primary px-6 py-3 rounded-xl text-white font-semibold"><i class="fas fa-save mr-2"></i> Save</button>
+</form>
+</div>
+</div>
+
+</main>
+</div>
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="lg:hidden fixed bottom-0 left-0 right-0 glass border-t z-40">
+<div class="grid grid-cols-5">
+<button onclick="showPage('home')" data-nav="home" class="mobile-nav flex flex-col items-center py-2 text-primary-800"><i class="fas fa-home text-lg"></i><span class="text-[10px]">Home</span></button>
+<button onclick="showPage('book')" data-nav="book" class="mobile-nav flex flex-col items-center py-2 text-gray-500"><i class="fas fa-plus-circle text-lg"></i><span class="text-[10px]">Book</span></button>
+<button onclick="showPage('bookings')" data-nav="bookings" class="mobile-nav flex flex-col items-center py-2 text-gray-500"><i class="fas fa-list text-lg"></i><span class="text-[10px]">Bookings</span></button>
+<button onclick="showPage('documents')" data-nav="documents" class="mobile-nav flex flex-col items-center py-2 text-gray-500"><i class="fas fa-folder text-lg"></i><span class="text-[10px]">Docs</span></button>
+<button onclick="showPage('profile')" data-nav="profile" class="mobile-nav flex flex-col items-center py-2 text-gray-500"><i class="fas fa-user text-lg"></i><span class="text-[10px]">Profile</span></button>
+</div>
+</nav>
+</div>
+
+<div id="toast" class="hidden fixed top-20 right-4 px-6 py-3 rounded-lg shadow-lg z-50 text-white font-semibold text-sm"></div>
 
 <script>
-/* ===================================================
-   FIREBASE CONFIG — REPLACE WITH YOUR OWN PROJECT KEYS
-   Must match the same config used in index.html / admin.html / operator.html
-   =================================================== */
-const firebaseConfig = {
-  apiKey: "AIzaSyDucHeFoRyu-aHa2ILTV6dXWkV5TWyVWV4",
-  authDomain: "eseva-kendra-4c870.firebaseapp.com",
-  projectId: "eseva-kendra-4c870",
-  storageBucket: "eseva-kendra-4c870.firebasestorage.app",
-  messagingSenderId: "730747379772",
-  appId: "1:730747379772:web:87f4fa85e372128c0de339"
+const firebaseConfig= {
+    apiKey: "AIzaSyDucHeFoRyu-aHa2ILTV6dXWkV5TWyVWV4",
+    authDomain: "eseva-kendra-4c870.firebaseapp.com",
+    projectId: "eseva-kendra-4c870",
+    storageBucket: "eseva-kendra-4c870.firebasestorage.app",
+    messagingSenderId: "730747379772",
+    appId: "1:730747379772:web:87f4fa85e372128c0de339",
+    measurementId: "G-NP2B95SFDM"
 };
-
 firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
-const storage = firebase.storage();
+const db=firebase.firestore(),auth=firebase.auth(),storage=firebase.storage();
+let currentUser=null,allBookings=[];
 
-let currentUser = null;
-let currentUserData = {};
-let allBookings = [];
-let confirmationResult = null;
-let pendingBookingDoc = null; // for file upload after booking doc created
+function switchAuth(t){
+document.getElementById('phoneAuth').classList.toggle('hidden',t!=='phone');
+document.getElementById('googleAuth').classList.toggle('hidden',t!=='google');
+document.getElementById('phoneTab').className=t==='phone'?'flex-1 py-2 rounded-lg text-sm font-semibold gradient-accent text-white':'flex-1 py-2 rounded-lg text-sm font-semibold text-gray-600';
+document.getElementById('googleTab').className=t==='google'?'flex-1 py-2 rounded-lg text-sm font-semibold gradient-accent text-white':'flex-1 py-2 rounded-lg text-sm font-semibold text-gray-600';
+}
 
-/* ===================================================
-   AUTH STATE LISTENER
-   =================================================== */
-auth.onAuthStateChanged(async (user) => {
-  if (user) {
-    currentUser = user;
-    await loadOrCreateUserProfile(user);
-    document.getElementById('authScreen').classList.add('hidden');
-    document.getElementById('appScreen').classList.remove('hidden');
-    initDashboard();
-  } else {
-    currentUser = null;
-    document.getElementById('authScreen').classList.remove('hidden');
-    document.getElementById('appScreen').classList.add('hidden');
-  }
+window.recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container',{size:'invisible'});
+async function sendOTP(){
+const phone='+91'+document.getElementById('phoneNumber').value;
+if(phone.length<13)return toast('Enter valid number','error');
+try{
+const c=await auth.signInWithPhoneNumber(phone,window.recaptchaVerifier);
+window.confirmationResult=c;
+document.getElementById('phoneStep1').classList.add('hidden');
+document.getElementById('phoneStep2').classList.remove('hidden');
+toast('OTP sent!','success');
+}catch(e){toast(e.message,'error');}
+}
+
+async function verifyOTP(){
+try{
+const r=await window.confirmationResult.confirm(document.getElementById('otpCode').value);
+onLogin(r.user);
+}catch(e){toast('Invalid OTP','error');}
+}
+
+async function googleLogin(){
+try{const r=await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());onLogin(r.user);}
+catch(e){toast(e.message,'error');}
+}
+
+async function onLogin(user){
+currentUser=user;
+const userRef=db.collection('users').doc(user.uid);
+const doc=await userRef.get();
+if(!doc.exists){
+await userRef.set({uid:user.uid,name:user.displayName||'User',email:user.email||'',mobile:user.phoneNumber||'',photoURL:user.photoURL||'',address:'',role:'user',createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+}
+document.getElementById('loginPage').classList.add('hidden');
+document.getElementById('mainApp').classList.remove('hidden');
+loadUserData();loadAllData();
+}
+
+function logout(){auth.signOut().then(()=>location.reload());}
+
+async function loadUserData(){
+const doc=await db.collection('users').doc(currentUser.uid).get();
+const u=doc.data();
+document.getElementById('userGreeting').textContent='Hi, '+(u.name||'User');
+document.getElementById('welcomeName').textContent=u.name||'User';
+document.getElementById('sidebarName').textContent=u.name||'User';
+document.getElementById('sidebarEmail').textContent=u.email||u.mobile||'';
+document.getElementById('profileDisplayName').textContent=u.name||'User';
+document.getElementById('profileDisplayEmail').textContent=u.email||u.mobile||'';
+document.getElementById('pfName').value=u.name||'';
+document.getElementById('pfEmail').value=u.email||'';
+document.getElementById('pfMobile').value=u.mobile||'';
+document.getElementById('pfAddress').value=u.address||'';
+if(u.photoURL){
+document.getElementById('profileAvatar').innerHTML=`<img src="${u.photoURL}" class="w-full h-full rounded-full object-cover">`;
+document.getElementById('sidebarAvatar').innerHTML=`<img src="${u.photoURL}" class="w-full h-full rounded-full object-cover">`;
+}
+}
+
+function showPage(page){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById('page-'+page).classList.add('active');
+document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+document.querySelectorAll('.mobile-nav').forEach(b=>{
+b.classList.toggle('text-primary-800',b.dataset.nav===page);
+b.classList.toggle('text-gray-500',b.dataset.nav!==page);
+});
+}
+
+const params=new URLSearchParams(window.location.search);
+if(params.get('book')){
+setTimeout(()=>{
+document.getElementById('bkService').innerHTML=`<option value="${params.get('book')}">${params.get('name')}</option>`;
+document.getElementById('bkService').value=params.get('book');
+},500);
+}
+
+function loadServices(){
+const cat=document.getElementById('bkCategory').value;
+const map={CSC:[['AAD-001','Aadhaar Service'],['PAN-001','PAN Card'],['VOT-001','Voter ID']],Banking:[['BCK-001','Account Opening'],['CSH-001','Cash Withdrawal']],Government:[['PAS-001','Passport'],['PMK-001','PM Kisan'],['AYU-001','Ayushman']],Utility:[['BIL-001','Electricity Bill'],['MOB-001','Recharge']]};
+const list=map[cat]||[];
+document.getElementById('bkService').innerHTML='<option value="">Select</option>'+list.map(s=>`<option value="${s[0]}">${s[1]}</option>`).join('');
+}
+
+document.getElementById('bookForm').addEventListener('submit',async e=>{
+e.preventDefault();
+try{
+let docURL='';
+const file=document.getElementById('bkFile').files[0];
+if(file){const ref=storage.ref(`bookings/${currentUser.uid}/${Date.now()}_${file.name}`);await ref.put(file);docURL=await ref.getDownloadURL();}
+await db.collection('bookings').add({
+userId:currentUser.uid,name:document.getElementById('bkName').value,mobile:document.getElementById('bkMobile').value,
+address:document.getElementById('bkAddress').value,category:document.getElementById('bkCategory').value,
+serviceType:document.getElementById('bkService').value,notes:document.getElementById('bkNotes').value,
+documentURL:docURL,status:'Pending',adminNote:'',createdAt:firebase.firestore.FieldValue.serverTimestamp()
+});
+toast('Booking submitted!','success');e.target.reset();showPage('bookings');
+}catch(err){toast(err.message,'error');}
 });
 
-/* ===================================================
-   MOBILE OTP LOGIN
-   =================================================== */
-function setupRecaptcha() {
-  if (window.recaptchaVerifier) return;
-  window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-    size: 'normal'
-  });
+async function loadAllData(){
+db.collection('bookings').where('userId','==',currentUser.uid).orderBy('createdAt','desc').onSnapshot(snap=>{
+allBookings=snap.docs.map(d=>({id:d.id,...d.data()}));
+renderStats();renderRecent();renderBookings();
+});
+db.collection('documents').where('userId','==',currentUser.uid).onSnapshot(snap=>{
+renderDocs(snap.docs.map(d=>({id:d.id,...d.data()})));
+});
+db.collection('notifications').where('userId','==',currentUser.uid).orderBy('createdAt','desc').onSnapshot(snap=>{
+renderNotifs(snap.docs.map(d=>({id:d.id,...d.data()})));
+});
 }
 
-function sendOTP() {
-  const mobile = document.getElementById('mobileInput').value.trim();
-  const errEl = document.getElementById('authError');
-  errEl.classList.add('hidden');
-
-  if (!/^[0-9]{10}$/.test(mobile)) {
-    errEl.textContent = 'Please enter a valid 10-digit mobile number.';
-    errEl.classList.remove('hidden');
-    return;
-  }
-
-  setupRecaptcha();
-  const phoneNumber = '+91' + mobile;
-
-  auth.signInWithPhoneNumber(phoneNumber, window.recaptchaVerifier)
-    .then((result) => {
-      confirmationResult = result;
-      document.getElementById('mobileStep1').classList.add('hidden');
-      document.getElementById('mobileStep2').classList.remove('hidden');
-    })
-    .catch((error) => {
-      errEl.textContent = 'Could not send OTP: ' + (error.message || 'Please try again.');
-      errEl.classList.remove('hidden');
-      if (window.recaptchaVerifier) {
-        window.recaptchaVerifier.render().then((widgetId) => {
-          grecaptcha.reset(widgetId);
-        });
-      }
-    });
+function renderStats(){
+document.getElementById('statTotal').textContent=allBookings.length;
+document.getElementById('statPending').textContent=allBookings.filter(b=>b.status==='Pending').length;
+document.getElementById('statProgress').textContent=allBookings.filter(b=>b.status==='In Progress').length;
+document.getElementById('statCompleted').textContent=allBookings.filter(b=>b.status==='Completed').length;
 }
 
-function verifyOTP() {
-  const otp = document.getElementById('otpInput').value.trim();
-  const errEl = document.getElementById('authError');
-  errEl.classList.add('hidden');
-
-  if (!confirmationResult) {
-    errEl.textContent = 'Session expired. Please request OTP again.';
-    errEl.classList.remove('hidden');
-    return;
-  }
-
-  confirmationResult.confirm(otp)
-    .catch((error) => {
-      errEl.textContent = 'Invalid OTP. Please try again.';
-      errEl.classList.remove('hidden');
-    });
+function bookingCard(b){
+const badgeMap={Pending:'badge-pending',Approved:'badge-approved','In Progress':'badge-progress',Completed:'badge-completed',Rejected:'badge-rejected'};
+const date=b.createdAt?.toDate?b.createdAt.toDate().toLocaleDateString():'';
+return `<div class="bg-soft rounded-xl p-4"><div class="flex items-start justify-between mb-2"><div><p class="font-bold text-sm">${b.name}</p><p class="text-xs text-gray-500">${b.serviceType} • ${date}</p></div><span class="badge ${badgeMap[b.status]||'badge-pending'}">${b.status}</span></div>${b.adminNote?`<div class="mt-2 p-2 bg-primary-50 rounded text-xs"><i class="fas fa-comment-dots mr-1"></i>Admin: ${b.adminNote}</div>`:''}</div>`;
 }
 
-function resetMobileAuth() {
-  document.getElementById('mobileStep1').classList.remove('hidden');
-  document.getElementById('mobileStep2').classList.add('hidden');
-  document.getElementById('otpInput').value = '';
-  confirmationResult = null;
+function renderRecent(){
+const recent=allBookings.slice(0,3);
+document.getElementById('recentBookings').innerHTML=recent.length?recent.map(b=>bookingCard(b)).join(''):'<p class="text-center text-gray-400 py-8">No bookings yet</p>';
 }
 
-/* ===================================================
-   GOOGLE LOGIN
-   =================================================== */
-function loginWithGoogle() {
-  const provider = new firebase.auth.GoogleAuthProvider();
-  auth.signInWithPopup(provider)
-    .catch((error) => {
-      const errEl = document.getElementById('authError');
-      errEl.textContent = 'Google login failed: ' + (error.message || 'Please try again.');
-      errEl.classList.remove('hidden');
-    });
+function renderBookings(){
+const f=document.getElementById('bookFilter').value;
+const list=f==='all'?allBookings:allBookings.filter(b=>b.status===f);
+document.getElementById('bookingsList').innerHTML=list.length?list.map(b=>bookingCard(b)).join(''):'<p class="text-center text-gray-400 py-8">No bookings</p>';
 }
 
-function switchAuthTab(tab) {
-  document.getElementById('tabMobile').classList.toggle('active', tab === 'mobile');
-  document.getElementById('tabGoogle').classList.toggle('active', tab === 'google');
-  document.getElementById('authMobile').classList.toggle('hidden', tab !== 'mobile');
-  document.getElementById('authGoogle').classList.toggle('hidden', tab !== 'google');
-  document.getElementById('authError').classList.add('hidden');
+document.getElementById('docForm').addEventListener('submit',async e=>{
+e.preventDefault();
+const file=document.getElementById('docFile').files[0];
+if(!file)return toast('Select file','error');
+try{
+const ref=storage.ref(`documents/${currentUser.uid}/${Date.now()}_${file.name}`);
+await ref.put(file);const url=await ref.getDownloadURL();
+await db.collection('documents').add({userId:currentUser.uid,name:document.getElementById('docName').value,type:document.getElementById('docType').value,url,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+toast('Uploaded!','success');e.target.reset();
+}catch(err){toast(err.message,'error');}
+});
+
+function renderDocs(docs){
+document.getElementById('documentsList').innerHTML=docs.length?docs.map(d=>`<div class="bg-soft rounded-xl p-4 flex items-center gap-3"><div class="w-10 h-10 rounded-lg gradient-primary text-white flex items-center justify-center"><i class="fas fa-file"></i></div><div class="flex-1 min-w-0"><p class="font-semibold text-sm truncate">${d.name}</p><p class="text-xs text-gray-500">${d.type}</p></div><a href="${d.url}" target="_blank" class="text-primary-600"><i class="fas fa-external-link-alt"></i></a></div>`).join(''):'<p class="col-span-2 text-center text-gray-400 py-8">No documents</p>';
 }
 
-function logout() {
-  auth.signOut();
+function renderNotifs(notifs){
+const unread=notifs.filter(n=>!n.read).length;
+const badge=document.getElementById('notifBadge');
+if(unread){badge.classList.remove('hidden');badge.textContent=unread>9?'9+':unread;}else badge.classList.add('hidden');
+document.getElementById('notificationsList').innerHTML=notifs.length?notifs.map(n=>`<div class="p-4 rounded-xl ${n.read?'bg-soft':'bg-primary-50 border-l-4 border-primary-500'}"><p class="font-bold text-sm">${n.title}</p><p class="text-xs text-gray-600 mt-1">${n.message}</p></div>`).join(''):'<p class="text-center text-gray-400 py-8">No notifications</p>';
 }
 
-/* ===================================================
-   USER PROFILE
-   =================================================== */
-async function loadOrCreateUserProfile(user) {
-  const ref = db.collection('users').doc(user.uid);
-  const doc = await ref.get();
-
-  if (!doc.exists) {
-    currentUserData = {
-      uid: user.uid,
-      name: user.displayName || '',
-      mobile: user.phoneNumber || '',
-      email: user.email || '',
-      address: '',
-      photoURL: user.photoURL || '',
-      role: 'user',
-      createdAt: new Date().toISOString()
-    };
-    await ref.set(currentUserData);
-  } else {
-    currentUserData = doc.data();
-  }
+async function markAllRead(){
+const snap=await db.collection('notifications').where('userId','==',currentUser.uid).where('read','==',false).get();
+const batch=db.batch();snap.docs.forEach(d=>batch.update(d.ref,{read:true}));
+await batch.commit();toast('All read','success');
 }
 
-function initDashboard() {
-  // Welcome name
-  const name = currentUserData.name || currentUser.phoneNumber || currentUser.email || 'User';
-  document.getElementById('welcomeName').textContent = name;
-  document.getElementById('profileNameDisplay').textContent = name;
-  document.getElementById('profilePhoneDisplay').textContent = currentUserData.mobile || currentUser.email || '';
-  document.getElementById('userAvatar').textContent = name.charAt(0).toUpperCase();
+document.getElementById('profileForm').addEventListener('submit',async e=>{
+e.preventDefault();
+try{
+await db.collection('users').doc(currentUser.uid).update({
+name:document.getElementById('pfName').value,email:document.getElementById('pfEmail').value,
+address:document.getElementById('pfAddress').value
+});
+toast('Profile updated!','success');loadUserData();
+}catch(err){toast(err.message,'error');}
+});
 
-  // Profile form
-  document.getElementById('profileName').value = currentUserData.name || '';
-  document.getElementById('profileEmail').value = currentUserData.email || '';
-  document.getElementById('profileAddress').value = currentUserData.address || '';
-
-  if (currentUserData.photoURL) {
-    document.getElementById('profilePhoto').src = currentUserData.photoURL;
-    document.getElementById('profilePhoto').classList.remove('hidden');
-    document.getElementById('profilePhotoPlaceholder').classList.add('hidden');
-  }
-
-  // Pre-fill booking form with profile info
-  document.getElementById('bookName').value = currentUserData.name || '';
-  document.getElementById('bookMobile').value = currentUserData.mobile ? currentUserData.mobile.replace('+91','').slice(-10) : '';
-  document.getElementById('bookAddress').value = currentUserData.address || '';
-
-  // Check for ?book=ID&name=Name query params (from index.html "Book Now")
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('book')) {
-    showPage('book');
-    const serviceId = params.get('book');
-    const serviceName = params.get('name') || '';
-    document.getElementById('bookNotes').value = `Requested service: ${serviceName} (${serviceId})`;
-  }
-
-  loadBookings();
-  loadNotifications();
-  loadDocuments();
-  loadTickets();
+function toast(msg,type='success'){
+const t=document.getElementById('toast');
+t.textContent=msg;
+t.className=`fixed top-20 right-4 px-6 py-3 rounded-lg shadow-lg z-50 text-white font-semibold text-sm ${type==='success'?'bg-green-500':'bg-red-500'}`;
+setTimeout(()=>t.classList.add('hidden'),3000);
 }
 
-async function saveProfile(e) {
-  e.preventDefault();
-  const msgEl = document.getElementById('profileMsg');
-  const data = {
-    name: document.getElementById('profileName').value,
-    email: document.getElementById('profileEmail').value,
-    address: document.getElementById('profileAddress').value
-  };
-  try {
-    await db.collection('users').doc(currentUser.uid).update(data);
-    currentUserData = { ...currentUserData, ...data };
-    document.getElementById('welcomeName').textContent = data.name || 'User';
-    document.getElementById('profileNameDisplay').textContent = data.name || 'User';
-    document.getElementById('userAvatar').textContent = (data.name || 'U').charAt(0).toUpperCase();
-    msgEl.textContent = '✓ Profile updated successfully!';
-    msgEl.className = 'text-sm text-center text-[var(--color-success)]';
-    msgEl.classList.remove('hidden');
-  } catch (err) {
-    msgEl.textContent = 'Could not update profile. Please try again.';
-    msgEl.className = 'text-sm text-center text-[var(--color-danger)]';
-    msgEl.classList.remove('hidden');
-  }
-}
-
-async function uploadProfilePhoto(input) {
-  const file = input.files[0];
-  if (!file) return;
-  try {
-    const ref = storage.ref(`users/${currentUser.uid}/profile.jpg`);
-    await ref.put(file);
-    const url = await ref.getDownloadURL();
-    await db.collection('users').doc(currentUser.uid).update({ photoURL: url });
-    currentUserData.photoURL = url;
-    document.getElementById('profilePhoto').src = url;
-    document.getElementById('profilePhoto').classList.remove('hidden');
-    document.getElementById('profilePhotoPlaceholder').classList.add('hidden');
-  } catch (err) {
-    alert('Could not upload photo. Please try again.');
-  }
-}
-
-/* ===================================================
-   PAGE NAVIGATION
-   =================================================== */
-const pageTitles = {
-  dashboard: ['Dashboard', 'Welcome back!'],
-  book: ['Book Service', 'Fill the form to request a service'],
-  bookings: ['My Bookings', 'Track the status of your requests'],
-  documents: ['Document Vault', 'Securely store your important documents'],
-  notifications: ['Notifications', 'Stay updated on your requests'],
-  support: ['Support Tickets', 'Get help from our team'],
-  profile: ['My Profile', 'Manage your personal information']
-};
-
-function showPage(page) {
-  document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
-  document.getElementById('page-' + page).classList.remove('hidden');
-
-  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-  document.querySelectorAll(`[data-page="${page}"]`).forEach(l => l.classList.add('active'));
-
-  document.getElementById('pageTitle').textContent = pageTitles[page][0];
-  document.getElementById('pageSubtitle').textContent = pageTitles[page][1];
-
-  window.scrollTo(0, 0);
-}
-
-/* ===================================================
-   SERVICE TYPES BY CATEGORY
-   =================================================== */
-const SERVICE_TYPES = {
-  csc: ['Aadhaar Update / Correction','PAN Card Apply / Correction','Voter ID Services','Ayushman Card','PM Kisan Services','eShram Card'],
-  banking: ['AEPS Banking','Cash Withdrawal','Money Transfer (DMT)','Bank Account Opening','Loan Assistance','Insurance Services'],
-  govt: ['Income Certificate','Residence Certificate','Caste Certificate','Passport Assistance','Driving Licence Assistance'],
-  utility: ['Bill Payment','Mobile Recharge','DTH Recharge']
-};
-
-function updateServiceTypes() {
-  const cat = document.getElementById('bookCategory').value;
-  const select = document.getElementById('bookServiceType');
-  select.innerHTML = '<option value="">Select service</option>';
-  (SERVICE_TYPES[cat] || []).forEach(s => {
-    const opt = document.createElement('option');
-    opt.value = s; opt.textContent = s;
-    select.appendChild(opt);
-  });
-}
-
-/* ===================================================
-   BOOKING SUBMISSION
-   =================================================== */
-let bookingDocFile = null;
-function previewDoc(input) {
-  bookingDocFile = input.files[0];
-  if (bookingDocFile) {
-    document.getElementById('docUploadLabel').innerHTML = `<div class="text-2xl mb-1">✅</div><div class="text-sm text-gray-700 font-600">${bookingDocFile.name}</div>`;
-  }
-}
-
-async function submitBooking(e) {
-  e.preventDefault();
-  const form = e.target;
-  const msgEl = document.getElementById('bookingFormMsg');
-  msgEl.classList.add('hidden');
-
-  const data = {
-    userId: currentUser.uid,
-    name: form.name.value,
-    mobile: form.mobile.value,
-    address: form.address.value,
-    category: form.category.value,
-    serviceType: form.serviceType.value,
-    notes: form.notes.value,
-    status: 'Pending',
-    createdAt: new Date().toISOString(),
-    documentURL: ''
-  };
-
-  try {
-    const docRef = await db.collection('bookings').add(data);
-
-    // Upload document if present
-    if (bookingDocFile) {
-      const storageRef = storage.ref(`bookings/${currentUser.uid}/${docRef.id}/${bookingDocFile.name}`);
-      await storageRef.put(bookingDocFile);
-      const url = await storageRef.getDownloadURL();
-      await docRef.update({ documentURL: url });
-    }
-
-    // Create notification
-    await db.collection('notifications').add({
-      userId: currentUser.uid,
-      title: 'Booking Submitted',
-      message: `Your request for "${data.serviceType}" has been received. We'll update you on the status soon.`,
-      read: false,
-      createdAt: new Date().toISOString()
-    });
-
-    msgEl.textContent = '✓ Booking submitted successfully! Track it under "My Bookings".';
-    msgEl.className = 'text-sm text-center text-[var(--color-success)]';
-    msgEl.classList.remove('hidden');
-    form.reset();
-    bookingDocFile = null;
-    document.getElementById('docUploadLabel').innerHTML = `<div class="text-2xl mb-1">📎</div><div class="text-sm text-gray-500">Click to upload Aadhaar / Photo / Document</div>`;
-    document.getElementById('bookServiceType').innerHTML = '<option value="">Select category first</option>';
-
-    loadBookings();
-    loadNotifications();
-  } catch (err) {
-    msgEl.textContent = 'Could not submit booking. Please try again or call us directly.';
-    msgEl.className = 'text-sm text-center text-[var(--color-danger)]';
-    msgEl.classList.remove('hidden');
-  }
-}
-
-/* ===================================================
-   LOAD BOOKINGS
-   =================================================== */
-async function loadBookings() {
-  try {
-    const snap = await db.collection('bookings')
-      .where('userId', '==', currentUser.uid)
-      .orderBy('createdAt', 'desc')
-      .get();
-    allBookings = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-  } catch (e) {
-    allBookings = [];
-  }
-  renderStats();
-  renderRecentBookings();
-  renderBookingsList('all');
-}
-
-function renderStats() {
-  document.getElementById('statTotal').textContent = allBookings.length;
-  document.getElementById('statPending').textContent = allBookings.filter(b => b.status === 'Pending').length;
-  document.getElementById('statProgress').textContent = allBookings.filter(b => b.status === 'In Progress').length;
-  document.getElementById('statCompleted').textContent = allBookings.filter(b => b.status === 'Completed').length;
-}
-
-function statusClass(status) {
-  const map = {
-    'Pending': 'status-pending',
-    'Approved': 'status-approved',
-    'In Progress': 'status-progress',
-    'Completed': 'status-completed',
-    'Rejected': 'status-rejected'
-  };
-  return map[status] || 'status-pending';
-}
-
-function renderRecentBookings() {
-  const el = document.getElementById('recentBookings');
-  if (!allBookings.length) {
-    el.innerHTML = '<div class="text-sm text-gray-400 text-center py-6">No bookings yet. Click "Book New Service" to get started!</div>';
-    return;
-  }
-  el.innerHTML = allBookings.slice(0, 5).map(b => `
-    <div class="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
-      <div>
-        <div class="font-display font-600 text-sm">${b.serviceType}</div>
-        <div class="text-xs text-gray-400">${new Date(b.createdAt).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'})}</div>
-      </div>
-      <span class="status-badge ${statusClass(b.status)}">${b.status}</span>
-    </div>
-  `).join('');
-}
-
-function renderBookingsList(filter) {
-  const el = document.getElementById('bookingsList');
-  const filtered = filter === 'all' ? allBookings : allBookings.filter(b => b.status === filter);
-
-  if (!filtered.length) {
-    el.innerHTML = '<div class="text-sm text-gray-400 text-center py-10">No bookings found.</div>';
-    return;
-  }
-
-  el.innerHTML = filtered.map(b => `
-    <div class="seva-card p-5">
-      <div class="flex items-start justify-between gap-3">
-        <div>
-          <div class="font-display font-700">${b.serviceType}</div>
-          <div class="text-xs text-gray-400 mt-0.5">Booking ID: ${b.id.slice(0,8).toUpperCase()}</div>
-          <div class="text-xs text-gray-400">${new Date(b.createdAt).toLocaleString('en-IN', {day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}</div>
-        </div>
-        <span class="status-badge ${statusClass(b.status)}">${b.status}</span>
-      </div>
-      ${b.notes ? `<div class="text-sm text-gray-600 mt-3 bg-gray-50 rounded-lg p-3">${b.notes}</div>` : ''}
-      ${b.adminNote ? `<div class="text-sm text-[var(--color-primary)] mt-2 bg-[var(--color-primary)]/5 rounded-lg p-3"><strong>Note from team:</strong> ${b.adminNote}</div>` : ''}
-      ${b.documentURL ? `<a href="${b.documentURL}" target="_blank" class="inline-block text-xs text-[var(--color-primary)] underline mt-3">📎 View uploaded document</a>` : ''}
-    </div>
-  `).join('');
-}
-
-function filterBookings(status) {
-  document.querySelectorAll('[data-filter]').forEach(b => {
-    if (b.dataset.filter === status) {
-      b.classList.remove('bg-gray-100','text-gray-600');
-      b.classList.add('bg-[var(--color-primary)]','text-white');
-    } else {
-      b.classList.add('bg-gray-100','text-gray-600');
-      b.classList.remove('bg-[var(--color-primary)]','text-white');
-    }
-  });
-  renderBookingsList(status);
-}
-
-/* ===================================================
-   NOTIFICATIONS
-   =================================================== */
-async function loadNotifications() {
-  try {
-    const snap = await db.collection('notifications')
-      .where('userId', '==', currentUser.uid)
-      .orderBy('createdAt', 'desc')
-      .limit(30)
-      .get();
-    const notifications = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    renderNotifications(notifications);
-
-    const unread = notifications.filter(n => !n.read).length;
-    ['notifBadgeDesktop','notifBadgeMobile'].forEach(id => {
-      const badge = document.getElementById(id);
-      if (unread > 0) {
-        badge.textContent = unread;
-        badge.classList.remove('hidden');
-      } else {
-        badge.classList.add('hidden');
-      }
-    });
-  } catch (e) {
-    document.getElementById('notificationsList').innerHTML = '<div class="text-sm text-gray-400 text-center py-6">No notifications yet.</div>';
-  }
-}
-
-function renderNotifications(notifications) {
-  const el = document.getElementById('notificationsList');
-  if (!notifications.length) {
-    el.innerHTML = '<div class="text-sm text-gray-400 text-center py-6">No notifications yet.</div>';
-    return;
-  }
-  el.innerHTML = notifications.map(n => `
-    <div class="seva-card p-4 ${!n.read ? 'border-l-4 border-l-[var(--color-accent)]' : ''}" onclick="markNotificationRead('${n.id}')">
-      <div class="font-display font-700 text-sm">${n.title}</div>
-      <div class="text-sm text-gray-600 mt-1">${n.message}</div>
-      <div class="text-xs text-gray-400 mt-2">${new Date(n.createdAt).toLocaleString('en-IN', {day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</div>
-    </div>
-  `).join('');
-}
-
-async function markNotificationRead(id) {
-  try {
-    await db.collection('notifications').doc(id).update({ read: true });
-    loadNotifications();
-  } catch (e) {}
-}
-
-/* ===================================================
-   DOCUMENT VAULT
-   =================================================== */
-async function loadDocuments() {
-  try {
-    const snap = await db.collection('documents')
-      .where('userId', '==', currentUser.uid)
-      .orderBy('createdAt', 'desc')
-      .get();
-    const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    renderDocuments(docs);
-  } catch (e) {
-    document.getElementById('vaultGrid').innerHTML = '<div class="text-sm text-gray-400 text-center py-6 col-span-full">No documents uploaded yet.</div>';
-  }
-}
-
-function renderDocuments(docs) {
-  const el = document.getElementById('vaultGrid');
-  if (!docs.length) {
-    el.innerHTML = '<div class="text-sm text-gray-400 text-center py-6 col-span-full">No documents uploaded yet.</div>';
-    return;
-  }
-  el.innerHTML = docs.map(d => `
-    <div class="seva-card p-3 cursor-pointer" onclick="viewDoc('${d.url}','${d.name}','${d.type}')">
-      ${d.type && d.type.startsWith('image') ?
-        `<img src="${d.url}" class="w-full h-24 object-cover rounded-lg"/>` :
-        `<div class="w-full h-24 rounded-lg bg-[var(--color-primary)]/5 flex items-center justify-center text-3xl">📄</div>`
-      }
-      <div class="text-xs font-600 mt-2 truncate">${d.name}</div>
-      <div class="text-[10px] text-gray-400">${new Date(d.createdAt).toLocaleDateString('en-IN')}</div>
-    </div>
-  `).join('');
-}
-
-async function uploadToVault(input) {
-  const file = input.files[0];
-  if (!file) return;
-  const statusEl = document.getElementById('vaultUploadStatus');
-  statusEl.textContent = 'Uploading...';
-  statusEl.className = 'text-sm text-center mt-2 text-gray-500';
-  statusEl.classList.remove('hidden');
-
-  try {
-    const storageRef = storage.ref(`documents/${currentUser.uid}/${Date.now()}_${file.name}`);
-    await storageRef.put(file);
-    const url = await storageRef.getDownloadURL();
-
-    await db.collection('documents').add({
-      userId: currentUser.uid,
-      name: file.name,
-      type: file.type,
-      url: url,
-      createdAt: new Date().toISOString()
-    });
-
-    statusEl.textContent = '✓ Uploaded successfully!';
-    statusEl.className = 'text-sm text-center mt-2 text-[var(--color-success)]';
-    loadDocuments();
-  } catch (err) {
-    statusEl.textContent = 'Upload failed. Please try again.';
-    statusEl.className = 'text-sm text-center mt-2 text-[var(--color-danger)]';
-  }
-}
-
-function viewDoc(url, name, type) {
-  const isImage = type && type.startsWith('image');
-  document.getElementById('docModalContent').innerHTML = `
-    <div class="font-display font-700 mb-3">${name}</div>
-    ${isImage ? `<img src="${url}" class="w-full rounded-xl"/>` : `<a href="${url}" target="_blank" class="block text-center py-10 text-[var(--color-primary)] underline">Open Document</a>`}
-  `;
-  document.getElementById('docModal').classList.remove('hidden');
-  document.getElementById('docModal').classList.add('flex');
-}
-function closeDocModal() {
-  document.getElementById('docModal').classList.add('hidden');
-  document.getElementById('docModal').classList.remove('flex');
-}
-
-/* ===================================================
-   SUPPORT TICKETS
-   =================================================== */
-async function submitTicket(e) {
-  e.preventDefault();
-  const form = e.target;
-  try {
-    await db.collection('supportTickets').add({
-      userId: currentUser.uid,
-      userName: currentUserData.name || '',
-      subject: form.subject.value,
-      description: form.description.value,
-      status: 'Open',
-      createdAt: new Date().toISOString()
-    });
-    form.reset();
-    loadTickets();
-  } catch (err) {
-    alert('Could not submit ticket. Please try again.');
-  }
-}
-
-async function loadTickets() {
-  try {
-    const snap = await db.collection('supportTickets')
-      .where('userId', '==', currentUser.uid)
-      .orderBy('createdAt', 'desc')
-      .get();
-    const tickets = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    renderTickets(tickets);
-  } catch (e) {
-    document.getElementById('ticketsList').innerHTML = '<div class="text-sm text-gray-400 text-center py-6">No support tickets yet.</div>';
-  }
-}
-
-function renderTickets(tickets) {
-  const el = document.getElementById('ticketsList');
-  if (!tickets.length) {
-    el.innerHTML = '<div class="text-sm text-gray-400 text-center py-6">No support tickets yet.</div>';
-    return;
-  }
-  el.innerHTML = tickets.map(t => `
-    <div class="seva-card p-4">
-      <div class="flex items-center justify-between">
-        <div class="font-display font-700 text-sm">${t.subject}</div>
-        <span class="status-badge ${t.status === 'Open' ? 'status-pending' : 'status-completed'}">${t.status}</span>
-      </div>
-      <div class="text-sm text-gray-600 mt-1">${t.description}</div>
-      ${t.reply ? `<div class="text-sm text-[var(--color-primary)] mt-2 bg-[var(--color-primary)]/5 rounded-lg p-3"><strong>Reply:</strong> ${t.reply}</div>` : ''}
-      <div class="text-xs text-gray-400 mt-2">${new Date(t.createdAt).toLocaleString('en-IN', {day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</div>
-    </div>
-  `).join('');
-}
-
-// Register service worker for PWA
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
-  });
-}
+auth.onAuthStateChanged(u=>{if(u&&!currentUser){currentUser=u;document.getElementById('loginPage').classList.add('hidden');document.getElementById('mainApp').classList.remove('hidden');loadUserData();loadAllData();}});
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 </body>
 </html>
