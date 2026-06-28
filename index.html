@@ -3,85 +3,83 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pankaj E-Seva Kendra - Digital Seva Center</title>
-<meta name="description" content="One-stop CSC, Banking CSP, and Digital Services Center. Aadhaar, PAN, Banking, Govt Services.">
+<title>E-SUVIDHA KENDRA - Digital Seva Center | CSC, Banking, Govt Services</title>
+<meta name="description" content="E-SUVIDHA KENDRA - One-stop CSC, Banking CSP, and Digital Services Center in Balasore, Odisha. Aadhaar, PAN, Banking, Bill Payments, Passport.">
+<meta name="keywords" content="CSC, Aadhaar, PAN, Banking CSP, Digital Seva, Balasore, Odisha, Government Services">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#1E3A8A">
-<link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%231E3A8A' width='100' height='100' rx='20'/><text x='50' y='65' text-anchor='middle' fill='%23F59E0B' font-size='50' font-family='Arial' font-weight='bold'>E</text></svg>">
+<link rel="icon" type="image/png" href="logo.png">
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-storage-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-analytics-compat.js"></script>
 <script>
-tailwind.config={theme:{extend:{colors:{primary:{50:'#EEF2FF',100:'#E0E7FF',200:'#C7D2FE',300:'#A5B4FC',400:'#818CF8',500:'#6366F1',600:'#4F46E5',700:'#4338CA',800:'#1E3A8A',900:'#1E1B4B',950:'#0F172A'},accent:{50:'#FFFBEB',100:'#FEF3C7',200:'#FDE68A',300:'#FCD34D',400:'#FBBF24',500:'#F59E0B',600:'#D97706',700:'#B45309'},dark:'#0F172A',soft:'#F8FAFC'},fontFamily:{display:['Poppins','sans-serif'],body:['Inter','sans-serif']},animation:{float:'float 4s ease-in-out infinite',marquee:'marquee 35s linear infinite',slideUp:'slideUp .7s ease-out',fadeIn:'fadeIn 1s ease-out',pulseGlow:'pulseGlow 2s infinite'}}}
+tailwind.config={theme:{extend:{colors:{primary:{50:'#EEF2FF',100:'#E0E7FF',200:'#C7D2FE',300:'#A5B4FC',400:'#818CF8',500:'#6366F1',600:'#4F46E5',700:'#4338CA',800:'#1E3A8A',900:'#1E1B4B',950:'#0F172A'},accent:{50:'#FFFBEB',100:'#FEF3C7',200:'#FDE68A',300:'#FCD34D',400:'#FBBF24',500:'#F59E0B',600:'#D97706',700:'#B45309',800:'#92400E'},dark:'#0F172A',soft:'#F8FAFC'},fontFamily:{display:['Poppins','sans-serif'],body:['Inter','sans-serif']}}}}
 </script>
 <style>
-*{font-family:'Inter',sans-serif}h1,h2,h3,h4,h5,h6{font-family:'Poppins',sans-serif;letter-spacing:-0.02em}
-html{scroll-behavior:smooth}
-body{background:#F8FAFC;color:#0F172A;overflow-x:hidden}
-.glass{background:rgba(255,255,255,0.8);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(255,255,255,0.5)}
+*{font-family:'Inter',sans-serif;box-sizing:border-box}h1,h2,h3,h4,h5,h6{font-family:'Poppins',sans-serif;letter-spacing:-0.02em}
+html{scroll-behavior:smooth}body{background:#F8FAFC;color:#0F172A;overflow-x:hidden}
+.glass{background:rgba(255,255,255,0.85);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(255,255,255,0.5)}
 .glass-dark{background:rgba(15,23,42,0.6);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1)}
 .gradient-primary{background:linear-gradient(135deg,#1E1B4B 0%,#1E3A8A 30%,#3B82F6 70%,#6366F1 100%)}
 .gradient-accent{background:linear-gradient(135deg,#F59E0B 0%,#D97706 100%)}
 .gradient-text{background:linear-gradient(135deg,#1E3A8A 0%,#F59E0B 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.gradient-text-alt{background:linear-gradient(135deg,#3B82F6,#F59E0B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.gradient-border{position:relative;background:linear-gradient(white,white) padding-box,linear-gradient(135deg,#1E3A8A,#F59E0B) border-box;border:2px solid transparent}
-.btn-primary{background:linear-gradient(135deg,#1E3A8A 0%,#3B82F6 100%);transition:all .3s cubic-bezier(.4,0,.2,1);box-shadow:0 4px 20px rgba(30,58,138,.3);position:relative;overflow:hidden}
+.btn-primary{background:linear-gradient(135deg,#1E3A8A,#3B82F6);transition:all .3s cubic-bezier(.4,0,.2,1);box-shadow:0 4px 20px rgba(30,58,138,.3);position:relative;overflow:hidden}
 .btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.2),transparent);opacity:0;transition:opacity .3s}
 .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(30,58,138,.45)}
 .btn-primary:hover::before{opacity:1}
-.btn-accent{background:linear-gradient(135deg,#F59E0B 0%,#D97706 100%);transition:all .3s;box-shadow:0 4px 20px rgba(245,158,11,.3)}
+.btn-accent{background:linear-gradient(135deg,#F59E0B,#D97706);transition:all .3s;box-shadow:0 4px 20px rgba(245,158,11,.3)}
 .btn-accent:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(245,158,11,.45)}
-.service-card{transition:all .4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
-.service-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(30,58,138,0),rgba(245,158,11,.05));opacity:0;transition:opacity .4s}
-.service-card:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 25px 50px -12px rgba(30,58,138,.25)}
+.service-card{transition:all .4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;cursor:pointer}
+.service-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(30,58,138,0),rgba(245,158,11,.08));opacity:0;transition:opacity .4s}
+.service-card:hover{transform:translateY(-10px) scale(1.02);box-shadow:0 25px 50px -12px rgba(30,58,138,.25);border-color:#F59E0B}
 .service-card:hover::before{opacity:1}
 .tool-card{transition:all .4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;cursor:pointer}
-.tool-card:hover{transform:translateY(-6px) scale(1.03)}
-.tool-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.2),transparent);opacity:0;transition:opacity .3s}
+.tool-card:hover{transform:translateY(-8px) scale(1.03);box-shadow:0 20px 40px -10px rgba(30,58,138,.2)}
+.tool-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);opacity:0;transition:opacity .3s;pointer-events:none}
 .tool-card:hover::after{opacity:1}
+.cert-card{transition:all .4s cubic-bezier(.4,0,.2,1);cursor:pointer;position:relative;overflow:hidden}
+.cert-card:hover{transform:translateY(-8px) scale(1.03);box-shadow:0 20px 40px -10px rgba(30,58,138,.25)}
+.cert-card img{transition:transform .6s ease}
+.cert-card:hover img{transform:scale(1.1)}
 .review-card{transition:all .3s}
-.review-card:hover{transform:translateY(-4px);box-shadow:0 20px 40px -10px rgba(30,58,138,.15)}
-.gallery-item{position:relative;overflow:hidden;cursor:pointer}
+.review-card:hover{transform:translateY(-6px);box-shadow:0 25px 50px -12px rgba(30,58,138,.15)}
+.gallery-item{position:relative;overflow:hidden;cursor:pointer;border-radius:1rem}
 .gallery-item img{transition:transform .7s cubic-bezier(.4,0,.2,1)}
 .gallery-item:hover img{transform:scale(1.15)}
-.gallery-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(15,23,42,.85),transparent);opacity:0;transition:opacity .4s;display:flex;align-items:flex-end;padding:1rem}
+.gallery-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(15,23,42,.9),transparent);opacity:0;transition:opacity .4s;display:flex;align-items:flex-end;padding:1.25rem}
 .gallery-item:hover .gallery-overlay{opacity:1}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
 @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-@keyframes slideUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes pulseGlow{0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.5)}70%{box-shadow:0 0 0 20px rgba(245,158,11,0)}}
-@keyframes shimmer{0%{background-position:-1000px 0}100%{background-position:1000px 0}}
 @keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-@keyframes rotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-.hero-bg{background:linear-gradient(135deg,#1E1B4B 0%,#1E3A8A 30%,#3B82F6 70%,#6366F1 100%);background-size:200% 200%;animation:gradientShift 12s ease infinite}
+@keyframes shimmer{0%{background-position:-1000px 0}100%{background-position:1000px 0}}
+.hero-bg{background:linear-gradient(135deg,#1E1B4B 0%,#1E3A8A 30%,#3B82F6 70%,#6366F1 100%);background-size:200% 200%;animation:gradientShift 12s ease infinite;position:relative;overflow:hidden}
 .animate-float{animation:float 4s ease-in-out infinite}
 .animate-marquee{animation:marquee 35s linear infinite}
-.animate-slideUp{animation:slideUp .7s ease-out both}
-.animate-fadeIn{animation:fadeIn 1s ease-out both}
-.pulse-glow{animation:pulseGlow 2s infinite}
-.skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:1000px 100%;animation:shimmer 2s infinite}
+.animate-fadeInUp{animation:fadeInUp .8s ease-out both}
+.animate-pulse-glow{animation:pulseGlow 2s infinite}
 .status-dot{position:relative;display:inline-block;width:10px;height:10px;border-radius:50%}
 .status-dot::before{content:'';position:absolute;inset:-4px;border-radius:50%;background:currentColor;opacity:.3;animation:pulseGlow 2s infinite}
-::-webkit-scrollbar{width:8px;height:8px}
-::-webkit-scrollbar-track{background:#F1F5F9}
-::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#1E3A8A,#F59E0B);border-radius:4px}
-::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,#1E1B4B,#D97706)}
-::selection{background:#F59E0B;color:white}
-.hero-blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.4;pointer-events:none}
-.icon-box{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .section-divider{height:1px;background:linear-gradient(90deg,transparent,#CBD5E1,transparent);margin:0 auto;width:80%}
 .floating-btn{box-shadow:0 8px 30px rgba(0,0,0,.25);transition:all .3s}
 .floating-btn:hover{transform:scale(1.1) translateY(-2px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
-.modal-overlay{background:rgba(15,23,42,.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.modal-overlay{background:rgba(15,23,42,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .input-style{transition:all .2s;border:2px solid #E5E7EB;background:white}
 .input-style:focus{border-color:#3B82F6;box-shadow:0 0 0 4px rgba(59,130,246,.1);outline:none}
+.counter{font-variant-numeric:tabular-nums;font-weight:900}
+.hero-blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.4;pointer-events:none;animation:float 6s ease-in-out infinite}
+::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-track{background:#F1F5F9}::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#1E3A8A,#F59E0B);border-radius:4px}::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,#1E1B4B,#D97706)}
+::selection{background:#F59E0B;color:white}
+.cert-lightbox{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.95);display:none;align-items:center;justify-content:center;padding:2rem;cursor:zoom-out}
+.cert-lightbox.active{display:flex;animation:fadeInUp .3s ease}
+.cert-lightbox img{max-width:95%;max-height:95%;object-fit:contain;border-radius:12px;box-shadow:0 25px 50px rgba(0,0,0,.5)}
+.badge-verified{display:inline-flex;align-items:center;gap:.25rem;padding:.25rem .6rem;background:linear-gradient(135deg,#10B981,#059669);color:white;border-radius:9999px;font-size:.65rem;font-weight:700;letter-spacing:.05em}
+.icon-box{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -90,10 +88,10 @@ body{background:#F8FAFC;color:#0F172A;overflow-x:hidden}
 <div class="bg-gradient-to-r from-primary-900 via-primary-800 to-primary-900 text-white py-2.5 overflow-hidden relative">
 <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cpath d=%22M0 50 Q 25 30 50 50 T 100 50%22 fill=%22none%22 stroke=%22%23ffffff%22 stroke-width=%221%22 opacity=%220.1%22/%3E%3C/svg%3E')] opacity-50"></div>
 <div class="flex whitespace-nowrap animate-marquee relative z-10">
-<span class="mx-8 text-sm font-medium flex items-center gap-2"><i class="fas fa-bullhorn text-accent-400"></i><span id="announcementText">Welcome to Pankaj E-Seva Kendra — All Government & Banking Services Under One Roof!</span></span>
-<span class="mx-8 text-sm font-medium flex items-center gap-2"><i class="fas fa-star text-accent-400"></i><span>Aadhaar, PAN, Banking, Bill Payments — Instant Service Available!</span></span>
-<span class="mx-8 text-sm font-medium flex items-center gap-2"><i class="fas fa-clock text-accent-400"></i><span>Open 7 Days: 8 AM - 9 PM | Call for Home Service</span></span>
+<span class="mx-8 text-sm font-medium flex items-center gap-2"><i class="fas fa-bullhorn text-accent-400"></i><span>Welcome to E-SUVIDHA KENDRA — All Government & Banking Services Under One Roof!</span></span>
+<span class="mx-8 text-sm font-medium flex items-center gap-2"><i class="fas fa-clock text-accent-400"></i><span>Open Daily: 7:30 AM - 9:00 PM | Baharda Bazar, Balasore</span></span>
 <span class="mx-8 text-sm font-medium flex items-center gap-2"><i class="fas fa-certificate text-accent-400"></i><span>Authorized CSC | Banking CSP | IRCTC Agent</span></span>
+<span class="mx-8 text-sm font-medium flex items-center gap-2"><i class="fas fa-phone text-accent-400"></i><span>Call Now: +91 9124231432 | WhatsApp Available</span></span>
 </div>
 </div>
 
@@ -105,36 +103,31 @@ body{background:#F8FAFC;color:#0F172A;overflow-x:hidden}
 <i class="fas fa-store"></i>
 </div>
 <div>
-<h1 class="font-display font-bold text-base sm:text-lg text-primary-800 leading-tight" id="navShopName">Pankaj E-Seva Kendra</h1>
+<h1 class="font-display font-bold text-base sm:text-lg text-primary-800 leading-tight" id="navShopName">E-SUVIDHA KENDRA</h1>
 <p class="text-[10px] sm:text-xs text-gray-500 leading-tight" id="navTagline">Digital Seva Center | CSC | Banking CSP</p>
 </div>
 </a>
-
 <div class="hidden lg:flex items-center gap-1">
 <a href="#home" class="px-3 py-2 rounded-lg text-sm font-medium text-dark hover:text-primary-700 hover:bg-primary-50 transition">Home</a>
+<a href="#about" class="px-3 py-2 rounded-lg text-sm font-medium text-dark hover:text-primary-700 hover:bg-primary-50 transition">About</a>
+<a href="#certificates" class="px-3 py-2 rounded-lg text-sm font-medium text-dark hover:text-primary-700 hover:bg-primary-50 transition">Certificates</a>
 <a href="#services" class="px-3 py-2 rounded-lg text-sm font-medium text-dark hover:text-primary-700 hover:bg-primary-50 transition">Services</a>
 <a href="#tools" class="px-3 py-2 rounded-lg text-sm font-medium text-dark hover:text-primary-700 hover:bg-primary-50 transition">Tools</a>
 <a href="#reviews" class="px-3 py-2 rounded-lg text-sm font-medium text-dark hover:text-primary-700 hover:bg-primary-50 transition">Reviews</a>
 <a href="#gallery" class="px-3 py-2 rounded-lg text-sm font-medium text-dark hover:text-primary-700 hover:bg-primary-50 transition">Gallery</a>
 <a href="#contact" class="px-3 py-2 rounded-lg text-sm font-medium text-dark hover:text-primary-700 hover:bg-primary-50 transition">Contact</a>
 </div>
-
 <div class="flex items-center gap-2">
-<a href="dashboard.html" class="hidden sm:flex items-center gap-2 bg-white border-2 border-primary-800 text-primary-800 hover:bg-primary-800 hover:text-white px-3 sm:px-4 py-2 rounded-lg text-sm font-semibold transition">
-<i class="fas fa-user"></i><span class="hidden md:inline">Login</span>
-</a>
-<a href="dashboard.html?book=AAD-001&name=Aadhaar%20Service" class="flex items-center gap-2 btn-accent text-white px-3 sm:px-4 py-2 rounded-lg text-sm font-semibold pulse-glow">
-<i class="fas fa-calendar-check"></i><span class="hidden sm:inline">Book Now</span><span class="sm:hidden">Book</span>
-</a>
-<button id="mobileMenuBtn" class="lg:hidden w-10 h-10 rounded-lg bg-soft flex items-center justify-center text-primary-800">
-<i class="fas fa-bars text-lg"></i>
-</button>
+<a href="dashboard.html" class="hidden sm:flex items-center gap-2 bg-white border-2 border-primary-800 text-primary-800 hover:bg-primary-800 hover:text-white px-3 sm:px-4 py-2 rounded-lg text-sm font-semibold transition"><i class="fas fa-user"></i><span class="hidden md:inline">Login</span></a>
+<a href="dashboard.html?book=AAD-001&name=Aadhaar%20Service" class="flex items-center gap-2 btn-accent text-white px-3 sm:px-4 py-2 rounded-lg text-sm font-semibold animate-pulse-glow"><i class="fas fa-calendar-check"></i><span class="hidden sm:inline">Book Now</span><span class="sm:hidden">Book</span></a>
+<button id="mobileMenuBtn" class="lg:hidden w-10 h-10 rounded-lg bg-soft flex items-center justify-center text-primary-800"><i class="fas fa-bars text-lg"></i></button>
 </div>
 </div>
-
 <div id="mobileMenu" class="hidden lg:hidden border-t bg-white">
 <div class="px-4 py-3 space-y-1">
 <a href="#home" class="block px-3 py-2.5 rounded-lg text-sm font-medium hover:bg-primary-50">🏠 Home</a>
+<a href="#about" class="block px-3 py-2.5 rounded-lg text-sm font-medium hover:bg-primary-50">ℹ️ About</a>
+<a href="#certificates" class="block px-3 py-2.5 rounded-lg text-sm font-medium hover:bg-primary-50">🏆 Certificates</a>
 <a href="#services" class="block px-3 py-2.5 rounded-lg text-sm font-medium hover:bg-primary-50">📋 Services</a>
 <a href="#tools" class="block px-3 py-2.5 rounded-lg text-sm font-medium hover:bg-primary-50">🛠️ Tools</a>
 <a href="#reviews" class="block px-3 py-2.5 rounded-lg text-sm font-medium hover:bg-primary-50">⭐ Reviews</a>
@@ -145,100 +138,62 @@ body{background:#F8FAFC;color:#0F172A;overflow-x:hidden}
 </div>
 </nav>
 
-<!-- HERO -->
-<section id="home" class="hero-bg text-white py-12 sm:py-16 lg:py-24 relative overflow-hidden">
+<!-- HERO SECTION -->
+<section id="home" class="hero-bg text-white py-16 sm:py-20 lg:py-28 relative overflow-hidden">
 <div class="hero-blob w-96 h-96 bg-accent-500 top-0 -right-20"></div>
-<div class="hero-blob w-96 h-96 bg-primary-300 bottom-0 -left-20"></div>
-
+<div class="hero-blob w-96 h-96 bg-primary-300 bottom-0 -left-20" style="animation-delay:2s"></div>
 <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-<div class="grid lg:grid-cols-5 gap-10 items-center">
-<div class="lg:col-span-3 animate-slideUp">
+<div class="text-center max-w-4xl mx-auto animate-fadeInUp">
 <div class="inline-flex items-center gap-2 glass-dark px-4 py-2 rounded-full mb-6">
 <span id="shopStatusDot" class="status-dot bg-green-400 text-green-400"></span>
-<span id="shopStatusText" class="text-sm font-semibold">Shop Open Now</span>
+<span id="shopStatusText" class="text-sm font-semibold">Shop Open Now • 7:30 AM - 9:00 PM</span>
 <span class="text-white/40">|</span>
-<span class="text-xs text-white/70">Live Status</span>
+<span class="text-xs text-white/70">Balasore, Odisha</span>
 </div>
-
-<h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-black leading-[1.1] mb-4">
+<h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-black leading-[1.05] mb-6">
 All <span class="bg-gradient-to-r from-accent-300 via-accent-400 to-accent-300 bg-clip-text text-transparent">Govt Services</span><br>
-Under One Roof
+<span class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl">Under One Roof</span>
 </h1>
-
-<p class="text-base sm:text-lg text-white/80 mb-6 max-w-2xl leading-relaxed">
+<p class="text-base sm:text-lg lg:text-xl text-white/85 mb-8 max-w-3xl mx-auto leading-relaxed">
 Aadhaar, PAN, Passport, Banking, Bill Payments, Insurance, IRCTC — 
-<span class="text-accent-300 font-semibold">50+ Government Services</span> with instant processing and on-time delivery.
+<span class="text-accent-300 font-bold">50+ Government Services</span> with instant processing at Baharda Bazar, Balasore
 </p>
-
-<!-- Counter Stats -->
-<div class="grid grid-cols-3 gap-4 mb-8 max-w-xl">
-<div class="glass-dark p-4 rounded-2xl text-center">
-<div class="text-2xl sm:text-3xl lg:text-4xl font-display font-black text-accent-400 counter" data-target="1176">0</div>
-<div class="text-xs text-white/70 mt-1">Happy Customers</div>
+<!-- Animated Counters -->
+<div class="grid grid-cols-3 gap-3 sm:gap-4 mb-10 max-w-2xl mx-auto">
+<div class="glass-dark p-4 sm:p-5 rounded-2xl text-center backdrop-blur-md border border-white/20">
+<div class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-black text-accent-400 counter" data-target="2500">0</div>
+<div class="text-xs sm:text-sm text-white/70 mt-1 font-medium">Happy Customers</div>
 </div>
-<div class="glass-dark p-4 rounded-2xl text-center">
-<div class="text-2xl sm:text-3xl lg:text-4xl font-display font-black text-accent-400 counter" data-target="50">0</div>
-<div class="text-xs text-white/70 mt-1">Services</div>
+<div class="glass-dark p-4 sm:p-5 rounded-2xl text-center backdrop-blur-md border border-white/20">
+<div class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-black text-accent-400 counter" data-target="50">0</div>
+<div class="text-xs sm:text-sm text-white/70 mt-1 font-medium">Services Available</div>
 </div>
-<div class="glass-dark p-4 rounded-2xl text-center">
-<div class="text-2xl sm:text-3xl lg:text-4xl font-display font-black text-accent-400 counter" data-target="8">0</div>
-<div class="text-xs text-white/70 mt-1">Operators</div>
+<div class="glass-dark p-4 sm:p-5 rounded-2xl text-center backdrop-blur-md border border-white/20">
+<div class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-black text-accent-400 counter" data-target="2">0</div>
+<div class="text-xs sm:text-sm text-white/70 mt-1 font-medium">Years Experience</div>
 </div>
 </div>
-
 <!-- CTA Buttons -->
-<div class="flex flex-wrap gap-3">
-<a href="#services" class="btn-accent text-white px-6 py-3.5 rounded-xl font-bold text-sm sm:text-base flex items-center gap-2">
-<i class="fas fa-th-large"></i> View Services
-</a>
-<a href="#tools" class="glass-dark border border-white/30 text-white hover:bg-white/10 px-6 py-3.5 rounded-xl font-bold text-sm sm:text-base flex items-center gap-2 transition">
-<i class="fas fa-tools"></i> Free Tools
-</a>
-<a href="tel:+919876543210" class="hidden sm:flex glass-dark border border-white/30 text-white hover:bg-white/10 px-6 py-3.5 rounded-xl font-bold text-sm sm:text-base items-center gap-2 transition">
-<i class="fas fa-phone"></i> Call Now
-</a>
+<div class="flex flex-wrap gap-3 justify-center">
+<a href="#services" class="btn-accent text-white px-6 sm:px-8 py-3.5 rounded-xl font-bold text-sm sm:text-base flex items-center gap-2 shadow-xl"><i class="fas fa-th-large"></i> View Services</a>
+<a href="#tools" class="glass-dark border-2 border-white/30 text-white hover:bg-white/10 px-6 sm:px-8 py-3.5 rounded-xl font-bold text-sm sm:text-base flex items-center gap-2 transition"><i class="fas fa-tools"></i> Free Tools</a>
+<a href="tel:+919124231432" class="hidden sm:flex glass-dark border-2 border-white/30 text-white hover:bg-white/10 px-6 sm:px-8 py-3.5 rounded-xl font-bold text-sm sm:text-base items-center gap-2 transition"><i class="fas fa-phone"></i> Call Now</a>
 </div>
-
 <!-- Trust Badges -->
-<div class="flex flex-wrap gap-2 mt-6">
-<span class="glass-dark px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1.5"><i class="fas fa-check-circle text-green-400"></i> CSC Authorized</span>
-<span class="glass-dark px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1.5"><i class="fas fa-check-circle text-green-400"></i> Banking CSP</span>
-<span class="glass-dark px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1.5"><i class="fas fa-check-circle text-green-400"></i> ISO Certified</span>
-</div>
-</div>
-
-<div class="lg:col-span-2 hidden lg:flex justify-center">
-<div class="relative">
-<div class="absolute -inset-4 bg-gradient-to-tr from-accent-500/30 to-primary-500/30 rounded-3xl blur-2xl"></div>
-<div class="relative w-80 h-96 glass-dark rounded-3xl flex items-center justify-center animate-float border border-white/20 shadow-2xl">
-<div class="text-center p-6">
-<div id="heroLogoSpace" class="w-40 h-40 mx-auto rounded-3xl gradient-accent flex items-center justify-center text-white text-7xl shadow-2xl mb-5 ring-4 ring-white/20 overflow-hidden">
-<i class="fas fa-store"></i>
-</div>
-<h3 class="text-2xl font-display font-black text-white" id="heroShopName">Pankaj E-Seva</h3>
-<p class="text-white/70 text-sm mt-1">Your Trusted Partner</p>
-<div class="flex justify-center gap-1 mt-3 text-accent-400">
-<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-</div>
-<p class="text-white/60 text-xs mt-1">4.8/5 (1176+ reviews)</p>
-<div class="mt-4 pt-4 border-t border-white/10 grid grid-cols-2 gap-2 text-center">
-<div><p class="text-accent-400 font-bold text-lg">5+</p><p class="text-white/60 text-[10px]">Years</p></div>
-<div><p class="text-accent-400 font-bold text-lg">24/7</p><p class="text-white/60 text-[10px]">Support</p></div>
+<div class="flex flex-wrap gap-2 justify-center mt-8">
+<span class="glass-dark px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1.5 border border-white/10"><i class="fas fa-check-circle text-green-400"></i> CSC Authorized</span>
+<span class="glass-dark px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1.5 border border-white/10"><i class="fas fa-check-circle text-green-400"></i> Banking CSP</span>
+<span class="glass-dark px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1.5 border border-white/10"><i class="fas fa-check-circle text-green-400"></i> IRCTC Agent</span>
+<span class="glass-dark px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1.5 border border-white/10"><i class="fas fa-check-circle text-green-400"></i> 2+ Years Trust</span>
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-
-<!-- Scroll Indicator -->
 <div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/60 animate-bounce">
 <i class="fas fa-chevron-down text-xl"></i>
 </div>
 </section>
 
-<!-- ABOUT -->
+<!-- ABOUT SECTION -->
 <section id="about" class="py-16 sm:py-20 bg-white relative overflow-hidden">
 <div class="absolute top-0 right-0 w-72 h-72 bg-primary-100 rounded-full blur-3xl opacity-40"></div>
 <div class="max-w-7xl mx-auto px-4 sm:px-6 relative">
@@ -247,54 +202,129 @@ Aadhaar, PAN, Passport, Banking, Bill Payments, Insurance, IRCTC —
 <h2 class="text-3xl sm:text-4xl lg:text-5xl font-display font-black mt-3 text-dark">Your Trusted <span class="gradient-text">Digital Partner</span></h2>
 <div class="section-divider mt-4"></div>
 </div>
-
 <div class="grid lg:grid-cols-2 gap-10 items-center">
 <div class="relative">
 <div class="absolute -inset-2 bg-gradient-to-br from-primary-800 to-accent-500 rounded-2xl opacity-20 blur-xl"></div>
 <div class="relative rounded-2xl overflow-hidden shadow-2xl h-80 sm:h-96 hero-bg flex items-center justify-center">
 <div class="text-center text-white p-6">
-<div class="w-32 h-32 mx-auto rounded-full gradient-accent flex items-center justify-center text-6xl mb-4 ring-4 ring-white/30">
+<div class="w-32 h-32 mx-auto rounded-full gradient-accent flex items-center justify-center text-6xl mb-4 ring-4 ring-white/30 shadow-2xl">
 <i class="fas fa-user-tie"></i>
 </div>
-<p class="font-display font-bold text-2xl">Owner Photo</p>
-<p class="text-white/70 text-sm mt-1">Upload from Admin Panel</p>
+<p class="font-display font-black text-2xl">Pankaj Das</p>
+<p class="text-white/70 text-sm mt-1">Owner & Operator</p>
+<p class="text-accent-300 text-xs mt-2">E-SUVIDHA KENDRA</p>
 </div>
 </div>
-<div class="absolute -bottom-4 -right-4 bg-accent-500 text-white p-4 rounded-2xl shadow-xl">
-<p class="text-3xl font-black">5+</p>
-<p class="text-xs">Years Exp.</p>
+<div class="absolute -bottom-4 -right-4 gradient-accent text-white p-4 rounded-2xl shadow-xl">
+<p class="text-3xl font-black">2+</p>
+<p class="text-xs font-bold">Years Exp.</p>
 </div>
 </div>
-
 <div>
 <span class="text-accent-600 font-bold text-xs uppercase tracking-widest">Welcome</span>
-<h3 class="text-2xl sm:text-3xl font-display font-black mt-2 mb-4" id="aboutTitle">Welcome to Pankaj E-Seva Kendra</h3>
-<p class="text-gray-600 mb-6 leading-relaxed" id="aboutDesc">We are an authorized CSC (Common Service Center) and Banking CSP providing all government, banking, and digital services to citizens under one roof. With over 5 years of experience, we have served 1000+ happy customers with 99% satisfaction rate.</p>
-
+<h3 class="text-2xl sm:text-3xl font-display font-black mt-2 mb-4 text-dark">Welcome to E-SUVIDHA KENDRA</h3>
+<p class="text-gray-600 mb-6 leading-relaxed" id="aboutDesc">E-SUVIDHA KENDRA is an authorized CSC (Common Service Center) and Banking CSP located at Baharda Bazar, Basta, Balasore, Odisha. We provide all government, banking, and digital services to citizens under one roof. With 2+ years of trusted service, we have served thousands of happy customers with transparent pricing and instant processing.</p>
 <div class="grid sm:grid-cols-2 gap-4">
-<div class="flex items-start gap-3 p-3 rounded-xl hover:bg-soft transition">
-<div class="icon-box gradient-primary text-white"><i class="fas fa-user-tie"></i></div>
-<div><p class="text-xs text-gray-500">Owner</p><p class="font-bold text-sm" id="aboutOwner">Pankaj Kumar</p></div>
+<div class="flex items-start gap-3 p-4 rounded-xl hover:bg-soft transition border border-transparent hover:border-primary-100">
+<div class="icon-box gradient-primary text-white"><i class="fas fa-user-tie text-xl"></i></div>
+<div><p class="text-xs text-gray-500 font-bold uppercase tracking-wider">Owner</p><p class="font-bold text-sm mt-0.5">Pankaj Das</p></div>
 </div>
-<div class="flex items-start gap-3 p-3 rounded-xl hover:bg-soft transition">
-<div class="icon-box gradient-accent text-white"><i class="fas fa-clock"></i></div>
-<div><p class="text-xs text-gray-500">Experience</p><p class="font-bold text-sm" id="aboutExperience">5+ Years in CSC</p></div>
+<div class="flex items-start gap-3 p-4 rounded-xl hover:bg-soft transition border border-transparent hover:border-primary-100">
+<div class="icon-box gradient-accent text-white"><i class="fas fa-clock text-xl"></i></div>
+<div><p class="text-xs text-gray-500 font-bold uppercase tracking-wider">Working Hours</p><p class="font-bold text-sm mt-0.5">7:30 AM - 9:00 PM</p></div>
 </div>
-<div class="flex items-start gap-3 p-3 rounded-xl hover:bg-soft transition">
-<div class="icon-box bg-green-500 text-white"><i class="fas fa-award"></i></div>
-<div><p class="text-xs text-gray-500">Certifications</p><p class="font-bold text-sm">CSC, CSP, IRCTC</p></div>
+<div class="flex items-start gap-3 p-4 rounded-xl hover:bg-soft transition border border-transparent hover:border-primary-100">
+<div class="icon-box bg-green-500 text-white"><i class="fas fa-award text-xl"></i></div>
+<div><p class="text-xs text-gray-500 font-bold uppercase tracking-wider">Certifications</p><p class="font-bold text-sm mt-0.5">CSC, CSP, IRCTC</p></div>
 </div>
-<div class="flex items-start gap-3 p-3 rounded-xl hover:bg-soft transition">
-<div class="icon-box bg-purple-500 text-white"><i class="fas fa-users"></i></div>
-<div><p class="text-xs text-gray-500">Customers</p><p class="font-bold text-sm">1000+ Happy</p></div>
+<div class="flex items-start gap-3 p-4 rounded-xl hover:bg-soft transition border border-transparent hover:border-primary-100">
+<div class="icon-box bg-purple-500 text-white"><i class="fas fa-map-marker-alt text-xl"></i></div>
+<div><p class="text-xs text-gray-500 font-bold uppercase tracking-wider">Location</p><p class="font-bold text-sm mt-0.5">Balasore, Odisha</p></div>
 </div>
 </div>
+<a href="tel:+919124231432" class="btn-primary text-white px-6 py-3 rounded-xl font-bold inline-flex items-center gap-2 mt-6">
+<i class="fas fa-phone"></i> Call: +91 9124231432
+</a>
 </div>
 </div>
 </div>
 </section>
 
-<!-- SERVICES -->
+<!-- CERTIFICATES SECTION (NEW) -->
+<section id="certificates" class="py-16 sm:py-20 bg-gradient-to-br from-primary-50 via-white to-accent-50 relative overflow-hidden">
+<div class="absolute top-20 left-20 w-72 h-72 bg-accent-200 rounded-full blur-3xl opacity-30"></div>
+<div class="absolute bottom-20 right-20 w-72 h-72 bg-primary-200 rounded-full blur-3xl opacity-30"></div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 relative">
+<div class="text-center mb-12">
+<span class="text-accent-600 font-bold text-xs uppercase tracking-widest">Our Credentials</span>
+<h2 class="text-3xl sm:text-4xl lg:text-5xl font-display font-black mt-3 text-dark">Licenses & <span class="gradient-text">Certifications</span></h2>
+<p class="text-gray-600 mt-3 max-w-2xl mx-auto">Authorized and certified by Government of India for providing citizen services</p>
+</div>
+<div id="certificatesGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5">
+<!-- Certificate cards will load here dynamically from Firestore -->
+<!-- Default placeholders (10 slots) shown initially -->
+<div class="cert-card bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 cursor-pointer" onclick="openCertLightbox(this)">
+<div class="aspect-[3/4] bg-gradient-to-br from-primary-100 to-accent-100 flex items-center justify-center relative overflow-hidden">
+<i class="fas fa-certificate text-6xl text-primary-300"></i>
+<span class="absolute top-2 right-2 badge-verified"><i class="fas fa-check"></i> Verified</span>
+</div>
+<div class="p-3">
+<p class="font-bold text-sm">CSC ID Certificate</p>
+<p class="text-xs text-gray-500 mt-1">Govt. of India</p>
+</div>
+</div>
+<div class="cert-card bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 cursor-pointer" onclick="openCertLightbox(this)">
+<div class="aspect-[3/4] bg-gradient-to-br from-green-100 to-emerald-100 flex items-center justify-center relative overflow-hidden">
+<i class="fas fa-university text-6xl text-green-300"></i>
+<span class="absolute top-2 right-2 badge-verified"><i class="fas fa-check"></i> Verified</span>
+</div>
+<div class="p-3">
+<p class="font-bold text-sm">Banking CSP License</p>
+<p class="text-xs text-gray-500 mt-1">Authorized Partner</p>
+</div>
+</div>
+<div class="cert-card bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 cursor-pointer" onclick="openCertLightbox(this)">
+<div class="aspect-[3/4] bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center relative overflow-hidden">
+<i class="fas fa-train text-6xl text-purple-300"></i>
+<span class="absolute top-2 right-2 badge-verified"><i class="fas fa-check"></i> Verified</span>
+</div>
+<div class="p-3">
+<p class="font-bold text-sm">IRCTC Agent</p>
+<p class="text-xs text-gray-500 mt-1">Train Booking</p>
+</div>
+</div>
+<div class="cert-card bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 cursor-pointer" onclick="openCertLightbox(this)">
+<div class="aspect-[3/4] bg-gradient-to-br from-yellow-100 to-orange-100 flex items-center justify-center relative overflow-hidden">
+<i class="fas fa-id-card text-6xl text-yellow-400"></i>
+<span class="absolute top-2 right-2 badge-verified"><i class="fas fa-check"></i> Verified</span>
+</div>
+<div class="p-3">
+<p class="font-bold text-sm">Aadhaar Operator</p>
+<p class="text-xs text-gray-500 mt-1">UIDAI Certified</p>
+</div>
+</div>
+<div class="cert-card bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 cursor-pointer" onclick="openCertLightbox(this)">
+<div class="aspect-[3/4] bg-gradient-to-br from-red-100 to-pink-100 flex items-center justify-center relative overflow-hidden">
+<i class="fas fa-shield-alt text-6xl text-red-300"></i>
+<span class="absolute top-2 right-2 badge-verified"><i class="fas fa-check"></i> Verified</span>
+</div>
+<div class="p-3">
+<p class="font-bold text-sm">PAN Card Agent</p>
+<p class="text-xs text-gray-500 mt-1">Income Tax Dept.</p>
+</div>
+</div>
+</div>
+<!-- Hidden slots for Admin to add more certificates (upto 10 total visible) -->
+<div id="certExtraSlots" class="hidden"></div>
+</div>
+</section>
+
+<!-- CERTIFICATE LIGHTBOX -->
+<div id="certLightbox" class="cert-lightbox" onclick="closeCertLightbox()">
+<img id="certLightboxImg" src="" alt="Certificate">
+</div>
+
+<!-- SERVICES SECTION -->
 <section id="services" class="py-16 sm:py-20 bg-soft relative">
 <div class="max-w-7xl mx-auto px-4 sm:px-6">
 <div class="text-center mb-10">
@@ -302,27 +332,21 @@ Aadhaar, PAN, Passport, Banking, Bill Payments, Insurance, IRCTC —
 <h2 class="text-3xl sm:text-4xl lg:text-5xl font-display font-black mt-3 text-dark">50+ Services <span class="gradient-text">Available</span></h2>
 <p class="text-gray-500 mt-3 max-w-2xl mx-auto">All government, banking, and digital services at one place with transparent pricing</p>
 </div>
-
-<!-- Category Filter -->
 <div class="flex flex-wrap justify-center gap-2 mb-8" id="categoryFilters"></div>
-
-<!-- Services Grid -->
 <div id="servicesGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
 </div>
 </section>
 
-<!-- TOOLS -->
+<!-- TOOLS SECTION -->
 <section id="tools" class="py-16 sm:py-20 bg-white relative">
 <div class="max-w-7xl mx-auto px-4 sm:px-6">
 <div class="text-center mb-10">
 <span class="text-accent-600 font-bold text-xs uppercase tracking-widest">Free Tools</span>
 <h2 class="text-3xl sm:text-4xl lg:text-5xl font-display font-black mt-3 text-dark">30+ <span class="gradient-text">Online Tools</span></h2>
-<p class="text-gray-500 mt-3 max-w-2xl mx-auto">Use these professional tools right in your browser — no download required, 100% free</p>
+<p class="text-gray-500 mt-3 max-w-2xl mx-auto">Professional tools right in your browser — no download, 100% free</p>
 </div>
-
-<!-- Tool Categories -->
 <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-<div class="gradient-primary text-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all hover:-translate-y-1">
+<div class="tool-card gradient-primary text-white p-6 rounded-2xl shadow-lg">
 <div class="flex items-center gap-3 mb-4">
 <div class="w-12 h-12 rounded-xl bg-accent-500 flex items-center justify-center"><i class="fas fa-calculator text-xl"></i></div>
 <h3 class="font-display font-bold text-lg">Financial</h3>
@@ -334,8 +358,7 @@ Aadhaar, PAN, Passport, Banking, Bill Payments, Insurance, IRCTC —
 <button onclick="openTool('homeLoan')" class="tool-btn w-full text-left bg-white/10 hover:bg-white/20 px-3 py-2.5 rounded-lg transition flex items-center gap-2"><i class="fas fa-arrow-right text-xs"></i> Home Loan</button>
 </div>
 </div>
-
-<div class="gradient-accent text-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all hover:-translate-y-1">
+<div class="tool-card gradient-accent text-white p-6 rounded-2xl shadow-lg">
 <div class="flex items-center gap-3 mb-4">
 <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center"><i class="fas fa-file-pdf text-xl"></i></div>
 <h3 class="font-display font-bold text-lg">PDF Tools</h3>
@@ -347,8 +370,7 @@ Aadhaar, PAN, Passport, Banking, Bill Payments, Insurance, IRCTC —
 <button onclick="openTool('splitPdf')" class="tool-btn w-full text-left bg-white/10 hover:bg-white/20 px-3 py-2.5 rounded-lg transition flex items-center gap-2"><i class="fas fa-arrow-right text-xs"></i> Split PDF</button>
 </div>
 </div>
-
-<div class="bg-gradient-to-br from-green-500 to-emerald-700 text-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all hover:-translate-y-1">
+<div class="tool-card bg-gradient-to-br from-green-500 to-emerald-700 text-white p-6 rounded-2xl shadow-lg">
 <div class="flex items-center gap-3 mb-4">
 <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center"><i class="fas fa-image text-xl"></i></div>
 <h3 class="font-display font-bold text-lg">Image Tools</h3>
@@ -360,8 +382,7 @@ Aadhaar, PAN, Passport, Banking, Bill Payments, Insurance, IRCTC —
 <button onclick="openTool('signature')" class="tool-btn w-full text-left bg-white/10 hover:bg-white/20 px-3 py-2.5 rounded-lg transition flex items-center gap-2"><i class="fas fa-arrow-right text-xs"></i> Signature Crop</button>
 </div>
 </div>
-
-<div class="bg-gradient-to-br from-purple-500 to-violet-700 text-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all hover:-translate-y-1">
+<div class="tool-card bg-gradient-to-br from-purple-500 to-violet-700 text-white p-6 rounded-2xl shadow-lg">
 <div class="flex items-center gap-3 mb-4">
 <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center"><i class="fas fa-wrench text-xl"></i></div>
 <h3 class="font-display font-bold text-lg">Utility</h3>
@@ -374,16 +395,13 @@ Aadhaar, PAN, Passport, Banking, Bill Payments, Insurance, IRCTC —
 </div>
 </div>
 </div>
-
 <div class="text-center">
-<a href="operator-tools.html" class="inline-flex items-center gap-2 btn-primary text-white px-6 py-3 rounded-xl font-bold">
-<i class="fas fa-tools"></i> Explore 100+ Tools in Hub
-</a>
+<a href="operator-tools.html" class="inline-flex items-center gap-2 btn-primary text-white px-8 py-3.5 rounded-xl font-bold shadow-lg"><i class="fas fa-tools"></i> Explore 100+ Tools in Hub</a>
 </div>
 </div>
 </section>
 
-<!-- REVIEWS -->
+<!-- REVIEWS SECTION -->
 <section id="reviews" class="py-16 sm:py-20 bg-soft relative">
 <div class="max-w-7xl mx-auto px-4 sm:px-6">
 <div class="text-center mb-10">
@@ -391,14 +409,14 @@ Aadhaar, PAN, Passport, Banking, Bill Payments, Insurance, IRCTC —
 <h2 class="text-3xl sm:text-4xl lg:text-5xl font-display font-black mt-3 text-dark">What Customers <span class="gradient-text">Say</span></h2>
 <div class="flex justify-center items-center gap-1 mt-3 text-accent-500">
 <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-<span class="text-gray-600 text-sm ml-2">4.8/5 from 1176+ customers</span>
+<span class="text-gray-600 text-sm ml-2">4.8/5 from 2500+ customers</span>
 </div>
 </div>
-<div id="reviewsGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5" id="reviewsGrid"></div>
 </div>
 </section>
 
-<!-- GALLERY -->
+<!-- GALLERY SECTION -->
 <section id="gallery" class="py-16 sm:py-20 bg-white">
 <div class="max-w-7xl mx-auto px-4 sm:px-6">
 <div class="text-center mb-10">
@@ -409,43 +427,43 @@ Aadhaar, PAN, Passport, Banking, Bill Payments, Insurance, IRCTC —
 </div>
 </section>
 
-<!-- CONTACT -->
+<!-- CONTACT SECTION -->
 <section id="contact" class="py-16 sm:py-20 bg-gradient-to-br from-primary-900 via-primary-800 to-primary-900 text-white relative overflow-hidden">
 <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2225%22 cy=%2225%22 r=%221%22 fill=%22%23ffffff%22 opacity=%220.05%22/%3E%3Ccircle cx=%2275%22 cy=%2275%22 r=%221%22 fill=%22%23ffffff%22 opacity=%220.05%22/%3E%3C/svg%3E')] opacity-50"></div>
-
 <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
 <div class="grid lg:grid-cols-2 gap-10">
 <div>
 <span class="text-accent-400 font-bold text-xs uppercase tracking-widest">Get In Touch</span>
 <h2 class="text-3xl sm:text-4xl lg:text-5xl font-display font-black mt-3 mb-6">Visit Us or <span class="text-accent-400">Call Today</span></h2>
-
 <div class="space-y-4">
-<div class="flex items-start gap-4 p-4 glass-dark rounded-xl hover:bg-white/10 transition">
+<a href="tel:+919124231432" class="flex items-start gap-4 p-4 glass-dark rounded-xl hover:bg-white/10 transition">
 <div class="w-12 h-12 rounded-xl gradient-accent flex items-center justify-center flex-shrink-0"><i class="fas fa-map-marker-alt text-lg"></i></div>
-<div><p class="text-xs text-white/60 uppercase tracking-wider">Address</p><p class="font-semibold mt-1" id="contactAddress">Main Road, Near Bank, City - 123456</p></div>
-</div>
-<div class="flex items-start gap-4 p-4 glass-dark rounded-xl hover:bg-white/10 transition">
+<div><p class="text-xs text-white/60 uppercase tracking-wider font-bold">Address</p><p class="font-semibold mt-1">Baharda Bazar, Basta, Balasore, Odisha - 756029</p></div>
+</a>
+<a href="tel:+919124231432" class="flex items-start gap-4 p-4 glass-dark rounded-xl hover:bg-white/10 transition">
 <div class="w-12 h-12 rounded-xl gradient-accent flex items-center justify-center flex-shrink-0"><i class="fas fa-phone text-lg"></i></div>
-<div><p class="text-xs text-white/60 uppercase tracking-wider">Phone</p><p class="font-semibold mt-1" id="contactPhone">+91 98765 43210</p></div>
-</div>
-<div class="flex items-start gap-4 p-4 glass-dark rounded-xl hover:bg-white/10 transition">
+<div><p class="text-xs text-white/60 uppercase tracking-wider font-bold">Phone</p><p class="font-semibold mt-1">+91 9124231432</p></div>
+</a>
+<a href="https://wa.me/919124231432" target="_blank" class="flex items-start gap-4 p-4 glass-dark rounded-xl hover:bg-white/10 transition">
 <div class="w-12 h-12 rounded-xl bg-green-500 flex items-center justify-center flex-shrink-0"><i class="fab fa-whatsapp text-lg"></i></div>
-<div><p class="text-xs text-white/60 uppercase tracking-wider">WhatsApp</p><p class="font-semibold mt-1" id="contactWhatsapp">+91 98765 43210</p></div>
-</div>
-<div class="flex items-start gap-4 p-4 glass-dark rounded-xl hover:bg-white/10 transition">
+<div><p class="text-xs text-white/60 uppercase tracking-wider font-bold">WhatsApp</p><p class="font-semibold mt-1">+91 9124231432 <span class="text-xs text-green-300">(Same Number)</span></p></div>
+</a>
+<a href="mailto:esuvidhacenter01@gmail.com" class="flex items-start gap-4 p-4 glass-dark rounded-xl hover:bg-white/10 transition">
 <div class="w-12 h-12 rounded-xl gradient-accent flex items-center justify-center flex-shrink-0"><i class="fas fa-envelope text-lg"></i></div>
-<div><p class="text-xs text-white/60 uppercase tracking-wider">Email</p><p class="font-semibold mt-1" id="contactEmail">eseva@example.com</p></div>
+<div><p class="text-xs text-white/60 uppercase tracking-wider font-bold">Email</p><p class="font-semibold mt-1">esuvidhacenter01@gmail.com</p></div>
+</a>
+<a href="#" class="flex items-start gap-4 p-4 glass-dark rounded-xl hover:bg-white/10 transition">
+<div class="w-12 h-12 rounded-xl gradient-accent flex items-center justify-center flex-shrink-0"><i class="fas fa-clock text-lg"></i></div>
+<div><p class="text-xs text-white/60 uppercase tracking-wider font-bold">Working Hours</p><p class="font-semibold mt-1">7:30 AM - 9:00 PM (Daily Open)</p></div>
+</a>
 </div>
-</div>
-
 <div class="mt-6 flex gap-3">
 <a href="#" class="w-12 h-12 rounded-xl glass-dark hover:bg-blue-600 transition flex items-center justify-center text-lg"><i class="fab fa-facebook"></i></a>
 <a href="#" class="w-12 h-12 rounded-xl glass-dark hover:bg-pink-600 transition flex items-center justify-center text-lg"><i class="fab fa-instagram"></i></a>
 <a href="#" class="w-12 h-12 rounded-xl glass-dark hover:bg-red-600 transition flex items-center justify-center text-lg"><i class="fab fa-youtube"></i></a>
-<a href="#" class="w-12 h-12 rounded-xl glass-dark hover:bg-sky-500 transition flex items-center justify-center text-lg"><i class="fab fa-twitter"></i></a>
+<a href="#" class="w-12 h-12 rounded-xl glass-dark hover:bg-green-500 transition flex items-center justify-center text-lg"><i class="fab fa-whatsapp"></i></a>
 </div>
 </div>
-
 <div class="bg-white text-dark rounded-3xl p-6 sm:p-8 shadow-2xl">
 <h3 class="font-display font-black text-2xl mb-1">Send us a Message</h3>
 <p class="text-gray-500 text-sm mb-5">We'll respond within 24 hours</p>
@@ -454,9 +472,7 @@ Aadhaar, PAN, Passport, Banking, Bill Payments, Insurance, IRCTC —
 <input type="email" id="cfEmail" placeholder="Email Address" required class="input-style w-full px-4 py-3 rounded-xl">
 <input type="text" id="cfSubject" placeholder="Subject" required class="input-style w-full px-4 py-3 rounded-xl">
 <textarea id="cfMessage" placeholder="Your Message..." rows="4" required class="input-style w-full px-4 py-3 rounded-xl resize-none"></textarea>
-<button type="submit" class="btn-accent w-full text-white py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2">
-<i class="fas fa-paper-plane"></i> Send Message
-</button>
+<button type="submit" class="btn-accent w-full text-white py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2"><i class="fas fa-paper-plane"></i> Send Message</button>
 </form>
 </div>
 </div>
@@ -466,42 +482,37 @@ Aadhaar, PAN, Passport, Banking, Bill Payments, Insurance, IRCTC —
 <!-- FOOTER -->
 <footer class="bg-dark text-white pt-12 pb-6 relative overflow-hidden">
 <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cpath d=%22M0 0 L 100 100 M 100 0 L 0 100%22 stroke=%22%23ffffff%22 stroke-width=%220.5%22 opacity=%220.03%22/%3E%3C/svg%3E')]"></div>
-
 <div class="max-w-7xl mx-auto px-4 sm:px-6 relative">
 <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
 <div>
 <div class="flex items-center gap-3 mb-4">
-<div id="footerLogo" class="w-12 h-12 rounded-xl gradient-accent flex items-center justify-center text-white text-xl overflow-hidden">
-<i class="fas fa-store"></i>
-</div>
+<div id="footerLogo" class="w-12 h-12 rounded-xl gradient-accent flex items-center justify-center text-white text-xl overflow-hidden"><i class="fas fa-store"></i></div>
 <div>
-<h3 class="font-display font-bold text-base" id="footerShopName">Pankaj E-Seva Kendra</h3>
+<h3 class="font-display font-bold text-base" id="footerShopName">E-SUVIDHA KENDRA</h3>
 <p class="text-xs text-white/60" id="footerTagline">Your Trusted Digital Partner</p>
 </div>
 </div>
-<p class="text-white/60 text-sm leading-relaxed">One-stop CSC, Banking CSP and Digital Services Center. Serving citizens with 50+ government and private services under one roof.</p>
+<p class="text-white/60 text-sm leading-relaxed">One-stop CSC, Banking CSP and Digital Services Center in Balasore, Odisha. Serving citizens with 50+ government services under one roof.</p>
 </div>
-
 <div>
 <h4 class="font-display font-bold mb-4 text-accent-400">Quick Links</h4>
 <ul class="space-y-2 text-sm text-white/70">
 <li><a href="#home" class="hover:text-accent-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i> Home</a></li>
+<li><a href="#about" class="hover:text-accent-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i> About</a></li>
+<li><a href="#certificates" class="hover:text-accent-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i> Certificates</a></li>
 <li><a href="#services" class="hover:text-accent-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i> Services</a></li>
-<li><a href="#tools" class="hover:text-accent-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i> Tools</a></li>
 <li><a href="#contact" class="hover:text-accent-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i> Contact</a></li>
 </ul>
 </div>
-
 <div>
 <h4 class="font-display font-bold mb-4 text-accent-400">Services</h4>
 <ul class="space-y-2 text-sm text-white/70">
-<li><a href="dashboard.html?book=AAD-001&name=Aadhaar" class="hover:text-accent-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i> Aadhaar Services</a></li>
-<li><a href="dashboard.html?book=PAN-001&name=PAN" class="hover:text-accent-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i> PAN Card</a></li>
-<li><a href="dashboard.html?book=BCK-001&name=Banking" class="hover:text-accent-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i> Banking CSP</a></li>
-<li><a href="dashboard.html?book=PAS-001&name=Passport" class="hover:text-accent-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i> Passport</a></li>
+<li><a href="dashboard.html?book=AAD-001" class="hover:text-accent-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i> Aadhaar</a></li>
+<li><a href="dashboard.html?book=PAN-001" class="hover:text-accent-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i> PAN Card</a></li>
+<li><a href="dashboard.html?book=BCK-001" class="hover:text-accent-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i> Banking CSP</a></li>
+<li><a href="dashboard.html?book=PAS-001" class="hover:text-accent-400 transition flex items-center gap-2"><i class="fas fa-chevron-right text-xs"></i> Passport</a></li>
 </ul>
 </div>
-
 <div>
 <h4 class="font-display font-bold mb-4 text-accent-400">Panels</h4>
 <ul class="space-y-2 text-sm text-white/70">
@@ -512,9 +523,8 @@ Aadhaar, PAN, Passport, Banking, Bill Payments, Insurance, IRCTC —
 </ul>
 </div>
 </div>
-
 <div class="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-<p class="text-white/40 text-xs">© 2025 <span id="footerShopName2">Pankaj E-Seva Kendra</span>. All rights reserved.</p>
+<p class="text-white/40 text-xs">© 2025 <span id="footerShopName2">E-SUVIDHA KENDRA</span>. All rights reserved.</p>
 <p class="text-white/40 text-xs flex items-center gap-1">Made with <i class="fas fa-heart text-red-500"></i> for Digital India</p>
 </div>
 </div>
@@ -522,725 +532,326 @@ Aadhaar, PAN, Passport, Banking, Bill Payments, Insurance, IRCTC —
 
 <!-- FLOATING BUTTONS -->
 <div class="fixed bottom-6 right-6 flex flex-col gap-3 z-40">
-<a id="whatsappBtn" href="#" target="_blank" class="floating-btn w-14 h-14 rounded-full bg-gradient-to-br from-green-400 to-green-600 text-white flex items-center justify-center text-2xl">
-<i class="fab fa-whatsapp"></i>
-</a>
-<a id="callBtn" href="tel:+919876543210" class="floating-btn w-14 h-14 rounded-full gradient-accent text-white flex items-center justify-center text-2xl">
-<i class="fas fa-phone-alt"></i>
-</a>
-<button onclick="window.scrollTo({top:0,behavior:'smooth'})" id="scrollTopBtn" class="floating-btn w-12 h-12 rounded-full bg-primary-800 text-white flex items-center justify-center opacity-0 pointer-events-none transition">
-<i class="fas fa-arrow-up"></i>
-</button>
+<a id="whatsappBtn" href="https://wa.me/919124231432" target="_blank" class="floating-btn w-14 h-14 rounded-full bg-gradient-to-br from-green-400 to-green-600 text-white flex items-center justify-center text-2xl"><i class="fab fa-whatsapp"></i></a>
+<a id="callBtn" href="tel:+919124231432" class="floating-btn w-14 h-14 rounded-full gradient-accent text-white flex items-center justify-center text-2xl"><i class="fas fa-phone-alt"></i></a>
+<button onclick="window.scrollTo({top:0,behavior:'smooth'})" id="scrollTopBtn" class="floating-btn w-12 h-12 rounded-full bg-primary-800 text-white flex items-center justify-center opacity-0 pointer-events-none transition"><i class="fas fa-arrow-up"></i></button>
 </div>
 
 <!-- TOOL MODAL -->
 <div id="toolModal" class="hidden fixed inset-0 z-50 modal-overlay flex items-center justify-center p-4">
-<div class="bg-white rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-slideUp">
+<div class="bg-white rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-fadeInUp">
 <div class="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between z-10">
 <div class="flex items-center gap-3">
 <div class="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center text-white"><i class="fas fa-tools" id="toolIcon"></i></div>
 <h3 id="toolTitle" class="font-display font-black text-lg">Tool</h3>
 </div>
-<button onclick="closeTool()" class="w-9 h-9 rounded-lg bg-soft hover:bg-red-50 text-gray-500 hover:text-red-500 transition flex items-center justify-center">
-<i class="fas fa-times"></i>
-</button>
+<button onclick="closeTool()" class="w-9 h-9 rounded-lg bg-soft hover:bg-red-50 text-gray-500 hover:text-red-500 transition flex items-center justify-center"><i class="fas fa-times"></i></button>
 </div>
 <div id="toolBody" class="p-6"></div>
 </div>
 </div>
 
 <!-- TOAST -->
-<div id="toast" class="hidden fixed top-24 right-4 z-50 px-5 py-3 rounded-xl shadow-2xl text-white font-semibold text-sm flex items-center gap-2 animate-slideUp"></div>
+<div id="toast" class="hidden fixed top-24 right-4 z-50 px-5 py-3 rounded-xl shadow-2xl text-white font-semibold text-sm flex items-center gap-2"></div>
 
 <script>
-// ========== FIREBASE CONFIG (YOUR ACTUAL CONFIG) ==========
+// ========== FIREBASE CONFIG ==========
 const firebaseConfig = {
   apiKey: "AIzaSyDucHeFoRyu-aHa2ILTV6dXWkV5TWyVWV4",
   authDomain: "eseva-kendra-4c870.firebaseapp.com",
   projectId: "eseva-kendra-4c870",
-  storageBucket: "eseva-kendra-4c870.firebasestorage.app",
+  storageBucket: "eseva-kendra-4c870.appspot.com",
   messagingSenderId: "730747379772",
   appId: "1:730747379772:web:87f4fa85e372128c0de339",
   measurementId: "G-NP2B95SFDM"
 };
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-const analytics = firebase.analytics();
+const storage = firebase.storage();
 
 // ========== DEFAULT DATA ==========
-const defaultServices = [
-{serviceId:'AAD-001',name:'Aadhaar Card Service',category:'CSC',description:'New Aadhaar enrollment, update & download',price:50,icon:'fa-id-card'},
-{serviceId:'PAN-001',name:'PAN Card Apply',category:'CSC',description:'New PAN Card application & correction',price:107,icon:'fa-credit-card'},
-{serviceId:'VOT-001',name:'Voter ID Card',category:'CSC',description:'New Voter ID & address correction',price:80,icon:'fa-vote-yea'},
-{serviceId:'PAS-001',name:'Passport Service',category:'Government',description:'New Passport, renewal, tatkal',price:500,icon:'fa-passport'},
-{serviceId:'BCK-001',name:'Bank Account Opening',category:'Banking',description:'Zero balance savings account',price:200,icon:'fa-university'},
-{serviceId:'CSH-001',name:'Cash Withdrawal',category:'Banking',description:'Aadhaar Pay instant cash withdrawal',price:20,icon:'fa-money-bill-wave'},
-{serviceId:'DPT-001',name:'Cash Deposit',category:'Banking',description:'Deposit to any bank account',price:30,icon:'fa-piggy-bank'},
-{serviceId:'PMK-001',name:'PM Kisan Registration',category:'Government',description:'PM Kisan Samman Nidhi Yojana',price:50,icon:'fa-tractor'},
-{serviceId:'AYU-001',name:'Ayushman Card',category:'Government',description:'Ayushman Bharat health card',price:30,icon:'fa-heartbeat'},
-{serviceId:'ESR-001',name:'eShram Card',category:'Government',description:'Unorganized worker registration',price:30,icon:'fa-hard-hat'},
-{serviceId:'BIL-001',name:'Electricity Bill',category:'Utility',description:'Pay all electricity bills instantly',price:10,icon:'fa-bolt'},
-{serviceId:'MOB-001',name:'Mobile Recharge',category:'Utility',description:'All operator prepaid/postpaid recharge',price:0,icon:'fa-mobile-alt'},
-{serviceId:'TRN-001',name:'Train Ticket',category:'Travel',description:'IRCTC ticket booking',price:30,icon:'fa-train'},
-{serviceId:'BUS-001',name:'Bus Ticket',category:'Travel',description:'All state bus ticket booking',price:20,icon:'fa-bus'},
-{serviceId:'INS-001',name:'Life Insurance',category:'Insurance',description:'LIC, SBI Life & others',price:0,icon:'fa-shield-alt'},
-{serviceId:'DRV-001',name:'Driving Licence',category:'Government',description:'New DL, renewal & slot booking',price:300,icon:'fa-car'},
-{serviceId:'INC-001',name:'Income Certificate',category:'Government',description:'Apply online income certificate',price:100,icon:'fa-rupee-sign'},
-{serviceId:'CAS-001',name:'Caste Certificate',category:'Government',description:'SC/ST/OBC certificate',price:100,icon:'fa-users'},
-{serviceId:'DOM-001',name:'Domicile Certificate',category:'Government',description:'Residence/domicile certificate',price:100,icon:'fa-home'},
-{serviceId:'RAT-001',name:'Ration Card',category:'Government',description:'New ration card & updates',price:100,icon:'fa-id-badge'}
-];
-
 const defaultSettings = {
-shopName:'Pankaj E-Seva Kendra',
-tagline:'Digital Seva Center | CSC | Banking CSP',
-ownerName:'Pankaj Kumar',
-ownerExperience:'5+ Years in CSC Operations',
-aboutDesc:'We are an authorized CSC (Common Service Center) and Banking CSP providing all government, banking, and digital services to citizens. With over 5 years of experience, we have served 1000+ happy customers with 99% satisfaction rate.',
-phone:'+91 98765 43210',
-whatsapp:'+91 98765 43210',
-email:'eseva@example.com',
-address:'Main Road, Near Bank, City - 123456',
-workingHoursStart:'08:00',
-workingHoursEnd:'21:00',
-announcement:'Welcome to Pankaj E-Seva Kendra — All Government & Banking Services Under One Roof!',
-logoURL:'https://github.com/Subha34540/eseva-kendra/blob/d4a4c809a68ed323937738cacfc88adcef68182a/logo.jpeg',
-bannerURL:'https://github.com/Subha34540/eseva-kendra/blob/024f7e0ccdc8f9d243abf9dcf73e11151ebcda8b/Banner.jpeg'
+  shopName: 'E-SUVIDHA KENDRA',
+  tagline: 'Digital Seva Center | CSC | Banking CSP',
+  ownerName: 'Pankaj Das',
+  ownerExperience: '2+ Years Experience',
+  aboutDesc: 'E-SUVIDHA KENDRA is an authorized CSC (Common Service Center) and Banking CSP located at Baharda Bazar, Basta, Balasore, Odisha. We provide all government, banking, and digital services to citizens under one roof.',
+  phone: '+91 9124231432',
+  whatsapp: '+91 9124231432',
+  email: 'esuvidhacenter01@gmail.com',
+  address: 'Baharda Bazar, Basta, Balasore, Odisha - 756029',
+  workingHoursStart: '07:30',
+  workingHoursEnd: '21:00',
+  announcement: 'Welcome to E-SUVIDHA KENDRA — All Government & Banking Services Under One Roof!',
+  logoURL: 'logo.png',
+  bannerURL: 'banner.jpg'
 };
+
+const defaultServices = [
+  {serviceId:'AAD-001',name:'Aadhaar Card Service',category:'CSC',description:'New Aadhaar enrollment, update & download',price:50,icon:'fa-id-card'},
+  {serviceId:'PAN-001',name:'PAN Card Apply',category:'CSC',description:'New PAN Card application & correction',price:107,icon:'fa-credit-card'},
+  {serviceId:'VOT-001',name:'Voter ID Card',category:'CSC',description:'New Voter ID & address correction',price:80,icon:'fa-vote-yea'},
+  {serviceId:'PAS-001',name:'Passport Service',category:'Government',description:'New Passport, renewal, tatkal',price:500,icon:'fa-passport'},
+  {serviceId:'BCK-001',name:'Bank Account Opening',category:'Banking',description:'Zero balance savings account',price:200,icon:'fa-university'},
+  {serviceId:'CSH-001',name:'Cash Withdrawal',category:'Banking',description:'Aadhaar Pay instant cash withdrawal',price:20,icon:'fa-money-bill-wave'},
+  {serviceId:'DPT-001',name:'Cash Deposit',category:'Banking',description:'Deposit to any bank account',price:30,icon:'fa-piggy-bank'},
+  {serviceId:'PMK-001',name:'PM Kisan Registration',category:'Government',description:'PM Kisan Samman Nidhi Yojana',price:50,icon:'fa-tractor'},
+  {serviceId:'AYU-001',name:'Ayushman Card',category:'Government',description:'Ayushman Bharat health card',price:30,icon:'fa-heartbeat'},
+  {serviceId:'ESR-001',name:'eShram Card',category:'Government',description:'Unorganized worker registration',price:30,icon:'fa-hard-hat'},
+  {serviceId:'BIL-001',name:'Electricity Bill',category:'Utility',description:'Pay all electricity bills instantly',price:10,icon:'fa-bolt'},
+  {serviceId:'MOB-001',name:'Mobile Recharge',category:'Utility',description:'All operator prepaid/postpaid recharge',price:0,icon:'fa-mobile-alt'},
+  {serviceId:'TRN-001',name:'Train Ticket',category:'Travel',description:'IRCTC ticket booking',price:30,icon:'fa-train'},
+  {serviceId:'BUS-001',name:'Bus Ticket',category:'Travel',description:'All state bus ticket booking',price:20,icon:'fa-bus'},
+  {serviceId:'INS-001',name:'Life Insurance',category:'Insurance',description:'LIC, SBI Life & others',price:0,icon:'fa-shield-alt'},
+  {serviceId:'DRV-001',name:'Driving Licence',category:'Government',description:'New DL, renewal & slot booking',price:300,icon:'fa-car'}
+];
 
 // ========== LOAD SETTINGS ==========
 async function loadSettings(){
-try{
-const doc = await db.collection('settings').doc('homepage').get();
-if(doc.exists){
-Object.assign(defaultSettings, doc.data());
-}
-}catch(e){console.log('Offline mode');}
-applySettings();
+  try{
+    const doc = await db.collection('settings').doc('homepage').get();
+    if(doc.exists) Object.assign(defaultSettings, doc.data());
+  }catch(e){console.log('Using defaults');}
+  applySettings();
 }
 
 function applySettings(){
-const s = defaultSettings;
-document.getElementById('navShopName').textContent = s.shopName;
-document.getElementById('navTagline').textContent = s.tagline;
-document.getElementById('heroShopName').textContent = s.shopName;
-document.getElementById('aboutTitle').textContent = 'Welcome to ' + s.shopName;
-document.getElementById('aboutDesc').textContent = s.aboutDesc;
-document.getElementById('aboutOwner').textContent = s.ownerName;
-document.getElementById('aboutExperience').textContent = s.ownerExperience;
-document.getElementById('contactAddress').textContent = s.address;
-document.getElementById('contactPhone').textContent = s.phone;
-document.getElementById('contactWhatsapp').textContent = s.whatsapp;
-document.getElementById('contactEmail').textContent = s.email;
-document.getElementById('footerShopName').textContent = s.shopName;
-document.getElementById('footerShopName2').textContent = s.shopName;
-document.getElementById('footerTagline').textContent = s.tagline;
-document.getElementById('callBtn').href = 'tel:' + s.phone.replace(/\s/g,'');
-document.getElementById('whatsappBtn').href = 'https://wa.me/' + s.whatsapp.replace(/\D/g,'') + '?text=Hi, I need help with a service';
-document.getElementById('announcementText').textContent = s.announcement;
-document.title = s.shopName + ' - Digital Seva Center';
-
-// Update Logo everywhere
-if(s.logoURL && s.logoURL.trim()){
-const logoHTML = `<img src="${s.logoURL}" class="w-full h-full object-cover" alt="${s.shopName}">`;
-['logoSpace','heroLogoSpace','footerLogo'].forEach(id=>{
-const el = document.getElementById(id);
-if(el) el.innerHTML = logoHTML;
-});
-}
-
-// Update Banner
-if(s.bannerURL && s.bannerURL.trim()){
-const heroSection = document.querySelector('.hero-bg');
-if(heroSection){
-heroSection.style.background = `linear-gradient(rgba(30,27,75,0.85), rgba(59,130,246,0.75)), url('${s.bannerURL}') center/cover no-repeat`;
-heroSection.style.backgroundSize = 'cover';
-}
-}
-
-updateShopStatus();
+  const s = defaultSettings;
+  document.getElementById('navShopName').textContent = s.shopName;
+  document.getElementById('navTagline').textContent = s.tagline;
+  document.getElementById('heroShopName') && (document.getElementById('heroShopName').textContent = s.shopName);
+  document.getElementById('aboutTitle') && (document.getElementById('aboutTitle').textContent = 'Welcome to ' + s.shopName);
+  document.getElementById('aboutDesc').textContent = s.aboutDesc;
+  document.getElementById('contactAddress').textContent = s.address;
+  document.getElementById('contactPhone').textContent = s.phone;
+  document.getElementById('contactWhatsapp').textContent = s.whatsapp;
+  document.getElementById('contactEmail').textContent = s.email;
+  document.getElementById('footerShopName').textContent = s.shopName;
+  document.getElementById('footerShopName2').textContent = s.shopName;
+  document.getElementById('footerTagline').textContent = s.tagline;
+  document.getElementById('callBtn').href = 'tel:' + s.phone.replace(/\D/g,'');
+  document.getElementById('whatsappBtn').href = 'https://wa.me/' + s.whatsapp.replace(/\D/g,'') + '?text=Hi, I need help with a service';
+  document.getElementById('announcementText').textContent = s.announcement;
+  document.title = s.shopName + ' - Digital Seva Center';
+  if(s.logoURL && s.logoURL.trim()){
+    const logoHTML = `<img src="${s.logoURL}" class="w-full h-full object-cover" alt="${s.shopName}">`;
+    ['logoSpace','footerLogo'].forEach(id=>{const el=document.getElementById(id); if(el) el.innerHTML=logoHTML;});
+  }
+  if(s.bannerURL && s.bannerURL.trim()){
+    const hero = document.querySelector('.hero-bg');
+    if(hero){
+      hero.style.background = `linear-gradient(rgba(30,27,75,0.85), rgba(59,130,246,0.7)), url('${s.bannerURL}') center/cover no-repeat`;
+      hero.style.backgroundSize = 'cover';
+    }
+  }
+  updateShopStatus();
 }
 
 function updateShopStatus(){
-const now = new Date();
-const t = now.getHours()*60 + now.getMinutes();
-const [sh,sm] = (defaultSettings.workingHoursStart||'08:00').split(':').map(Number);
-const [eh,em] = (defaultSettings.workingHoursEnd||'21:00').split(':').map(Number);
-const isOpen = t >= sh*60+sm && t <= eh*60+em;
-const dot = document.getElementById('shopStatusDot');
-const text = document.getElementById('shopStatusText');
-if(dot){
-dot.className = isOpen ? 'status-dot bg-green-400 text-green-400' : 'status-dot bg-red-400 text-red-400';
+  const now = new Date();
+  const t = now.getHours()*60 + now.getMinutes();
+  const [sh,sm] = (defaultSettings.workingHoursStart||'07:30').split(':').map(Number);
+  const [eh,em] = (defaultSettings.workingHoursEnd||'21:00').split(':').map(Number);
+  const isOpen = t >= sh*60+sm && t <= eh*60+em;
+  const dot = document.getElementById('shopStatusDot');
+  const text = document.getElementById('shopStatusText');
+  if(dot) dot.className = isOpen ? 'status-dot bg-green-400 text-green-400' : 'status-dot bg-red-400 text-red-400';
+  if(text) text.textContent = isOpen ? 'Shop Open Now • 7:30 AM - 9:00 PM' : 'Shop Closed';
 }
-if(text) text.textContent = isOpen ? 'Shop Open Now' : 'Shop Closed';
+
+// ========== LOAD CERTIFICATES (NEW) ==========
+async function loadCertificates(){
+  try{
+    const snap = await db.collection('certificates').orderBy('order').get();
+    if(!snap.empty){
+      const certs = snap.docs.map(d=>({id:d.id, ...d.data()})).filter(c=>c.enabled!==false);
+      renderCertificates(certs);
+    }
+  }catch(e){console.log('Using default certs');}
+}
+
+function renderCertificates(certs){
+  const grid = document.getElementById('certificatesGrid');
+  const iconColors = [
+    'from-primary-100 to-accent-100 text-primary-300',
+    'from-green-100 to-emerald-100 text-green-300',
+    'from-purple-100 to-pink-100 text-purple-300',
+    'from-yellow-100 to-orange-100 text-yellow-400',
+    'from-red-100 to-pink-100 text-red-300',
+    'from-blue-100 to-cyan-100 text-blue-300',
+    'from-indigo-100 to-violet-100 text-indigo-300',
+    'from-teal-100 to-cyan-100 text-teal-300',
+    'from-rose-100 to-pink-100 text-rose-300',
+    'from-amber-100 to-yellow-100 text-amber-300'
+  ];
+  const icons = ['fa-certificate','fa-university','fa-train','fa-id-card','fa-shield-alt','fa-award','fa-medal','fa-ribbon','fa-stamp','fa-file-contract'];
+  
+  grid.innerHTML = certs.slice(0,10).map((c,i)=>{
+    const colorClass = iconColors[i%10];
+    const icon = c.icon || icons[i%10];
+    return `<div class="cert-card bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 cursor-pointer" onclick="openCertLightbox('${c.imageURL||''}','${c.title||'Certificate'}')">
+      <div class="aspect-[3/4] bg-gradient-to-br ${colorClass} flex items-center justify-center relative overflow-hidden">
+        ${c.imageURL ? `<img src="${c.imageURL}" class="w-full h-full object-cover" alt="${c.title}">` : `<i class="fas ${icon} text-6xl opacity-60"></i>`}
+        <span class="absolute top-2 right-2 badge-verified"><i class="fas fa-check"></i> Verified</span>
+      </div>
+      <div class="p-3">
+        <p class="font-bold text-sm leading-tight">${c.title||'Certificate'}</p>
+        <p class="text-xs text-gray-500 mt-1">${c.issuer||'Authorized'}</p>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openCertLightbox(imgURL, title){
+  const lb = document.getElementById('certLightbox');
+  const img = document.getElementById('certLightboxImg');
+  img.src = imgURL || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500"><rect fill="%23EEF2FF" width="400" height="500"/><text x="200" y="250" text-anchor="middle" fill="%231E3A8A" font-size="24" font-family="Arial">Certificate</text></svg>';
+  img.alt = title;
+  lb.classList.add('active');
+}
+
+function closeCertLightbox(){
+  document.getElementById('certLightbox').classList.remove('active');
 }
 
 // ========== LOAD SERVICES ==========
 async function loadServices(){
-let services = defaultServices;
-try{
-const snap = await db.collection('services').where('enabled','!=',false).limit(50).get();
-if(!snap.empty){
-services = snap.docs.map(d=>d.data()).filter(s=>s.enabled!==false);
-}
-}catch(e){
-try{
-const snap = await db.collection('services').get();
-if(!snap.empty){
-services = snap.docs.map(d=>d.data()).filter(s=>s.enabled!==false);
-}
-}catch(e2){}
-}
-window.allServices = services;
-renderServices(services);
-renderCategoryFilters(services);
+  let services = defaultServices;
+  try{
+    const snap = await db.collection('services').where('enabled','!=',false).get();
+    if(!snap.empty){
+      services = snap.docs.map(d=>d.data()).filter(s=>s.enabled!==false);
+    }
+  }catch(e){}
+  window.allServices = services;
+  renderServices(services);
+  renderCategoryFilters(services);
 }
 
 function renderCategoryFilters(services){
-const cats = ['All', ...new Set(services.map(s=>s.category).filter(Boolean))];
-const colorMap = {All:'gradient-accent text-white',CSC:'bg-blue-100 text-blue-700 border-blue-200',Banking:'bg-green-100 text-green-700 border-green-200',Government:'bg-purple-100 text-purple-700 border-purple-200',Utility:'bg-yellow-100 text-yellow-700 border-yellow-200',Insurance:'bg-pink-100 text-pink-700 border-pink-200',Travel:'bg-indigo-100 text-indigo-700 border-indigo-200',Other:'bg-gray-100 text-gray-700 border-gray-200'};
-document.getElementById('categoryFilters').innerHTML = cats.map((c,i)=>`<button onclick="filterCategory('${c}')" data-cat="${c}" class="cat-filter px-4 py-2 rounded-full text-xs sm:text-sm font-bold border transition hover:scale-105 ${i===0?'gradient-accent text-white border-transparent shadow-md':'bg-white text-dark border-gray-200 hover:border-primary-300'}">${c}</button>`).join('');
+  const cats = ['All', ...new Set(services.map(s=>s.category).filter(Boolean))];
+  document.getElementById('categoryFilters').innerHTML = cats.map((c,i)=>`<button onclick="filterCategory('${c}')" data-cat="${c}" class="cat-filter px-4 py-2 rounded-full text-sm font-bold border transition ${i===0?'gradient-accent text-white border-transparent shadow-md':'bg-white border-gray-200 hover:border-primary-300'}">${c}</button>`).join('');
 }
 
 function filterCategory(cat){
-document.querySelectorAll('.cat-filter').forEach(b=>{
-b.className = 'cat-filter px-4 py-2 rounded-full text-xs sm:text-sm font-bold border transition hover:scale-105 bg-white text-dark border-gray-200 hover:border-primary-300';
-});
-event.target.className = 'cat-filter px-4 py-2 rounded-full text-xs sm:text-sm font-bold border transition hover:scale-105 gradient-accent text-white border-transparent shadow-md';
-const filtered = cat==='All' ? window.allServices : window.allServices.filter(s=>s.category===cat);
-renderServices(filtered);
+  document.querySelectorAll('.cat-filter').forEach(b=>{b.className='cat-filter px-4 py-2 rounded-full text-sm font-bold border transition bg-white border-gray-200 hover:border-primary-300';});
+  if(event && event.target){
+    event.target.className='cat-filter px-4 py-2 rounded-full text-sm font-bold border transition gradient-accent text-white border-transparent shadow-md';
+  }
+  const filtered = cat==='All' ? window.allServices : window.allServices.filter(s=>s.category===cat);
+  renderServices(filtered);
 }
 
 function renderServices(services){
-const iconMap = {CSC:'fa-id-card',Banking:'fa-university',Government:'fa-landmark',Utility:'fa-bolt',Insurance:'fa-shield-alt',Travel:'fa-train',Other:'fa-tools'};
-document.getElementById('servicesGrid').innerHTML = services.length ? services.map(s=>{
-const icon = s.icon || iconMap[s.category] || 'fa-tools';
-return `
-<div class="service-card bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
-<div class="flex items-start justify-between mb-3">
-<span class="text-[10px] font-black text-accent-600 bg-accent-50 px-2 py-1 rounded-md tracking-wider">${s.serviceId||''}</span>
-<span class="text-[10px] font-bold text-gray-500 bg-gray-100 px-2 py-1 rounded-md">${s.category||'Other'}</span>
-</div>
-<div class="w-12 h-12 rounded-xl gradient-primary flex items-center justify-center text-white mb-3">
-<i class="fas ${icon} text-lg"></i>
-</div>
-<h4 class="font-display font-bold text-base text-dark mb-1 leading-tight">${s.name}</h4>
-<p class="text-xs text-gray-500 mb-4 line-clamp-2 leading-relaxed">${s.description||''}</p>
-<div class="flex items-center justify-between pt-3 border-t border-gray-100">
-<span class="font-display font-black text-xl gradient-text">₹${s.price||0}</span>
-<a href="dashboard.html?book=${encodeURIComponent(s.serviceId)}&name=${encodeURIComponent(s.name)}" class="btn-accent text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1">
-Book <i class="fas fa-arrow-right text-[10px]"></i>
-</a>
-</div>
-</div>`;
-}).join('') : '<div class="col-span-full text-center py-12"><i class="fas fa-inbox text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">No services available yet. Check back soon!</p></div>';
+  const iconMap = {CSC:'fa-id-card',Banking:'fa-university',Government:'fa-landmark',Utility:'fa-bolt',Insurance:'fa-shield-alt',Travel:'fa-train',Other:'fa-tools'};
+  document.getElementById('servicesGrid').innerHTML = services.length ? services.map(s=>{
+    const icon = s.icon || iconMap[s.category] || 'fa-tools';
+    return `<div class="service-card bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
+      <div class="flex items-start justify-between mb-3">
+        <span class="text-[10px] font-black text-accent-600 bg-accent-50 px-2 py-1 rounded">${s.serviceId||''}</span>
+        <span class="text-[10px] font-bold text-gray-500 bg-gray-100 px-2 py-1 rounded">${s.category||'Other'}</span>
+      </div>
+      <div class="w-12 h-12 rounded-xl gradient-primary flex items-center justify-center text-white mb-3 shadow-md"><i class="fas ${icon} text-lg"></i></div>
+      <h4 class="font-display font-bold text-base text-dark mb-1 leading-tight">${s.name}</h4>
+      <p class="text-xs text-gray-500 mb-4 line-clamp-2 leading-relaxed min-h-[2.5em]">${s.description||''}</p>
+      <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+        <span class="font-display font-black gradient-text text-xl">₹${s.price||0}</span>
+        <a href="dashboard.html?book=${encodeURIComponent(s.serviceId)}&name=${encodeURIComponent(s.name)}" class="btn-accent text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1">Book <i class="fas fa-arrow-right text-[10px]"></i></a>
+      </div>
+    </div>`;
+  }).join('') : '<div class="col-span-full text-center py-12"><i class="fas fa-inbox text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Services loading from admin panel...</p></div>';
 }
 
-// ========== COUNTER ANIMATION ==========
+// ========== COUNTERS ==========
 function animateCounters(){
-document.querySelectorAll('.counter').forEach(c=>{
-const target = +c.dataset.target;
-let current = 0;
-const step = target/50;
-const timer = setInterval(()=>{
-current += step;
-if(current >= target){current = target; clearInterval(timer);}
-c.textContent = Math.floor(current).toLocaleString('en-IN')+'+';
-},40);
-});
+  document.querySelectorAll('.counter').forEach(c=>{
+    const target = +c.dataset.target; let current = 0; const step = target/60;
+    const timer = setInterval(()=>{current+=step; if(current>=target){current=target; clearInterval(timer);} c.textContent = Math.floor(current).toLocaleString('en-IN')+'+';},40);
+  });
 }
-const observer = new IntersectionObserver(entries=>{
-entries.forEach(e=>{if(e.isIntersecting) animateCounters();});
-},{threshold:0.3});
+const observer = new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting) animateCounters();});},{threshold:0.3});
 document.querySelectorAll('.counter').forEach(c=>observer.observe(c));
 
 // ========== REVIEWS ==========
-// SECTION VISIBILITY - Read from Admin Panel
-async function loadSectionSettings(){
-  try{
-    const doc = await db.collection('settings').doc('sections').get();
-    if(doc.exists){
-      const d = doc.data();
-      console.log('Section settings:', d);
-      // Hide sections based on settings
-      if(d.about === false) hideSection('about');
-      if(d.services === false) hideSection('services');
-      if(d.tools === false) hideSection('tools');
-      if(d.reviews === false) hideSection('reviews');
-      if(d.gallery === false) hideSection('gallery');
-    }
-  }catch(e){
-    console.log('Section settings error:', e);
-  }
-}
-
-function hideSection(id){
-  const el = document.getElementById(id);
-  if(el) el.style.display = 'none';
-}
-
 function loadReviews(){
-const reviews = [
-{name:'Rajesh Kumar',location:'Jaipur',rating:5,text:'Excellent service! Got my Aadhaar updated within 10 minutes. Very professional staff and quick processing. Highly recommended!',service:'Aadhaar Update'},
-{name:'Priya Singh',location:'Delhi',rating:5,text:'Very helpful staff, all banking services available. Opened my account here and the process was smooth and quick. Great experience!',service:'Bank Account'},
-{name:'Amit Verma',location:'Mumbai',rating:5,text:'Best E-Seva center in our area. PAN card banwa diya, bahut accha kaam kiya. Reasonable charges and fast delivery!',service:'PAN Card'},
-{name:'Sunita Devi',location:'Pune',rating:5,text:'Passport application ki, bahut fast service mili. Staff ne har step mein help ki. Thank you so much team!',service:'Passport'},
-{name:'Mohan Lal',location:'Lucknow',rating:4,text:'Good service, reasonable charges. The operators are knowledgeable and helpful. Will visit again for other services.',service:'Bill Payment'},
-{name:'Geeta Sharma',location:'Bhopal',rating:5,text:'PM Kisan registration karwaya yahan pe. Sab kuch online ho gaya within 30 minutes. Very efficient service!',service:'PM Kisan'}
-];
-document.getElementById('reviewsGrid').innerHTML = reviews.map(r=>`
-<div class="review-card bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-<div class="flex items-center gap-1 mb-3 text-accent-500">
-${'<i class="fas fa-star"></i>'.repeat(r.rating)}${'<i class="far fa-star"></i>'.repeat(5-r.rating)}
-</div>
-<p class="text-gray-700 text-sm mb-4 italic leading-relaxed">"${r.text}"</p>
-<div class="flex items-center gap-3 pt-4 border-t border-gray-100">
-<div class="w-11 h-11 rounded-full gradient-primary flex items-center justify-center text-white font-black text-lg">${r.name.charAt(0)}</div>
-<div class="flex-1 min-w-0">
-<p class="font-bold text-sm text-dark truncate">${r.name}</p>
-<p class="text-xs text-gray-500 truncate">${r.location} • ${r.service}</p>
-</div>
-<div class="flex items-center gap-1 text-xs text-green-600 font-bold">
-<i class="fas fa-check-circle"></i>
-</div>
-</div>
-</div>`).join('');
+  const reviews = [
+    {name:'Rajesh Kumar',location:'Balasore',rating:5,text:'Excellent service! Got my Aadhaar updated within 10 minutes at E-SUVIDHA KENDRA. Pankaj bhai is very helpful and professional.',service:'Aadhaar Update'},
+    {name:'Priya Singh',location:'Basta',rating:5,text:'Very helpful staff. Opened my bank account here, smooth and quick process. Best CSC in Balasore!',service:'Bank Account'},
+    {name:'Amit Verma',location:'Balasore',rating:5,text:'PAN card banwa diya, bahut accha kaam kiya. Reasonable charges and fast delivery. Highly recommended!',service:'PAN Card'},
+    {name:'Sunita Devi',location:'Basta',rating:5,text:'Passport application ki yahan pe, bahut fast service. Staff ne har step mein help ki. Thank you Pankaj Das!',service:'Passport'},
+    {name:'Mohan Lal',location:'Remuna',rating:4,text:'Good service, reasonable charges. Operators are knowledgeable. Will visit again for other services.',service:'Bill Payment'},
+    {name:'Geeta Sharma',location:'Balasore',rating:5,text:'PM Kisan registration karwaya yahan. Sab kuch online ho gaya 30 minutes mein. Very efficient!',service:'PM Kisan'}
+  ];
+  document.getElementById('reviewsGrid').innerHTML = reviews.map(r=>`<div class="review-card bg-white p-6 rounded-2xl shadow-sm border border-gray-100"><div class="flex items-center justify-between mb-3"><div class="flex text-accent-500">${'<i class="fas fa-star"></i>'.repeat(r.rating)}${'<i class="far fa-star"></i>'.repeat(5-r.rating)}</div><span class="badge-verified"><i class="fas fa-check"></i> Verified</span></div><p class="text-gray-700 text-sm mb-4 italic leading-relaxed">"${r.text}"</p><div class="flex items-center gap-3 pt-3 border-t border-gray-100"><div class="w-11 h-11 rounded-full gradient-primary flex items-center justify-center text-white font-black text-lg">${r.name.charAt(0)}</div><div class="flex-1 min-w-0"><p class="font-bold text-sm">${r.name}</p><p class="text-xs text-gray-500">${r.location} • ${r.service}</p></div></div></div>`).join('');
 }
 
 // ========== GALLERY ==========
 function loadGallery(){
-const photos = [
-{url:'https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?w=600&h=600&fit=crop',caption:'Shop Front View'},
-{url:'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&h=600&fit=crop',caption:'Workstation'},
-{url:'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=600&fit=crop',caption:'Banking Counter'},
-{url:'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&h=600&fit=crop',caption:'Customer Service'},
-{url:'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&h=600&fit=crop',caption:'Our Team'},
-{url:'https://images.unsplash.com/photo-1556761175-b413da4baf72?w=600&h=600&fit=crop',caption:'Office Space'},
-{url:'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=600&fit=crop',caption:'Service Counter'},
-{url:'https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&h=600&fit=crop',caption:'Digital Tools'}
-];
-document.getElementById('galleryGrid').innerHTML = photos.map(p=>`
-<div class="gallery-item rounded-2xl aspect-square bg-gray-100 shadow-sm overflow-hidden">
-<img src="${p.url}" alt="${p.caption}" class="w-full h-full object-cover" loading="lazy">
-<div class="gallery-overlay">
-<p class="text-white font-bold text-sm">${p.caption}</p>
-</div>
-</div>`).join('');
+  const photos = [
+    {url:'gallery1.jpg',caption:'Shop Front'},
+    {url:'gallery2.jpg',caption:'Workstation'},
+    {url:'gallery3.jpg',caption:'Banking Counter'},
+    {url:'gallery4.jpg',caption:'Customer Service'},
+    {url:'gallery5.jpg',caption:'Our Team'},
+    {url:'gallery6.jpg',caption:'Office Space'},
+    {url:'gallery7.jpg',caption:'Service Counter'},
+    {url:'gallery8.jpg',caption:'Digital Tools'}
+  ];
+  document.getElementById('galleryGrid').innerHTML = photos.map((p,i)=>`<div class="gallery-item rounded-2xl aspect-square bg-gradient-to-br from-primary-100 to-accent-100 shadow-sm overflow-hidden" onclick="openGalleryLightbox('${p.url}','${p.caption}')"><div class="w-full h-full flex items-center justify-center"><i class="fas fa-image text-4xl text-primary-300"></i></div><div class="gallery-overlay"><p class="text-white font-bold text-sm">${p.caption}</p></div></div>`).join('');
+}
+
+function openGalleryLightbox(imgURL, caption){
+  alert(`${caption}\n\nAdd your photo at: ${imgURL}\n\nUpload to GitHub repo and it will display.`);
 }
 
 // ========== TOOLS ==========
 const tools = {
-emi: {title:'EMI Calculator',icon:'fa-calculator',body:`
-<div class="space-y-4">
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Loan Amount (₹)</label>
-<input id="emiP" type="number" placeholder="500000" class="input-style w-full px-4 py-3 rounded-xl">
-</div>
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Interest Rate (% per year)</label>
-<input id="emiR" type="number" step="0.01" placeholder="9.5" class="input-style w-full px-4 py-3 rounded-xl">
-</div>
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Tenure (months)</label>
-<input id="emiT" type="number" placeholder="60" class="input-style w-full px-4 py-3 rounded-xl">
-</div>
-<button onclick="calcEMI()" class="btn-primary w-full text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2">
-<i class="fas fa-calculator"></i> Calculate EMI
-</button>
-<div id="emiResult" class="hidden bg-gradient-to-br from-primary-50 to-accent-50 p-5 rounded-xl text-center border-2 border-primary-100"></div>
-</div>`},
-
-sip: {title:'SIP Calculator',icon:'fa-chart-line',body:`
-<div class="space-y-4">
-<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Monthly Investment (₹)</label><input id="sipM" type="number" placeholder="5000" class="input-style w-full px-4 py-3 rounded-xl"></div>
-<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Expected Return (% yearly)</label><input id="sipR" type="number" step="0.01" placeholder="12" class="input-style w-full px-4 py-3 rounded-xl"></div>
-<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Time Period (years)</label><input id="sipY" type="number" placeholder="10" class="input-style w-full px-4 py-3 rounded-xl"></div>
-<button onclick="calcSIP()" class="btn-primary w-full text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-chart-line"></i> Calculate</button>
-<div id="sipResult" class="hidden bg-gradient-to-br from-green-50 to-emerald-50 p-5 rounded-xl text-center border-2 border-green-200"></div>
-</div>`},
-
-gst: {title:'GST Calculator',icon:'fa-percent',body:`
-<div class="space-y-4">
-<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Amount (₹)</label><input id="gstAmt" type="number" placeholder="1000" class="input-style w-full px-4 py-3 rounded-xl"></div>
-<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">GST Rate</label>
-<select id="gstRate" class="input-style w-full px-4 py-3 rounded-xl">
-<option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option>
-</select></div>
-<button onclick="calcGST()" class="btn-primary w-full text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-percent"></i> Calculate</button>
-<div id="gstResult" class="hidden bg-gradient-to-br from-yellow-50 to-amber-50 p-5 rounded-xl border-2 border-yellow-200"></div>
-</div>`},
-
-homeLoan: {title:'Home Loan Calculator',icon:'fa-home',body:`
-<div class="space-y-4">
-<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Loan Amount (₹)</label><input id="hlP" type="number" placeholder="2500000" class="input-style w-full px-4 py-3 rounded-xl"></div>
-<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Interest Rate (% yearly)</label><input id="hlR" type="number" step="0.01" placeholder="8.5" class="input-style w-full px-4 py-3 rounded-xl"></div>
-<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Tenure (years)</label><input id="hlT" type="number" placeholder="20" class="input-style w-full px-4 py-3 rounded-xl"></div>
-<button onclick="calcHL()" class="btn-primary w-full text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-home"></i> Calculate</button>
-<div id="hlResult" class="hidden bg-gradient-to-br from-blue-50 to-cyan-50 p-5 rounded-xl text-center border-2 border-blue-200"></div>
-</div>`},
-
-qrcode: {title:'QR Code Generator',icon:'fa-qrcode',body:`
-<div class="space-y-4">
-<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Text or URL</label><input id="qrText" placeholder="https://example.com" class="input-style w-full px-4 py-3 rounded-xl"></div>
-<button onclick="genQR()" class="btn-primary w-full text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-qrcode"></i> Generate QR</button>
-<div id="qrResult" class="text-center bg-soft p-4 rounded-xl min-h-[100px] flex items-center justify-center"></div>
-</div>`},
-
-barcode: {title:'Barcode Generator',icon:'fa-barcode',body:`
-<div class="space-y-4">
-<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Number</label><input id="bcText" placeholder="1234567890" class="input-style w-full px-4 py-3 rounded-xl"></div>
-<button onclick="genBarcode()" class="btn-primary w-full text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-barcode"></i> Generate</button>
-<div id="bcResult" class="text-center bg-soft p-4 rounded-xl min-h-[100px] flex items-center justify-center"></div>
-</div>`},
-
-password: {title:'Password Generator',icon:'fa-key',body:`
-<div class="space-y-4">
-<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Length: <span id="pwLenVal" class="text-accent-600">12</span></label>
-<input id="pwLen" type="range" min="6" max="32" value="12" oninput="document.getElementById('pwLenVal').textContent=this.value" class="w-full accent-primary-800"></div>
-<label class="flex items-center gap-2 p-2 hover:bg-soft rounded-lg cursor-pointer"><input type="checkbox" id="pwUpper" checked class="w-5 h-5 accent-primary-800"> <span class="text-sm font-medium">Uppercase Letters</span></label>
-<label class="flex items-center gap-2 p-2 hover:bg-soft rounded-lg cursor-pointer"><input type="checkbox" id="pwNum" checked class="w-5 h-5 accent-primary-800"> <span class="text-sm font-medium">Numbers</span></label>
-<label class="flex items-center gap-2 p-2 hover:bg-soft rounded-lg cursor-pointer"><input type="checkbox" id="pwSym" checked class="w-5 h-5 accent-primary-800"> <span class="text-sm font-medium">Symbols</span></label>
-<button onclick="genPass()" class="btn-primary w-full text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-key"></i> Generate Password</button>
-<div class="flex gap-2">
-<input id="pwResult" readonly class="input-style flex-1 px-3 py-3 rounded-xl font-mono text-center font-bold text-lg">
-<button onclick="copyText('pwResult')" class="btn-accent text-white px-4 rounded-xl"><i class="fas fa-copy"></i></button>
-</div>
-</div>`},
-
-age: {title:'Age Calculator',icon:'fa-birthday-cake',body:`
-<div class="space-y-4">
-<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Date of Birth</label><input id="ageDate" type="date" class="input-style w-full px-4 py-3 rounded-xl"></div>
-<button onclick="calcAge()" class="btn-primary w-full text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-birthday-cake"></i> Calculate Age</button>
-<div id="ageResult" class="hidden bg-gradient-to-br from-pink-50 to-rose-50 p-5 rounded-xl text-center border-2 border-pink-200"></div>
-</div>`},
-
-unit: {title:'Unit Converter',icon:'fa-ruler',body:`
-<div class="space-y-4">
-<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Category</label>
-<select id="utType" onchange="convertUnit()" class="input-style w-full px-4 py-3 rounded-xl">
-<option value="length">Length</option><option value="weight">Weight</option><option value="temperature">Temperature</option><option value="area">Area</option>
-</select></div>
-<input id="utVal" type="number" placeholder="Enter value" oninput="convertUnit()" class="input-style w-full px-4 py-3 rounded-xl">
-<div id="utResult" class="bg-soft p-4 rounded-xl space-y-2"></div>
-</div>`},
-
-bmi: {title:'BMI Calculator',icon:'fa-weight',body:`
-<div class="space-y-4">
-<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Weight (kg)</label><input id="bW" type="number" placeholder="70" class="input-style w-full px-4 py-3 rounded-xl"></div>
-<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Height (cm)</label><input id="bH" type="number" placeholder="170" class="input-style w-full px-4 py-3 rounded-xl"></div>
-<button onclick="calcBMI()" class="btn-primary w-full text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-weight"></i> Calculate BMI</button>
-<div id="bResult" class="hidden bg-gradient-to-br from-green-50 to-emerald-50 p-5 rounded-xl text-center border-2 border-green-200"></div>
-</div>`},
-
-mergePdf: {title:'Merge PDFs',icon:'fa-compress-arrows-alt',body:`
-<div class="space-y-4">
-<div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-primary-500 transition">
-<i class="fas fa-file-pdf text-5xl text-red-400 mb-3"></i>
-<p class="text-sm text-gray-600 mb-3">Select 2 or more PDF files to merge</p>
-<input type="file" id="mFiles" accept=".pdf" multiple class="block w-full text-sm">
-</div>
-<button onclick="doMerge()" class="btn-primary w-full text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-compress-arrows-alt"></i> Merge & Download</button>
-</div>`},
-
-imgToPdf: {title:'Image to PDF',icon:'fa-file-image',body:`
-<div class="space-y-4">
-<div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-primary-500 transition">
-<i class="fas fa-images text-5xl text-green-400 mb-3"></i>
-<p class="text-sm text-gray-600 mb-3">Select images (JPG, PNG) to convert</p>
-<input type="file" id="iFiles" accept="image/*" multiple class="block w-full text-sm">
-</div>
-<button onclick="doImgToPdf()" class="btn-primary w-full text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-file-pdf"></i> Convert to PDF</button>
-</div>`},
-
-compressPdf: {title:'Compress PDF',icon:'fa-file-archive',body:`
-<div class="space-y-4">
-<div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-primary-500 transition">
-<i class="fas fa-file-archive text-5xl text-purple-400 mb-3"></i>
-<p class="text-sm text-gray-600 mb-3">Select PDF file to compress</p>
-<input type="file" id="cFile" accept=".pdf" class="block w-full text-sm">
-</div>
-<button onclick="doCompress()" class="btn-primary w-full text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-compress"></i> Compress</button>
-</div>`},
-
-splitPdf: {title:'Split PDF',icon:'fa-cut',body:`
-<div class="space-y-4">
-<div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-primary-500 transition">
-<i class="fas fa-cut text-4xl text-orange-400 mb-2"></i>
-<input type="file" id="sFile" accept=".pdf" class="block w-full text-sm">
-</div>
-<div><label class="block text-xs font-bold text-gray-600 mb-1.5">Pages (e.g. 1-3,5,7-9)</label><input id="sRange" type="text" placeholder="1-3,5" class="input-style w-full px-4 py-3 rounded-xl"></div>
-<button onclick="doSplit()" class="btn-primary w-full text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-cut"></i> Split</button>
-</div>`},
-
-passport: {title:'Passport Photo Maker',icon:'fa-id-badge',body:`
-<div class="space-y-4">
-<div class="grid grid-cols-3 gap-3">
-<div><label class="block text-xs font-bold text-gray-600 mb-1">Width (px)</label><input id="ppW" type="number" value="200" class="input-style w-full px-3 py-2 rounded-lg"></div>
-<div><label class="block text-xs font-bold text-gray-600 mb-1">Height (px)</label><input id="ppH" type="number" value="240" class="input-style w-full px-3 py-2 rounded-lg"></div>
-<div><label class="block text-xs font-bold text-gray-600 mb-1">Copies</label><input id="ppC" type="number" value="8" class="input-style w-full px-3 py-2 rounded-lg"></div>
-</div>
-<input type="file" id="ppFile" accept="image/*" class="block w-full text-sm border-2 border-dashed border-gray-300 rounded-lg p-3">
-<button onclick="doPassport()" class="btn-primary w-full text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-id-badge"></i> Generate Photo Sheet</button>
-<div id="ppResult" class="bg-soft p-3 rounded-xl"></div>
-</div>`},
-
-signature: {title:'Signature Crop',icon:'fa-signature',body:`
-<div class="space-y-4">
-<div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-primary-500 transition">
-<i class="fas fa-signature text-4xl text-violet-400 mb-2"></i>
-<p class="text-sm text-gray-600 mb-2">Upload signature image</p>
-<input type="file" id="sigFile" accept="image/*" class="block w-full text-sm">
-</div>
-<button onclick="doSignature()" class="btn-primary w-full text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-magic"></i> Process Signature</button>
-<div id="sigResult" class="rounded-xl" style="background:repeating-conic-gradient(#e5e7eb 0% 25%, white 0% 50%) 50%/20px 20px"></div>
-</div>`}
+emi: {title:'EMI Calculator',icon:'fa-calculator',body:`<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1 uppercase">Loan Amount (₹)</label><input id="emiP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="500000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1 uppercase">Interest Rate (%)</label><input id="emiR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="9.5"></div><div><label class="block text-xs font-bold text-gray-600 mb-1 uppercase">Tenure (months)</label><input id="emiT" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="60"></div><button onclick="calcEMI()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate EMI</button><div id="emiResult" class="hidden bg-gradient-to-br from-primary-50 to-accent-50 p-4 rounded-xl text-center border-2 border-primary-100"></div></div>`},
+sip: {title:'SIP Calculator',icon:'fa-chart-line',body:`<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1 uppercase">Monthly Investment (₹)</label><input id="sipM" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="5000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1 uppercase">Expected Return (%)</label><input id="sipR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="12"></div><div><label class="block text-xs font-bold text-gray-600 mb-1 uppercase">Time (years)</label><input id="sipY" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="10"></div><button onclick="calcSIP()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="sipResult" class="hidden bg-gradient-to-br from-green-50 to-emerald-50 p-4 rounded-xl text-center border-2 border-green-200"></div></div>`},
+gst: {title:'GST Calculator',icon:'fa-percent',body:`<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1 uppercase">Amount (₹)</label><input id="gstAmt" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="1000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1 uppercase">GST Rate</label><select id="gstRate" class="input-style w-full px-4 py-3 rounded-xl"><option>5</option><option>12</option><option selected>18</option><option>28</option></select></div><button onclick="calcGST()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="gstResult" class="hidden bg-gradient-to-br from-yellow-50 to-amber-50 p-4 rounded-xl border-2 border-yellow-200"></div></div>`},
+homeLoan: {title:'Home Loan Calculator',icon:'fa-home',body:`<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1 uppercase">Loan Amount (₹)</label><input id="hlP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="2500000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1 uppercase">Interest Rate (%)</label><input id="hlR" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="8.5"></div><div><label class="block text-xs font-bold text-gray-600 mb-1 uppercase">Tenure (years)</label><input id="hlT" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="20"></div><button onclick="calcHL()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="hlResult" class="hidden bg-gradient-to-br from-blue-50 to-cyan-50 p-4 rounded-xl text-center border-2 border-blue-200"></div></div>`},
+qrcode: {title:'QR Code Generator',icon:'fa-qrcode',body:`<div class="space-y-3"><input id="qrText" placeholder="Text or URL" class="input-style w-full px-4 py-3 rounded-xl"><button onclick="genQR()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Generate</button><div id="qrResult" class="text-center bg-soft p-4 rounded-xl min-h-[120px] flex items-center justify-center"></div></div>`},
+barcode: {title:'Barcode Generator',icon:'fa-barcode',body:`<div class="space-y-3"><input id="bcText" placeholder="Number" class="input-style w-full px-4 py-3 rounded-xl"><button onclick="genBarcode()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Generate</button><div id="bcResult" class="text-center bg-soft p-4 rounded-xl min-h-[100px] flex items-center justify-center"></div></div>`},
+password: {title:'Password Generator',icon:'fa-key',body:`<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1">Length: <span id="pwLenVal">12</span></label><input id="pwLen" type="range" min="6" max="32" value="12" oninput="document.getElementById('pwLenVal').textContent=this.value" class="w-full"></div><label class="flex items-center gap-2"><input type="checkbox" id="pwUpper" checked class="w-5 h-5"> Uppercase</label><label class="flex items-center gap-2"><input type="checkbox" id="pwNum" checked class="w-5 h-5"> Numbers</label><label class="flex items-center gap-2"><input type="checkbox" id="pwSym" checked class="w-5 h-5"> Symbols</label><button onclick="genPass()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Generate</button><div class="flex gap-2"><input id="pwResult" readonly class="input-style flex-1 px-3 py-3 rounded-xl font-mono text-center font-bold"><button onclick="copyText('pwResult')" class="btn-accent text-white px-4 rounded-xl"><i class="fas fa-copy"></i></button></div></div>`},
+age: {title:'Age Calculator',icon:'fa-birthday-cake',body:`<div class="space-y-3"><label class="block text-xs font-bold text-gray-600 mb-1 uppercase">Date of Birth</label><input id="ageDate" type="date" class="input-style w-full px-4 py-3 rounded-xl"><button onclick="calcAge()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="ageResult" class="hidden bg-gradient-to-br from-pink-50 to-rose-50 p-4 rounded-xl text-center border-2 border-pink-200"></div></div>`},
+unit: {title:'Unit Converter',icon:'fa-ruler',body:`<div class="space-y-3"><select id="utType" onchange="convertUnit()" class="input-style w-full px-4 py-3 rounded-xl"><option value="length">Length</option><option value="weight">Weight</option><option value="temperature">Temperature</option></select><input id="utVal" type="number" placeholder="Value" oninput="convertUnit()" class="input-style w-full px-4 py-3 rounded-xl"><div id="utResult" class="bg-soft p-4 rounded-xl space-y-1"></div></div>`},
+bmi: {title:'BMI Calculator',icon:'fa-weight',body:`<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1 uppercase">Weight (kg)</label><input id="bW" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="70"></div><div><label class="block text-xs font-bold text-gray-600 mb-1 uppercase">Height (cm)</label><input id="bH" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="170"></div><button onclick="calcBMI()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate BMI</button><div id="bResult" class="hidden bg-gradient-to-br from-green-50 to-emerald-50 p-4 rounded-xl text-center border-2 border-green-200"></div></div>`},
+mergePdf: {title:'Merge PDFs',icon:'fa-compress-arrows-alt',body:`<div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center"><i class="fas fa-file-pdf text-5xl text-red-400 mb-3"></i><p class="text-sm text-gray-600 mb-3">Select 2+ PDF files</p><input type="file" id="mFiles" accept=".pdf" multiple class="block w-full text-sm"></div><button onclick="doMerge()" class="btn-primary w-full text-white py-3 rounded-xl font-bold mt-3">Merge & Download</button>`},
+imgToPdf: {title:'Image to PDF',icon:'fa-file-image',body:`<div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center"><i class="fas fa-images text-5xl text-green-400 mb-3"></i><p class="text-sm text-gray-600 mb-3">Select images</p><input type="file" id="iFiles" accept="image/*" multiple class="block w-full text-sm"></div><button onclick="doImgToPdf()" class="btn-primary w-full text-white py-3 rounded-xl font-bold mt-3">Convert</button>`},
+compressPdf: {title:'Compress PDF',icon:'fa-file-archive',body:`<div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center"><i class="fas fa-file-archive text-5xl text-purple-400 mb-3"></i><p class="text-sm text-gray-600 mb-3">Select PDF</p><input type="file" id="cFile" accept=".pdf" class="block w-full text-sm"></div><button onclick="doCompress()" class="btn-primary w-full text-white py-3 rounded-xl font-bold mt-3">Compress</button>`},
+splitPdf: {title:'Split PDF',icon:'fa-cut',body:`<div class="space-y-3"><div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center"><i class="fas fa-cut text-4xl text-orange-400 mb-2"></i><input type="file" id="sFile" accept=".pdf" class="block w-full text-sm"></div><input id="sRange" type="text" placeholder="Pages (e.g. 1-3,5)" class="input-style w-full px-4 py-3 rounded-xl"><button onclick="doSplit()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Split</button></div>`},
+passport: {title:'Passport Photo Maker',icon:'fa-id-badge',body:`<div class="space-y-3"><div class="grid grid-cols-3 gap-2"><div><label class="text-xs">Width</label><input id="ppW" type="number" value="200" class="input-style w-full px-2 py-2 rounded-lg"></div><div><label class="text-xs">Height</label><input id="ppH" type="number" value="240" class="input-style w-full px-2 py-2 rounded-lg"></div><div><label class="text-xs">Copies</label><input id="ppC" type="number" value="8" class="input-style w-full px-2 py-2 rounded-lg"></div></div><input type="file" id="ppFile" accept="image/*" class="block w-full text-sm border-2 border-dashed border-gray-300 rounded-lg p-3"><button onclick="doPassport()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Generate Sheet</button><div id="ppResult" class="bg-soft p-3 rounded-xl"></div></div>`},
+signature: {title:'Signature Crop',icon:'fa-signature',body:`<div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center"><i class="fas fa-signature text-4xl text-violet-400 mb-2"></i><input type="file" id="sigFile" accept="image/*" class="block w-full text-sm"></div><button onclick="doSignature()" class="btn-primary w-full text-white py-3 rounded-xl font-bold mt-3">Process</button><div id="sigResult" class="mt-3 rounded-xl" style="background:repeating-conic-gradient(#e5e7eb 0% 25%, white 0% 50%) 50%/20px 20px"></div></div>`}
 };
 
 function openTool(key){
-const t = tools[key];
-if(!t){toast('Coming soon!','error');return;}
-document.getElementById('toolTitle').textContent = t.title;
-document.getElementById('toolIcon').className = 'fas ' + t.icon;
-document.getElementById('toolBody').innerHTML = t.body;
-document.getElementById('toolModal').classList.remove('hidden');
+  const t = tools[key];
+  if(!t){toast('Coming soon!','success');return;}
+  document.getElementById('toolTitle').textContent = t.title;
+  document.getElementById('toolIcon').className = 'fas ' + t.icon;
+  document.getElementById('toolBody').innerHTML = t.body;
+  document.getElementById('toolModal').classList.remove('hidden');
 }
-
 function closeTool(){document.getElementById('toolModal').classList.add('hidden');}
 
-function calcEMI(){
-const p=+document.getElementById('emiP').value,r=+document.getElementById('emiR').value/12/100,n=+document.getElementById('emiT').value;
-if(!p||!r||!n) return toast('Please fill all fields','error');
-const emi=p*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
-const total=emi*n,interest=total-p;
-const r2=document.getElementById('emiResult');
-r2.classList.remove('hidden');
-r2.innerHTML=`<p class="text-xs text-gray-600 uppercase tracking-wider">Monthly EMI</p><p class="text-3xl font-display font-black gradient-text my-1">₹${emi.toFixed(0)}</p><div class="grid grid-cols-2 gap-3 mt-4 text-left"><div class="bg-white/70 p-2 rounded"><p class="text-xs text-gray-500">Total Payment</p><p class="font-bold">₹${total.toFixed(0)}</p></div><div class="bg-white/70 p-2 rounded"><p class="text-xs text-gray-500">Total Interest</p><p class="font-bold text-red-600">₹${interest.toFixed(0)}</p></div></div>`;
-}
+function calcEMI(){const p=+document.getElementById('emiP').value,r=+document.getElementById('emiR').value/12/100,n=+document.getElementById('emiT').value;if(!p||!r||!n)return toast('Fill all fields','error');const emi=p*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);const r2=document.getElementById('emiResult');r2.classList.remove('hidden');r2.innerHTML=`<p class="text-xs uppercase tracking-wider text-gray-600">Monthly EMI</p><p class="text-3xl font-display font-black gradient-text my-1">₹${emi.toFixed(0)}</p><p class="text-xs text-gray-600 mt-2">Total: ₹${(emi*n).toFixed(0)} | Interest: ₹${(emi*n-p).toFixed(0)}</p>`;}
+function calcSIP(){const m=+document.getElementById('sipM').value,r=+document.getElementById('sipR').value/12/100,n=+document.getElementById('sipY').value*12;if(!m||!r||!n)return toast('Fill all fields','error');const fv=m*((Math.pow(1+r,n)-1)/r)*(1+r);const r2=document.getElementById('sipResult');r2.classList.remove('hidden');r2.innerHTML=`<p class="text-xs uppercase tracking-wider text-gray-600">Future Value</p><p class="text-3xl font-display font-black text-green-600 my-1">₹${fv.toFixed(0)}</p><p class="text-xs text-gray-600 mt-2">Returns: ₹${(fv-m*n).toFixed(0)}</p>`;}
+function calcGST(){const a=+document.getElementById('gstAmt').value,r=+document.getElementById('gstRate').value;if(!a)return toast('Enter amount','error');const gst=a*r/100,total=a+gst;const r2=document.getElementById('gstResult');r2.classList.remove('hidden');r2.innerHTML=`<div class="grid grid-cols-2 gap-3 text-sm"><div class="bg-white/70 p-3 rounded-lg"><p class="text-xs text-gray-500">CGST</p><p class="font-bold">₹${(gst/2).toFixed(2)}</p></div><div class="bg-white/70 p-3 rounded-lg"><p class="text-xs text-gray-500">SGST</p><p class="font-bold">₹${(gst/2).toFixed(2)}</p></div></div><p class="text-2xl font-display font-black gradient-text mt-3 text-center">Total: ₹${total.toFixed(2)}</p>`;}
+function calcHL(){const p=+document.getElementById('hlP').value,r=+document.getElementById('hlR').value/12/100,n=+document.getElementById('hlT').value*12;if(!p||!r||!n)return toast('Fill all fields','error');const emi=p*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);const r2=document.getElementById('hlResult');r2.classList.remove('hidden');r2.innerHTML=`<p class="text-xs uppercase tracking-wider text-gray-600">Monthly EMI</p><p class="text-3xl font-display font-black text-blue-600 my-1">₹${emi.toFixed(0)}</p>`;}
+function genQR(){const t=document.getElementById('qrText').value;if(!t)return toast('Enter text','error');document.getElementById('qrResult').innerHTML=`<img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(t)}" class="mx-auto rounded-lg shadow-lg">`;}
+function genBarcode(){const t=document.getElementById('bcText').value;if(!t)return toast('Enter number','error');document.getElementById('bcResult').innerHTML=`<img src="https://barcodeapi.org/api/code128/${encodeURIComponent(t)}" class="mx-auto">`;}
+function genPass(){const len=+document.getElementById('pwLen').value;let chars='abcdefghijklmnopqrstuvwxyz';if(document.getElementById('pwUpper').checked)chars+='ABCDEFGHIJKLMNOPQRSTUVWXYZ';if(document.getElementById('pwNum').checked)chars+='0123456789';if(document.getElementById('pwSym').checked)chars+='!@#$%^&*()_+-=';let p='';const arr=new Uint32Array(len);crypto.getRandomValues(arr);for(let i=0;i<len;i++)p+=chars[arr[i]%chars.length];document.getElementById('pwResult').value=p;}
+function copyText(id){const el=document.getElementById(id);el.select();navigator.clipboard.writeText(el.value).then(()=>toast('Copied!','success')).catch(()=>{document.execCommand('copy');toast('Copied!','success');});}
+function calcAge(){const d=new Date(document.getElementById('ageDate').value);if(!d.getTime())return toast('Select date','error');const now=new Date();let y=now.getFullYear()-d.getFullYear(),m=now.getMonth()-d.getMonth(),days=now.getDate()-d.getDate();if(days<0){m--;days+=30;}if(m<0){y--;m+=12;}const r2=document.getElementById('ageResult');r2.classList.remove('hidden');r2.innerHTML=`<p class="text-4xl font-display font-black gradient-text">${y} Years</p><p class="text-gray-700 mt-2">${m} Months, ${days} Days</p>`;}
+function convertUnit(){const type=document.getElementById('utType').value;const v=+document.getElementById('utVal').value||0;const units={length:{Meter:1,Kilometer:1000,Centimeter:0.01,Inch:0.0254,Foot:0.3048},weight:{Kilogram:1,Gram:0.001,Pound:0.4536,Ounce:0.0283},temperature:{Celsius:'C',Fahrenheit:'F',Kelvin:'K'}};const u=units[type];let html='';if(type==='temperature'){html+=`<div class="flex justify-between p-2 bg-white/70 rounded"><span>Celsius:</span><b>${v.toFixed(2)}°C</b></div>`;html+=`<div class="flex justify-between p-2 bg-white/70 rounded"><span>Fahrenheit:</span><b>${(v*9/5+32).toFixed(2)}°F</b></div>`;html+=`<div class="flex justify-between p-2 bg-white/70 rounded"><span>Kelvin:</span><b>${(v+273.15).toFixed(2)}K</b></div>`;}else{Object.entries(u).forEach(([n,f])=>{html+=`<div class="flex justify-between p-2 bg-white/70 rounded"><span>${n}:</span><b>${(v/f).toFixed(4)}</b></div>`;});}document.getElementById('utResult').innerHTML=html;}
+function calcBMI(){const w=+document.getElementById('bW').value,h=+document.getElementById('bH').value/100;if(!w||!h)return toast('Fill all fields','error');const bmi=w/(h*h);let cat='Normal',color='green';if(bmi<18.5){cat='Underweight';color='blue';}else if(bmi>=25&&bmi<30){cat='Overweight';color='yellow';}else if(bmi>=30){cat='Obese';color='red';}const r2=document.getElementById('bResult');r2.classList.remove('hidden');r2.innerHTML=`<p class="text-5xl font-display font-black text-${color}-600">${bmi.toFixed(1)}</p><p class="text-xl font-bold mt-2">${cat}</p>`;}
 
-function calcSIP(){
-const m=+document.getElementById('sipM').value,r=+document.getElementById('sipR').value/12/100,n=+document.getElementById('sipY').value*12;
-if(!m||!r||!n) return toast('Please fill all fields','error');
-const fv=m*((Math.pow(1+r,n)-1)/r)*(1+r);
-const r2=document.getElementById('sipResult');
-r2.classList.remove('hidden');
-r2.innerHTML=`<p class="text-xs text-gray-600 uppercase tracking-wider">Future Value</p><p class="text-3xl font-display font-black text-green-600 my-1">₹${fv.toFixed(0)}</p><div class="grid grid-cols-3 gap-2 mt-4 text-left text-xs"><div class="bg-white/70 p-2 rounded"><p class="text-gray-500">Invested</p><p class="font-bold">₹${(m*n).toFixed(0)}</p></div><div class="bg-white/70 p-2 rounded"><p class="text-gray-500">Returns</p><p class="font-bold text-green-600">₹${(fv-m*n).toFixed(0)}</p></div><div class="bg-white/70 p-2 rounded"><p class="text-gray-500">Gain</p><p class="font-bold text-accent-600">${(((fv-m*n)/(m*n))*100).toFixed(0)}%</p></div></div>`;
-}
-
-function calcGST(){
-const a=+document.getElementById('gstAmt').value,r=+document.getElementById('gstRate').value;
-if(!a) return toast('Enter amount','error');
-const gst=a*r/100,total=a+gst;
-const r2=document.getElementById('gstResult');
-r2.classList.remove('hidden');
-r2.innerHTML=`<div class="grid grid-cols-2 gap-3 text-sm"><div class="bg-white/70 p-3 rounded-lg"><p class="text-xs text-gray-500">CGST (${r/2}%)</p><p class="font-bold">₹${(gst/2).toFixed(2)}</p></div><div class="bg-white/70 p-3 rounded-lg"><p class="text-xs text-gray-500">SGST (${r/2}%)</p><p class="font-bold">₹${(gst/2).toFixed(2)}</p></div></div><div class="mt-3 bg-white/70 p-3 rounded-lg"><p class="text-xs text-gray-500">Total Amount</p><p class="text-2xl font-display font-black gradient-text">₹${total.toFixed(2)}</p></div>`;
-}
-
-function calcHL(){
-const p=+document.getElementById('hlP').value,r=+document.getElementById('hlR').value/12/100,n=+document.getElementById('hlT').value*12;
-if(!p||!r||!n) return toast('Fill all fields','error');
-const emi=p*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
-const total=emi*n;
-const r2=document.getElementById('hlResult');
-r2.classList.remove('hidden');
-r2.innerHTML=`<p class="text-xs text-gray-600 uppercase tracking-wider">Monthly EMI</p><p class="text-3xl font-display font-black text-blue-600 my-1">₹${emi.toFixed(0)}</p><p class="text-sm text-gray-600">Total Payment: ₹${total.toFixed(0)}</p><p class="text-sm text-red-600 font-bold">Interest: ₹${(total-p).toFixed(0)}</p>`;
-}
-
-function genQR(){
-const t=document.getElementById('qrText').value;
-if(!t) return toast('Enter text or URL','error');
-document.getElementById('qrResult').innerHTML=`<img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(t)}" class="mx-auto rounded-lg shadow-lg">`;
-}
-
-function genBarcode(){
-const t=document.getElementById('bcText').value;
-if(!t) return toast('Enter number','error');
-document.getElementById('bcResult').innerHTML=`<img src="https://barcodeapi.org/api/code128/${encodeURIComponent(t)}" class="mx-auto">`;
-}
-
-function genPass(){
-const len=+document.getElementById('pwLen').value;
-let chars='abcdefghijklmnopqrstuvwxyz';
-if(document.getElementById('pwUpper').checked) chars+='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-if(document.getElementById('pwNum').checked) chars+='0123456789';
-if(document.getElementById('pwSym').checked) chars+='!@#$%^&*()_+-=';
-let p='';
-const arr=new Uint32Array(len);
-crypto.getRandomValues(arr);
-for(let i=0;i<len;i++) p+=chars[arr[i]%chars.length];
-document.getElementById('pwResult').value=p;
-}
-
-function copyText(id){
-const el=document.getElementById(id);
-el.select();
-navigator.clipboard.writeText(el.value).then(()=>toast('Copied to clipboard!','success')).catch(()=>{document.execCommand('copy');toast('Copied!','success');});
-}
-
-function calcAge(){
-const d=new Date(document.getElementById('ageDate').value);
-if(!d.getTime()) return toast('Select date','error');
-const now=new Date();
-let y=now.getFullYear()-d.getFullYear(),m=now.getMonth()-d.getMonth(),days=now.getDate()-d.getDate();
-if(days<0){m--;days+=30;}
-if(m<0){y--;m+=12;}
-const nextBday=new Date(now.getFullYear()+1,d.getMonth(),d.getDate());
-const daysToBday=Math.ceil((nextBday-now)/(1000*60*60*24));
-const r2=document.getElementById('ageResult');
-r2.classList.remove('hidden');
-r2.innerHTML=`<p class="text-4xl font-display font-black gradient-text">${y}<span class="text-base text-gray-600 ml-1">Years</span></p><p class="text-gray-700 mt-2">${m} Months, ${days} Days</p><p class="text-xs text-gray-500 mt-3">🎂 Next birthday in ${daysToBday} days</p>`;
-}
-
-function convertUnit(){
-const type=document.getElementById('utType').value;
-const v=+document.getElementById('utVal').value||0;
-const units={
-length:{Meter:1,Kilometer:1000,Centimeter:0.01,Inch:0.0254,Foot:0.3048,Mile:1609.34},
-weight:{Kilogram:1,Gram:0.001,Pound:0.4536,Ounce:0.0283},
-area:{SqMeter:1,SqFoot:0.0929,Acre:4046.86,Hectare:10000},
-temperature:{Celsius:'C',Fahrenheit:'F',Kelvin:'K'}
-};
-const u=units[type];
-let html='<div class="space-y-1">';
-if(type==='temperature'){
-const t=v;
-html+=`<div class="flex justify-between p-2 bg-white/60 rounded"><span>Celsius:</span><b>${t.toFixed(2)}°C</b></div>`;
-html+=`<div class="flex justify-between p-2 bg-white/60 rounded"><span>Fahrenheit:</span><b>${(t*9/5+32).toFixed(2)}°F</b></div>`;
-html+=`<div class="flex justify-between p-2 bg-white/60 rounded"><span>Kelvin:</span><b>${(t+273.15).toFixed(2)}K</b></div>`;
-}else{
-Object.entries(u).forEach(([name,factor])=>{
-html+=`<div class="flex justify-between p-2 bg-white/60 rounded"><span>${name}:</span><b>${(v*1/factor).toFixed(4)}</b></div>`;
-});
-}
-html+='</div>';
-document.getElementById('utResult').innerHTML=html;
-}
-
-function calcBMI(){
-const w=+document.getElementById('bW').value,h=+document.getElementById('bH').value/100;
-if(!w||!h) return toast('Fill all fields','error');
-const bmi=w/(h*h);
-let cat='Normal',color='green';
-if(bmi<18.5){cat='Underweight';color='blue';}
-else if(bmi>=25&&bmi<30){cat='Overweight';color='yellow';}
-else if(bmi>=30){cat='Obese';color='red';}
-const r2=document.getElementById('bResult');
-r2.classList.remove('hidden');
-r2.innerHTML=`<p class="text-5xl font-display font-black text-${color}-600">${bmi.toFixed(1)}</p><p class="text-xl font-bold mt-2">${cat}</p><div class="grid grid-cols-4 gap-1 mt-4 text-xs"><div class="p-2 bg-blue-100 rounded"><p class="font-bold text-blue-800">&lt;18.5</p><p class="text-blue-700">Under</p></div><div class="p-2 bg-green-100 rounded"><p class="font-bold text-green-800">18.5-24.9</p><p class="text-green-700">Normal</p></div><div class="p-2 bg-yellow-100 rounded"><p class="font-bold text-yellow-800">25-29.9</p><p class="text-yellow-700">Over</p></div><div class="p-2 bg-red-100 rounded"><p class="font-bold text-red-800">≥30</p><p class="text-red-700">Obese</p></div></div>`;
-}
-
-async function doMerge(){
-const files=document.getElementById('mFiles').files;
-if(files.length<2) return toast('Select 2+ PDFs','error');
-try{
-toast('Merging PDFs...','success');
-const merged=await PDFLib.PDFDocument.create();
-for(const f of files){const bytes=await f.arrayBuffer();const pdf=await PDFLib.PDFDocument.load(bytes);const pages=await merged.copyPages(pdf,pdf.getPageIndices());pages.forEach(p=>merged.addPage(p));}
-const bytes=await merged.save();
-const blob=new Blob([bytes],{type:'application/pdf'});
-const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='merged.pdf';a.click();
-toast('PDFs merged! Downloading...','success');
-}catch(e){toast('Error: '+e.message,'error');}
-}
-
-async function doImgToPdf(){
-const files=document.getElementById('iFiles').files;
-if(!files.length) return toast('Select images','error');
-try{
-toast('Converting...','success');
-const pdf=await PDFLib.PDFDocument.create();
-for(const f of files){const bytes=await f.arrayBuffer();const img=f.type.includes('png')?await pdf.embedPng(bytes):await pdf.embedJpg(bytes);const page=pdf.addPage([img.width,img.height]);page.drawImage(img,{x:0,y:0,width:img.width,height:img.height});}
-const bytes=await pdf.save();
-const blob=new Blob([bytes],{type:'application/pdf'});
-const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='images.pdf';a.click();
-toast('PDF created!','success');
-}catch(e){toast('Error: '+e.message,'error');}
-}
-
-async function doCompress(){
-const file=document.getElementById('cFile').files[0];
-if(!file) return toast('Select PDF','error');
-try{
-toast('Compressing...','success');
-const bytes=await file.arrayBuffer();
-const pdf=await PDFLib.PDFDocument.load(bytes);
-const out=await pdf.save({useObjectStreams:true});
-const blob=new Blob([out],{type:'application/pdf'});
-const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='compressed.pdf';a.click();
-const saved=((1-out.byteLength/bytes.byteLength)*100).toFixed(0);
-toast(`Saved ${saved}% space!`,'success');
-}catch(e){toast('Error: '+e.message,'error');}
-}
-
-async function doSplit(){
-const file=document.getElementById('sFile').files[0];
-const range=document.getElementById('sRange').value;
-if(!file||!range) return toast('Select file & enter pages','error');
-try{
-const bytes=await file.arrayBuffer();
-const src=await PDFLib.PDFDocument.load(bytes);
-const newPdf=await PDFLib.PDFDocument.create();
-const ranges=range.split(',').flatMap(r=>r.includes('-')?Array.from({length:+r.split('-')[1]-+r.split('-')[0]+1},(_,i)=>+r.split('-')[0]+i-1):[+r-1]);
-const pages=await newPdf.copyPages(src,ranges);
-pages.forEach(p=>newPdf.addPage(p));
-const out=await newPdf.save();
-const blob=new Blob([out],{type:'application/pdf'});
-const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='split.pdf';a.click();
-toast('Split done!','success');
-}catch(e){toast('Invalid range','error');}
-}
-
-function doPassport(){
-const file=document.getElementById('ppFile').files[0];
-if(!file) return toast('Select photo','error');
-const w=+document.getElementById('ppW').value,h=+document.getElementById('ppH').value,c=+document.getElementById('ppC').value;
-const img=new Image();
-img.onload=()=>{
-const canvas=document.createElement('canvas');
-canvas.width=w*4;canvas.height=h*Math.ceil(c/4);
-const ctx=canvas.getContext('2d');
-ctx.fillStyle='white';ctx.fillRect(0,0,canvas.width,canvas.height);
-const size=Math.min(img.width,img.height);
-const sx=(img.width-size)/2,sy=(img.height-size)/2;
-for(let i=0;i<c;i++){
-const x=(i%4)*w,y=Math.floor(i/4)*h;
-ctx.drawImage(img,sx,sy,size,size,x,y,w,h);
-ctx.strokeStyle='#e5e7eb';ctx.lineWidth=1;ctx.strokeRect(x,y,w,h);
-}
-canvas.toBlob(blob=>{
-const url=URL.createObjectURL(blob);
-document.getElementById('ppResult').innerHTML=`<img src="${url}" class="w-full rounded-lg shadow-md">`;
-const a=document.createElement('a');a.href=url;a.download='passport_photos.jpg';a.click();
-toast('Sheet ready!','success');
-},'image/jpeg',0.95);
-};
-img.src=URL.createObjectURL(file);
-}
-
-function doSignature(){
-const file=document.getElementById('sigFile').files[0];
-if(!file) return toast('Select image','error');
-const img=new Image();
-img.onload=()=>{
-const canvas=document.createElement('canvas');
-canvas.width=img.width;canvas.height=img.height;
-const ctx=canvas.getContext('2d');
-ctx.drawImage(img,0,0);
-const data=ctx.getImageData(0,0,canvas.width,canvas.height);
-for(let i=0;i<data.data.length;i+=4){
-const r=data.data[i],g=data.data[i+1],b=data.data[i+2];
-if(r>200&&g>200&&b>200) data.data[i+3]=0;
-}
-ctx.putImageData(data,0,0);
-canvas.toBlob(blob=>{
-const url=URL.createObjectURL(blob);
-document.getElementById('sigResult').innerHTML=`<img src="${url}" class="w-full rounded-lg">`;
-const a=document.createElement('a');a.href=url;a.download='signature.png';a.click();
-toast('Signature processed!','success');
-},'image/png');
-};
-img.src=URL.createObjectURL(file);
-}
+async function doMerge(){const files=document.getElementById('mFiles').files;if(files.length<2)return toast('Select 2+ PDFs','error');try{toast('Merging...','success');const merged=await PDFLib.PDFDocument.create();for(const f of files){const bytes=await f.arrayBuffer();const pdf=await PDFLib.PDFDocument.load(bytes);const pages=await merged.copyPages(pdf,pdf.getPageIndices());pages.forEach(p=>merged.addPage(p));}const bytes=await merged.save();const blob=new Blob([bytes],{type:'application/pdf'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='merged.pdf';a.click();toast('PDFs merged!','success');}catch(e){toast('Error: '+e.message,'error');}}
+async function doImgToPdf(){const files=document.getElementById('iFiles').files;if(!files.length)return toast('Select images','error');try{toast('Converting...','success');const pdf=await PDFLib.PDFDocument.create();for(const f of files){const bytes=await f.arrayBuffer();const img=f.type.includes('png')?await pdf.embedPng(bytes):await pdf.embedJpg(bytes);const page=pdf.addPage([img.width,img.height]);page.drawImage(img,{x:0,y:0,width:img.width,height:img.height});}const bytes=await pdf.save();const blob=new Blob([bytes],{type:'application/pdf'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='images.pdf';a.click();toast('PDF created!','success');}catch(e){toast('Error: '+e.message,'error');}}
+async function doCompress(){const file=document.getElementById('cFile').files[0];if(!file)return toast('Select PDF','error');try{toast('Compressing...','success');const bytes=await file.arrayBuffer();const pdf=await PDFLib.PDFDocument.load(bytes);const out=await pdf.save({useObjectStreams:true});const blob=new Blob([out],{type:'application/pdf'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='compressed.pdf';a.click();toast(`Reduced ${((1-out.byteLength/bytes.byteLength)*100).toFixed(0)}%!`,'success');}catch(e){toast('Error: '+e.message,'error');}}
+async function doSplit(){const file=document.getElementById('sFile').files[0];const range=document.getElementById('sRange').value;if(!file||!range)return toast('Select file & range','error');try{const bytes=await file.arrayBuffer();const src=await PDFLib.PDFDocument.load(bytes);const newPdf=await PDFLib.PDFDocument.create();const ranges=range.split(',').flatMap(r=>r.includes('-')?Array.from({length:+r.split('-')[1]-+r.split('-')[0]+1},(_,i)=>+r.split('-')[0]+i-1):[+r-1]);const pages=await newPdf.copyPages(src,ranges);pages.forEach(p=>newPdf.addPage(p));const out=await newPdf.save();const blob=new Blob([out],{type:'application/pdf'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='split.pdf';a.click();toast('Split done!','success');}catch(e){toast('Invalid range','error');}}
+function doPassport(){const file=document.getElementById('ppFile').files[0];if(!file)return toast('Select photo','error');const w=+document.getElementById('ppW').value,h=+document.getElementById('ppH').value,c=+document.getElementById('ppC').value;const img=new Image();img.onload=()=>{const canvas=document.createElement('canvas');canvas.width=w*4;canvas.height=h*Math.ceil(c/4);const ctx=canvas.getContext('2d');ctx.fillStyle='white';ctx.fillRect(0,0,canvas.width,canvas.height);const size=Math.min(img.width,img.height);const sx=(img.width-size)/2,sy=(img.height-size)/2;for(let i=0;i<c;i++){const x=(i%4)*w,y=Math.floor(i/4)*h;ctx.drawImage(img,sx,sy,size,size,x,y,w,h);ctx.strokeStyle='#e5e7eb';ctx.strokeRect(x,y,w,h);}canvas.toBlob(blob=>{const url=URL.createObjectURL(blob);document.getElementById('ppResult').innerHTML=`<img src="${url}" class="w-full rounded-lg shadow-md">`;const a=document.createElement('a');a.href=url;a.download='passport_photos.jpg';a.click();},'image/jpeg',0.95);};img.src=URL.createObjectURL(file);}
+function doSignature(){const file=document.getElementById('sigFile').files[0];if(!file)return toast('Select image','error');const img=new Image();img.onload=()=>{const canvas=document.createElement('canvas');canvas.width=img.width;canvas.height=img.height;const ctx=canvas.getContext('2d');ctx.drawImage(img,0,0);const data=ctx.getImageData(0,0,canvas.width,canvas.height);for(let i=0;i<data.data.length;i+=4){const r=data.data[i],g=data.data[i+1],b=data.data[i+2];if(r>200&&g>200&&b>200)data.data[i+3]=0;}ctx.putImageData(data,0,0);canvas.toBlob(blob=>{const url=URL.createObjectURL(blob);document.getElementById('sigResult').innerHTML=`<img src="${url}" class="w-full rounded-lg">`;const a=document.createElement('a');a.href=url;a.download='signature.png';a.click();},'image/png');};img.src=URL.createObjectURL(file);}
 
 // ========== CONTACT FORM ==========
 document.getElementById('contactForm').addEventListener('submit',async e=>{
@@ -1253,76 +864,32 @@ subject:document.getElementById('cfSubject').value,
 message:document.getElementById('cfMessage').value,
 createdAt:firebase.firestore.FieldValue.serverTimestamp()
 });
-toast('Message sent! We will reply soon.','success');
-e.target.reset();
-}catch(err){
-toast('Saved locally (offline mode)','success');
-e.target.reset();
-}
+toast('Message sent successfully!','success');e.target.reset();
+}catch(err){toast('Saved (offline mode)','success');e.target.reset();}
 });
 
 // ========== TOAST ==========
 function toast(msg,type='success'){
 const t=document.getElementById('toast');
 t.innerHTML=`<i class="fas fa-${type==='success'?'check-circle':'exclamation-circle'}"></i> ${msg}`;
-t.className=`fixed top-24 right-4 z-50 px-5 py-3 rounded-xl shadow-2xl text-white font-semibold text-sm flex items-center gap-2 animate-slideUp ${type==='success'?'bg-gradient-to-r from-green-500 to-emerald-600':'bg-gradient-to-r from-red-500 to-red-600'}`;
+t.className=`fixed top-24 right-4 z-50 px-5 py-3 rounded-xl shadow-2xl text-white font-semibold text-sm flex items-center gap-2 ${type==='success'?'bg-gradient-to-r from-green-500 to-emerald-600':'bg-gradient-to-r from-red-500 to-red-600'}`;
 setTimeout(()=>t.classList.add('hidden'),3500);
 }
 
 // ========== UI HELPERS ==========
-document.getElementById('mobileMenuBtn').addEventListener('click',()=>{
-document.getElementById('mobileMenu').classList.toggle('hidden');
-});
-
-// Scroll to top button
-window.addEventListener('scroll',()=>{
-const btn=document.getElementById('scrollTopBtn');
-if(window.scrollY>500){
-btn.classList.remove('opacity-0','pointer-events-none');
-btn.classList.add('opacity-100');
-}else{
-btn.classList.add('opacity-0','pointer-events-none');
-btn.classList.remove('opacity-100');
-}
-});
-
-// Close mobile menu on link click
-document.querySelectorAll('#mobileMenu a').forEach(a=>{
-a.addEventListener('click',()=>document.getElementById('mobileMenu').classList.add('hidden'));
-});
+document.getElementById('mobileMenuBtn').addEventListener('click',()=>document.getElementById('mobileMenu').classList.toggle('hidden'));
+document.querySelectorAll('#mobileMenu a').forEach(a=>a.addEventListener('click',()=>document.getElementById('mobileMenu').classList.add('hidden')));
+window.addEventListener('scroll',()=>{const btn=document.getElementById('scrollTopBtn');if(window.scrollY>500){btn.classList.remove('opacity-0','pointer-events-none');btn.classList.add('opacity-100');}else{btn.classList.add('opacity-0','pointer-events-none');btn.classList.remove('opacity-100');}});
 
 // ========== INIT ==========
 loadSettings();
+loadCertificates(); // NEW
 loadServices();
 loadReviews();
 loadGallery();
-loadSectionSettings();  // ← यह line add करें
 setInterval(updateShopStatus,60000);
 
-// Service Worker
-if('serviceWorker' in navigator){
-navigator.serviceWorker.register('sw.js').catch(()=>{});
-}
-// ========== SECTION VISIBILITY (Admin Panel से Control) ==========
-async function loadSectionSettings(){
-  try{
-    const doc = await db.collection('settings').doc('sections').get();
-    if(doc.exists){
-      const d = doc.data();
-      console.log('✅ Section settings loaded:', d);
-      if(d.about === false) document.getElementById('about').style.display = 'none';
-      if(d.services === false) document.getElementById('services').style.display = 'none';
-      if(d.tools === false) document.getElementById('tools').style.display = 'none';
-      if(d.reviews === false) document.getElementById('reviews').style.display = 'none';
-      if(d.gallery === false) document.getElementById('gallery').style.display = 'none';
-    }else{
-      console.log('⚠️ No section settings - Save from Admin first');
-    }
-  }catch(e){
-    console.log('❌ Section settings error:', e);
-  }
-}
-
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
 </script>
 </body>
 </html>
