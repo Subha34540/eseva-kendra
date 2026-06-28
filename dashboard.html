@@ -681,7 +681,7 @@ document.getElementById('bookForm').addEventListener('submit', async e => {
       adminNote: '',
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-    toast('Booking submitted successfully! E-SUVIDHA KENDRA will contact you.', 'success');
+    toast('Booking submitted! E-SUVIDHA KENDRA will contact you.', 'success');
     e.target.reset();
     document.getElementById('bkFileName').textContent = '';
     showPage('bookings');
@@ -936,9 +936,9 @@ function toast(msg, type='success'){
 auth.onAuthStateChanged(user => {
   if(user && !currentUser){
     currentUser = user;
+    ensureUserDoc(user);
     document.getElementById('loginPage').classList.add('hidden');
     document.getElementById('mainApp').classList.remove('hidden');
-    ensureUserDoc(user);
     loadUserData(); loadAllData();
   }
 });
