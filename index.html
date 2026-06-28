@@ -756,6 +756,30 @@ entries.forEach(e=>{if(e.isIntersecting) animateCounters();});
 document.querySelectorAll('.counter').forEach(c=>observer.observe(c));
 
 // ========== REVIEWS ==========
+// SECTION VISIBILITY - Read from Admin Panel
+async function loadSectionSettings(){
+  try{
+    const doc = await db.collection('settings').doc('sections').get();
+    if(doc.exists){
+      const d = doc.data();
+      console.log('Section settings:', d);
+      // Hide sections based on settings
+      if(d.about === false) hideSection('about');
+      if(d.services === false) hideSection('services');
+      if(d.tools === false) hideSection('tools');
+      if(d.reviews === false) hideSection('reviews');
+      if(d.gallery === false) hideSection('gallery');
+    }
+  }catch(e){
+    console.log('Section settings error:', e);
+  }
+}
+
+function hideSection(id){
+  const el = document.getElementById(id);
+  if(el) el.style.display = 'none';
+}
+
 function loadReviews(){
 const reviews = [
 {name:'Rajesh Kumar',location:'Jaipur',rating:5,text:'Excellent service! Got my Aadhaar updated within 10 minutes. Very professional staff and quick processing. Highly recommended!',service:'Aadhaar Update'},
@@ -1272,12 +1296,33 @@ loadSettings();
 loadServices();
 loadReviews();
 loadGallery();
+loadSectionSettings();  // ← यह line add करें
 setInterval(updateShopStatus,60000);
 
 // Service Worker
 if('serviceWorker' in navigator){
 navigator.serviceWorker.register('sw.js').catch(()=>{});
 }
+// ========== SECTION VISIBILITY (Admin Panel से Control) ==========
+async function loadSectionSettings(){
+  try{
+    const doc = await db.collection('settings').doc('sections').get();
+    if(doc.exists){
+      const d = doc.data();
+      console.log('✅ Section settings loaded:', d);
+      if(d.about === false) document.getElementById('about').style.display = 'none';
+      if(d.services === false) document.getElementById('services').style.display = 'none';
+      if(d.tools === false) document.getElementById('tools').style.display = 'none';
+      if(d.reviews === false) document.getElementById('reviews').style.display = 'none';
+      if(d.gallery === false) document.getElementById('gallery').style.display = 'none';
+    }else{
+      console.log('⚠️ No section settings - Save from Admin first');
+    }
+  }catch(e){
+    console.log('❌ Section settings error:', e);
+  }
+}
+
 </script>
 </body>
 </html>
