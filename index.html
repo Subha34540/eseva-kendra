@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>E-SUVIDHA KENDRA - Digital Seva Center | CSC, Banking, Govt Services</title>
-<meta name="description" content="E-SUVIDHA KENDRA - One-stop CSC, Banking CSP, and Digital Services Center in Balasore, Odisha. Aadhaar, PAN, Banking, Bill Payments, Passport.">
-<meta name="keywords" content="CSC, Aadhaar, PAN, Banking CSP, Digital Seva, Balasore, Odisha, Government Services">
+<meta name="description" content="E-SUVIDHA KENDRA - CSC, Banking CSP, and Digital Services Center in Balasore, Odisha">
+<meta name="keywords" content="CSC, Aadhaar, PAN, Banking, Balasore, Odisha">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#1E3A8A">
 <link rel="icon" type="image/png" href="logo.png">
@@ -15,7 +15,6 @@
 <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-storage-compat.js"></script>
 <script>
 tailwind.config={theme:{extend:{colors:{primary:{50:'#EEF2FF',100:'#E0E7FF',200:'#C7D2FE',300:'#A5B4FC',400:'#818CF8',500:'#6366F1',600:'#4F46E5',700:'#4338CA',800:'#1E3A8A',900:'#1E1B4B',950:'#0F172A'},accent:{50:'#FFFBEB',100:'#FEF3C7',200:'#FDE68A',300:'#FCD34D',400:'#FBBF24',500:'#F59E0B',600:'#D97706',700:'#B45309',800:'#92400E'},dark:'#0F172A',soft:'#F8FAFC'},fontFamily:{display:['Poppins','sans-serif'],body:['Inter','sans-serif']}}}}
 </script>
@@ -27,26 +26,23 @@ html{scroll-behavior:smooth}body{background:#F8FAFC;color:#0F172A;overflow-x:hid
 .gradient-primary{background:linear-gradient(135deg,#1E1B4B 0%,#1E3A8A 30%,#3B82F6 70%,#6366F1 100%)}
 .gradient-accent{background:linear-gradient(135deg,#F59E0B 0%,#D97706 100%)}
 .gradient-text{background:linear-gradient(135deg,#1E3A8A 0%,#F59E0B 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.btn-primary{background:linear-gradient(135deg,#1E3A8A,#3B82F6);transition:all .3s cubic-bezier(.4,0,.2,1);box-shadow:0 4px 20px rgba(30,58,138,.3);position:relative;overflow:hidden}
+.btn-primary{background:linear-gradient(135deg,#1E3A8A,#3B82F6);transition:all .3s;box-shadow:0 4px 20px rgba(30,58,138,.3);position:relative;overflow:hidden}
 .btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.2),transparent);opacity:0;transition:opacity .3s}
 .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(30,58,138,.45)}
 .btn-primary:hover::before{opacity:1}
 .btn-accent{background:linear-gradient(135deg,#F59E0B,#D97706);transition:all .3s;box-shadow:0 4px 20px rgba(245,158,11,.3)}
 .btn-accent:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(245,158,11,.45)}
-.service-card{transition:all .4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;cursor:pointer}
+.service-card{transition:all .4s;position:relative;overflow:hidden;cursor:pointer}
 .service-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(30,58,138,0),rgba(245,158,11,.08));opacity:0;transition:opacity .4s}
 .service-card:hover{transform:translateY(-10px) scale(1.02);box-shadow:0 25px 50px -12px rgba(30,58,138,.25);border-color:#F59E0B}
 .service-card:hover::before{opacity:1}
-.tool-card{transition:all .4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;cursor:pointer}
+.tool-card{transition:all .4s;position:relative;overflow:hidden;cursor:pointer}
 .tool-card:hover{transform:translateY(-8px) scale(1.03);box-shadow:0 20px 40px -10px rgba(30,58,138,.2)}
-.tool-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);opacity:0;transition:opacity .3s;pointer-events:none}
-.tool-card:hover::after{opacity:1}
-.cert-card{transition:all .4s cubic-bezier(.4,0,.2,1);cursor:pointer;position:relative;overflow:hidden}
+.cert-card{transition:all .4s;cursor:pointer;position:relative;overflow:hidden}
 .cert-card:hover{transform:translateY(-8px) scale(1.03);box-shadow:0 20px 40px -10px rgba(30,58,138,.25)}
 .cert-card img{transition:transform .6s ease}
 .cert-card:hover img{transform:scale(1.1)}
-.review-card{transition:all .3s}
-.review-card:hover{transform:translateY(-6px);box-shadow:0 25px 50px -12px rgba(30,58,138,.15)}
+.review-card{transition:all .3s}.review-card:hover{transform:translateY(-6px);box-shadow:0 25px 50px -12px rgba(30,58,138,.15)}
 .gallery-item{position:relative;overflow:hidden;cursor:pointer;border-radius:1rem}
 .gallery-item img{transition:transform .7s cubic-bezier(.4,0,.2,1)}
 .gallery-item:hover img{transform:scale(1.15)}
@@ -57,7 +53,6 @@ html{scroll-behavior:smooth}body{background:#F8FAFC;color:#0F172A;overflow-x:hid
 @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 @keyframes pulseGlow{0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.5)}70%{box-shadow:0 0 0 20px rgba(245,158,11,0)}}
 @keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-@keyframes shimmer{0%{background-position:-1000px 0}100%{background-position:1000px 0}}
 .hero-bg{background:linear-gradient(135deg,#1E1B4B 0%,#1E3A8A 30%,#3B82F6 70%,#6366F1 100%);background-size:200% 200%;animation:gradientShift 12s ease infinite;position:relative;overflow:hidden}
 .animate-float{animation:float 4s ease-in-out infinite}
 .animate-marquee{animation:marquee 35s linear infinite}
@@ -68,17 +63,16 @@ html{scroll-behavior:smooth}body{background:#F8FAFC;color:#0F172A;overflow-x:hid
 .section-divider{height:1px;background:linear-gradient(90deg,transparent,#CBD5E1,transparent);margin:0 auto;width:80%}
 .floating-btn{box-shadow:0 8px 30px rgba(0,0,0,.25);transition:all .3s}
 .floating-btn:hover{transform:scale(1.1) translateY(-2px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
-.modal-overlay{background:rgba(15,23,42,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-.input-style{transition:all .2s;border:2px solid #E5E7EB;background:white}
-.input-style:focus{border-color:#3B82F6;box-shadow:0 0 0 4px rgba(59,130,246,.1);outline:none}
-.counter{font-variant-numeric:tabular-nums;font-weight:900}
-.hero-blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.4;pointer-events:none;animation:float 6s ease-in-out infinite}
-::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-track{background:#F1F5F9}::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#1E3A8A,#F59E0B);border-radius:4px}::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,#1E1B4B,#D97706)}
-::selection{background:#F59E0B;color:white}
 .cert-lightbox{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.95);display:none;align-items:center;justify-content:center;padding:2rem;cursor:zoom-out}
 .cert-lightbox.active{display:flex;animation:fadeInUp .3s ease}
 .cert-lightbox img{max-width:95%;max-height:95%;object-fit:contain;border-radius:12px;box-shadow:0 25px 50px rgba(0,0,0,.5)}
 .badge-verified{display:inline-flex;align-items:center;gap:.25rem;padding:.25rem .6rem;background:linear-gradient(135deg,#10B981,#059669);color:white;border-radius:9999px;font-size:.65rem;font-weight:700;letter-spacing:.05em}
+.input-style{transition:all .2s;border:2px solid #E5E7EB;background:white}
+.input-style:focus{border-color:#3B82F6;box-shadow:0 0 0 4px rgba(59,130,246,0.1);outline:none}
+.counter{font-variant-numeric:tabular-nums;font-weight:900}
+.hero-blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.4;pointer-events:none;animation:float 6s ease-in-out infinite}
+::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-track{background:#F1F5F9}::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#1E3A8A,#F59E0B);border-radius:4px}
+::selection{background:#F59E0B;color:white}
 .icon-box{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 </style>
 </head>
@@ -96,7 +90,7 @@ html{scroll-behavior:smooth}body{background:#F8FAFC;color:#0F172A;overflow-x:hid
 </div>
 
 <!-- NAVBAR -->
-<nav id="navbar" class="glass sticky top-0 z-50 shadow-sm transition-all duration-300">
+<nav id="navbar" class="glass sticky top-0 z-50 shadow-sm">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
 <a href="#home" class="flex items-center gap-3">
 <div id="logoSpace" class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl gradient-accent flex items-center justify-center text-white text-2xl font-bold shadow-lg overflow-hidden ring-2 ring-white/30">
@@ -108,14 +102,14 @@ html{scroll-behavior:smooth}body{background:#F8FAFC;color:#0F172A;overflow-x:hid
 </div>
 </a>
 <div class="hidden lg:flex items-center gap-1">
-<a href="#home" class="px-3 py-2 rounded-lg text-sm font-medium text-dark hover:text-primary-700 hover:bg-primary-50 transition">Home</a>
-<a href="#about" class="px-3 py-2 rounded-lg text-sm font-medium text-dark hover:text-primary-700 hover:bg-primary-50 transition">About</a>
-<a href="#certificates" class="px-3 py-2 rounded-lg text-sm font-medium text-dark hover:text-primary-700 hover:bg-primary-50 transition">Certificates</a>
-<a href="#services" class="px-3 py-2 rounded-lg text-sm font-medium text-dark hover:text-primary-700 hover:bg-primary-50 transition">Services</a>
-<a href="#tools" class="px-3 py-2 rounded-lg text-sm font-medium text-dark hover:text-primary-700 hover:bg-primary-50 transition">Tools</a>
-<a href="#reviews" class="px-3 py-2 rounded-lg text-sm font-medium text-dark hover:text-primary-700 hover:bg-primary-50 transition">Reviews</a>
-<a href="#gallery" class="px-3 py-2 rounded-lg text-sm font-medium text-dark hover:text-primary-700 hover:bg-primary-50 transition">Gallery</a>
-<a href="#contact" class="px-3 py-2 rounded-lg text-sm font-medium text-dark hover:text-primary-700 hover:bg-primary-50 transition">Contact</a>
+<a href="#home" class="px-3 py-2 rounded-lg text-sm font-medium hover:text-primary-700 hover:bg-primary-50 transition">Home</a>
+<a href="#about" class="px-3 py-2 rounded-lg text-sm font-medium hover:text-primary-700 hover:bg-primary-50 transition">About</a>
+<a href="#certificates" class="px-3 py-2 rounded-lg text-sm font-medium hover:text-primary-700 hover:bg-primary-50 transition">Certificates</a>
+<a href="#services" class="px-3 py-2 rounded-lg text-sm font-medium hover:text-primary-700 hover:bg-primary-700 hover:bg-white transition">Services</a>
+<a href="#tools" class="px-3 py-2 rounded-lg text-sm font-medium hover:text-primary-700 hover:bg-primary-50 transition">Tools</a>
+<a href="#reviews" class="px-3 py-2 rounded-lg text-sm font-medium hover:text-primary-700 hover:bg-primary-50 transition">Reviews</a>
+<a href="#gallery" class="px-3 py-2 rounded-lg text-sm font-medium hover:text-primary-700 hover:bg-primary-50 transition">Gallery</a>
+<a href="#contact" class="px-3 py-2 rounded-lg text-sm font-medium hover:text-primary-700 hover:bg-primary-50 transition">Contact</a>
 </div>
 <div class="flex items-center gap-2">
 <a href="dashboard.html" class="hidden sm:flex items-center gap-2 bg-white border-2 border-primary-800 text-primary-800 hover:bg-primary-800 hover:text-white px-3 sm:px-4 py-2 rounded-lg text-sm font-semibold transition"><i class="fas fa-user"></i><span class="hidden md:inline">Login</span></a>
@@ -138,7 +132,7 @@ html{scroll-behavior:smooth}body{background:#F8FAFC;color:#0F172A;overflow-x:hid
 </div>
 </nav>
 
-<!-- HERO SECTION -->
+<!-- HERO -->
 <section id="home" class="hero-bg text-white py-16 sm:py-20 lg:py-28 relative overflow-hidden">
 <div class="hero-blob w-96 h-96 bg-accent-500 top-0 -right-20"></div>
 <div class="hero-blob w-96 h-96 bg-primary-300 bottom-0 -left-20" style="animation-delay:2s"></div>
@@ -158,7 +152,6 @@ All <span class="bg-gradient-to-r from-accent-300 via-accent-400 to-accent-300 b
 Aadhaar, PAN, Passport, Banking, Bill Payments, Insurance, IRCTC — 
 <span class="text-accent-300 font-bold">50+ Government Services</span> with instant processing at Baharda Bazar, Balasore
 </p>
-<!-- Animated Counters -->
 <div class="grid grid-cols-3 gap-3 sm:gap-4 mb-10 max-w-2xl mx-auto">
 <div class="glass-dark p-4 sm:p-5 rounded-2xl text-center backdrop-blur-md border border-white/20">
 <div class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-black text-accent-400 counter" data-target="2500">0</div>
@@ -173,13 +166,11 @@ Aadhaar, PAN, Passport, Banking, Bill Payments, Insurance, IRCTC —
 <div class="text-xs sm:text-sm text-white/70 mt-1 font-medium">Years Experience</div>
 </div>
 </div>
-<!-- CTA Buttons -->
 <div class="flex flex-wrap gap-3 justify-center">
 <a href="#services" class="btn-accent text-white px-6 sm:px-8 py-3.5 rounded-xl font-bold text-sm sm:text-base flex items-center gap-2 shadow-xl"><i class="fas fa-th-large"></i> View Services</a>
 <a href="#tools" class="glass-dark border-2 border-white/30 text-white hover:bg-white/10 px-6 sm:px-8 py-3.5 rounded-xl font-bold text-sm sm:text-base flex items-center gap-2 transition"><i class="fas fa-tools"></i> Free Tools</a>
 <a href="tel:+919124231432" class="hidden sm:flex glass-dark border-2 border-white/30 text-white hover:bg-white/10 px-6 sm:px-8 py-3.5 rounded-xl font-bold text-sm sm:text-base items-center gap-2 transition"><i class="fas fa-phone"></i> Call Now</a>
 </div>
-<!-- Trust Badges -->
 <div class="flex flex-wrap gap-2 justify-center mt-8">
 <span class="glass-dark px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1.5 border border-white/10"><i class="fas fa-check-circle text-green-400"></i> CSC Authorized</span>
 <span class="glass-dark px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1.5 border border-white/10"><i class="fas fa-check-circle text-green-400"></i> Banking CSP</span>
@@ -193,7 +184,7 @@ Aadhaar, PAN, Passport, Banking, Bill Payments, Insurance, IRCTC —
 </div>
 </section>
 
-<!-- ABOUT SECTION -->
+<!-- ABOUT -->
 <section id="about" class="py-16 sm:py-20 bg-white relative overflow-hidden">
 <div class="absolute top-0 right-0 w-72 h-72 bg-primary-100 rounded-full blur-3xl opacity-40"></div>
 <div class="max-w-7xl mx-auto px-4 sm:px-6 relative">
@@ -250,7 +241,7 @@ Aadhaar, PAN, Passport, Banking, Bill Payments, Insurance, IRCTC —
 </div>
 </section>
 
-<!-- CERTIFICATES SECTION (NEW) -->
+<!-- CERTIFICATES -->
 <section id="certificates" class="py-16 sm:py-20 bg-gradient-to-br from-primary-50 via-white to-accent-50 relative overflow-hidden">
 <div class="absolute top-20 left-20 w-72 h-72 bg-accent-200 rounded-full blur-3xl opacity-30"></div>
 <div class="absolute bottom-20 right-20 w-72 h-72 bg-primary-200 rounded-full blur-3xl opacity-30"></div>
@@ -261,61 +252,127 @@ Aadhaar, PAN, Passport, Banking, Bill Payments, Insurance, IRCTC —
 <p class="text-gray-600 mt-3 max-w-2xl mx-auto">Authorized and certified by Government of India for providing citizen services</p>
 </div>
 <div id="certificatesGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5">
-<!-- Certificate cards will load here dynamically from Firestore -->
-<!-- Default placeholders (10 slots) shown initially -->
-<div class="cert-card bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 cursor-pointer" onclick="openCertLightbox(this)">
+<!-- CERTIFICATE 1 -->
+<div class="cert-card bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 cursor-pointer" onclick="openCertLightbox('CERT1_URL','CSC ID Certificate')">
 <div class="aspect-[3/4] bg-gradient-to-br from-primary-100 to-accent-100 flex items-center justify-center relative overflow-hidden">
-<i class="fas fa-certificate text-6xl text-primary-300"></i>
+<img src="CERT1_URL" class="w-full h-full object-cover" alt="CSC ID" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+<div class="absolute inset-0 hidden items-center justify-center fallback-icon"><i class="fas fa-certificate text-6xl text-primary-300"></i></div>
 <span class="absolute top-2 right-2 badge-verified"><i class="fas fa-check"></i> Verified</span>
 </div>
 <div class="p-3">
-<p class="font-bold text-sm">CSC ID Certificate</p>
+<p class="font-bold text-sm leading-tight">CSC ID Certificate</p>
 <p class="text-xs text-gray-500 mt-1">Govt. of India</p>
 </div>
 </div>
-<div class="cert-card bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 cursor-pointer" onclick="openCertLightbox(this)">
+<!-- CERTIFICATE 2 -->
+<div class="cert-card bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 cursor-pointer" onclick="openCertLightbox('CERT2_URL','Banking CSP License')">
 <div class="aspect-[3/4] bg-gradient-to-br from-green-100 to-emerald-100 flex items-center justify-center relative overflow-hidden">
-<i class="fas fa-university text-6xl text-green-300"></i>
+<img src="CERT2_URL" class="w-full h-full object-cover" alt="Banking CSP" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+<div class="absolute inset-0 hidden items-center justify-center fallback-icon"><i class="fas fa-university text-6xl text-green-300"></i></div>
 <span class="absolute top-2 right-2 badge-verified"><i class="fas fa-check"></i> Verified</span>
 </div>
 <div class="p-3">
-<p class="font-bold text-sm">Banking CSP License</p>
+<p class="font-bold text-sm leading-tight">Banking CSP License</p>
 <p class="text-xs text-gray-500 mt-1">Authorized Partner</p>
 </div>
 </div>
-<div class="cert-card bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 cursor-pointer" onclick="openCertLightbox(this)">
+<!-- CERTIFICATE 3 -->
+<div class="cert-card bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 cursor-pointer" onclick="openCertLightbox('CERT3_URL','IRCTC Agent')">
 <div class="aspect-[3/4] bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center relative overflow-hidden">
-<i class="fas fa-train text-6xl text-purple-300"></i>
+<img src="CERT3_URL" class="w-full h-full object-cover" alt="IRCTC" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+<div class="absolute inset-0 hidden items-center justify-center fallback-icon"><i class="fas fa-train text-6xl text-purple-300"></i></div>
 <span class="absolute top-2 right-2 badge-verified"><i class="fas fa-check"></i> Verified</span>
 </div>
 <div class="p-3">
-<p class="font-bold text-sm">IRCTC Agent</p>
+<p class="font-bold text-sm leading-tight">IRCTC Agent</p>
 <p class="text-xs text-gray-500 mt-1">Train Booking</p>
 </div>
 </div>
-<div class="cert-card bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 cursor-pointer" onclick="openCertLightbox(this)">
+<!-- CERTIFICATE 4 -->
+<div class="cert-card bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 cursor-pointer" onclick="openCertLightbox('CERT4_URL','Aadhaar Operator')">
 <div class="aspect-[3/4] bg-gradient-to-br from-yellow-100 to-orange-100 flex items-center justify-center relative overflow-hidden">
-<i class="fas fa-id-card text-6xl text-yellow-400"></i>
+<img src="CERT4_URL" class="w-full h-full object-cover" alt="Aadhaar" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+<div class="absolute inset-0 hidden items-center justify-center fallback-icon"><i class="fas fa-id-card text-6xl text-yellow-400"></i></div>
 <span class="absolute top-2 right-2 badge-verified"><i class="fas fa-check"></i> Verified</span>
 </div>
 <div class="p-3">
-<p class="font-bold text-sm">Aadhaar Operator</p>
+<p class="font-bold text-sm leading-tight">Aadhaar Operator</p>
 <p class="text-xs text-gray-500 mt-1">UIDAI Certified</p>
 </div>
 </div>
-<div class="cert-card bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 cursor-pointer" onclick="openCertLightbox(this)">
+<!-- CERTIFICATE 5 -->
+<div class="cert-card bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 cursor-pointer" onclick="openCertLightbox('CERT5_URL','PAN Card Agent')">
 <div class="aspect-[3/4] bg-gradient-to-br from-red-100 to-pink-100 flex items-center justify-center relative overflow-hidden">
-<i class="fas fa-shield-alt text-6xl text-red-300"></i>
+<img src="CERT5_URL" class="w-full h-full object-cover" alt="PAN" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+<div class="absolute inset-0 hidden items-center justify-center fallback-icon"><i class="fas fa-shield-alt text-6xl text-red-300"></i></div>
 <span class="absolute top-2 right-2 badge-verified"><i class="fas fa-check"></i> Verified</span>
 </div>
 <div class="p-3">
-<p class="font-bold text-sm">PAN Card Agent</p>
+<p class="font-bold text-sm leading-tight">PAN Card Agent</p>
 <p class="text-xs text-gray-500 mt-1">Income Tax Dept.</p>
 </div>
 </div>
+<!-- CERTIFICATE 6 -->
+<div class="cert-card bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 cursor-pointer" onclick="openCertLightbox('CERT6_URL','Insurance Agent')">
+<div class="aspect-[3/4] bg-gradient-to-br from-blue-100 to-cyan-100 flex items-center justify-center relative overflow-hidden">
+<img src="CERT6_URL" class="w-full h-full object-cover" alt="Insurance" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+<div class="absolute inset-0 hidden items-center justify-center fallback-icon"><i class="fas fa-umbrella text-6xl text-blue-300"></i></div>
+<span class="absolute top-2 right-2 badge-verified"><i class="fas fa-check"></i> Verified</span>
 </div>
-<!-- Hidden slots for Admin to add more certificates (upto 10 total visible) -->
-<div id="certExtraSlots" class="hidden"></div>
+<div class="p-3">
+<p class="font-bold text-sm leading-tight">Insurance Agent</p>
+<p class="text-xs text-gray-500 mt-1">LIC, SBI Life</p>
+</div>
+</div>
+<!-- CERTIFICATE 7 -->
+<div class="cert-card bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 cursor-pointer" onclick="openCertLightbox('CERT7_URL','Government Authorized')">
+<div class="aspect-[3/4] bg-gradient-to-br from-indigo-100 to-violet-100 flex items-center justify-center relative overflow-hidden">
+<img src="CERT7_URL" class="w-full h-full object-cover" alt="Govt" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+<div class="absolute inset-0 hidden items-center justify-center fallback-icon"><i class="fas fa-landmark text-6xl text-indigo-300"></i></div>
+<span class="absolute top-2 right-2 badge-verified"><i class="fas fa-check"></i> Verified</span>
+</div>
+<div class="p-3">
+<p class="font-bold text-sm leading-tight">Govt. Authorized</p>
+<p class="text-xs text-gray-500 mt-1">CSC Scheme Partner</p>
+</div>
+</div>
+<!-- CERTIFICATE 8 -->
+<div class="cert-card bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 cursor-pointer" onclick="openCertLightbox('CERT8_URL','ISO Certified')">
+<div class="aspect-[3/4] bg-gradient-to-br from-teal-100 to-cyan-100 flex items-center justify-center relative overflow-hidden">
+<img src="CERT8_URL" class="w-full h-full object-cover" alt="ISO" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+<div class="absolute inset-0 hidden items-center justify-center fallback-icon"><i class="fas fa-award text-6xl text-teal-300"></i></div>
+<span class="absolute top-2 right-2 badge-verified"><i class="fas fa-check"></i> Verified</span>
+</div>
+<div class="p-3">
+<p class="font-bold text-sm leading-tight">ISO Certified</p>
+<p class="text-xs text-gray-500 mt-1">Quality Assured</p>
+</div>
+</div>
+<!-- CERTIFICATE 9 -->
+<div class="cert-card bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 cursor-pointer" onclick="openCertLightbox('CERT9_URL','Digital India')">
+<div class="aspect-[3/4] bg-gradient-to-br from-rose-100 to-pink-100 flex items-center justify-center relative overflow-hidden">
+<img src="CERT9_URL" class="w-full h-full object-cover" alt="Digital India" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+<div class="absolute inset-0 hidden items-center justify-center fallback-icon"><i class="fas fa-digital-tachograph text-6xl text-rose-300"></i></div>
+<span class="absolute top-2 right-2 badge-verified"><i class="fas fa-check"></i> Verified</span>
+</div>
+<div class="p-3">
+<p class="font-bold text-sm leading-tight">Digital India</p>
+<p class="text-xs text-gray-500 mt-1">Mission Partner</p>
+</div>
+</div>
+<!-- CERTIFICATE 10 -->
+<div class="cert-card bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 cursor-pointer" onclick="openCertLightbox('CERT10_URL','Skill Certified')">
+<div class="aspect-[3/4] bg-gradient-to-br from-amber-100 to-yellow-100 flex items-center justify-center relative overflow-hidden">
+<img src="CERT10_URL" class="w-full h-full object-cover" alt="Skill" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+<div class="absolute inset-0 hidden items-center justify-center fallback-icon"><i class="fas fa-medal text-6xl text-amber-300"></i></div>
+<span class="absolute top-2 right-2 badge-verified"><i class="fas fa-check"></i> Verified</span>
+</div>
+<div class="p-3">
+<p class="font-bold text-sm leading-tight">Skill Certified</p>
+<p class="text-xs text-gray-500 mt-1">Trained Operator</p>
+</div>
+</div>
+</div>
 </div>
 </section>
 
@@ -324,7 +381,7 @@ Aadhaar, PAN, Passport, Banking, Bill Payments, Insurance, IRCTC —
 <img id="certLightboxImg" src="" alt="Certificate">
 </div>
 
-<!-- SERVICES SECTION -->
+<!-- SERVICES -->
 <section id="services" class="py-16 sm:py-20 bg-soft relative">
 <div class="max-w-7xl mx-auto px-4 sm:px-6">
 <div class="text-center mb-10">
@@ -337,7 +394,7 @@ Aadhaar, PAN, Passport, Banking, Bill Payments, Insurance, IRCTC —
 </div>
 </section>
 
-<!-- TOOLS SECTION -->
+<!-- TOOLS -->
 <section id="tools" class="py-16 sm:py-20 bg-white relative">
 <div class="max-w-7xl mx-auto px-4 sm:px-6">
 <div class="text-center mb-10">
@@ -401,7 +458,7 @@ Aadhaar, PAN, Passport, Banking, Bill Payments, Insurance, IRCTC —
 </div>
 </section>
 
-<!-- REVIEWS SECTION -->
+<!-- REVIEWS -->
 <section id="reviews" class="py-16 sm:py-20 bg-soft relative">
 <div class="max-w-7xl mx-auto px-4 sm:px-6">
 <div class="text-center mb-10">
@@ -416,7 +473,7 @@ Aadhaar, PAN, Passport, Banking, Bill Payments, Insurance, IRCTC —
 </div>
 </section>
 
-<!-- GALLERY SECTION -->
+<!-- GALLERY -->
 <section id="gallery" class="py-16 sm:py-20 bg-white">
 <div class="max-w-7xl mx-auto px-4 sm:px-6">
 <div class="text-center mb-10">
@@ -427,7 +484,7 @@ Aadhaar, PAN, Passport, Banking, Bill Payments, Insurance, IRCTC —
 </div>
 </section>
 
-<!-- CONTACT SECTION -->
+<!-- CONTACT -->
 <section id="contact" class="py-16 sm:py-20 bg-gradient-to-br from-primary-900 via-primary-800 to-primary-900 text-white relative overflow-hidden">
 <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2225%22 cy=%2225%22 r=%221%22 fill=%22%23ffffff%22 opacity=%220.05%22/%3E%3Ccircle cx=%2275%22 cy=%2275%22 r=%221%22 fill=%22%23ffffff%22 opacity=%220.05%22/%3E%3C/svg%3E')] opacity-50"></div>
 <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
@@ -446,7 +503,7 @@ Aadhaar, PAN, Passport, Banking, Bill Payments, Insurance, IRCTC —
 </a>
 <a href="https://wa.me/919124231432" target="_blank" class="flex items-start gap-4 p-4 glass-dark rounded-xl hover:bg-white/10 transition">
 <div class="w-12 h-12 rounded-xl bg-green-500 flex items-center justify-center flex-shrink-0"><i class="fab fa-whatsapp text-lg"></i></div>
-<div><p class="text-xs text-white/60 uppercase tracking-wider font-bold">WhatsApp</p><p class="font-semibold mt-1">+91 9124231432 <span class="text-xs text-green-300">(Same Number)</span></p></div>
+<div><p class="text-xs text-white/60 uppercase tracking-wider font-bold">WhatsApp</p><p class="font-semibold mt-1">+91 9124231432 <span class="text-xs text-green-300">(Same)</span></p></div>
 </a>
 <a href="mailto:esuvidhacenter01@gmail.com" class="flex items-start gap-4 p-4 glass-dark rounded-xl hover:bg-white/10 transition">
 <div class="w-12 h-12 rounded-xl gradient-accent flex items-center justify-center flex-shrink-0"><i class="fas fa-envelope text-lg"></i></div>
@@ -454,7 +511,7 @@ Aadhaar, PAN, Passport, Banking, Bill Payments, Insurance, IRCTC —
 </a>
 <a href="#" class="flex items-start gap-4 p-4 glass-dark rounded-xl hover:bg-white/10 transition">
 <div class="w-12 h-12 rounded-xl gradient-accent flex items-center justify-center flex-shrink-0"><i class="fas fa-clock text-lg"></i></div>
-<div><p class="text-xs text-white/60 uppercase tracking-wider font-bold">Working Hours</p><p class="font-semibold mt-1">7:30 AM - 9:00 PM (Daily Open)</p></div>
+<div><p class="text-xs text-white/60 uppercase tracking-wider font-bold">Working Hours</p><p class="font-semibold mt-1">7:30 AM - 9:00 PM (Daily)</p></div>
 </a>
 </div>
 <div class="mt-6 flex gap-3">
@@ -481,7 +538,6 @@ Aadhaar, PAN, Passport, Banking, Bill Payments, Insurance, IRCTC —
 
 <!-- FOOTER -->
 <footer class="bg-dark text-white pt-12 pb-6 relative overflow-hidden">
-<div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cpath d=%22M0 0 L 100 100 M 100 0 L 0 100%22 stroke=%22%23ffffff%22 stroke-width=%220.5%22 opacity=%220.03%22/%3E%3C/svg%3E')]"></div>
 <div class="max-w-7xl mx-auto px-4 sm:px-6 relative">
 <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
 <div>
@@ -567,9 +623,8 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-const storage = firebase.storage();
 
-// ========== DEFAULT DATA ==========
+// ========== DEFAULT SETTINGS (Replace URLs Here) ==========
 const defaultSettings = {
   shopName: 'E-SUVIDHA KENDRA',
   tagline: 'Digital Seva Center | CSC | Banking CSP',
@@ -583,8 +638,10 @@ const defaultSettings = {
   workingHoursStart: '07:30',
   workingHoursEnd: '21:00',
   announcement: 'Welcome to E-SUVIDHA KENDRA — All Government & Banking Services Under One Roof!',
-  logoURL: 'logo.png',
-  bannerURL: 'banner.jpg'
+  // 👇 APNA LOGO YAHAN DAALO - Direct image URL (Imgur/GitHub)
+  logoURL: 'YOUR_LOGO_URL_HERE',
+  // 👇 APNA BANNER YAHAN DAALO - Direct image URL
+  bannerURL: 'YOUR_BANNER_URL_HERE'
 };
 
 const defaultServices = [
@@ -606,7 +663,19 @@ const defaultServices = [
   {serviceId:'DRV-001',name:'Driving Licence',category:'Government',description:'New DL, renewal & slot booking',price:300,icon:'fa-car'}
 ];
 
-// ========== LOAD SETTINGS ==========
+// ========== GALLERY IMAGES (Replace URLs Here) ==========
+const defaultGallery = [
+  {url:'GALLERY1_URL_HERE',caption:'Shop Front View'},
+  {url:'GALLERY2_URL_HERE',caption:'Workstation'},
+  {url:'GALLERY3_URL_HERE',caption:'Banking Counter'},
+  {url:'GALLERY4_URL_HERE',caption:'Customer Service'},
+  {url:'GALLERY5_URL_HERE',caption:'Our Team'},
+  {url:'GALLERY6_URL_HERE',caption:'Office Space'},
+  {url:'GALLERY7_URL_HERE',caption:'Service Counter'},
+  {url:'GALLERY8_URL_HERE',caption:'Digital Tools'}
+];
+
+// ========== APPLY SETTINGS ==========
 async function loadSettings(){
   try{
     const doc = await db.collection('settings').doc('homepage').get();
@@ -619,8 +688,6 @@ function applySettings(){
   const s = defaultSettings;
   document.getElementById('navShopName').textContent = s.shopName;
   document.getElementById('navTagline').textContent = s.tagline;
-  document.getElementById('heroShopName') && (document.getElementById('heroShopName').textContent = s.shopName);
-  document.getElementById('aboutTitle') && (document.getElementById('aboutTitle').textContent = 'Welcome to ' + s.shopName);
   document.getElementById('aboutDesc').textContent = s.aboutDesc;
   document.getElementById('contactAddress').textContent = s.address;
   document.getElementById('contactPhone').textContent = s.phone;
@@ -630,14 +697,14 @@ function applySettings(){
   document.getElementById('footerShopName2').textContent = s.shopName;
   document.getElementById('footerTagline').textContent = s.tagline;
   document.getElementById('callBtn').href = 'tel:' + s.phone.replace(/\D/g,'');
-  document.getElementById('whatsappBtn').href = 'https://wa.me/' + s.whatsapp.replace(/\D/g,'') + '?text=Hi, I need help with a service';
+  document.getElementById('whatsappBtn').href = 'https://wa.me/' + s.whatsapp.replace(/\D/g,'') + '?text=Hi, I need help with a service at E-SUVIDHA KENDRA';
   document.getElementById('announcementText').textContent = s.announcement;
   document.title = s.shopName + ' - Digital Seva Center';
-  if(s.logoURL && s.logoURL.trim()){
+  if(s.logoURL && s.logoURL.trim() && !s.logoURL.includes('YOUR_LOGO')){
     const logoHTML = `<img src="${s.logoURL}" class="w-full h-full object-cover" alt="${s.shopName}">`;
     ['logoSpace','footerLogo'].forEach(id=>{const el=document.getElementById(id); if(el) el.innerHTML=logoHTML;});
   }
-  if(s.bannerURL && s.bannerURL.trim()){
+  if(s.bannerURL && s.bannerURL.trim() && !s.bannerURL.includes('YOUR_BANNER')){
     const hero = document.querySelector('.hero-bg');
     if(hero){
       hero.style.background = `linear-gradient(rgba(30,27,75,0.85), rgba(59,130,246,0.7)), url('${s.bannerURL}') center/cover no-repeat`;
@@ -659,53 +726,34 @@ function updateShopStatus(){
   if(text) text.textContent = isOpen ? 'Shop Open Now • 7:30 AM - 9:00 PM' : 'Shop Closed';
 }
 
-// ========== LOAD CERTIFICATES (NEW) ==========
-async function loadCertificates(){
-  try{
-    const snap = await db.collection('certificates').orderBy('order').get();
-    if(!snap.empty){
-      const certs = snap.docs.map(d=>({id:d.id, ...d.data()})).filter(c=>c.enabled!==false);
-      renderCertificates(certs);
-    }
-  }catch(e){console.log('Using default certs');}
-}
-
-function renderCertificates(certs){
-  const grid = document.getElementById('certificatesGrid');
-  const iconColors = [
-    'from-primary-100 to-accent-100 text-primary-300',
-    'from-green-100 to-emerald-100 text-green-300',
-    'from-purple-100 to-pink-100 text-purple-300',
-    'from-yellow-100 to-orange-100 text-yellow-400',
-    'from-red-100 to-pink-100 text-red-300',
-    'from-blue-100 to-cyan-100 text-blue-300',
-    'from-indigo-100 to-violet-100 text-indigo-300',
-    'from-teal-100 to-cyan-100 text-teal-300',
-    'from-rose-100 to-pink-100 text-rose-300',
-    'from-amber-100 to-yellow-100 text-amber-300'
+// ========== CERTIFICATES (Static URLs) ==========
+function loadCertificates(){
+  // Static certificates are already in HTML
+  // Just handle dynamic ones from Firestore if needed
+  const certs = [
+    {id:1, imageURL:'CERT1_URL_HERE', title:'CSC ID Certificate', issuer:'Govt. of India'},
+    {id:2, imageURL:'CERT2_URL_HERE', title:'Banking CSP License', issuer:'Authorized Partner'},
+    {id:3, imageURL:'CERT3_URL_HERE', title:'IRCTC Agent', issuer:'Train Booking'},
+    {id:4, imageURL:'CERT4_URL_HERE', title:'Aadhaar Operator', issuer:'UIDAI Certified'},
+    {id:5, imageURL:'CERT5_URL_HERE', title:'PAN Card Agent', issuer:'Income Tax Dept.'},
+    {id:6, imageURL:'CERT6_URL_HERE', title:'Insurance Agent', issuer:'LIC, SBI Life'},
+    {id:7, imageURL:'CERT7_URL_HERE', title:'Govt. Authorized', issuer:'CSC Scheme Partner'},
+    {id:8, imageURL:'CERT8_URL_HERE', title:'ISO Certified', issuer:'Quality Assured'},
+    {id:9, imageURL:'CERT9_URL_HERE', title:'Digital India', issuer:'Mission Partner'},
+    {id:10, imageURL:'CERT10_URL_HERE', title:'Skill Certified', issuer:'Trained Operator'}
   ];
-  const icons = ['fa-certificate','fa-university','fa-train','fa-id-card','fa-shield-alt','fa-award','fa-medal','fa-ribbon','fa-stamp','fa-file-contract'];
-  
-  grid.innerHTML = certs.slice(0,10).map((c,i)=>{
-    const colorClass = iconColors[i%10];
-    const icon = c.icon || icons[i%10];
-    return `<div class="cert-card bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 cursor-pointer" onclick="openCertLightbox('${c.imageURL||''}','${c.title||'Certificate'}')">
-      <div class="aspect-[3/4] bg-gradient-to-br ${colorClass} flex items-center justify-center relative overflow-hidden">
-        ${c.imageURL ? `<img src="${c.imageURL}" class="w-full h-full object-cover" alt="${c.title}">` : `<i class="fas ${icon} text-6xl opacity-60"></i>`}
-        <span class="absolute top-2 right-2 badge-verified"><i class="fas fa-check"></i> Verified</span>
-      </div>
-      <div class="p-3">
-        <p class="font-bold text-sm leading-tight">${c.title||'Certificate'}</p>
-        <p class="text-xs text-gray-500 mt-1">${c.issuer||'Authorized'}</p>
-      </div>
-    </div>`;
-  }).join('');
+  // Certificates already rendered in HTML, no need to re-render
+  // But we can update them dynamically if needed
 }
 
 function openCertLightbox(imgURL, title){
   const lb = document.getElementById('certLightbox');
   const img = document.getElementById('certLightboxImg');
-  img.src = imgURL || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500"><rect fill="%23EEF2FF" width="400" height="500"/><text x="200" y="250" text-anchor="middle" fill="%231E3A8A" font-size="24" font-family="Arial">Certificate</text></svg>';
+  if(imgURL && !imgURL.includes('CERT') && !imgURL.includes('YOUR')){
+    img.src = imgURL;
+  } else {
+    img.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500"><rect fill="%23EEF2FF" width="400" height="500"/><text x="200" y="250" text-anchor="middle" fill="%231E3A8A" font-size="24" font-family="Arial">'+title+'</text></svg>';
+  }
   img.alt = title;
   lb.classList.add('active');
 }
@@ -714,7 +762,7 @@ function closeCertLightbox(){
   document.getElementById('certLightbox').classList.remove('active');
 }
 
-// ========== LOAD SERVICES ==========
+// ========== SERVICES ==========
 async function loadServices(){
   let services = defaultServices;
   try{
@@ -787,21 +835,8 @@ function loadReviews(){
 
 // ========== GALLERY ==========
 function loadGallery(){
-  const photos = [
-    {url:'gallery1.jpg',caption:'Shop Front'},
-    {url:'gallery2.jpg',caption:'Workstation'},
-    {url:'gallery3.jpg',caption:'Banking Counter'},
-    {url:'gallery4.jpg',caption:'Customer Service'},
-    {url:'gallery5.jpg',caption:'Our Team'},
-    {url:'gallery6.jpg',caption:'Office Space'},
-    {url:'gallery7.jpg',caption:'Service Counter'},
-    {url:'gallery8.jpg',caption:'Digital Tools'}
-  ];
-  document.getElementById('galleryGrid').innerHTML = photos.map((p,i)=>`<div class="gallery-item rounded-2xl aspect-square bg-gradient-to-br from-primary-100 to-accent-100 shadow-sm overflow-hidden" onclick="openGalleryLightbox('${p.url}','${p.caption}')"><div class="w-full h-full flex items-center justify-center"><i class="fas fa-image text-4xl text-primary-300"></i></div><div class="gallery-overlay"><p class="text-white font-bold text-sm">${p.caption}</p></div></div>`).join('');
-}
-
-function openGalleryLightbox(imgURL, caption){
-  alert(`${caption}\n\nAdd your photo at: ${imgURL}\n\nUpload to GitHub repo and it will display.`);
+  const wrap = document.getElementById('galleryGrid');
+  wrap.innerHTML = defaultGallery.map(p=>`<div class="gallery-item rounded-2xl aspect-square bg-gradient-to-br from-primary-100 to-accent-100 shadow-sm overflow-hidden" onclick="window.open('${p.url}','_blank')"><img src="${p.url}" class="w-full h-full object-cover" alt="${p.caption}" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\\'w-full h-full flex items-center justify-center\\'><i class=\\'fas fa-image text-4xl text-primary-300\\'></i></div>'"><div class="gallery-overlay"><p class="text-white font-bold text-sm">${p.caption}</p></div></div>`).join('');
 }
 
 // ========== TOOLS ==========
@@ -858,13 +893,11 @@ document.getElementById('contactForm').addEventListener('submit',async e=>{
 e.preventDefault();
 try{
 await db.collection('contactMessages').add({
-name:document.getElementById('cfName').value,
-email:document.getElementById('cfEmail').value,
-subject:document.getElementById('cfSubject').value,
-message:document.getElementById('cfMessage').value,
+name:document.getElementById('cfName').value,email:document.getElementById('cfEmail').value,
+subject:document.getElementById('cfSubject').value,message:document.getElementById('cfMessage').value,
 createdAt:firebase.firestore.FieldValue.serverTimestamp()
 });
-toast('Message sent successfully!','success');e.target.reset();
+toast('Message sent! E-SUVIDHA KENDRA will respond soon.','success');e.target.reset();
 }catch(err){toast('Saved (offline mode)','success');e.target.reset();}
 });
 
@@ -883,7 +916,7 @@ window.addEventListener('scroll',()=>{const btn=document.getElementById('scrollT
 
 // ========== INIT ==========
 loadSettings();
-loadCertificates(); // NEW
+loadCertificates();
 loadServices();
 loadReviews();
 loadGallery();
