@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard — Pankaj E-Seva Kendra</title>
+<title>Dashboard - E-SUVIDHA KENDRA</title>
 <meta name="theme-color" content="#1E3A8A">
-<link rel="icon" type="image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%231E3A8A' width='100' height='100' rx='20'/><text x='50' y='65' text-anchor='middle' fill='%23F59E0B' font-size='50' font-family='Arial' font-weight='bold'>E</text></svg>">
+<link rel="icon" type="image/png" href="logo.png">
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -14,22 +14,19 @@
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-storage-compat.js"></script>
 <script>
-tailwind.config={theme:{extend:{colors:{primary:{50:'#EEF2FF',100:'#E0E7FF',200:'#C7D2FE',300:'#A5B4FC',500:'#6366F1',600:'#4F46E5',700:'#4338CA',800:'#1E3A8A',900:'#1E1B4B'},accent:{50:'#FFFBEB',100:'#FEF3C7',300:'#FCD34D',400:'#FBBF24',500:'#F59E0B',600:'#D97706',700:'#B45309'},dark:'#0F172A',soft:'#F8FAFC'},fontFamily:{display:['Poppins','sans-serif'],body:['Inter','sans-serif']}}}}
+tailwind.config={theme:{extend:{colors:{primary:{50:'#EEF2FF',100:'#E0E7FF',200:'#C7D2FE',300:'#A5B4FC',500:'#6366F1',600:'#4F46E5',700:'#4338CA',800:'#1E3A8A',900:'#1E1B4B'},accent:{500:'#F59E0B',600:'#D97706',700:'#B45309'},dark:'#0F172A',soft:'#F8FAFC'},fontFamily:{display:['Poppins','sans-serif'],body:['Inter','sans-serif']}}}}
 </script>
 <style>
-*{font-family:'Inter',sans-serif}h1,h2,h3,h4,h5,h6{font-family:'Poppins','sans-serif';letter-spacing:-0.02em}
+*{font-family:'Inter',sans-serif}h1,h2,h3,h4,h5,h6{font-family:'Poppins',sans-serif;letter-spacing:-0.02em}
 body{background:#F8FAFC;color:#0F172A}
 .glass{background:rgba(255,255,255,0.85);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(255,255,255,0.5)}
 .gradient-primary{background:linear-gradient(135deg,#1E1B4B 0%,#1E3A8A 30%,#3B82F6 70%,#6366F1 100%)}
 .gradient-accent{background:linear-gradient(135deg,#F59E0B 0%,#D97706 100%)}
-.gradient-hero{background:linear-gradient(135deg,#1E1B4B 0%,#1E3A8A 50%,#3B82F6 100%);background-size:200% 200%;animation:gradientShift 12s ease infinite}
-@keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 .btn-primary{background:linear-gradient(135deg,#1E3A8A,#3B82F6);transition:all .3s;box-shadow:0 4px 20px rgba(30,58,138,.3)}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(30,58,138,.45)}
-.btn-accent{background:linear-gradient(135deg,#F59E0B,#D97706);transition:all .3s;box-shadow:0 4px 20px rgba(245,158,11,.3)}
-.btn-accent:hover{transform:translateY(-2px)}
+.btn-accent{background:linear-gradient(135deg,#F59E0B,#D97706);transition:all .3s}
 .stat-card{transition:all .4s cubic-bezier(.4,0,.2,1)}
-.stat-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px -10px rgba(30,58,138,.2)}
+.stat-card:hover{transform:translateY(-6px);box-shadow:0 25px 50px -12px rgba(30,58,138,.2)}
 .nav-item{position:relative;transition:all .3s;cursor:pointer;display:flex;align-items:center;gap:0.75rem;padding:0.625rem 0.75rem;border-radius:0.75rem;font-size:0.875rem}
 .nav-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#F59E0B,#D97706);border-radius:0 4px 4px 0;transform:scaleY(0);transition:transform .3s}
 .nav-item.active::before,.nav-item:hover::before{transform:scaleY(1)}
@@ -40,37 +37,31 @@ body{background:#F8FAFC;color:#0F172A}
 .input-style{transition:all .2s;border:2px solid #E5E7EB;background:white}
 .input-style:focus{border-color:#3B82F6;box-shadow:0 0 0 4px rgba(59,130,246,0.1);outline:none}
 .badge{font-size:.7rem;padding:.25rem .65rem;border-radius:9999px;font-weight:700;letter-spacing:.025em;display:inline-flex;align-items:center;gap:.25rem}
-.badge-pending{background:#FEF3C7;color:#92400E}
-.badge-approved{background:#DBEAFE;color:#1E40AF}
-.badge-progress{background:#E9D5FF;color:#6B21A8}
-.badge-completed{background:#D1FAE5;color:#065F46}
-.badge-rejected{background:#FEE2E2;color:#991B1B}
+.badge-pending{background:#FEF3C7;color:#92400E}.badge-approved{background:#DBEAFE;color:#1E40AF}.badge-progress{background:#E9D5FF;color:#6B21A8}.badge-completed{background:#D1FAE5;color:#065F46}.badge-rejected{background:#FEE2E2;color:#991B1B}
 @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 .animate-float{animation:float 4s ease-in-out infinite}
 ::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:#F1F5F9}::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#1E3A8A,#F59E0B);border-radius:4px}
-.modal-overlay{background:rgba(15,23,42,0.7);backdrop-filter:blur(10px)}
 </style>
 </head>
 <body class="min-h-screen">
 
 <!-- LOGIN PAGE -->
-<div id="loginPage" class="min-h-screen flex items-center justify-center gradient-hero p-4 relative overflow-hidden">
+<div id="loginPage" class="min-h-screen flex items-center justify-center gradient-primary p-4 relative overflow-hidden">
 <div class="absolute top-20 left-20 w-72 h-72 bg-accent-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float"></div>
 <div class="absolute bottom-20 right-20 w-72 h-72 bg-primary-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float" style="animation-delay:1.5s"></div>
 
-<div class="max-w-md w-full relative z-10 animate-fadeIn">
+<div class="max-w-md w-full relative z-10">
 <div class="glass rounded-3xl shadow-2xl overflow-hidden">
 <div class="gradient-primary p-8 text-center text-white relative">
-<div class="w-20 h-20 mx-auto rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-4xl mb-4 ring-4 ring-white/30 animate-float">
+<div class="w-20 h-20 mx-auto rounded-2xl gradient-accent flex items-center justify-center text-white text-4xl mb-4 ring-4 ring-white/30 animate-float shadow-2xl">
 <i class="fas fa-store"></i>
 </div>
-<h1 class="text-2xl sm:text-3xl font-display font-black">Pankaj E-Seva Kendra</h1>
+<h1 class="text-2xl sm:text-3xl font-display font-black">E-SUVIDHA KENDRA</h1>
 <p class="text-white/80 text-sm mt-1">Customer Portal — Login to Continue</p>
 </div>
 
 <div class="p-6 sm:p-8 bg-white">
-<!-- Auth Tabs -->
 <div class="flex bg-soft rounded-2xl p-1.5 mb-6">
 <button onclick="switchAuth('phone')" id="phoneTab" class="flex-1 py-2.5 rounded-xl text-sm font-bold transition gradient-accent text-white shadow-md">
 <i class="fas fa-phone mr-1.5"></i> Mobile OTP
@@ -80,7 +71,6 @@ body{background:#F8FAFC;color:#0F172A}
 </button>
 </div>
 
-<!-- Phone Auth -->
 <div id="phoneAuth">
 <div id="phoneStep1">
 <label class="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-wider">Mobile Number</label>
@@ -109,7 +99,6 @@ body{background:#F8FAFC;color:#0F172A}
 </div>
 </div>
 
-<!-- Google Auth -->
 <div id="googleAuth" class="hidden">
 <button onclick="googleLogin()" class="w-full border-2 border-gray-200 hover:border-primary-500 hover:bg-primary-50 transition py-3.5 rounded-xl font-bold flex items-center justify-center gap-3 group">
 <svg class="w-5 h-5" viewBox="0 0 48 48">
@@ -120,17 +109,15 @@ body{background:#F8FAFC;color:#0F172A}
 </svg>
 <span>Continue with Google</span>
 </button>
-
 <p class="text-xs text-gray-500 text-center mt-4">Secure login powered by Firebase</p>
 </div>
 
-<!-- Footer Links -->
 <div class="mt-6 pt-4 border-t border-gray-200 flex items-center justify-between text-xs">
 <a href="index.html" class="text-gray-500 hover:text-primary-800 transition flex items-center gap-1">
 <i class="fas fa-arrow-left"></i> Back to Website
 </a>
 <a href="operator.html" class="text-gray-500 hover:text-primary-800 transition flex items-center gap-1">
-<i class="fas fa-user-tie"></i> Operator Login
+<i class="fas fa-user-tie"></i> Operator
 </a>
 </div>
 </div>
@@ -141,7 +128,6 @@ body{background:#F8FAFC;color:#0F172A}
 <!-- MAIN APP -->
 <div id="mainApp" class="hidden">
 
-<!-- HEADER -->
 <header class="glass sticky top-0 z-40 shadow-sm border-b border-white/20">
 <div class="px-4 sm:px-6 py-3 flex items-center justify-between">
 <a href="index.html" class="flex items-center gap-3">
@@ -149,7 +135,7 @@ body{background:#F8FAFC;color:#0F172A}
 <i class="fas fa-store"></i>
 </div>
 <div class="hidden sm:block">
-<h1 class="font-display font-bold text-sm text-primary-800 leading-tight">Pankaj E-Seva</h1>
+<h1 class="font-display font-bold text-sm text-primary-800 leading-tight">E-SUVIDHA KENDRA</h1>
 <p class="text-xs text-gray-500 leading-tight" id="userGreeting">Welcome</p>
 </div>
 </a>
@@ -173,16 +159,14 @@ body{background:#F8FAFC;color:#0F172A}
 </header>
 
 <div class="flex">
-<!-- SIDEBAR -->
 <aside class="hidden lg:block w-64 min-h-screen bg-white border-r border-gray-200 sticky top-16 self-start">
 <nav class="p-4 space-y-1">
-<!-- User Card -->
 <div class="flex items-center gap-3 p-3 mb-4 rounded-2xl bg-gradient-to-br from-primary-50 to-accent-50">
 <div class="w-12 h-12 rounded-full gradient-primary flex items-center justify-center text-white text-lg font-bold ring-2 ring-white shadow-md" id="sidebarAvatar">
 <i class="fas fa-user"></i>
 </div>
 <div class="flex-1 min-w-0">
-<p class="font-bold text-sm text-dark truncate" id="sidebarName">User</p>
+<p class="font-bold text-sm text-dark truncate" id="sidebarName">Customer</p>
 <p class="text-xs text-gray-500 truncate" id="sidebarEmail">-</p>
 </div>
 </div>
@@ -201,19 +185,17 @@ body{background:#F8FAFC;color:#0F172A}
 </nav>
 </aside>
 
-<!-- CONTENT -->
 <main class="flex-1 p-4 lg:p-6 pb-28 lg:pb-6 max-w-6xl mx-auto w-full">
 
-<!-- HOME PAGE -->
+<!-- HOME -->
 <div id="page-home" class="page active">
-<!-- Welcome Banner -->
 <div class="gradient-primary rounded-3xl p-6 sm:p-8 text-white mb-6 relative overflow-hidden shadow-xl">
 <div class="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full"></div>
 <div class="absolute -right-20 -bottom-20 w-60 h-60 bg-accent-500/30 rounded-full blur-2xl"></div>
 <div class="relative z-10">
 <p class="text-sm text-white/70 flex items-center gap-2"><i class="fas fa-hand-sparkles"></i> Welcome back 👋</p>
-<h2 class="text-2xl sm:text-3xl font-display font-black mt-1" id="welcomeName">User</h2>
-<p class="text-sm text-white/80 mt-2">Book any government, banking or digital service instantly!</p>
+<h2 class="text-2xl sm:text-3xl font-display font-black mt-1" id="welcomeName">Customer</h2>
+<p class="text-sm text-white/80 mt-2">Book any government, banking or digital service instantly at E-SUVIDHA KENDRA!</p>
 <div class="flex flex-wrap gap-2 mt-4">
 <button onclick="showPage('book')" class="btn-accent px-5 py-2.5 rounded-xl text-sm font-bold text-white inline-flex items-center gap-2 shadow-lg">
 <i class="fas fa-plus-circle"></i> Book New Service
@@ -225,7 +207,6 @@ body{background:#F8FAFC;color:#0F172A}
 </div>
 </div>
 
-<!-- Stats Grid -->
 <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
 <div class="stat-card bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-gray-100">
 <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 text-white flex items-center justify-center mb-3 shadow-md">
@@ -257,7 +238,6 @@ body{background:#F8FAFC;color:#0F172A}
 </div>
 </div>
 
-<!-- Recent Bookings -->
 <div class="bg-white rounded-2xl shadow-sm border border-gray-100">
 <div class="p-5 border-b border-gray-100 flex items-center justify-between">
 <h3 class="font-display font-black text-lg">Recent Bookings</h3>
@@ -269,7 +249,7 @@ View All <i class="fas fa-arrow-right text-[10px]"></i>
 </div>
 </div>
 
-<!-- BOOK SERVICE -->
+<!-- BOOK -->
 <div id="page-book" class="page">
 <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
 <div class="gradient-primary p-6 text-white">
@@ -277,7 +257,7 @@ View All <i class="fas fa-arrow-right text-[10px]"></i>
 <div class="w-12 h-12 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center"><i class="fas fa-calendar-plus text-xl"></i></div>
 <div>
 <h2 class="font-display font-black text-xl">Book a Service</h2>
-<p class="text-sm text-white/80">Fill the form to book your service</p>
+<p class="text-sm text-white/80">Fill the form to book at E-SUVIDHA KENDRA</p>
 </div>
 </div>
 </div>
@@ -304,6 +284,12 @@ View All <i class="fas fa-arrow-right text-[10px]"></i>
 <label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Category *</label>
 <select id="bkCategory" onchange="loadServiceOptions()" required class="input-style w-full px-4 py-3 rounded-xl">
 <option value="">Select Category</option>
+<option>CSC</option>
+<option>Banking</option>
+<option>Government</option>
+<option>Utility</option>
+<option>Insurance</option>
+<option>Travel</option>
 </select>
 </div>
 <div>
@@ -335,9 +321,8 @@ View All <i class="fas fa-arrow-right text-[10px]"></i>
 </form>
 </div>
 </div>
-</div>
 
-<!-- MY BOOKINGS -->
+<!-- BOOKINGS -->
 <div id="page-bookings" class="page">
 <div class="bg-white rounded-2xl shadow-sm border border-gray-100">
 <div class="p-5 border-b border-gray-100 flex items-center justify-between flex-wrap gap-3">
@@ -355,7 +340,7 @@ View All <i class="fas fa-arrow-right text-[10px]"></i>
 </div>
 </div>
 
-<!-- DOCUMENT VAULT -->
+<!-- DOCUMENTS -->
 <div id="page-documents" class="page">
 <div class="bg-white rounded-3xl shadow-sm border border-gray-100">
 <div class="gradient-accent p-6 text-white">
@@ -370,7 +355,7 @@ View All <i class="fas fa-arrow-right text-[10px]"></i>
 
 <form id="docForm" class="p-6 border-b border-gray-100 bg-soft">
 <div class="grid sm:grid-cols-4 gap-3">
-<input type="text" id="docName" placeholder="Document name" required class="input-style px-3 py-2.5 rounded-lg sm:col-span-1">
+<input type="text" id="docName" placeholder="Document name" required class="input-style px-3 py-2.5 rounded-lg">
 <select id="docType" class="input-style px-3 py-2.5 rounded-lg">
 <option>Aadhaar Card</option>
 <option>PAN Card</option>
@@ -403,7 +388,7 @@ View All <i class="fas fa-arrow-right text-[10px]"></i>
 </div>
 </div>
 
-<!-- SUPPORT TICKETS -->
+<!-- TICKETS -->
 <div id="page-tickets" class="page">
 <div class="bg-white rounded-3xl shadow-sm border border-gray-100">
 <div class="gradient-primary p-6 text-white">
@@ -441,7 +426,7 @@ View All <i class="fas fa-arrow-right text-[10px]"></i>
 </button>
 <input type="file" id="profilePhoto" accept="image/*" class="hidden" onchange="uploadProfilePhoto(this)">
 </div>
-<h3 class="font-display font-black text-xl mt-3" id="profileDisplayName">User</h3>
+<h3 class="font-display font-black text-xl mt-3" id="profileDisplayName">Customer</h3>
 <p class="text-sm text-white/80" id="profileDisplayEmail">-</p>
 </div>
 
@@ -505,12 +490,11 @@ const firebaseConfig = {
   apiKey: "AIzaSyDucHeFoRyu-aHa2ILTV6dXWkV5TWyVWV4",
   authDomain: "eseva-kendra-4c870.firebaseapp.com",
   projectId: "eseva-kendra-4c870",
-  storageBucket: "eseva-kendra-4c870.firebasestorage.app",
+  storageBucket: "eseva-kendra-4c870.appspot.com",
   messagingSenderId: "730747379772",
   appId: "1:730747379772:web:87f4fa85e372128c0de339",
   measurementId: "G-NP2B95SFDM"
 };
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const auth = firebase.auth();
@@ -518,42 +502,7 @@ const storage = firebase.storage();
 
 let currentUser = null;
 let allBookings = [];
-let userServices = [];
 
-// ========== AUTH STATE ==========
-auth.onAuthStateChanged(async user => {
-  if(user && !currentUser){
-    currentUser = user;
-    await ensureUserDoc(user);
-    document.getElementById('loginPage').classList.add('hidden');
-    document.getElementById('mainApp').classList.remove('hidden');
-    loadUserData();
-    loadAllData();
-    loadServicesForBooking();
-  }
-});
-
-async function ensureUserDoc(user){
-  const ref = db.collection('users').doc(user.uid);
-  const doc = await ref.get();
-  if(!doc.exists){
-    await ref.set({
-      uid: user.uid,
-      name: user.displayName || user.phoneNumber || 'Customer',
-      email: user.email || '',
-      mobile: user.phoneNumber || '',
-      photoURL: user.photoURL || '',
-      address: '',
-      role: 'user',
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      lastLogin: firebase.firestore.FieldValue.serverTimestamp()
-    });
-  } else {
-    await ref.update({lastLogin: firebase.firestore.FieldValue.serverTimestamp()});
-  }
-}
-
-// ========== AUTH TAB SWITCH ==========
 function switchAuth(t){
   document.getElementById('phoneAuth').classList.toggle('hidden', t!=='phone');
   document.getElementById('googleAuth').classList.toggle('hidden', t!=='google');
@@ -561,7 +510,6 @@ function switchAuth(t){
   document.getElementById('googleTab').className = t==='google' ? 'flex-1 py-2.5 rounded-xl text-sm font-bold transition gradient-accent text-white shadow-md' : 'flex-1 py-2.5 rounded-xl text-sm font-bold transition text-gray-600 hover:bg-white';
 }
 
-// ========== PHONE AUTH ==========
 window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {size: 'invisible'});
 
 async function sendOTP(){
@@ -596,7 +544,6 @@ function backToPhone(){
   document.getElementById('phoneStep2').classList.add('hidden');
 }
 
-// ========== GOOGLE AUTH ==========
 async function googleLogin(){
   try{
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -610,41 +557,50 @@ async function googleLogin(){
 
 async function onLogin(user){
   currentUser = user;
-  await ensureUserDoc(user);
+  const ref = db.collection('users').doc(user.uid);
+  const doc = await ref.get();
+  if(!doc.exists){
+    await ref.set({
+      uid: user.uid,
+      name: user.displayName || user.phoneNumber || 'Customer',
+      email: user.email || '',
+      mobile: user.phoneNumber || '',
+      photoURL: user.photoURL || '',
+      address: '',
+      role: 'user',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+    });
+  } else {
+    await ref.update({lastLogin: firebase.firestore.FieldValue.serverTimestamp()});
+  }
   document.getElementById('loginPage').classList.add('hidden');
   document.getElementById('mainApp').classList.remove('hidden');
   loadUserData();
   loadAllData();
-  loadServicesForBooking();
-  toast('Welcome back!', 'success');
+  toast('Welcome to E-SUVIDHA KENDRA!', 'success');
 }
 
 function logout(){
   if(confirm('Are you sure you want to logout?')){
-    auth.signOut().then(()=>{
-      currentUser = null;
-      allBookings = [];
-      location.reload();
-    });
+    auth.signOut().then(()=>{currentUser = null; allBookings = []; location.reload();});
   }
 }
 
-// ========== LOAD USER DATA ==========
 async function loadUserData(){
   const doc = await db.collection('users').doc(currentUser.uid).get();
   if(!doc.exists) return;
   const u = doc.data();
-  document.getElementById('userGreeting').textContent = 'Hi, ' + (u.name || 'User');
-  document.getElementById('welcomeName').textContent = u.name || 'User';
-  document.getElementById('sidebarName').textContent = u.name || 'User';
+  document.getElementById('userGreeting').textContent = 'Hi, ' + (u.name || 'Customer');
+  document.getElementById('welcomeName').textContent = u.name || 'Customer';
+  document.getElementById('sidebarName').textContent = u.name || 'Customer';
   document.getElementById('sidebarEmail').textContent = u.email || u.mobile || '';
-  document.getElementById('profileDisplayName').textContent = u.name || 'User';
+  document.getElementById('profileDisplayName').textContent = u.name || 'Customer';
   document.getElementById('profileDisplayEmail').textContent = u.email || u.mobile || '';
   document.getElementById('pfName').value = u.name || '';
   document.getElementById('pfEmail').value = u.email || '';
   document.getElementById('pfMobile').value = u.mobile || '';
   document.getElementById('pfAddress').value = u.address || '';
-
   const initial = (u.name || 'U').charAt(0).toUpperCase();
   if(u.photoURL){
     const img = `<img src="${u.photoURL}" class="w-full h-full rounded-full object-cover">`;
@@ -658,91 +614,51 @@ async function loadUserData(){
   }
 }
 
-// ========== PAGES ==========
 function showPage(page){
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-'+page).classList.add('active');
-
-  // Sidebar active state
-  document.querySelectorAll('.nav-item').forEach(n => {
-    n.classList.toggle('active', n.dataset.page === page);
-  });
-
-  // Mobile nav active state
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.page === page));
   document.querySelectorAll('.mobile-nav').forEach(b => {
-    const isActive = b.dataset.nav === page;
-    b.classList.toggle('text-primary-800', isActive);
-    b.classList.toggle('text-gray-500', !isActive);
+    b.classList.toggle('text-primary-800', b.dataset.nav === page);
+    b.classList.toggle('text-gray-500', b.dataset.nav !== page);
   });
-
-  // Scroll to top
   window.scrollTo({top: 0, behavior: 'smooth'});
-}
-
-// ========== LOAD SERVICES FOR BOOKING ==========
-async function loadServicesForBooking(){
-  userServices = [
-    {serviceId:'AAD-001',name:'Aadhaar Service',category:'CSC'},
-    {serviceId:'PAN-001',name:'PAN Card',category:'CSC'},
-    {serviceId:'VOT-001',name:'Voter ID',category:'CSC'},
-    {serviceId:'PAS-001',name:'Passport',category:'Government'},
-    {serviceId:'BCK-001',name:'Account Opening',category:'Banking'},
-    {serviceId:'CSH-001',name:'Cash Withdrawal',category:'Banking'},
-    {serviceId:'DPT-001',name:'Cash Deposit',category:'Banking'},
-    {serviceId:'PMK-001',name:'PM Kisan',category:'Government'},
-    {serviceId:'AYU-001',name:'Ayushman Card',category:'Government'},
-    {serviceId:'BIL-001',name:'Electricity Bill',category:'Utility'},
-    {serviceId:'MOB-001',name:'Mobile Recharge',category:'Utility'},
-    {serviceId:'TRN-001',name:'Train Ticket',category:'Travel'}
-  ];
-  try{
-    const snap = await db.collection('services').where('enabled','!=',false).get();
-    if(!snap.empty){
-      const firestoreServices = snap.docs.map(d=>d.data()).filter(s=>s.enabled!==false);
-      if(firestoreServices.length) userServices = firestoreServices;
-    }
-  }catch(e){}
-
-  const cats = [...new Set(userServices.map(s=>s.category).filter(Boolean))];
-  const catSelect = document.getElementById('bkCategory');
-  catSelect.innerHTML = '<option value="">Select Category</option>' + cats.map(c=>`<option>${c}</option>`).join('');
 }
 
 function loadServiceOptions(){
   const cat = document.getElementById('bkCategory').value;
-  const list = userServices.filter(s => s.category === cat);
-  document.getElementById('bkService').innerHTML = '<option value="">Select Service</option>' + list.map(s=>`<option value="${s.serviceId}">${s.name}</option>`).join('');
+  const map = {
+    CSC:[['AAD-001','Aadhaar Service'],['PAN-001','PAN Card'],['VOT-001','Voter ID']],
+    Banking:[['BCK-001','Account Opening'],['CSH-001','Cash Withdrawal'],['DPT-001','Cash Deposit']],
+    Government:[['PAS-001','Passport'],['PMK-001','PM Kisan'],['AYU-001','Ayushman Card']],
+    Utility:[['BIL-001','Electricity Bill'],['MOB-001','Mobile Recharge']],
+    Insurance:[['INS-001','Life Insurance'],['INS-002','Health Insurance']],
+    Travel:[['TRN-001','Train Ticket'],['BUS-001','Bus Ticket']]
+  };
+  const list = map[cat] || [];
+  document.getElementById('bkService').innerHTML = '<option value="">Select Service</option>' + list.map(s=>`<option value="${s[0]}">${s[1]}</option>`).join('');
 }
 
-// ========== URL PARAMS (from index.html Book Now) ==========
 const params = new URLSearchParams(window.location.search);
 if(params.get('book')){
   setTimeout(()=>{
-    const svc = userServices.find(s => s.serviceId === params.get('book'));
-    if(svc){
-      document.getElementById('bkCategory').value = svc.category;
-      loadServiceOptions();
-      setTimeout(()=>{
-        document.getElementById('bkService').innerHTML = `<option value="${svc.serviceId}">${svc.name}</option>`;
-        document.getElementById('bkService').value = svc.serviceId;
-      },100);
-    }
-  }, 1500);
+    const svcId = params.get('book');
+    const svcName = params.get('name');
+    document.getElementById('bkService').innerHTML = `<option value="${svcId}">${svcName}</option>`;
+    document.getElementById('bkService').value = svcId;
+  },1500);
 }
 
-// ========== FILE UPLOAD ==========
 function showFileName(input){
   document.getElementById('bkFileName').textContent = input.files[0] ? '📎 ' + input.files[0].name : '';
 }
 
-// ========== BOOKING FORM ==========
 document.getElementById('bookForm').addEventListener('submit', async e => {
   e.preventDefault();
   const btn = document.getElementById('bookSubmitBtn');
   const oldText = btn.innerHTML;
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
   btn.disabled = true;
-
   try{
     let docURL = '';
     const file = document.getElementById('bkFile').files[0];
@@ -751,7 +667,6 @@ document.getElementById('bookForm').addEventListener('submit', async e => {
       const snap = await ref.put(file);
       docURL = await snap.ref.getDownloadURL();
     }
-
     await db.collection('bookings').add({
       userId: currentUser.uid,
       userName: currentUser.displayName || currentUser.phoneNumber || 'Customer',
@@ -766,8 +681,7 @@ document.getElementById('bookForm').addEventListener('submit', async e => {
       adminNote: '',
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-
-    toast('Booking submitted successfully! 🎉', 'success');
+    toast('Booking submitted successfully! E-SUVIDHA KENDRA will contact you.', 'success');
     e.target.reset();
     document.getElementById('bkFileName').textContent = '';
     showPage('bookings');
@@ -778,45 +692,32 @@ document.getElementById('bookForm').addEventListener('submit', async e => {
   btn.disabled = false;
 });
 
-// ========== LOAD ALL DATA (Real-time) ==========
 function loadAllData(){
-  // Bookings
   db.collection('bookings').where('userId','==',currentUser.uid).orderBy('createdAt','desc').onSnapshot(snap => {
     allBookings = snap.docs.map(d => ({id: d.id, ...d.data()}));
-    renderStats();
-    renderRecent();
-    renderBookings();
+    renderStats(); renderRecent(); renderBookings();
   }, err => {
-    // Fallback without orderBy
     db.collection('bookings').where('userId','==',currentUser.uid).onSnapshot(snap => {
       allBookings = snap.docs.map(d => ({id: d.id, ...d.data()})).sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
-      renderStats();
-      renderRecent();
-      renderBookings();
+      renderStats(); renderRecent(); renderBookings();
     });
   });
-
-  // Documents
   db.collection('documents').where('userId','==',currentUser.uid).orderBy('createdAt','desc').onSnapshot(snap => {
-    renderDocuments(snap.docs.map(d => ({id: d.id, ...d.data()})));
+    renderDocs(snap.docs.map(d => ({id: d.id, ...d.data()})));
   }, err => {
     db.collection('documents').where('userId','==',currentUser.uid).onSnapshot(snap => {
       const docs = snap.docs.map(d => ({id: d.id, ...d.data()})).sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
-      renderDocuments(docs);
+      renderDocs(docs);
     });
   });
-
-  // Notifications
   db.collection('notifications').where('userId','==',currentUser.uid).orderBy('createdAt','desc').limit(50).onSnapshot(snap => {
-    renderNotifications(snap.docs.map(d => ({id: d.id, ...d.data()})));
+    renderNotifs(snap.docs.map(d => ({id: d.id, ...d.data()})));
   }, err => {
     db.collection('notifications').where('userId','==',currentUser.uid).onSnapshot(snap => {
       const notifs = snap.docs.map(d => ({id: d.id, ...d.data()})).sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0)).slice(0,50);
-      renderNotifications(notifs);
+      renderNotifs(notifs);
     });
   });
-
-  // Tickets
   db.collection('supportTickets').where('userId','==',currentUser.uid).onSnapshot(snap => {
     const tickets = snap.docs.map(d => ({id: d.id, ...d.data()})).sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
     renderTickets(tickets);
@@ -831,31 +732,25 @@ function renderStats(){
 }
 
 function bookingCard(b, full = false){
-  const badgeMap = {
-    Pending: 'badge-pending',
-    Approved: 'badge-approved',
-    'In Progress': 'badge-progress',
-    Completed: 'badge-completed',
-    Rejected: 'badge-rejected'
-  };
+  const badgeMap = {Pending:'badge-pending',Approved:'badge-approved','In Progress':'badge-progress',Completed:'badge-completed',Rejected:'badge-rejected'};
   const iconMap = {CSC:'fa-id-card',Banking:'fa-university',Government:'fa-landmark',Utility:'fa-bolt',Insurance:'fa-shield-alt',Travel:'fa-train'};
   const date = b.createdAt?.toDate ? b.createdAt.toDate().toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric'}) : '';
   return `<div class="bg-soft rounded-xl p-4 hover:shadow-md transition border border-transparent hover:border-primary-100">
-<div class="flex items-start justify-between mb-2">
-<div class="flex items-start gap-3">
-<div class="w-10 h-10 rounded-lg gradient-primary text-white flex items-center justify-center flex-shrink-0">
-<i class="fas ${iconMap[b.category]||'fa-tools'}"></i>
-</div>
-<div>
-<p class="font-bold text-sm text-dark">${b.name||'-'}</p>
-<p class="text-xs text-gray-500">${b.serviceType||'-'} • ${date}</p>
-</div>
-</div>
-<span class="badge ${badgeMap[b.status]||'badge-pending'}">${b.status||'Pending'}</span>
-</div>
-${full && b.adminNote ? `<div class="mt-2 p-2 bg-blue-50 border-l-2 border-blue-500 rounded text-xs text-blue-900"><i class="fas fa-comment-dots mr-1"></i><strong>Admin:</strong> ${b.adminNote}</div>` : ''}
-${full && b.documentURL ? `<a href="${b.documentURL}" target="_blank" class="inline-flex items-center gap-1 text-xs text-accent-600 mt-2 font-bold hover:underline"><i class="fas fa-paperclip"></i> View Document</a>` : ''}
-</div>`;
+    <div class="flex items-start justify-between mb-2">
+      <div class="flex items-start gap-3">
+        <div class="w-10 h-10 rounded-lg gradient-primary text-white flex items-center justify-center flex-shrink-0">
+          <i class="fas ${iconMap[b.category]||'fa-tools'}"></i>
+        </div>
+        <div>
+          <p class="font-bold text-sm text-dark">${b.name||'-'}</p>
+          <p class="text-xs text-gray-500">${b.serviceType||'-'} • ${date}</p>
+        </div>
+      </div>
+      <span class="badge ${badgeMap[b.status]||'badge-pending'}">${b.status||'Pending'}</span>
+    </div>
+    ${full && b.adminNote ? `<div class="mt-2 p-2 bg-blue-50 border-l-2 border-blue-500 rounded text-xs text-blue-900"><i class="fas fa-comment-dots mr-1"></i><strong>E-SUVIDHA KENDRA:</strong> ${b.adminNote}</div>` : ''}
+    ${full && b.documentURL ? `<a href="${b.documentURL}" target="_blank" class="inline-flex items-center gap-1 text-xs text-accent-600 mt-2 font-bold hover:underline"><i class="fas fa-paperclip"></i> View Document</a>` : ''}
+  </div>`;
 }
 
 function renderRecent(){
@@ -879,14 +774,12 @@ function renderBookings(){
   wrap.innerHTML = list.map(b => bookingCard(b, true)).join('');
 }
 
-// ========== DOCUMENTS ==========
 document.getElementById('docForm').addEventListener('submit', async e => {
   e.preventDefault();
   const file = document.getElementById('docFile').files[0];
   const name = document.getElementById('docName').value.trim();
   const type = document.getElementById('docType').value;
   if(!file) return toast('Please select a file', 'error');
-
   try{
     toast('Uploading...', 'success');
     const ref = storage.ref(`documents/${currentUser.uid}/${Date.now()}_${file.name}`);
@@ -906,7 +799,7 @@ document.getElementById('docForm').addEventListener('submit', async e => {
   }
 });
 
-function renderDocuments(docs){
+function renderDocs(docs){
   const wrap = document.getElementById('documentsList');
   if(!docs.length){
     wrap.innerHTML = '<div class="col-span-2 text-center py-10"><i class="fas fa-folder-open text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">No documents uploaded yet</p></div>';
@@ -914,47 +807,40 @@ function renderDocuments(docs){
   }
   const iconMap = {'Aadhaar Card':'fa-id-card','PAN Card':'fa-credit-card','Passport':'fa-passport','Driving License':'fa-car','Mark Sheet':'fa-graduation-cap','Other':'fa-file'};
   wrap.innerHTML = docs.map(d => `
-<div class="bg-soft rounded-xl p-4 flex items-center gap-3 hover:shadow-md transition border border-transparent hover:border-primary-100">
-<div class="w-12 h-12 rounded-xl gradient-primary text-white flex items-center justify-center flex-shrink-0">
-<i class="fas ${iconMap[d.type]||'fa-file'}"></i>
-</div>
-<div class="flex-1 min-w-0">
-<p class="font-bold text-sm truncate">${d.name||'-'}</p>
-<p class="text-xs text-gray-500">${d.type||'Other'} • ${d.createdAt?.toDate ? d.createdAt.toDate().toLocaleDateString() : ''}</p>
-</div>
-<a href="${d.url}" target="_blank" class="w-9 h-9 rounded-lg bg-primary-100 hover:bg-primary-200 text-primary-700 flex items-center justify-center transition">
-<i class="fas fa-external-link-alt text-sm"></i>
-</a>
-</div>`).join('');
+    <div class="bg-soft rounded-xl p-4 flex items-center gap-3 hover:shadow-md transition border border-transparent hover:border-primary-100">
+      <div class="w-12 h-12 rounded-xl gradient-primary text-white flex items-center justify-center flex-shrink-0">
+        <i class="fas ${iconMap[d.type]||'fa-file'}"></i>
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="font-bold text-sm truncate">${d.name||'-'}</p>
+        <p class="text-xs text-gray-500">${d.type||'Other'} • ${d.createdAt?.toDate ? d.createdAt.toDate().toLocaleDateString() : ''}</p>
+      </div>
+      <a href="${d.url}" target="_blank" class="w-9 h-9 rounded-lg bg-primary-100 hover:bg-primary-200 text-primary-700 flex items-center justify-center transition">
+        <i class="fas fa-external-link-alt text-sm"></i>
+      </a>
+    </div>`).join('');
 }
 
-// ========== NOTIFICATIONS ==========
-function renderNotifications(notifs){
+function renderNotifs(notifs){
   const unread = notifs.filter(n => !n.read).length;
   const badge = document.getElementById('notifBadge');
-  if(unread > 0){
-    badge.classList.remove('hidden');
-    badge.textContent = unread > 9 ? '9+' : unread;
-  } else {
-    badge.classList.add('hidden');
-  }
-
+  if(unread > 0){ badge.classList.remove('hidden'); badge.textContent = unread > 9 ? '9+' : unread; } else { badge.classList.add('hidden'); }
   const wrap = document.getElementById('notificationsList');
   if(!notifs.length){
     wrap.innerHTML = '<div class="text-center py-10"><i class="fas fa-bell-slash text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">No notifications</p></div>';
     return;
   }
   wrap.innerHTML = notifs.map(n => `
-<div class="p-4 rounded-xl border-l-4 transition ${n.read ? 'bg-soft border-gray-300' : 'bg-gradient-to-r from-primary-50 to-accent-50 border-primary-500 shadow-sm'}">
-<div class="flex items-start justify-between gap-3">
-<div class="flex-1 min-w-0">
-<p class="font-bold text-sm text-dark">${n.title||'Notification'}</p>
-<p class="text-xs text-gray-600 mt-1 leading-relaxed">${n.message||''}</p>
-<p class="text-xs text-gray-400 mt-2">${n.createdAt?.toDate ? n.createdAt.toDate().toLocaleString() : ''}</p>
-</div>
-${!n.read ? '<span class="w-2 h-2 rounded-full bg-primary-600 flex-shrink-0 mt-2 animate-pulse"></span>' : ''}
-</div>
-</div>`).join('');
+    <div class="p-4 rounded-xl border-l-4 transition ${n.read ? 'bg-soft border-gray-300' : 'bg-gradient-to-r from-primary-50 to-accent-50 border-primary-500 shadow-sm'}">
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex-1 min-w-0">
+          <p class="font-bold text-sm text-dark">${n.title||'Notification'}</p>
+          <p class="text-xs text-gray-600 mt-1 leading-relaxed">${n.message||''}</p>
+          <p class="text-xs text-gray-400 mt-2">${n.createdAt?.toDate ? n.createdAt.toDate().toLocaleString() : ''}</p>
+        </div>
+        ${!n.read ? '<span class="w-2 h-2 rounded-full bg-primary-600 flex-shrink-0 mt-2 animate-pulse"></span>' : ''}
+      </div>
+    </div>`).join('');
 }
 
 async function markAllRead(){
@@ -969,7 +855,6 @@ async function markAllRead(){
   }
 }
 
-// ========== SUPPORT TICKETS ==========
 document.getElementById('ticketForm').addEventListener('submit', async e => {
   e.preventDefault();
   try{
@@ -983,7 +868,7 @@ document.getElementById('ticketForm').addEventListener('submit', async e => {
       reply: '',
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-    toast('Ticket submitted successfully!', 'success');
+    toast('Ticket submitted! E-SUVIDHA KENDRA will respond soon.', 'success');
     e.target.reset();
   }catch(err){
     toast('Error: ' + err.message, 'error');
@@ -997,20 +882,19 @@ function renderTickets(tickets){
     return;
   }
   wrap.innerHTML = tickets.map(t => `
-<div class="bg-soft rounded-xl p-4 border border-gray-200">
-<div class="flex items-start justify-between mb-2 flex-wrap gap-2">
-<div>
-<p class="font-bold text-sm">${t.subject||'-'}</p>
-<p class="text-xs text-gray-500">${t.createdAt?.toDate ? t.createdAt.toDate().toLocaleString() : ''}</p>
-</div>
-<span class="badge ${t.status==='Resolved'?'badge-completed':'badge-pending'}">${t.status||'Open'}</span>
-</div>
-<p class="text-sm text-gray-600 mb-2">${t.description||''}</p>
-${t.reply ? `<div class="mt-2 p-3 bg-green-50 border-l-2 border-green-500 rounded text-xs text-green-900"><i class="fas fa-reply mr-1"></i><strong>Admin Reply:</strong> ${t.reply}</div>` : '<p class="text-xs text-gray-400 italic"><i class="fas fa-hourglass-half mr-1"></i>Awaiting admin response...</p>'}
-</div>`).join('');
+    <div class="bg-soft rounded-xl p-4 border border-gray-200">
+      <div class="flex items-start justify-between mb-2 flex-wrap gap-2">
+        <div>
+          <p class="font-bold text-sm">${t.subject||'-'}</p>
+          <p class="text-xs text-gray-500">${t.createdAt?.toDate ? t.createdAt.toDate().toLocaleString() : ''}</p>
+        </div>
+        <span class="badge ${t.status==='Resolved'?'badge-completed':'badge-pending'}">${t.status||'Open'}</span>
+      </div>
+      <p class="text-sm text-gray-600 mb-2">${t.description||''}</p>
+      ${t.reply ? `<div class="mt-2 p-3 bg-green-50 border-l-2 border-green-500 rounded text-xs text-green-900"><i class="fas fa-reply mr-1"></i><strong>E-SUVIDHA KENDRA Reply:</strong> ${t.reply}</div>` : '<p class="text-xs text-gray-400 italic"><i class="fas fa-hourglass-half mr-1"></i>Awaiting response...</p>'}
+    </div>`).join('');
 }
 
-// ========== PROFILE ==========
 document.getElementById('profileForm').addEventListener('submit', async e => {
   e.preventDefault();
   try{
@@ -1027,8 +911,7 @@ document.getElementById('profileForm').addEventListener('submit', async e => {
 });
 
 async function uploadProfilePhoto(input){
-  const file = input.files[0];
-  if(!file) return;
+  const file = input.files[0]; if(!file) return;
   if(file.size > 2*1024*1024) return toast('File too large (max 2MB)', 'error');
   try{
     toast('Uploading photo...', 'success');
@@ -1043,7 +926,6 @@ async function uploadProfilePhoto(input){
   }
 }
 
-// ========== TOAST ==========
 function toast(msg, type='success'){
   const t = document.getElementById('toast');
   t.innerHTML = `<i class="fas fa-${type==='success'?'check-circle':'exclamation-circle'}"></i> ${msg}`;
@@ -1051,10 +933,33 @@ function toast(msg, type='success'){
   setTimeout(() => t.classList.add('hidden'), 3500);
 }
 
-// ========== SERVICE WORKER ==========
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('sw.js').catch(()=>{});
+auth.onAuthStateChanged(user => {
+  if(user && !currentUser){
+    currentUser = user;
+    document.getElementById('loginPage').classList.add('hidden');
+    document.getElementById('mainApp').classList.remove('hidden');
+    ensureUserDoc(user);
+    loadUserData(); loadAllData();
+  }
+});
+
+async function ensureUserDoc(user){
+  const ref = db.collection('users').doc(user.uid);
+  const doc = await ref.get();
+  if(!doc.exists){
+    await ref.set({
+      uid: user.uid, name: user.displayName || user.phoneNumber || 'Customer',
+      email: user.email || '', mobile: user.phoneNumber || '',
+      photoURL: user.photoURL || '', address: '', role: 'user',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+    });
+  } else {
+    await ref.update({lastLogin: firebase.firestore.FieldValue.serverTimestamp()});
+  }
 }
+
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
 </script>
 </body>
 </html>
