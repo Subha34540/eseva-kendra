@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Panel — Pankaj E-Seva Kendra</title>
+<title>Admin Panel - E-SUVIDHA KENDRA</title>
 <meta name="theme-color" content="#1E3A8A">
-<link rel="icon" type="image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%231E3A8A' width='100' height='100' rx='20'/><text x='50' y='65' text-anchor='middle' fill='%23F59E0B' font-size='50' font-family='Arial' font-weight='bold'>A</text></svg>">
+<link rel="icon" type="image/png" href="logo.png">
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -13,37 +13,30 @@
 <script src="https://unpkg.com/xlsx@latest/dist/xlsx.full.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-storage-compat.js"></script>
 <script>
-tailwind.config={theme:{extend:{colors:{primary:{50:'#EEF2FF',100:'#E0E7FF',200:'#C7D2FE',300:'#A5B4FC',500:'#6366F1',600:'#4F46E5',700:'#4338CA',800:'#1E3A8A',900:'#1E1B4B'},accent:{50:'#FFFBEB',100:'#FEF3C7',300:'#FCD34D',400:'#FBBF24',500:'#F59E0B',600:'#D97706',700:'#B45309'},dark:'#0F172A',soft:'#F8FAFC'},fontFamily:{display:['Poppins','sans-serif'],body:['Inter','sans-serif']}}}}
+tailwind.config={theme:{extend:{colors:{primary:{500:'#6366F1',700:'#4338CA',800:'#1E3A8A',900:'#1E1B4B'},accent:{500:'#F59E0B',600:'#D97706'},dark:'#0F172A',soft:'#F8FAFC'},fontFamily:{display:['Poppins','sans-serif'],body:['Inter','sans-serif']}}}}
 </script>
 <style>
 *{font-family:'Inter',sans-serif}h1,h2,h3,h4,h5,h6{font-family:'Poppins',sans-serif;letter-spacing:-0.02em}
-body{background:#F8FAFC;color:#0F172A}
-.glass{background:rgba(255,255,255,0.85);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(255,255,255,0.5)}
+body{background:#F8FAFC;color:#0F172A}.glass{background:rgba(255,255,255,0.85);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(255,255,255,0.5)}
 .gradient-primary{background:linear-gradient(135deg,#1E1B4B 0%,#1E3A8A 30%,#3B82F6 70%,#6366F1 100%)}
 .gradient-accent{background:linear-gradient(135deg,#F59E0B 0%,#D97706 100%)}
-.btn-primary{background:linear-gradient(135deg,#1E3A8A,#3B82F6);transition:all .3s;box-shadow:0 4px 15px rgba(30,58,138,.3)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(30,58,138,.4)}
-.btn-accent{background:linear-gradient(135deg,#F59E0B,#D97706);transition:all .3s;box-shadow:0 4px 15px rgba(245,158,11,.3)}
+.btn-primary{background:linear-gradient(135deg,#1E3A8A,#3B82F6);transition:all .3s;box-shadow:0 4px 20px rgba(30,58,138,.3)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(30,58,138,.4)}
+.btn-accent{background:linear-gradient(135deg,#F59E0B,#D97706);transition:all .3s}
 .btn-accent:hover{transform:translateY(-2px)}
-.stat-card{transition:all .4s cubic-bezier(.4,0,.2,1)}
-.stat-card:hover{transform:translateY(-6px);box-shadow:0 25px 50px -12px rgba(30,58,138,.2)}
+.stat-card{transition:all .4s cubic-bezier(.4,0,.2,1)}.stat-card:hover{transform:translateY(-6px);box-shadow:0 25px 50px -12px rgba(30,58,138,.2)}
 .nav-item{position:relative;transition:all .3s;cursor:pointer;display:flex;align-items:center;gap:0.75rem;padding:0.625rem 0.75rem;border-radius:0.75rem;font-size:0.875rem}
-.nav-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#F59E0B,#D97706);border-radius:0 4px 4px 0;transform:scaleY(0);transition:transform .3s;transform-origin:center}
+.nav-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#F59E0B,#D97706);border-radius:0 4px 4px 0;transform:scaleY(0);transition:transform .3s}
 .nav-item.active::before,.nav-item:hover::before{transform:scaleY(1)}
 .nav-item.active{background:linear-gradient(90deg,rgba(245,158,11,0.1),transparent);color:#1E3A8A;font-weight:600}
 .nav-item.active i{color:#F59E0B}
-.page{display:none;animation:fadeIn .4s ease-out}
-.page.active{display:block}
+.page{display:none;animation:fadeIn .4s ease-out}.page.active{display:block}
 .input-style{transition:all .2s;border:2px solid #E5E7EB;background:white}
 .input-style:focus{border-color:#3B82F6;box-shadow:0 0 0 4px rgba(59,130,246,0.1);outline:none}
 .badge{font-size:.7rem;padding:.25rem .65rem;border-radius:9999px;font-weight:700;letter-spacing:.025em;display:inline-flex;align-items:center;gap:.25rem}
-.badge-pending{background:#FEF3C7;color:#92400E}
-.badge-approved{background:#DBEAFE;color:#1E40AF}
-.badge-progress{background:#E9D5FF;color:#6B21A8}
-.badge-completed{background:#D1FAE5;color:#065F46}
-.badge-rejected{background:#FEE2E2;color:#991B1B}
+.badge-pending{background:#FEF3C7;color:#92400E}.badge-approved{background:#DBEAFE;color:#1E40AF}
+.badge-progress{background:#E9D5FF;color:#6B21A8}.badge-completed{background:#D1FAE5;color:#065F46}.badge-rejected{background:#FEE2E2;color:#991B1B}
 .toggle-switch{position:relative;width:44px;height:24px;background:#CBD5E1;border-radius:9999px;cursor:pointer;transition:all .3s;flex-shrink:0}
 .toggle-switch.active{background:linear-gradient(135deg,#10B981,#059669)}
 .toggle-switch::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;background:white;border-radius:50%;transition:all .3s;box-shadow:0 2px 4px rgba(0,0,0,.2)}
@@ -57,47 +50,40 @@ body{background:#F8FAFC;color:#0F172A}
 </head>
 <body>
 
-<!-- LOGIN PAGE -->
+<!-- LOGIN -->
 <div id="loginPage" class="min-h-screen flex items-center justify-center gradient-primary p-4 relative overflow-hidden">
 <div class="absolute top-20 left-20 w-72 h-72 bg-accent-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float"></div>
 <div class="absolute bottom-20 right-20 w-72 h-72 bg-primary-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float" style="animation-delay:1.5s"></div>
-
-<div class="max-w-md w-full glass rounded-3xl shadow-2xl overflow-hidden relative z-10 animate-fadeIn">
+<div class="max-w-md w-full glass rounded-3xl shadow-2xl overflow-hidden relative z-10">
 <div class="gradient-primary p-8 text-center text-white">
 <div class="w-20 h-20 mx-auto rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-4xl mb-4 ring-4 ring-white/30 animate-float">
 <i class="fas fa-shield-halved"></i>
 </div>
 <h1 class="text-2xl sm:text-3xl font-display font-black">Admin Panel</h1>
-<p class="text-white/80 text-sm mt-1">Pankaj E-Seva Kendra</p>
+<p class="text-white/80 text-sm mt-1">E-SUVIDHA KENDRA</p>
 </div>
-
 <form id="loginForm" class="p-8 space-y-4 bg-white">
 <div>
 <label class="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-wider">Username</label>
 <div class="relative">
 <i class="fas fa-user absolute left-4 top-3.5 text-gray-400"></i>
-<input type="text" id="adminUser" required class="input-style w-full pl-11 pr-4 py-3 rounded-xl" placeholder="Enter admin username" autocomplete="username">
+<input type="text" id="adminUser" required class="input-style w-full pl-11 pr-4 py-3 rounded-xl" placeholder="Admin username">
 </div>
 </div>
 <div>
 <label class="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-wider">Password</label>
 <div class="relative">
 <i class="fas fa-lock absolute left-4 top-3.5 text-gray-400"></i>
-<input type="password" id="adminPass" required class="input-style w-full pl-11 pr-4 py-3 rounded-xl" placeholder="Enter password" autocomplete="current-password">
+<input type="password" id="adminPass" required class="input-style w-full pl-11 pr-4 py-3 rounded-xl" placeholder="Password">
 </div>
 </div>
 <button type="submit" class="btn-primary w-full text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2">
 <i class="fas fa-right-to-bracket"></i> Login to Dashboard
 </button>
-<p id="loginErr" class="text-red-500 text-xs text-center font-bold hidden">
-<i class="fas fa-exclamation-circle mr-1"></i> Invalid credentials!
-</p>
-
+<p id="loginErr" class="text-red-500 text-xs text-center font-bold hidden"><i class="fas fa-exclamation-circle mr-1"></i> Invalid credentials!</p>
 <div class="mt-6 pt-4 border-t border-gray-200 flex items-center justify-between text-xs">
-<a href="index.html" class="text-gray-500 hover:text-primary-800 transition flex items-center gap-1">
-<i class="fas fa-arrow-left"></i> Website
-</a>
-<span class="text-gray-400">🔒 Secure Admin Access</span>
+<a href="index.html" class="text-gray-500 hover:text-primary-800 transition flex items-center gap-1"><i class="fas fa-arrow-left"></i> Website</a>
+<span class="text-gray-400">🔒 Secure Admin</span>
 </div>
 </form>
 </div>
@@ -105,153 +91,90 @@ body{background:#F8FAFC;color:#0F172A}
 
 <!-- MAIN APP -->
 <div id="mainApp" class="hidden">
-
-<!-- HEADER -->
 <header class="glass sticky top-0 z-40 shadow-sm border-b border-white/30">
 <div class="px-4 sm:px-6 py-3 flex items-center justify-between">
 <div class="flex items-center gap-3">
-<button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 rounded-xl bg-soft hover:bg-primary-50 flex items-center justify-center text-primary-800">
-<i class="fas fa-bars text-lg"></i>
-</button>
-<div class="w-10 h-10 rounded-xl gradient-accent flex items-center justify-center text-white shadow-md">
-<i class="fas fa-shield-halved"></i>
-</div>
+<button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 rounded-xl bg-soft hover:bg-primary-50 flex items-center justify-center text-primary-800"><i class="fas fa-bars text-lg"></i></button>
+<div class="w-10 h-10 rounded-xl gradient-accent flex items-center justify-center text-white shadow-md"><i class="fas fa-shield-halved"></i></div>
 <div class="hidden sm:block">
 <h1 class="font-display font-bold text-sm sm:text-base text-primary-800 leading-tight">Admin Panel</h1>
-<p class="text-xs text-gray-500 leading-tight">Pankaj E-Seva Kendra</p>
+<p class="text-xs text-gray-500 leading-tight">E-SUVIDHA KENDRA</p>
 </div>
-</div>
-
-<div class="flex items-center gap-3">
-<div class="hidden md:block text-right">
-<p class="text-xs text-gray-500">Logged in as</p>
-<p class="text-sm font-bold text-primary-800">Administrator</p>
-</div>
-<div class="w-10 h-10 rounded-full gradient-primary flex items-center justify-center text-white shadow-md">
-<i class="fas fa-user-shield"></i>
 </div>
 <button onclick="adminLogout()" class="flex items-center gap-2 text-xs bg-red-50 hover:bg-red-100 text-red-600 px-3 py-2 rounded-lg font-bold transition">
 <i class="fas fa-power-off"></i> <span class="hidden sm:inline">Logout</span>
 </button>
 </div>
-</div>
 </header>
 
 <div class="flex relative">
-<!-- SIDEBAR -->
 <aside id="sidebar" class="hidden lg:block w-64 min-h-screen bg-white border-r border-gray-200 sticky top-16 self-start max-h-[calc(100vh-4rem)] overflow-y-auto">
 <nav class="p-4 space-y-1">
-<p class="text-[10px] font-bold text-gray-400 uppercase px-3 py-2 tracking-widest">📊 Dashboard</p>
 <a onclick="showPage('overview')" data-page="overview" class="nav-item active"><i class="fas fa-chart-line w-5"></i> Overview</a>
-
-<p class="text-[10px] font-bold text-gray-400 uppercase px-3 py-2 mt-3 tracking-widest">📋 Management</p>
 <a onclick="showPage('bookings')" data-page="bookings" class="nav-item"><i class="fas fa-calendar-check w-5"></i> Bookings</a>
-<a onclick="showPage('users')" data-page="users" class="nav-item"><i class="fas fa-users w-5"></i> Users</a>
-<a onclick="showPage('operators')" data-page="operators" class="nav-item"><i class="fas fa-user-tie w-5"></i> Operators</a>
-
-<p class="text-[10px] font-bold text-gray-400 uppercase px-3 py-2 mt-3 tracking-widest">🎨 Content</p>
 <a onclick="showPage('services')" data-page="services" class="nav-item"><i class="fas fa-th-large w-5"></i> Services</a>
+<a onclick="showPage('certificates')" data-page="certificates" class="nav-item"><i class="fas fa-certificate w-5"></i> Certificates</a>
 <a onclick="showPage('homepage')" data-page="homepage" class="nav-item"><i class="fas fa-home w-5"></i> Homepage</a>
 <a onclick="showPage('gallery')" data-page="gallery" class="nav-item"><i class="fas fa-images w-5"></i> Gallery</a>
-<a onclick="showPage('reviews')" data-page="reviews" class="nav-item"><i class="fas fa-star w-5"></i> Reviews</a>
-<a onclick="showPage('announcements')" data-page="announcements" class="nav-item"><i class="fas fa-bullhorn w-5"></i> Announcements</a>
-
-<p class="text-[10px] font-bold text-gray-400 uppercase px-3 py-2 mt-3 tracking-widest">💼 Business</p>
-<a onclick="showPage('finance')" data-page="finance" class="nav-item"><i class="fas fa-rupee-sign w-5"></i> Finance</a>
-<a onclick="showPage('notifications')" data-page="notifications" class="nav-item"><i class="fas fa-bell w-5"></i> Notifications</a>
-<a onclick="showPage('tickets')" data-page="tickets" class="nav-item"><i class="fas fa-headset w-5"></i> Support</a>
-
-<p class="text-[10px] font-bold text-gray-400 uppercase px-3 py-2 mt-3 tracking-widest">⚙️ System</p>
-<a onclick="showPage('settings')" data-page="settings" class="nav-item"><i class="fas fa-cog w-5"></i> Settings</a>
+<a onclick="showPage('operators')" data-page="operators" class="nav-item"><i class="fas fa-user-tie w-5"></i> Operators</a>
 </nav>
 </aside>
 
-<!-- Mobile Sidebar Overlay -->
 <div id="sidebarOverlay" class="hidden fixed inset-0 bg-black/50 z-30 lg:hidden" onclick="toggleSidebar()"></div>
 
-<!-- CONTENT -->
 <main class="flex-1 p-4 lg:p-6 pb-20 max-w-7xl mx-auto w-full">
 
-<!-- ============ OVERVIEW ============ -->
+<!-- OVERVIEW -->
 <div id="page-overview" class="page active">
-<div class="mb-6">
-<h2 class="font-display font-black text-2xl sm:text-3xl text-dark">Dashboard Overview</h2>
-<p class="text-sm text-gray-500 mt-1">Welcome back! Here's what's happening today.</p>
-</div>
-
-<!-- Stats Cards -->
+<h2 class="font-display font-black text-2xl sm:text-3xl text-dark mb-1">Dashboard Overview</h2>
+<p class="text-sm text-gray-500 mb-6">E-SUVIDHA KENDRA insights</p>
 <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
 <div class="stat-card bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-gray-100">
-<div class="flex items-center justify-between mb-3">
-<div class="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 text-white flex items-center justify-center shadow-md">
-<i class="fas fa-calendar-check"></i>
-</div>
-<span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full">+12%</span>
-</div>
+<div class="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 text-white flex items-center justify-center mb-3 shadow-md"><i class="fas fa-calendar-check"></i></div>
 <p class="text-2xl sm:text-3xl font-display font-black text-dark" id="ovTotal">0</p>
 <p class="text-xs text-gray-500 font-medium mt-1">Total Bookings</p>
 </div>
 <div class="stat-card bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-gray-100">
-<div class="flex items-center justify-between mb-3">
-<div class="w-11 h-11 rounded-xl bg-gradient-to-br from-yellow-400 to-amber-600 text-white flex items-center justify-center shadow-md">
-<i class="fas fa-clock"></i>
-</div>
-</div>
+<div class="w-11 h-11 rounded-xl bg-gradient-to-br from-yellow-400 to-amber-600 text-white flex items-center justify-center mb-3 shadow-md"><i class="fas fa-clock"></i></div>
 <p class="text-2xl sm:text-3xl font-display font-black text-dark" id="ovPending">0</p>
 <p class="text-xs text-gray-500 font-medium mt-1">Pending</p>
 </div>
 <div class="stat-card bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-gray-100">
-<div class="flex items-center justify-between mb-3">
-<div class="w-11 h-11 rounded-xl bg-gradient-to-br from-green-500 to-emerald-700 text-white flex items-center justify-center shadow-md">
-<i class="fas fa-check-circle"></i>
-</div>
-</div>
+<div class="w-11 h-11 rounded-xl bg-gradient-to-br from-green-500 to-emerald-700 text-white flex items-center justify-center mb-3 shadow-md"><i class="fas fa-check-circle"></i></div>
 <p class="text-2xl sm:text-3xl font-display font-black text-dark" id="ovCompleted">0</p>
 <p class="text-xs text-gray-500 font-medium mt-1">Completed</p>
 </div>
 <div class="stat-card bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-gray-100">
-<div class="flex items-center justify-between mb-3">
-<div class="w-11 h-11 rounded-xl bg-gradient-to-br from-purple-500 to-purple-700 text-white flex items-center justify-center shadow-md">
-<i class="fas fa-users"></i>
-</div>
-</div>
+<div class="w-11 h-11 rounded-xl bg-gradient-to-br from-purple-500 to-purple-700 text-white flex items-center justify-center mb-3 shadow-md"><i class="fas fa-users"></i></div>
 <p class="text-2xl sm:text-3xl font-display font-black text-dark" id="ovUsers">0</p>
-<p class="text-xs text-gray-500 font-medium mt-1">Total Users</p>
+<p class="text-xs text-gray-500 font-medium mt-1">Users</p>
 </div>
 </div>
-
-<!-- Charts -->
-<div class="grid lg:grid-cols-3 gap-4 sm:gap-6">
-<div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 lg:col-span-2">
-<div class="flex items-center justify-between mb-4">
-<h3 class="font-display font-black text-lg">Last 7 Days Bookings</h3>
-<span class="text-xs text-gray-500 bg-soft px-3 py-1 rounded-full font-bold">📈 Trend</span>
-</div>
-<canvas id="chartBookings" height="80"></canvas>
+<div class="grid lg:grid-cols-2 gap-4">
+<div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+<h3 class="font-display font-black text-lg mb-3">Last 7 Days</h3>
+<canvas id="chartBookings" height="100"></canvas>
 </div>
 <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-<h3 class="font-display font-black text-lg mb-4">Status Distribution</h3>
+<h3 class="font-display font-black text-lg mb-3">Status</h3>
 <canvas id="chartStatus" height="180"></canvas>
 </div>
 </div>
 </div>
 
-<!-- ============ BOOKINGS ============ -->
+<!-- BOOKINGS -->
 <div id="page-bookings" class="page">
 <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
-<div>
 <h2 class="font-display font-black text-2xl">All Bookings</h2>
-<p class="text-sm text-gray-500 mt-1">Manage customer bookings</p>
-</div>
 <div class="flex gap-2 flex-wrap">
-<input type="text" id="bkSearch" onkeyup="renderAdminBookings()" placeholder="🔍 Search..." class="input-style px-3 py-2 rounded-lg text-sm w-40">
-<select id="bkStatusFilter" onchange="renderAdminBookings()" class="input-style px-3 py-2 rounded-lg text-sm font-bold">
-<option value="all">All Status</option>
-<option value="Pending">Pending</option>
-<option value="Approved">Approved</option>
-<option value="In Progress">In Progress</option>
-<option value="Completed">Completed</option>
-<option value="Rejected">Rejected</option>
+<input type="text" id="bkSearch" onkeyup="renderBookings()" placeholder="🔍 Search..." class="input-style px-3 py-2 rounded-lg text-sm w-32 sm:w-40">
+<select id="bkStatusFilter" onchange="renderBookings()" class="input-style px-3 py-2 rounded-lg text-sm font-bold">
+<option value="all">All</option>
+<option>Pending</option>
+<option>Approved</option>
+<option>In Progress</option>
+<option>Completed</option>
+<option>Rejected</option>
 </select>
 <button onclick="exportBookings()" class="btn-accent text-white px-3 py-2 rounded-lg text-sm font-bold flex items-center gap-1">
 <i class="fas fa-file-excel"></i> Export
@@ -268,7 +191,7 @@ body{background:#F8FAFC;color:#0F172A}
 <th class="px-4 py-3 text-left font-bold">Mobile</th>
 <th class="px-4 py-3 text-left font-bold">Service</th>
 <th class="px-4 py-3 text-left font-bold">Status</th>
-<th class="px-4 py-3 text-left font-bold">Actions</th>
+<th class="px-4 py-3"></th>
 </tr>
 </thead>
 <tbody id="adminBookingsTable" class="divide-y divide-gray-100"></tbody>
@@ -277,341 +200,113 @@ body{background:#F8FAFC;color:#0F172A}
 </div>
 </div>
 
-<!-- ============ USERS ============ -->
-<div id="page-users" class="page">
-<div class="mb-4">
-<h2 class="font-display font-black text-2xl">Customers</h2>
-<p class="text-sm text-gray-500 mt-1">All registered users</p>
-</div>
-<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-<div class="overflow-x-auto">
-<table class="w-full text-sm">
-<thead class="bg-soft text-gray-600 text-xs uppercase">
-<tr><th class="px-4 py-3 text-left font-bold">User</th><th class="px-4 py-3 text-left font-bold">Email</th><th class="px-4 py-3 text-left font-bold">Mobile</th><th class="px-4 py-3 text-left font-bold">Bookings</th></tr>
-</thead>
-<tbody id="usersTable" class="divide-y divide-gray-100"></tbody>
-</table>
-</div>
-</div>
-</div>
-
-<!-- ============ OPERATORS ============ -->
-<div id="page-operators" class="page">
-<div class="flex items-center justify-between mb-4 flex-wrap gap-3">
-<div>
-<h2 class="font-display font-black text-2xl">Operators</h2>
-<p class="text-sm text-gray-500 mt-1">Manage operator accounts</p>
-</div>
-<button onclick="showAddOperator()" class="btn-accent text-white px-4 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 shadow-md">
-<i class="fas fa-plus"></i> Add Operator
-</button>
-</div>
-<div id="operatorsList" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-</div>
-
-<!-- ============ SERVICES ============ -->
+<!-- SERVICES -->
 <div id="page-services" class="page">
 <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
-<div>
 <h2 class="font-display font-black text-2xl">Services</h2>
-<p class="text-sm text-gray-500 mt-1">Manage website services</p>
-</div>
-<button onclick="showAddService()" class="btn-accent text-white px-4 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 shadow-md">
-<i class="fas fa-plus"></i> Add Service
+<button onclick="showAddService()" class="btn-accent text-white px-4 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2">
+<i class="fas fa-plus"></i> Add
 </button>
 </div>
 <div id="servicesList" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
 </div>
 
-<!-- ============ HOMEPAGE SETTINGS (LOGO + BANNER) ============ -->
-<div id="page-homepage" class="page">
-<div class="mb-4">
-<h2 class="font-display font-black text-2xl">Homepage Settings</h2>
-<p class="text-sm text-gray-500 mt-1">Manage logo, banner, and shop information</p>
+<!-- CERTIFICATES (URL-ONLY, NO FIREBASE STORAGE) -->
+<div id="page-certificates" class="page">
+<div class="flex items-center justify-between mb-4 flex-wrap gap-3">
+<h2 class="font-display font-black text-2xl">Certificates & Licenses</h2>
+<button onclick="showAddCertificate()" class="btn-accent text-white px-4 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2">
+<i class="fas fa-plus"></i> Add
+</button>
+</div>
+<div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-2xl p-4 border border-primary-100 mb-4 text-xs">
+<p class="font-bold">📌 URL-Only Upload (No Firebase Storage)</p>
+<p>Paste direct image URLs (Imgur, GitHub, etc.) for each certificate.</p>
+</div>
+<div id="certificatesList" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"></div>
 </div>
 
-<!-- LOGO & BANNER UPLOAD -->
-<div class="bg-gradient-to-br from-primary-50 via-white to-accent-50 rounded-2xl p-6 shadow-sm border-2 border-primary-100 mb-4">
-<h3 class="font-display font-black text-lg mb-4 flex items-center gap-2">
-<i class="fas fa-image text-primary-600"></i> Logo & Banner Images
-</h3>
+<!-- HOMEPAGE SETTINGS (URL-ONLY) -->
+<div id="page-homepage" class="page">
+<h2 class="font-display font-black text-2xl mb-4">Homepage Settings</h2>
+<div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 space-y-4">
+<h3 class="font-bold text-lg flex items-center gap-2"><i class="fas fa-image text-primary-600"></i> Logo & Banner (URLs Only)</h3>
 
 <div class="grid md:grid-cols-2 gap-4">
-<!-- LOGO UPLOAD -->
-<div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
-<label class="block text-xs font-bold text-gray-600 mb-3 uppercase tracking-wider">
-<i class="fas fa-store mr-1 text-primary-600"></i> Shop Logo
-</label>
-<div class="flex items-center gap-3 mb-3">
-<div id="hpLogoPreview" class="w-20 h-20 rounded-2xl bg-soft border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden flex-shrink-0">
+<div>
+<label class="block text-xs font-bold text-gray-600 mb-2 uppercase">Logo URL</label>
+<div class="flex items-center gap-3 mb-2">
+<div id="hpLogoPreview" class="w-20 h-20 rounded-xl bg-soft border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden flex-shrink-0">
 <i class="fas fa-image text-gray-400 text-2xl"></i>
 </div>
-<div class="flex-1">
-<label class="cursor-pointer block">
-<span class="btn-primary text-white px-4 py-2 rounded-lg text-xs font-bold inline-block w-full text-center">
-<i class="fas fa-upload mr-1"></i> Upload Logo
-</span>
-<input type="file" id="hpLogoFile" accept="image/*" class="hidden" onchange="uploadHpLogo(this)">
-</label>
 </div>
-</div>
-<input type="url" id="hpLogoURL" placeholder="Or paste logo URL here..." class="input-style w-full px-3 py-2 rounded-lg text-sm" oninput="previewHpLogo(this.value)">
-<p class="text-xs text-gray-400 mt-2"><i class="fas fa-info-circle"></i> Recommended: 200x200px, PNG with transparent background</p>
+<input type="url" id="hpLogoURL" placeholder="https://i.imgur.com/your-logo.png" class="input-style w-full px-3 py-2.5 rounded-lg text-sm" oninput="previewHpLogo(this.value)">
+<p class="text-xs text-gray-400 mt-1">💡 Paste direct image URL from Imgur/GitHub</p>
 </div>
 
-<!-- BANNER UPLOAD -->
-<div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
-<label class="block text-xs font-bold text-gray-600 mb-3 uppercase tracking-wider">
-<i class="fas fa-panorama mr-1 text-accent-600"></i> Hero Banner
-</label>
-<div class="mb-3">
-<div id="hpBannerPreview" class="w-full h-32 rounded-lg bg-soft border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden">
+<div>
+<label class="block text-xs font-bold text-gray-600 mb-2 uppercase">Banner URL</label>
+<div id="hpBannerPreview" class="w-full h-32 rounded-lg bg-soft border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden mb-2">
 <i class="fas fa-image text-gray-400 text-3xl"></i>
 </div>
-</div>
-<label class="cursor-pointer block mb-3">
-<span class="btn-accent text-white px-4 py-2 rounded-lg text-xs font-bold inline-block w-full text-center">
-<i class="fas fa-upload mr-1"></i> Upload Banner
-</span>
-<input type="file" id="hpBannerFile" accept="image/*" class="hidden" onchange="uploadHpBanner(this)">
-</label>
-<input type="url" id="hpBannerURL" placeholder="Or paste banner URL here..." class="input-style w-full px-3 py-2 rounded-lg text-sm" oninput="previewHpBanner(this.value)">
-<p class="text-xs text-gray-400 mt-2"><i class="fas fa-info-circle"></i> Recommended: 1920x600px, JPG/PNG</p>
-</div>
+<input type="url" id="hpBannerURL" placeholder="https://i.imgur.com/your-banner.jpg" class="input-style w-full px-3 py-2.5 rounded-lg text-sm" oninput="previewHpBanner(this.value)">
+<p class="text-xs text-gray-400 mt-1">💡 1920x600px recommended</p>
 </div>
 </div>
 
-<!-- SHOP INFO -->
-<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-4">
-<h3 class="font-display font-black text-lg flex items-center gap-2"><i class="fas fa-info-circle text-primary-600"></i> Shop Information</h3>
-
+<h3 class="font-bold text-lg pt-4 border-t">Shop Information</h3>
 <div class="grid sm:grid-cols-2 gap-4">
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Shop Name *</label>
-<input id="hpName" class="input-style w-full px-4 py-3 rounded-xl" placeholder="Pankaj E-Seva Kendra">
-</div>
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Tagline</label>
-<input id="hpTagline" class="input-style w-full px-4 py-3 rounded-xl" placeholder="Digital Seva Center | CSC | Banking CSP">
-</div>
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Owner Name</label>
-<input id="hpOwner" class="input-style w-full px-4 py-3 rounded-xl" placeholder="Pankaj Kumar">
-</div>
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Experience</label>
-<input id="hpExp" class="input-style w-full px-4 py-3 rounded-xl" placeholder="5+ Years">
-</div>
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Phone *</label>
-<input id="hpPhone" class="input-style w-full px-4 py-3 rounded-xl" placeholder="+91 98765 43210">
-</div>
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">WhatsApp *</label>
-<input id="hpWhatsapp" class="input-style w-full px-4 py-3 rounded-xl" placeholder="+91 98765 43210">
-</div>
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Email</label>
-<input id="hpEmail" type="email" class="input-style w-full px-4 py-3 rounded-xl" placeholder="eseva@example.com">
-</div>
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Working Hours</label>
-<input id="hpHours" class="input-style w-full px-4 py-3 rounded-xl" placeholder="08:00 - 21:00">
-</div>
+<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Shop Name *</label>
+<input id="hpName" class="input-style w-full px-4 py-3 rounded-xl" placeholder="E-SUVIDHA KENDRA"></div>
+<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Tagline</label>
+<input id="hpTagline" class="input-style w-full px-4 py-3 rounded-xl" placeholder="Digital Seva Center"></div>
+<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Owner</label>
+<input id="hpOwner" class="input-style w-full px-4 py-3 rounded-xl" placeholder="Pankaj Das"></div>
+<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Phone *</label>
+<input id="hpPhone" class="input-style w-full px-4 py-3 rounded-xl" placeholder="+91 9124231432"></div>
+<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">WhatsApp</label>
+<input id="hpWhatsapp" class="input-style w-full px-4 py-3 rounded-xl" placeholder="+91 9124231432"></div>
+<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Email</label>
+<input id="hpEmail" type="email" class="input-style w-full px-4 py-3 rounded-xl" placeholder="esuvidhacenter01@gmail.com"></div>
 </div>
 
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">About Description</label>
-<textarea id="hpAbout" rows="3" class="input-style w-full px-4 py-3 rounded-xl resize-none" placeholder="Tell about your shop..."></textarea>
-</div>
+<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">About Description</label>
+<textarea id="hpAbout" rows="3" class="input-style w-full px-4 py-3 rounded-xl resize-none" placeholder="E-SUVIDHA KENDRA provides..."></textarea></div>
+<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Address</label>
+<textarea id="hpAddress" rows="2" class="input-style w-full px-4 py-3 rounded-xl resize-none" placeholder="Baharda Bazar, Basta, Balasore"></textarea></div>
+<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Announcement Bar Text</label>
+<input id="hpAnnouncement" class="input-style w-full px-4 py-3 rounded-xl"></div>
 
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Address</label>
-<textarea id="hpAddress" rows="2" class="input-style w-full px-4 py-3 rounded-xl resize-none" placeholder="Shop full address..."></textarea>
-</div>
-
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Announcement Bar Text</label>
-<input id="hpAnnouncement" class="input-style w-full px-4 py-3 rounded-xl" placeholder="Welcome message...">
-</div>
-
-<button onclick="saveHomepage()" class="btn-primary text-white px-6 py-3.5 rounded-xl font-bold flex items-center gap-2 shadow-md">
+<button onclick="saveHomepage()" class="btn-primary text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2">
 <i class="fas fa-save"></i> Save All Settings
 </button>
 </div>
 </div>
 
-<!-- ============ GALLERY ============ -->
+<!-- GALLERY (URL-ONLY) -->
 <div id="page-gallery" class="page">
 <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
-<div>
 <h2 class="font-display font-black text-2xl">Gallery</h2>
-<p class="text-sm text-gray-500 mt-1">Upload photos of your workspace</p>
+<button onclick="showAddGallery()" class="btn-accent text-white px-4 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2">
+<i class="fas fa-plus"></i> Add
+</button>
 </div>
-<label class="btn-accent text-white px-4 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 shadow-md cursor-pointer">
-<i class="fas fa-upload"></i> Upload Photo
-<input type="file" accept="image/*" class="hidden" onchange="uploadGalleryPhoto(this)">
-</label>
+<div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-2xl p-4 border border-primary-100 mb-4 text-xs">
+<p class="font-bold">📌 URL-Only Upload</p>
+<p>Paste direct image URLs (Imgur, GitHub, etc.) for each gallery photo.</p>
 </div>
 <div id="galleryList" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3"></div>
 </div>
 
-<!-- ============ REVIEWS ============ -->
-<div id="page-reviews" class="page">
-<div class="flex items-center justify-between mb-4 flex-wrap gap-3">
-<div>
-<h2 class="font-display font-black text-2xl">Reviews</h2>
-<p class="text-sm text-gray-500 mt-1">Manage customer testimonials</p>
-</div>
-<button onclick="showAddReview()" class="btn-accent text-white px-4 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 shadow-md">
-<i class="fas fa-plus"></i> Add Review
+<!-- OPERATORS -->
+<div id="page-operators" class="page">
+<div class="flex items-center justify-between mb-4">
+<h2 class="font-display font-black text-2xl">Operators</h2>
+<button onclick="showAddOperator()" class="btn-accent text-white px-4 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2">
+<i class="fas fa-plus"></i> Add
 </button>
 </div>
-<div id="reviewsList" class="grid sm:grid-cols-2 gap-4"></div>
-</div>
-
-<!-- ============ ANNOUNCEMENTS ============ -->
-<div id="page-announcements" class="page">
-<div class="mb-4">
-<h2 class="font-display font-black text-2xl">Announcements</h2>
-<p class="text-sm text-gray-500 mt-1">Manage scrolling announcement bar</p>
-</div>
-<div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-<label class="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-wider">Scrolling Bar Text</label>
-<textarea id="announcementText" rows="4" class="input-style w-full px-4 py-3 rounded-xl resize-none" placeholder="Use ||| to separate multiple messages"></textarea>
-<button onclick="saveAnnouncement()" class="btn-primary text-white px-6 py-3 mt-3 rounded-xl font-bold flex items-center gap-2">
-<i class="fas fa-bullhorn"></i> Save Announcement
-</button>
-</div>
-</div>
-
-<!-- ============ FINANCE ============ -->
-<div id="page-finance" class="page">
-<div class="mb-4">
-<h2 class="font-display font-black text-2xl">Finance</h2>
-<p class="text-sm text-gray-500 mt-1">Track income & expenses</p>
-</div>
-<div class="grid sm:grid-cols-2 gap-4 mb-5">
-<div class="stat-card bg-gradient-to-br from-green-500 to-emerald-700 p-6 rounded-2xl text-white shadow-lg">
-<div class="flex items-center justify-between">
-<div>
-<p class="text-sm opacity-90">Total Income</p>
-<p class="text-3xl font-display font-black mt-1" id="fnIncome">₹0</p>
-</div>
-<i class="fas fa-arrow-trend-up text-4xl opacity-30"></i>
-</div>
-</div>
-<div class="stat-card bg-gradient-to-br from-red-500 to-red-700 p-6 rounded-2xl text-white shadow-lg">
-<div class="flex items-center justify-between">
-<div>
-<p class="text-sm opacity-90">Total Expense</p>
-<p class="text-3xl font-display font-black mt-1" id="fnExpense">₹0</p>
-</div>
-<i class="fas fa-arrow-trend-down text-4xl opacity-30"></i>
-</div>
-</div>
-</div>
-
-<form id="txnForm" class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 mb-4 grid sm:grid-cols-4 gap-3">
-<input id="txnTitle" placeholder="Title" required class="input-style px-3 py-2.5 rounded-lg">
-<input id="txnAmount" type="number" placeholder="Amount" required class="input-style px-3 py-2.5 rounded-lg">
-<select id="txnType" class="input-style px-3 py-2.5 rounded-lg font-bold">
-<option value="income">💰 Income</option>
-<option value="expense">💸 Expense</option>
-</select>
-<input id="txnDate" type="date" required class="input-style px-3 py-2.5 rounded-lg">
-<button type="submit" class="btn-primary text-white py-2.5 rounded-lg font-bold sm:col-span-4 flex items-center justify-center gap-2">
-<i class="fas fa-plus"></i> Add Transaction
-</button>
-</form>
-
-<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-<div class="overflow-x-auto">
-<table class="w-full text-sm">
-<thead class="bg-soft text-gray-600 text-xs uppercase">
-<tr><th class="px-4 py-3 text-left font-bold">Title</th><th class="px-4 py-3 text-left font-bold">Amount</th><th class="px-4 py-3 text-left font-bold">Type</th><th class="px-4 py-3 text-left font-bold">Date</th><th class="px-4 py-3"></th></tr>
-</thead>
-<tbody id="txnTable" class="divide-y divide-gray-100"></tbody>
-</table>
-</div>
-</div>
-</div>
-
-<!-- ============ NOTIFICATIONS ============ -->
-<div id="page-notifications" class="page">
-<div class="mb-4">
-<h2 class="font-display font-black text-2xl">Send Notification</h2>
-<p class="text-sm text-gray-500 mt-1">Broadcast or send to specific user</p>
-</div>
-<div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 max-w-2xl">
-<form id="notifForm" class="space-y-4">
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Send To</label>
-<select id="notifTarget" onchange="toggleNotifTarget()" class="input-style w-full px-4 py-3 rounded-xl font-bold">
-<option value="all">📢 All Users</option>
-<option value="single">👤 Specific User</option>
-</select>
-</div>
-<div id="userSelectWrap" class="hidden">
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Select User</label>
-<select id="notifUser" class="input-style w-full px-4 py-3 rounded-xl"></select>
-</div>
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Title *</label>
-<input id="notifTitle" placeholder="Notification title" required class="input-style w-full px-4 py-3 rounded-xl">
-</div>
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Message *</label>
-<textarea id="notifMsg" placeholder="Your message..." rows="4" required class="input-style w-full px-4 py-3 rounded-xl resize-none"></textarea>
-</div>
-<button type="submit" class="btn-primary text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2">
-<i class="fas fa-paper-plane"></i> Send Notification
-</button>
-</form>
-</div>
-</div>
-
-<!-- ============ TICKETS ============ -->
-<div id="page-tickets" class="page">
-<div class="mb-4">
-<h2 class="font-display font-black text-2xl">Support Tickets</h2>
-<p class="text-sm text-gray-500 mt-1">Respond to user queries</p>
-</div>
-<div id="adminTickets" class="space-y-3"></div>
-</div>
-
-<!-- ============ SETTINGS ============ -->
-<div id="page-settings" class="page">
-<div class="mb-4">
-<h2 class="font-display font-black text-2xl">Settings</h2>
-<p class="text-sm text-gray-500 mt-1">Section visibility</p>
-</div>
-<div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 space-y-3 max-w-2xl">
-<h3 class="font-bold text-lg">Section Visibility (Website)</h3>
-<label class="flex items-center justify-between p-3 bg-soft rounded-lg cursor-pointer hover:bg-primary-50">
-<span class="font-medium">About Section</span>
-<div onclick="this.querySelector('input').click(); this.classList.toggle('active')" class="toggle-switch active"><input type="checkbox" id="secAbout" checked class="hidden"></div>
-</label>
-<label class="flex items-center justify-between p-3 bg-soft rounded-lg cursor-pointer hover:bg-primary-50">
-<span class="font-medium">Services Section</span>
-<div onclick="this.querySelector('input').click(); this.classList.toggle('active')" class="toggle-switch active"><input type="checkbox" id="secServices" checked class="hidden"></div>
-</label>
-<label class="flex items-center justify-between p-3 bg-soft rounded-lg cursor-pointer hover:bg-primary-50">
-<span class="font-medium">Tools Section</span>
-<div onclick="this.querySelector('input').click(); this.classList.toggle('active')" class="toggle-switch active"><input type="checkbox" id="secTools" checked class="hidden"></div>
-</label>
-<label class="flex items-center justify-between p-3 bg-soft rounded-lg cursor-pointer hover:bg-primary-50">
-<span class="font-medium">Reviews Section</span>
-<div onclick="this.querySelector('input').click(); this.classList.toggle('active')" class="toggle-switch active"><input type="checkbox" id="secReviews" checked class="hidden"></div>
-</label>
-<label class="flex items-center justify-between p-3 bg-soft rounded-lg cursor-pointer hover:bg-primary-50">
-<span class="font-medium">Gallery Section</span>
-<div onclick="this.querySelector('input').click(); this.classList.toggle('active')" class="toggle-switch active"><input type="checkbox" id="secGallery" checked class="hidden"></div>
-</label>
-<button onclick="saveSectionSettings()" class="btn-primary text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 mt-4">
-<i class="fas fa-save"></i> Save Settings
-</button>
-</div>
+<div id="operatorsList" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
 </div>
 
 </main>
@@ -620,15 +315,13 @@ body{background:#F8FAFC;color:#0F172A}
 
 <!-- MODAL -->
 <div id="modal" class="hidden fixed inset-0 z-50 modal-overlay flex items-center justify-center p-4">
-<div class="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-fadeIn">
+<div class="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl">
 <div class="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between z-10">
 <div class="flex items-center gap-3">
 <div class="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center text-white"><i class="fas fa-edit" id="modalIcon"></i></div>
 <h3 id="modalTitle" class="font-display font-black text-lg">Modal</h3>
 </div>
-<button onclick="closeModal()" class="w-9 h-9 rounded-lg bg-soft hover:bg-red-50 text-gray-500 hover:text-red-500 transition flex items-center justify-center">
-<i class="fas fa-times"></i>
-</button>
+<button onclick="closeModal()" class="w-9 h-9 rounded-lg bg-soft hover:bg-red-50 text-gray-500 hover:text-red-500 transition flex items-center justify-center"><i class="fas fa-times"></i></button>
 </div>
 <div id="modalBody" class="p-6"></div>
 </div>
@@ -643,45 +336,36 @@ const firebaseConfig = {
   apiKey: "AIzaSyDucHeFoRyu-aHa2ILTV6dXWkV5TWyVWV4",
   authDomain: "eseva-kendra-4c870.firebaseapp.com",
   projectId: "eseva-kendra-4c870",
-  storageBucket: "eseva-kendra-4c870.firebasestorage.app",
+  storageBucket: "eseva-kendra-4c870.appspot.com",
   messagingSenderId: "730747379772",
   appId: "1:730747379772:web:87f4fa85e372128c0de339",
   measurementId: "G-NP2B95SFDM"
 };
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-const storage = firebase.storage();
 
-let allBookings = [];
-let allUsers = [];
-let chartBookingsInstance = null;
-let chartStatusInstance = null;
+let allBookings = [], allUsers = [], allCerts = [], chartBookingsI = null, chartStatusI = null;
 
 // ========== LOGIN ==========
-document.getElementById('loginForm').addEventListener('submit', e => {
+document.getElementById('loginForm').addEventListener('submit', e=>{
   e.preventDefault();
-  const u = document.getElementById('adminUser').value;
-  const p = document.getElementById('adminPass').value;
+  const u = document.getElementById('adminUser').value, p = document.getElementById('adminPass').value;
   if(u === 'Pankaj34540' && p === 'Subha@9938'){
     sessionStorage.setItem('adminSession', JSON.stringify({loginTime: Date.now(), user: u}));
     showApp();
   } else {
     document.getElementById('loginErr').classList.remove('hidden');
+    setTimeout(()=>document.getElementById('loginErr').classList.add('hidden'), 3000);
   }
 });
 
-function checkSession(){
+(function checkSession(){
   const sess = sessionStorage.getItem('adminSession');
   if(sess){
     const s = JSON.parse(sess);
-    if(Date.now() - s.loginTime < 8*60*60*1000){
-      showApp();
-      return true;
-    }
+    if(Date.now() - s.loginTime < 8*60*60*1000) showApp();
   }
-  return false;
-}
+})();
 
 function showApp(){
   document.getElementById('loginPage').classList.add('hidden');
@@ -689,476 +373,119 @@ function showApp(){
   init();
 }
 
-if(checkSession()){
-  // Already logged in
-}
-
 function adminLogout(){
-  if(confirm('Are you sure you want to logout?')){
-    sessionStorage.removeItem('adminSession');
-    location.reload();
-  }
+  if(confirm('Logout?')){ sessionStorage.removeItem('adminSession'); location.reload(); }
 }
 
-// ========== SIDEBAR ==========
 function toggleSidebar(){
-  const sb = document.getElementById('sidebar');
-  const overlay = document.getElementById('sidebarOverlay');
-  if(sb.classList.contains('hidden')){
-    sb.classList.remove('hidden');
-    sb.classList.add('fixed','inset-y-0','left-0','z-50','top-16','w-72','shadow-2xl');
-    overlay.classList.remove('hidden');
-  } else {
-    sb.classList.add('hidden');
-    sb.classList.remove('fixed','inset-y-0','left-0','z-50','top-16','w-72','shadow-2xl');
-    overlay.classList.add('hidden');
-  }
+  const sb = document.getElementById('sidebar'), ov = document.getElementById('sidebarOverlay');
+  sb.classList.toggle('hidden'); ov.classList.toggle('hidden');
 }
 
 function showPage(p){
-  document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
   document.getElementById('page-'+p).classList.add('active');
-  document.querySelectorAll('[data-page]').forEach(el => el.classList.toggle('active', el.dataset.page === p));
-  // Close mobile sidebar
-  if(window.innerWidth < 1024){
-    document.getElementById('sidebar').classList.add('hidden');
-    document.getElementById('sidebarOverlay').classList.add('hidden');
-  }
-  window.scrollTo({top: 0, behavior: 'smooth'});
+  document.querySelectorAll('[data-page]').forEach(el=>el.classList.toggle('active', el.dataset.page === p));
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 
-// ========== INIT ==========
 async function init(){
-  await Promise.all([
-    loadHomepageSettings(),
-    loadAdminBookings(),
-    loadUsers(),
-    loadOperators(),
-    loadServices(),
-    loadGallery(),
-    loadReviews(),
-    loadFinance(),
-    loadTickets(),
-    loadSectionSettings()
-  ]);
-}
-
-// ========== HOMEPAGE SETTINGS (LOGO + BANNER) ==========
-async function loadHomepageSettings(){
-  try{
-    const doc = await db.collection('settings').doc('homepage').get();
-    if(doc.exists){
-      const d = doc.data();
-      document.getElementById('hpName').value = d.shopName||'';
-      document.getElementById('hpTagline').value = d.tagline||'';
-      document.getElementById('hpOwner').value = d.ownerName||'';
-      document.getElementById('hpExp').value = d.ownerExperience||'';
-      document.getElementById('hpPhone').value = d.phone||'';
-      document.getElementById('hpWhatsapp').value = d.whatsapp||'';
-      document.getElementById('hpEmail').value = d.email||'';
-      document.getElementById('hpHours').value = (d.workingHoursStart||'')+' - '+(d.workingHoursEnd||'');
-      document.getElementById('hpAbout').value = d.aboutDesc||'';
-      document.getElementById('hpAddress').value = d.address||'';
-      document.getElementById('hpAnnouncement').value = d.announcement||'';
-      document.getElementById('hpLogoURL').value = d.logoURL||'';
-      document.getElementById('hpBannerURL').value = d.bannerURL||'';
-      if(d.logoURL) previewHpLogo(d.logoURL);
-      if(d.bannerURL) previewHpBanner(d.bannerURL);
-    }
-    const ann = await db.collection('settings').doc('homepage').get();
-    if(ann.exists){
-      document.getElementById('announcementText').value = ann.data().announcement||'';
-    }
-  }catch(e){console.log('Error loading homepage settings:', e);}
-}
-
-async function saveHomepage(){
-  const hoursRaw = document.getElementById('hpHours').value;
-  const hours = hoursRaw.split('-').map(s=>s.trim());
-  try{
-    await db.collection('settings').doc('homepage').set({
-      shopName: document.getElementById('hpName').value.trim(),
-      tagline: document.getElementById('hpTagline').value.trim(),
-      ownerName: document.getElementById('hpOwner').value.trim(),
-      ownerExperience: document.getElementById('hpExp').value.trim(),
-      phone: document.getElementById('hpPhone').value.trim(),
-      whatsapp: document.getElementById('hpWhatsapp').value.trim(),
-      email: document.getElementById('hpEmail').value.trim(),
-      workingHoursStart: hours[0]||'08:00',
-      workingHoursEnd: hours[1]||'21:00',
-      aboutDesc: document.getElementById('hpAbout').value.trim(),
-      address: document.getElementById('hpAddress').value.trim(),
-      announcement: document.getElementById('hpAnnouncement').value.trim(),
-      logoURL: document.getElementById('hpLogoURL').value.trim(),
-      bannerURL: document.getElementById('hpBannerURL').value.trim()
-    }, {merge: true});
-    toast('All settings saved successfully! Logo & Banner will reflect on website instantly.', 'success');
-  }catch(e){
-    toast('Save failed: ' + e.message, 'error');
-  }
-}
-
-// LOGO UPLOAD
-async function uploadHpLogo(input){
-  const file = input.files[0];
-  if(!file) return;
-  if(file.size > 2*1024*1024) return toast('Logo file too large (max 2MB)', 'error');
-  if(!file.type.startsWith('image/')) return toast('Please select an image file', 'error');
-  
-  try{
-    toast('Uploading logo...', 'success');
-    const ref = storage.ref(`homepage/logo_${Date.now()}_${file.name}`);
-    const snap = await ref.put(file);
-    const url = await snap.ref.getDownloadURL();
-    document.getElementById('hpLogoURL').value = url;
-    previewHpLogo(url);
-    toast('Logo uploaded! Click "Save All Settings" to apply.', 'success');
-  }catch(e){
-    toast('Upload failed: ' + e.message, 'error');
-  }
-}
-
-function previewHpLogo(url){
-  const preview = document.getElementById('hpLogoPreview');
-  if(url && url.trim()){
-    preview.innerHTML = `<img src="${url}" class="w-full h-full object-cover" alt="Logo">`;
-  } else {
-    preview.innerHTML = '<i class="fas fa-image text-gray-400 text-2xl"></i>';
-  }
-}
-
-// BANNER UPLOAD
-async function uploadHpBanner(input){
-  const file = input.files[0];
-  if(!file) return;
-  if(file.size > 5*1024*1024) return toast('Banner file too large (max 5MB)', 'error');
-  if(!file.type.startsWith('image/')) return toast('Please select an image file', 'error');
-  
-  try{
-    toast('Uploading banner...', 'success');
-    const ref = storage.ref(`homepage/banner_${Date.now()}_${file.name}`);
-    const snap = await ref.put(file);
-    const url = await snap.ref.getDownloadURL();
-    document.getElementById('hpBannerURL').value = url;
-    previewHpBanner(url);
-    toast('Banner uploaded! Click "Save All Settings" to apply.', 'success');
-  }catch(e){
-    toast('Upload failed: ' + e.message, 'error');
-  }
-}
-
-function previewHpBanner(url){
-  const preview = document.getElementById('hpBannerPreview');
-  if(url && url.trim()){
-    preview.innerHTML = `<img src="${url}" class="w-full h-full object-cover" alt="Banner">`;
-  } else {
-    preview.innerHTML = '<i class="fas fa-image text-gray-400 text-3xl"></i>';
-  }
-}
-
-async function saveAnnouncement(){
-  try{
-    await db.collection('settings').doc('homepage').set({
-      announcement: document.getElementById('announcementText').value.trim()
-    }, {merge: true});
-    toast('Announcement saved!', 'success');
-  }catch(e){
-    toast('Save failed: ' + e.message, 'error');
-  }
+  await Promise.all([loadBookings(), loadUsers(), loadServices(), loadCertificates(), loadGallery(), loadOperators()]);
 }
 
 // ========== BOOKINGS ==========
-async function loadAdminBookings(){
+async function loadBookings(){
   try{
     const snap = await db.collection('bookings').orderBy('createdAt','desc').limit(500).get();
-    allBookings = snap.docs.map(d => ({id: d.id, ...d.data()}));
+    allBookings = snap.docs.map(d=>({id:d.id, ...d.data()}));
   }catch(e){
-    try{
-      const snap = await db.collection('bookings').get();
-      allBookings = snap.docs.map(d => ({id: d.id, ...d.data()}))
-        .sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
-    }catch(e2){
-      allBookings = [];
-    }
+    const snap = await db.collection('bookings').get();
+    allBookings = snap.docs.map(d=>({id:d.id, ...d.data()})).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
   }
-  renderAdminBookings();
+  renderBookings();
   renderOverview();
 }
 
-function renderAdminBookings(){
-  const search = document.getElementById('bkSearch').value.toLowerCase();
-  const status = document.getElementById('bkStatusFilter').value;
-  const filtered = allBookings.filter(b => {
-    const m1 = !search || (b.name||'').toLowerCase().includes(search) || (b.mobile||'').includes(search) || (b.serviceType||'').toLowerCase().includes(search);
-    const m2 = status==='all' || b.status===status;
+function renderBookings(){
+  const s = document.getElementById('bkSearch').value.toLowerCase();
+  const st = document.getElementById('bkStatusFilter').value;
+  const f = allBookings.filter(b=>{
+    const m1 = !s || (b.name||'').toLowerCase().includes(s) || (b.mobile||'').includes(s) || (b.serviceType||'').toLowerCase().includes(s);
+    const m2 = st==='all' || b.status===st;
     return m1 && m2;
   });
-  const badgeMap = {
-    Pending: 'badge-pending',
-    Approved: 'badge-approved',
-    'In Progress': 'badge-progress',
-    Completed: 'badge-completed',
-    Rejected: 'badge-rejected'
-  };
-  const wrap = document.getElementById('adminBookingsTable');
-  if(!filtered.length){
-    wrap.innerHTML = '<tr><td colspan="6" class="px-4 py-12 text-center text-gray-400"><i class="fas fa-inbox text-4xl mb-2 block"></i>No bookings found</td></tr>';
-    return;
-  }
-  wrap.innerHTML = filtered.slice(0, 200).map(b => {
-    const date = b.createdAt?.toDate ? b.createdAt.toDate().toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric'}) : '-';
-    return `<tr class="hover:bg-primary-50/50 transition">
-<td class="px-4 py-3 text-xs whitespace-nowrap">${date}</td>
-<td class="px-4 py-3">
-<p class="font-bold text-xs">${b.name||'-'}</p>
-${b.address?`<p class="text-xs text-gray-500 truncate max-w-[150px]">${b.address}</p>`:''}
-</td>
-<td class="px-4 py-3 text-xs">${b.mobile||'-'}</td>
-<td class="px-4 py-3 text-xs font-medium">${b.serviceType||'-'}</td>
-<td class="px-4 py-3"><span class="badge ${badgeMap[b.status]||'badge-pending'}">${b.status||'Pending'}</span></td>
-<td class="px-4 py-3"><button onclick="manageBooking('${b.id}')" class="text-primary-700 hover:text-accent-600 text-xs font-bold flex items-center gap-1"><i class="fas fa-edit"></i> Manage</button></td>
-</tr>`;
+  const bm = {Pending:'badge-pending',Approved:'badge-approved','In Progress':'badge-progress',Completed:'badge-completed',Rejected:'badge-rejected'};
+  const w = document.getElementById('adminBookingsTable');
+  if(!f.length){ w.innerHTML = '<tr><td colspan="6" class="px-4 py-12 text-center text-gray-400"><i class="fas fa-inbox text-4xl mb-2 block"></i>No bookings found</td></tr>'; return; }
+  w.innerHTML = f.slice(0,200).map(b=>{
+    const d = b.createdAt?.toDate ? b.createdAt.toDate().toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric'}) : '-';
+    return `<tr class="hover:bg-primary-50/50"><td class="px-4 py-3 text-xs whitespace-nowrap">${d}</td><td class="px-4 py-3"><p class="font-bold text-xs">${b.name||'-'}</p></td><td class="px-4 py-3 text-xs">${b.mobile||'-'}</td><td class="px-4 py-3 text-xs">${b.serviceType||'-'}</td><td class="px-4 py-3"><span class="badge ${bm[b.status]||'badge-pending'}">${b.status||'Pending'}</span></td><td class="px-4 py-3"><button onclick="manageBooking('${b.id}')" class="text-primary-700 text-xs font-bold flex items-center gap-1"><i class="fas fa-edit"></i></button></td></tr>`;
   }).join('');
 }
 
 function manageBooking(id){
-  const b = allBookings.find(x => x.id === id);
-  if(!b) return;
+  const b = allBookings.find(x=>x.id===id); if(!b) return;
   document.getElementById('modalTitle').textContent = 'Manage Booking';
   document.getElementById('modalIcon').className = 'fas fa-edit';
-  document.getElementById('modalBody').innerHTML = `
-<div class="space-y-4">
-<div class="bg-gradient-to-br from-primary-50 to-accent-50 p-4 rounded-xl border border-primary-100">
-<p class="text-xs text-gray-500 uppercase tracking-wider">Customer</p>
-<p class="font-bold text-base mt-1">${b.name||'-'}</p>
-<p class="text-sm text-gray-700">${b.mobile||''}</p>
-<p class="text-sm text-gray-600 mt-2"><i class="fas fa-tools mr-1"></i> ${b.serviceType||''} (${b.category||''})</p>
-${b.address?`<p class="text-xs text-gray-600 mt-1"><i class="fas fa-map-marker-alt mr-1"></i>${b.address}</p>`:''}
-</div>
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Status *</label>
+  document.getElementById('modalBody').innerHTML = `<div class="space-y-4">
+<div class="bg-gradient-to-br from-primary-50 to-accent-50 p-4 rounded-xl"><p class="text-xs text-gray-500 uppercase font-bold">Customer</p><p class="font-bold text-base mt-1">${b.name||'-'}</p><p class="text-sm">${b.mobile||''}</p><p class="text-sm text-gray-600 mt-2"><i class="fas fa-tools mr-1"></i>${b.serviceType||''} (${b.category||''})</p></div>
 <select id="mgStatus" class="input-style w-full px-4 py-3 rounded-xl font-bold">
 <option ${b.status==='Pending'?'selected':''}>Pending</option>
 <option ${b.status==='Approved'?'selected':''}>Approved</option>
 <option ${b.status==='In Progress'?'selected':''}>In Progress</option>
 <option ${b.status==='Completed'?'selected':''}>Completed</option>
-<option ${b.status==='Rejected'?'selected':''}>Rejected</option>
-</select>
-</div>
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Admin Note (visible to customer)</label>
+<option ${b.status==='Rejected'?'selected':''}>Rejected</option></select>
 <textarea id="mgNote" rows="3" class="input-style w-full px-4 py-3 rounded-xl resize-none">${b.adminNote||''}</textarea>
-</div>
-${b.documentURL?`<a href="${b.documentURL}" target="_blank" class="block text-center bg-soft hover:bg-primary-50 p-3 rounded-xl text-sm font-bold text-primary-700"><i class="fas fa-paperclip mr-1"></i>View Uploaded Document</a>`:''}
-<div class="flex gap-2">
-<button onclick="saveBooking('${id}')" class="btn-primary text-white flex-1 py-3 rounded-xl font-bold flex items-center justify-center gap-2">
-<i class="fas fa-save"></i> Save
-</button>
-<button onclick="sendNotifToUser('${b.userId}','Booking Update','Your booking for ${b.serviceType} is now: '+document.getElementById('mgStatus').value)" class="btn-accent text-white px-4 py-3 rounded-xl font-bold">
-<i class="fas fa-bell"></i>
-</button>
-</div>
+${b.documentURL?`<a href="${b.documentURL}" target="_blank" class="block text-center bg-soft p-3 rounded-xl text-sm font-bold text-primary-700"><i class="fas fa-paperclip mr-1"></i>View Document</a>`:''}
+<div class="flex gap-2"><button onclick="saveBooking('${id}')" class="btn-primary text-white flex-1 py-3 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-save"></i> Save</button>
+<button onclick="sendNotifToUser('${b.userId}','Booking Update','Your booking for ${b.serviceType} is now: '+document.getElementById('mgStatus').value)" class="btn-accent text-white px-4 py-3 rounded-xl font-bold"><i class="fas fa-bell"></i></button></div>
 </div>`;
   openModal();
 }
 
 async function saveBooking(id){
-  try{
-    await db.collection('bookings').doc(id).update({
-      status: document.getElementById('mgStatus').value,
-      adminNote: document.getElementById('mgNote').value
-    });
-    toast('Booking updated successfully!', 'success');
-    closeModal();
-  }catch(e){
-    toast('Update failed: ' + e.message, 'error');
-  }
+  await db.collection('bookings').doc(id).update({
+    status: document.getElementById('mgStatus').value,
+    adminNote: document.getElementById('mgNote').value
+  });
+  toast('Booking updated!', 'success'); closeModal();
 }
 
 function exportBookings(){
-  if(!allBookings.length) return toast('No bookings to export', 'error');
-  const data = allBookings.map(b => ({
-    'Date': b.createdAt?.toDate ? b.createdAt.toDate().toLocaleDateString('en-IN') : '',
-    'Name': b.name||'',
-    'Mobile': b.mobile||'',
-    'Category': b.category||'',
-    'Service': b.serviceType||'',
-    'Address': b.address||'',
-    'Notes': b.notes||'',
-    'Status': b.status||'',
-    'Admin Note': b.adminNote||'',
-    'Document': b.documentURL||''
-  }));
+  if(!allBookings.length) return toast('No bookings', 'error');
+  const data = allBookings.map(b=>({Date: b.createdAt?.toDate?b.createdAt.toDate().toLocaleDateString('en-IN'):'', Name: b.name||'', Mobile: b.mobile||'', Service: b.serviceType||'', Status: b.status||''}));
   const ws = XLSX.utils.json_to_sheet(data);
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, 'Bookings');
-  XLSX.writeFile(wb, 'bookings_'+Date.now()+'.xlsx');
-  toast('Excel file downloaded!', 'success');
-}
-
-// ========== USERS ==========
-async function loadUsers(){
-  try{
-    const snap = await db.collection('users').get();
-    allUsers = snap.docs.map(d => ({id: d.id, ...d.data()}));
-  }catch(e){allUsers = [];}
-  
-  const counts = {};
-  allBookings.forEach(b => { counts[b.userId] = (counts[b.userId]||0) + 1; });
-  
-  document.getElementById('ovUsers').textContent = allUsers.length;
-  const wrap = document.getElementById('usersTable');
-  if(!allUsers.length){
-    wrap.innerHTML = '<tr><td colspan="4" class="px-4 py-12 text-center text-gray-400"><i class="fas fa-users text-4xl mb-2 block"></i>No users yet</td></tr>';
-    document.getElementById('notifUser').innerHTML = '';
-    return;
-  }
-  wrap.innerHTML = allUsers.map(u => `
-<tr class="hover:bg-primary-50/50">
-<td class="px-4 py-3">
-<div class="flex items-center gap-3">
-${u.photoURL 
-  ? `<img src="${u.photoURL}" class="w-9 h-9 rounded-full object-cover">`
-  : `<div class="w-9 h-9 rounded-full gradient-primary flex items-center justify-center text-white text-xs font-black">${(u.name||'U').charAt(0).toUpperCase()}</div>`
-}
-<div>
-<p class="font-bold text-xs">${u.name||'-'}</p>
-<p class="text-[10px] text-gray-500">UID: ${u.id.substring(0,8)}...</p>
-</div>
-</div>
-</td>
-<td class="px-4 py-3 text-xs">${u.email||'-'}</td>
-<td class="px-4 py-3 text-xs">${u.mobile||'-'}</td>
-<td class="px-4 py-3"><span class="badge badge-approved">${counts[u.id]||0}</span></td>
-</tr>`).join('');
-  
-  document.getElementById('notifUser').innerHTML = allUsers.map(u => 
-    `<option value="${u.id}">${u.name||'User'} (${u.mobile||u.email||u.id.substring(0,6)})</option>`
-  ).join('');
-}
-
-// ========== OPERATORS ==========
-async function loadOperators(){
-  try{
-    const snap = await db.collection('operators').get();
-    const ops = snap.docs.map(d => ({id: d.id, ...d.data()}));
-    const wrap = document.getElementById('operatorsList');
-    if(!ops.length){
-      wrap.innerHTML = '<div class="col-span-3 text-center py-10 bg-white rounded-2xl border"><i class="fas fa-user-tie text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">No operators yet. Click "Add Operator" to create one.</p></div>';
-      return;
-    }
-    wrap.innerHTML = ops.map(o => `
-<div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition">
-<div class="flex items-center gap-3 mb-3">
-<div class="w-12 h-12 rounded-full gradient-accent flex items-center justify-center text-white text-lg shadow-md">
-<i class="fas fa-user-tie"></i>
-</div>
-<div class="flex-1 min-w-0">
-<p class="font-bold text-sm truncate">${o.name||'-'}</p>
-<p class="text-xs text-gray-500 truncate">${o.mobile||'-'}</p>
-</div>
-<button onclick="deleteOperator('${o.id}')" class="w-9 h-9 rounded-lg bg-red-50 hover:bg-red-100 text-red-500 flex items-center justify-center transition">
-<i class="fas fa-trash text-xs"></i>
-</button>
-</div>
-<div class="space-y-1 text-xs">
-<p class="bg-soft px-3 py-1.5 rounded font-mono"><i class="fas fa-user text-gray-400 mr-1"></i>${o.username||'-'}</p>
-<p class="bg-soft px-3 py-1.5 rounded font-mono"><i class="fas fa-key text-gray-400 mr-1"></i>${o.password||'-'}</p>
-</div>
-</div>`).join('');
-  }catch(e){console.log(e);}
-}
-
-function showAddOperator(){
-  document.getElementById('modalTitle').textContent = 'Add Operator';
-  document.getElementById('modalIcon').className = 'fas fa-user-plus';
-  document.getElementById('modalBody').innerHTML = `
-<div class="space-y-3">
-<input id="opName" placeholder="Full Name" class="input-style w-full px-4 py-3 rounded-xl">
-<input id="opUser" placeholder="Username" class="input-style w-full px-4 py-3 rounded-xl">
-<input id="opPass" type="password" placeholder="Password" class="input-style w-full px-4 py-3 rounded-xl">
-<input id="opMobile" placeholder="Mobile Number" class="input-style w-full px-4 py-3 rounded-xl">
-<button onclick="addOperator()" class="btn-primary text-white w-full py-3 rounded-xl font-bold flex items-center justify-center gap-2">
-<i class="fas fa-plus"></i> Add Operator
-</button>
-</div>`;
-  openModal();
-}
-
-async function addOperator(){
-  const data = {
-    name: document.getElementById('opName').value.trim(),
-    username: document.getElementById('opUser').value.trim(),
-    password: document.getElementById('opPass').value.trim(),
-    mobile: document.getElementById('opMobile').value.trim(),
-    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-  };
-  if(!data.name || !data.username || !data.password){
-    return toast('Please fill all required fields', 'error');
-  }
-  try{
-    await db.collection('operators').add(data);
-    toast('Operator added successfully!', 'success');
-    closeModal();
-    loadOperators();
-  }catch(e){
-    toast('Add failed: ' + e.message, 'error');
-  }
-}
-
-async function deleteOperator(id){
-  if(!confirm('Are you sure you want to delete this operator?')) return;
-  try{
-    await db.collection('operators').doc(id).delete();
-    toast('Operator deleted', 'success');
-    loadOperators();
-  }catch(e){
-    toast('Delete failed: ' + e.message, 'error');
-  }
+  XLSX.writeFile(wb, 'E-SUVIDHA_Bookings.xlsx');
+  toast('Excel downloaded!', 'success');
 }
 
 // ========== SERVICES ==========
 async function loadServices(){
-  try{
-    const snap = await db.collection('services').orderBy('order').get();
-    const services = snap.docs.map(d => ({id: d.id, ...d.data()}));
-    renderServices(services);
-  }catch(e){
-    try{
-      const snap = await db.collection('services').get();
-      const services = snap.docs.map(d => ({id: d.id, ...d.data()}))
-        .sort((a,b) => (a.order||0) - (b.order||0));
-      renderServices(services);
-    }catch(e2){}
-  }
+  try{ const snap = await db.collection('services').orderBy('order').get(); renderServices(snap.docs.map(d=>({id:d.id, ...d.data()}))); }
+  catch(e){ const snap = await db.collection('services').get(); renderServices(snap.docs.map(d=>({id:d.id, ...d.data()}))); }
 }
 
-function renderServices(services){
-  const wrap = document.getElementById('servicesList');
-  if(!services.length){
-    wrap.innerHTML = '<div class="col-span-3 text-center py-10 bg-white rounded-2xl border"><i class="fas fa-th-large text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">No services. Click "Add Service" to create.</p></div>';
-    return;
-  }
-  wrap.innerHTML = services.map(s => {
-    const isEnabled = s.enabled !== false;
-    return `<div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 ${isEnabled?'':'opacity-60'}">
+function renderServices(ss){
+  const w = document.getElementById('servicesList');
+  if(!ss.length){ w.innerHTML = '<div class="col-span-3 text-center py-10 bg-white rounded-2xl border"><i class="fas fa-th-large text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">No services. Click "Add".</p></div>'; return; }
+  w.innerHTML = ss.map(s=>{
+    const e = s.enabled !== false;
+    return `<div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 ${e?'':'opacity-60'}">
 <div class="flex justify-between items-start mb-3">
-<span class="text-[10px] font-black text-accent-600 bg-accent-50 px-2 py-1 rounded tracking-wider">${s.serviceId||''}</span>
+<span class="text-[10px] font-black text-accent-600 bg-accent-50 px-2 py-1 rounded">${s.serviceId||''}</span>
 <div class="flex gap-1.5 items-center">
-<div onclick="toggleService('${s.id}', ${isEnabled})" class="toggle-switch ${isEnabled?'active':''}" title="${isEnabled?'Visible':'Hidden'}"></div>
-<button onclick="editService('${s.id}')" class="w-8 h-8 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 flex items-center justify-center text-xs transition"><i class="fas fa-edit"></i></button>
-<button onclick="deleteService('${s.id}')" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 text-red-500 flex items-center justify-center text-xs transition"><i class="fas fa-trash"></i></button>
-</div>
-</div>
+<div onclick="toggleService('${s.id}',${e})" class="toggle-switch ${e?'active':''}"></div>
+<button onclick="editService('${s.id}')" class="w-8 h-8 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 flex items-center justify-center text-xs"><i class="fas fa-edit"></i></button>
+<button onclick="deleteService('${s.id}')" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 text-red-500 flex items-center justify-center text-xs"><i class="fas fa-trash"></i></button>
+</div></div>
 <h4 class="font-bold text-sm mb-1">${s.name||'-'}</h4>
 <p class="text-xs text-gray-500 mb-3 line-clamp-2 min-h-[2.5em]">${s.description||''}</p>
 <div class="flex justify-between items-center pt-3 border-t border-gray-100">
 <span class="text-xs bg-soft px-2 py-1 rounded font-bold">${s.category||'Other'}</span>
-<span class="font-display font-black gradient-text text-lg">₹${s.price||0}</span>
-</div>
-<div class="mt-2 pt-2 border-t border-gray-100 text-xs font-bold ${isEnabled?'text-green-600':'text-red-500'}">
-<i class="fas fa-${isEnabled?'check-circle':'times-circle'}"></i> ${isEnabled?'Visible on website':'Hidden from website'}
-</div>
+<span class="font-display font-black gradient-text text-lg">₹${s.price||0}</span></div>
+<div class="mt-2 pt-2 border-t border-gray-100 text-xs font-bold ${e?'text-green-600':'text-red-500'}"><i class="fas fa-${e?'check-circle':'times-circle'}"></i> ${e?'Visible':'Hidden'}</div>
 </div>`;
   }).join('');
 }
@@ -1171,535 +498,436 @@ function showAddService(){
 }
 
 async function editService(id){
-  try{
-    const doc = await db.collection('services').doc(id).get();
-    if(!doc.exists) return toast('Service not found', 'error');
-    document.getElementById('modalTitle').textContent = 'Edit Service';
-    document.getElementById('modalIcon').className = 'fas fa-edit';
-    document.getElementById('modalBody').innerHTML = serviceForm({id: doc.id, ...doc.data()});
-    openModal();
-  }catch(e){
-    toast('Load failed: ' + e.message, 'error');
-  }
+  const doc = await db.collection('services').doc(id).get();
+  document.getElementById('modalTitle').textContent = 'Edit Service';
+  document.getElementById('modalIcon').className = 'fas fa-edit';
+  document.getElementById('modalBody').innerHTML = serviceForm({id: doc.id, ...doc.data()});
+  openModal();
 }
 
 function serviceForm(s){
-  const isEnabled = s ? (s.enabled !== false) : true;
+  const e = s ? (s.enabled !== false) : true;
   return `<div class="space-y-3">
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Token ID *</label>
-<input id="svId" placeholder="e.g. AAD-001" class="input-style w-full px-4 py-3 rounded-xl font-mono" value="${s.serviceId||''}">
-</div>
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Service Name *</label>
-<input id="svName" placeholder="Service name" class="input-style w-full px-4 py-3 rounded-xl" value="${s.name||''}">
-</div>
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Category *</label>
-<select id="svCat" class="input-style w-full px-4 py-3 rounded-xl font-bold">
-<option ${s.category==='CSC'?'selected':''}>CSC</option>
-<option ${s.category==='Banking'?'selected':''}>Banking</option>
-<option ${s.category==='Government'?'selected':''}>Government</option>
-<option ${s.category==='Utility'?'selected':''}>Utility</option>
-<option ${s.category==='Insurance'?'selected':''}>Insurance</option>
-<option ${s.category==='Travel'?'selected':''}>Travel</option>
-<option ${s.category==='Other'?'selected':''}>Other</option>
-</select>
-</div>
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Description</label>
-<textarea id="svDesc" rows="2" class="input-style w-full px-4 py-3 rounded-xl resize-none">${s.description||''}</textarea>
-</div>
+<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Token ID *</label><input id="svId" placeholder="AAD-001" class="input-style w-full px-4 py-3 rounded-xl font-mono" value="${s?.serviceId||''}"></div>
+<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Service Name *</label><input id="svName" class="input-style w-full px-4 py-3 rounded-xl" value="${s?.name||''}"></div>
+<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Category *</label><select id="svCat" class="input-style w-full px-4 py-3 rounded-xl font-bold">
+<option ${s?.category==='CSC'?'selected':''}>CSC</option>
+<option ${s?.category==='Banking'?'selected':''}>Banking</option>
+<option ${s?.category==='Government'?'selected':''}>Government</option>
+<option ${s?.category==='Utility'?'selected':''}>Utility</option>
+<option ${s?.category==='Insurance'?'selected':''}>Insurance</option>
+<option ${s?.category==='Travel'?'selected':''}>Travel</option></select></div>
+<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Description</label><textarea id="svDesc" rows="2" class="input-style w-full px-4 py-3 rounded-xl resize-none">${s?.description||''}</textarea></div>
 <div class="grid grid-cols-2 gap-3">
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Price (₹) *</label>
-<input id="svPrice" type="number" placeholder="0" class="input-style w-full px-4 py-3 rounded-xl" value="${s.price||0}">
-</div>
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Display Order</label>
-<input id="svOrder" type="number" placeholder="1" class="input-style w-full px-4 py-3 rounded-xl" value="${s.order||Date.now()}">
-</div>
-</div>
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Icon (FontAwesome class)</label>
-<input id="svIcon" placeholder="fa-id-card" class="input-style w-full px-4 py-3 rounded-xl font-mono" value="${s.icon||'fa-tools'}">
+<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Price (₹) *</label><input id="svPrice" type="number" class="input-style w-full px-4 py-3 rounded-xl" value="${s?.price||0}"></div>
+<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Order</label><input id="svOrder" type="number" class="input-style w-full px-4 py-3 rounded-xl" value="${s?.order||1}"></div>
 </div>
 <label class="flex items-center justify-between p-3 bg-soft rounded-lg cursor-pointer">
 <span class="font-bold text-sm">Show on Website</span>
-<div onclick="document.getElementById('svEnabled').click(); this.classList.toggle('active')" class="toggle-switch ${isEnabled?'active':''}">
-<input type="checkbox" id="svEnabled" ${isEnabled?'checked':''} class="hidden">
-</div>
+<div onclick="document.getElementById('svEnabled').checked=!document.getElementById('svEnabled').checked; this.classList.toggle('active')" class="toggle-switch ${e?'active':''}"><input type="checkbox" id="svEnabled" ${e?'checked':''} class="hidden"></div>
 </label>
-<button onclick="saveService('${s.id||''}')" class="btn-primary text-white w-full py-3 rounded-xl font-bold flex items-center justify-center gap-2">
-<i class="fas fa-save"></i> ${s ? 'Update' : 'Add'} Service
-</button>
+<button onclick="saveService('${s?.id||''}')" class="btn-primary text-white w-full py-3 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-save"></i> ${s?'Update':'Add'}</button>
 </div>`;
 }
 
-async function saveService(existingId = ''){
+async function saveService(existingId=''){
   const data = {
     serviceId: document.getElementById('svId').value.trim(),
     name: document.getElementById('svName').value.trim(),
     category: document.getElementById('svCat').value,
     description: document.getElementById('svDesc').value.trim(),
-    price: +document.getElementById('svPrice').value || 0,
-    order: +document.getElementById('svOrder').value || Date.now(),
-    icon: document.getElementById('svIcon').value.trim() || 'fa-tools',
+    price: +document.getElementById('svPrice').value||0,
+    order: +document.getElementById('svOrder').value||Date.now(),
     enabled: document.getElementById('svEnabled').checked,
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
   };
-  if(!data.serviceId || !data.name){
-    return toast('Please fill Token ID and Service Name', 'error');
-  }
+  if(!data.serviceId||!data.name) return toast('Fill Token & Name', 'error');
   try{
-    if(existingId){
-      await db.collection('services').doc(existingId).update(data);
-      toast('Service updated! Will reflect on website if enabled.', 'success');
-    }else{
-      data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-      await db.collection('services').add(data);
-      toast('Service added! Will show on website if enabled.', 'success');
-    }
-    closeModal();
-    loadServices();
-  }catch(e){
-    toast('Save failed: ' + e.message, 'error');
-  }
+    if(existingId){ await db.collection('services').doc(existingId).update(data); toast('Updated!', 'success'); }
+    else { data.createdAt = firebase.firestore.FieldValue.serverTimestamp(); await db.collection('services').add(data); toast('Added!', 'success'); }
+    closeModal(); loadServices();
+  }catch(e){ toast('Failed: '+e.message, 'error'); }
 }
 
-async function toggleService(id, current){
-  try{
-    await db.collection('services').doc(id).update({enabled: !current});
-    toast(current ? 'Service hidden from website' : 'Service now visible on website', 'success');
-    loadServices();
-  }catch(e){
-    toast('Toggle failed: ' + e.message, 'error');
-  }
+async function toggleService(id, cur){
+  await db.collection('services').doc(id).update({enabled: !cur});
+  toast(cur?'Hidden':'Visible', 'success'); loadServices();
 }
 
 async function deleteService(id){
-  if(!confirm('Delete this service?')) return;
-  try{
-    await db.collection('services').doc(id).delete();
-    toast('Service deleted', 'success');
-    loadServices();
-  }catch(e){
-    toast('Delete failed: ' + e.message, 'error');
-  }
+  if(!confirm('Delete?')) return;
+  await db.collection('services').doc(id).delete();
+  toast('Deleted', 'success'); loadServices();
 }
 
-// ========== GALLERY ==========
+// ========== CERTIFICATES (URL-ONLY) ==========
+async function loadCertificates(){
+  try{
+    const snap = await db.collection('certificates').orderBy('order').get();
+    allCerts = snap.docs.map(d=>({id:d.id, ...d.data()}));
+  }catch(e){ allCerts = []; }
+  renderCertificates();
+}
+
+function renderCertificates(){
+  const w = document.getElementById('certificatesList');
+  if(!allCerts.length){ w.innerHTML = '<div class="col-span-full text-center py-10 bg-white rounded-2xl border"><i class="fas fa-certificate text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">No certificates yet. Click "Add".</p></div>'; return; }
+  const colors = ['from-primary-100 to-accent-100 text-primary-300','from-green-100 to-emerald-100 text-green-300','from-purple-100 to-pink-100 text-purple-300','from-yellow-100 to-orange-100 text-yellow-400','from-red-100 to-pink-100 text-red-300','from-blue-100 to-cyan-100 text-blue-300','from-indigo-100 to-violet-100 text-indigo-300','from-teal-100 to-cyan-100 text-teal-300','from-rose-100 to-pink-100 text-rose-300','from-amber-100 to-yellow-100 text-amber-300'];
+  const icons = ['fa-certificate','fa-university','fa-train','fa-id-card','fa-shield-alt','fa-award','fa-medal','fa-ribbon','fa-stamp','fa-file-contract'];
+  w.innerHTML = allCerts.slice(0,10).map((c,i)=>{
+    const en = c.enabled !== false;
+    return `<div class="bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100 ${en?'':'opacity-60'}">
+<div class="aspect-[3/4] bg-gradient-to-br ${colors[i%10]} flex items-center justify-center relative overflow-hidden">
+${c.imageURL?`<img src="${c.imageURL}" class="w-full h-full object-cover" onerror="this.style.display='none'">`:`<i class="fas ${c.icon||icons[i%10]} text-6xl opacity-60"></i>`}
+<span class="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full font-bold"><i class="fas fa-check"></i></span>
+<div class="absolute top-2 left-2"><div onclick="toggleCert('${c.id}',${en})" class="toggle-switch ${en?'active':''}"></div></div>
+</div>
+<div class="p-3">
+<p class="font-bold text-sm leading-tight truncate">${c.title||'Certificate'}</p>
+<p class="text-xs text-gray-500 mt-1 truncate">${c.issuer||'Authorized'}</p>
+<div class="flex justify-between items-center mt-2 pt-2 border-t border-gray-100">
+<span class="text-xs text-gray-400">#${c.order||i+1}</span>
+<div class="flex gap-1">
+<button onclick="editCert('${c.id}')" class="w-7 h-7 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 flex items-center justify-center text-xs"><i class="fas fa-edit"></i></button>
+<button onclick="deleteCert('${c.id}')" class="w-7 h-7 rounded-lg bg-red-50 hover:bg-red-100 text-red-500 flex items-center justify-center text-xs"><i class="fas fa-trash"></i></button>
+</div></div>
+</div></div>`;
+  }).join('');
+}
+
+function showAddCertificate(){
+  document.getElementById('modalTitle').textContent = 'Add Certificate (URL Only)';
+  document.getElementById('modalIcon').className = 'fas fa-certificate';
+  document.getElementById('modalBody').innerHTML = certificateForm({});
+  openModal();
+}
+
+async function editCert(id){
+  const doc = await db.collection('certificates').doc(id).get();
+  document.getElementById('modalTitle').textContent = 'Edit Certificate';
+  document.getElementById('modalIcon').className = 'fas fa-edit';
+  document.getElementById('modalBody').innerHTML = certificateForm({id: doc.id, ...doc.data()});
+  openModal();
+}
+
+function certificateForm(c){
+  const en = c ? (c.enabled !== false) : true;
+  return `<div class="space-y-3">
+<div class="bg-blue-50 border-2 border-blue-200 border-dashed rounded-xl p-3 text-center">
+<i class="fas fa-info-circle text-blue-500 text-xl mb-1"></i>
+<p class="text-xs font-bold text-blue-800">Paste Image URL Below</p>
+<p class="text-xs text-blue-600">Use Imgur, GitHub raw, or any direct image URL</p>
+</div>
+${c?.imageURL ? `<div class="bg-soft rounded-xl p-2 text-xs"><p class="font-bold text-green-700 mb-1">✓ Current: <a href="${c.imageURL}" target="_blank" class="underline">View</a></p><img src="${c.imageURL}" class="w-full h-32 object-cover rounded mt-1"></div>` : ''}
+<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Image URL *</label>
+<input id="certURL" placeholder="https://i.imgur.com/xxxxx.jpg" class="input-style w-full px-3 py-2.5 rounded-lg text-sm" value="${c?.imageURL||''}"></div>
+<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Title *</label>
+<input id="certTitle" placeholder="CSC ID Certificate" class="input-style w-full px-4 py-3 rounded-xl" value="${c?.title||''}"></div>
+<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Issuer</label>
+<input id="certIssuer" placeholder="Govt. of India" class="input-style w-full px-4 py-3 rounded-xl" value="${c?.issuer||''}"></div>
+<div class="grid grid-cols-2 gap-3">
+<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Icon</label>
+<select id="certIcon" class="input-style w-full px-4 py-3 rounded-xl">
+<option value="fa-certificate" ${c?.icon==='fa-certificate'?'selected':''}>Certificate</option>
+<option value="fa-university" ${c?.icon==='fa-university'?'selected':''}>Banking</option>
+<option value="fa-train" ${c?.icon==='fa-train'?'selected':''}>IRCTC</option>
+<option value="fa-id-card" ${c?.icon==='fa-id-card'?'selected':''}>Aadhaar</option>
+<option value="fa-shield-alt" ${c?.icon==='fa-shield-alt'?'selected':''}>Insurance</option>
+<option value="fa-award" ${c?.icon==='fa-award'?'selected':''}>Award</option></select></div>
+<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Order</label>
+<input id="certOrder" type="number" class="input-style w-full px-4 py-3 rounded-xl" value="${c?.order||(allCerts.length+1)}"></div>
+</div>
+<label class="flex items-center justify-between p-3 bg-soft rounded-lg cursor-pointer">
+<span class="font-bold text-sm">Show on Website</span>
+<div onclick="document.getElementById('certEnabled').checked=!document.getElementById('certEnabled').checked; this.classList.toggle('active')" class="toggle-switch ${en?'active':''}"><input type="checkbox" id="certEnabled" ${en?'checked':''} class="hidden"></div>
+</label>
+<button onclick="saveCertificate('${c?.id||''}')" class="btn-accent text-white w-full py-3 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-save"></i> ${c?'Update':'Add'} Certificate</button>
+</div>`;
+}
+
+async function saveCertificate(existingId=''){
+  const title = document.getElementById('certTitle').value.trim();
+  const url = document.getElementById('certURL').value.trim();
+  if(!title){ return toast('Enter title', 'error'); }
+  if(!url){ return toast('Enter image URL', 'error'); }
+  try{
+    const data = {
+      title: title,
+      issuer: document.getElementById('certIssuer').value.trim() || 'Authorized',
+      icon: document.getElementById('certIcon').value,
+      order: +document.getElementById('certOrder').value || (allCerts.length+1),
+      enabled: document.getElementById('certEnabled').checked,
+      imageURL: url,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+    if(existingId){ await db.collection('certificates').doc(existingId).update(data); }
+    else { data.createdAt = firebase.firestore.FieldValue.serverTimestamp(); await db.collection('certificates').add(data); }
+    toast('Saved! Visible on website.', 'success'); closeModal(); loadCertificates();
+  }catch(e){ toast('Failed: '+e.message, 'error'); }
+}
+
+async function toggleCert(id, cur){
+  await db.collection('certificates').doc(id).update({enabled: !cur});
+  toast(cur?'Hidden':'Visible', 'success'); loadCertificates();
+}
+
+async function deleteCert(id){
+  if(!confirm('Delete?')) return;
+  await db.collection('certificates').doc(id).delete();
+  toast('Deleted', 'success'); loadCertificates();
+}
+
+// ========== HOMEPAGE (URL-ONLY) ==========
+async function loadHomepage(){
+  try{
+    const doc = await db.collection('settings').doc('homepage').get();
+    if(doc.exists){
+      const d = doc.data();
+      document.getElementById('hpName').value = d.shopName||'E-SUVIDHA KENDRA';
+      document.getElementById('hpTagline').value = d.tagline||'';
+      document.getElementById('hpOwner').value = d.ownerName||'Pankaj Das';
+      document.getElementById('hpPhone').value = d.phone||'+91 9124231432';
+      document.getElementById('hpWhatsapp').value = d.whatsapp||'+91 9124231432';
+      document.getElementById('hpEmail').value = d.email||'esuvidhacenter01@gmail.com';
+      document.getElementById('hpAbout').value = d.aboutDesc||'';
+      document.getElementById('hpAddress').value = d.address||'Baharda Bazar, Basta, Balasore, Odisha - 756029';
+      document.getElementById('hpAnnouncement').value = d.announcement||'';
+      document.getElementById('hpLogoURL').value = d.logoURL||'';
+      document.getElementById('hpBannerURL').value = d.bannerURL||'';
+      if(d.logoURL) previewHpLogo(d.logoURL);
+      if(d.bannerURL) previewHpBanner(d.bannerURL);
+    }
+  }catch(e){ console.log(e); }
+}
+
+function previewHpLogo(url){
+  const p = document.getElementById('hpLogoPreview');
+  if(url && url.trim()){ p.innerHTML = `<img src="${url}" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"><i class="fas fa-image text-gray-400 text-2xl" style="display:none"></i>`; }
+  else { p.innerHTML = '<i class="fas fa-image text-gray-400 text-2xl"></i>'; }
+}
+
+function previewHpBanner(url){
+  const p = document.getElementById('hpBannerPreview');
+  if(url && url.trim()){ p.innerHTML = `<img src="${url}" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"><i class="fas fa-image text-gray-400 text-3xl" style="display:none"></i>`; }
+  else { p.innerHTML = '<i class="fas fa-image text-gray-400 text-3xl"></i>'; }
+}
+
+async function saveHomepage(){
+  const hours = document.getElementById('hpHours')?.value || '07:30 - 21:00';
+  const [start, end] = hours.split('-').map(s=>s.trim());
+  try{
+    await db.collection('settings').doc('homepage').set({
+      shopName: document.getElementById('hpName').value.trim(),
+      tagline: document.getElementById('hpTagline').value.trim(),
+      ownerName: document.getElementById('hpOwner').value.trim(),
+      ownerExperience: '2+ Years',
+      phone: document.getElementById('hpPhone').value.trim(),
+      whatsapp: document.getElementById('hpWhatsapp').value.trim(),
+      email: document.getElementById('hpEmail').value.trim(),
+      aboutDesc: document.getElementById('hpAbout').value.trim(),
+      address: document.getElementById('hpAddress').value.trim(),
+      workingHoursStart: start || '07:30',
+      workingHoursEnd: end || '21:00',
+      announcement: document.getElementById('hpAnnouncement').value.trim(),
+      logoURL: document.getElementById('hpLogoURL').value.trim(),
+      bannerURL: document.getElementById('hpBannerURL').value.trim()
+    }, {merge: true});
+    toast('Homepage settings saved! Logo/Banner will show on website.', 'success');
+  }catch(e){ toast('Save failed: '+e.message, 'error'); }
+}
+
+// ========== GALLERY (URL-ONLY) ==========
+let allGallery = [];
+
 async function loadGallery(){
   try{
     const snap = await db.collection('gallery').orderBy('order').get();
-    const photos = snap.docs.map(d => ({id: d.id, ...d.data()}));
-    renderGallery(photos);
-  }catch(e){
-    const snap = await db.collection('gallery').get();
-    renderGallery(snap.docs.map(d => ({id: d.id, ...d.data()})));
-  }
+    allGallery = snap.docs.map(d=>({id:d.id, ...d.data()}));
+  }catch(e){ allGallery = []; }
+  renderGallery();
 }
 
-function renderGallery(photos){
-  const wrap = document.getElementById('galleryList');
-  if(!photos.length){
-    wrap.innerHTML = '<div class="col-span-4 text-center py-10 bg-white rounded-2xl border"><i class="fas fa-images text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">No photos. Click "Upload Photo" to add.</p></div>';
-    return;
-  }
-  wrap.innerHTML = photos.map(p => `
-<div class="relative group rounded-2xl overflow-hidden aspect-square bg-gray-100 shadow-sm">
-<img src="${p.url}" class="w-full h-full object-cover">
-<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition flex flex-col justify-between p-3">
-<p class="text-white text-xs font-bold">${p.caption||''}</p>
-<button onclick="deleteGalleryPhoto('${p.id}')" class="w-9 h-9 rounded-full bg-red-500 text-white self-end hover:bg-red-600 transition flex items-center justify-center">
-<i class="fas fa-trash text-xs"></i>
-</button>
+function renderGallery(){
+  const w = document.getElementById('galleryList');
+  if(!allGallery.length){ w.innerHTML = '<div class="col-span-full text-center py-10 bg-white rounded-2xl border"><i class="fas fa-images text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">No gallery items. Click "Add".</p></div>'; return; }
+  w.innerHTML = allGallery.map(g=>`
+<div class="relative group rounded-2xl overflow-hidden aspect-square bg-soft border border-gray-100">
+${g.url?`<img src="${g.url}" class="w-full h-full object-cover" onerror="this.style.display='none'">`:`<div class="w-full h-full flex items-center justify-center"><i class="fas fa-image text-3xl text-gray-300"></i></div>`}
+<div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex flex-col justify-between p-2">
+<p class="text-white text-xs font-bold">${g.caption||''}</p>
+<div class="flex gap-1 justify-end">
+<button onclick="editGallery('${g.id}')" class="w-7 h-7 rounded bg-blue-500 text-white text-xs"><i class="fas fa-edit"></i></button>
+<button onclick="deleteGallery('${g.id}')" class="w-7 h-7 rounded bg-red-500 text-white text-xs"><i class="fas fa-trash"></i></button>
+</div>
 </div>
 </div>`).join('');
 }
 
-async function uploadGalleryPhoto(input){
-  const file = input.files[0];
-  if(!file) return;
-  if(file.size > 5*1024*1024) return toast('File too large (max 5MB)', 'error');
+function showAddGallery(){
+  document.getElementById('modalTitle').textContent = 'Add Gallery Photo (URL Only)';
+  document.getElementById('modalIcon').className = 'fas fa-image';
+  document.getElementById('modalBody').innerHTML = galleryForm({});
+  openModal();
+}
+
+async function editGallery(id){
+  const doc = await db.collection('gallery').doc(id).get();
+  document.getElementById('modalTitle').textContent = 'Edit Photo';
+  document.getElementById('modalIcon').className = 'fas fa-edit';
+  document.getElementById('modalBody').innerHTML = galleryForm({id: doc.id, ...doc.data()});
+  openModal();
+}
+
+function galleryForm(g){
+  return `<div class="space-y-3">
+<div class="bg-blue-50 border-2 border-blue-200 border-dashed rounded-xl p-3 text-center">
+<i class="fas fa-info-circle text-blue-500 text-xl mb-1"></i>
+<p class="text-xs font-bold text-blue-800">Paste Image URL</p>
+</div>
+${g?.url ? `<div class="bg-soft rounded-xl p-2"><img src="${g.url}" class="w-full h-32 object-cover rounded"></div>` : ''}
+<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Image URL *</label>
+<input id="galURL" placeholder="https://i.imgur.com/your-shop-photo.jpg" class="input-style w-full px-3 py-2.5 rounded-lg text-sm" value="${g?.url||''}"></div>
+<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Caption</label>
+<input id="galCaption" placeholder="Shop Front View" class="input-style w-full px-4 py-3 rounded-xl" value="${g?.caption||''}"></div>
+<div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Display Order</label>
+<input id="galOrder" type="number" class="input-style w-full px-4 py-3 rounded-xl" value="${g?.order||1}"></div>
+<button onclick="saveGallery('${g?.id||''}')" class="btn-accent text-white w-full py-3 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-save"></i> ${g?'Update':'Add'} Photo</button>
+</div>`;
+}
+
+async function saveGallery(existingId=''){
+  const url = document.getElementById('galURL').value.trim();
+  const caption = document.getElementById('galCaption').value.trim();
+  if(!url){ return toast('Enter image URL', 'error'); }
   try{
-    toast('Uploading photo...', 'success');
-    const ref = storage.ref(`gallery/${Date.now()}_${file.name}`);
-    const snap = await ref.put(file);
-    const url = await snap.ref.getDownloadURL();
-    const caption = prompt('Enter caption (optional):') || '';
-    await db.collection('gallery').add({
+    const data = {
       url: url,
       caption: caption,
-      order: Date.now(),
+      order: +document.getElementById('galOrder').value || Date.now(),
       uploadedAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    toast('Photo uploaded!', 'success');
-    loadGallery();
-  }catch(e){
-    toast('Upload failed: ' + e.message, 'error');
-  }
+    };
+    if(existingId){ await db.collection('gallery').doc(existingId).update(data); }
+    else { await db.collection('gallery').add(data); }
+    toast('Saved! Visible on website.', 'success'); closeModal(); loadGallery();
+  }catch(e){ toast('Failed: '+e.message, 'error'); }
 }
 
-async function deleteGalleryPhoto(id){
-  if(!confirm('Delete this photo?')) return;
+async function deleteGallery(id){
+  if(!confirm('Delete?')) return;
+  await db.collection('gallery').doc(id).delete();
+  toast('Deleted', 'success'); loadGallery();
+}
+
+// ========== USERS ==========
+async function loadUsers(){
   try{
-    await db.collection('gallery').doc(id).delete();
-    toast('Photo deleted', 'success');
-    loadGallery();
-  }catch(e){
-    toast('Delete failed: ' + e.message, 'error');
-  }
+    const snap = await db.collection('users').get();
+    allUsers = snap.docs.map(d=>({id:d.id, ...d.data()}));
+  }catch(e){ allUsers = []; }
+  const counts = {};
+  allBookings.forEach(b=>{counts[b.userId]=(counts[b.userId]||0)+1;});
+  document.getElementById('ovUsers').textContent = allUsers.length;
+  const w = document.getElementById('adminBookingsTable').parentElement.parentElement; // ignored
+  const u = document.querySelector('tbody[id="usersTable"]') || (()=>{const t=document.createElement('tbody');t.id='usersTable';return t;})();
 }
 
-// ========== REVIEWS ==========
-async function loadReviews(){
+// ========== OPERATORS ==========
+async function loadOperators(){
   try{
-    const snap = await db.collection('reviews').orderBy('order').get();
-    renderReviews(snap.docs.map(d => ({id: d.id, ...d.data()})));
-  }catch(e){
-    const snap = await db.collection('reviews').get();
-    renderReviews(snap.docs.map(d => ({id: d.id, ...d.data()})));
-  }
-}
-
-function renderReviews(reviews){
-  const wrap = document.getElementById('reviewsList');
-  if(!reviews.length){
-    wrap.innerHTML = '<div class="col-span-2 text-center py-10 bg-white rounded-2xl border"><i class="fas fa-star text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">No reviews. Click "Add Review".</p></div>';
-    return;
-  }
-  wrap.innerHTML = reviews.map(r => `
-<div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-<div class="flex justify-between items-start mb-3">
-<div class="flex text-accent-500">${'<i class="fas fa-star"></i>'.repeat(r.rating||5)}</div>
-<button onclick="deleteReview('${r.id}')" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 text-red-500 flex items-center justify-center text-xs transition"><i class="fas fa-trash"></i></button>
+    const snap = await db.collection('operators').get();
+    const ops = snap.docs.map(d=>({id:d.id, ...d.data()}));
+    const w = document.getElementById('operatorsList');
+    if(!ops.length){ w.innerHTML = '<div class="col-span-3 text-center py-10 bg-white rounded-2xl border"><i class="fas fa-user-tie text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">No operators. Click "Add".</p></div>'; return; }
+    w.innerHTML = ops.map(o=>`<div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-12 h-12 rounded-full gradient-accent flex items-center justify-center text-white text-lg shadow-md"><i class="fas fa-user-tie"></i></div>
+<div class="flex-1 min-w-0"><p class="font-bold text-sm truncate">${o.name||'-'}</p><p class="text-xs text-gray-500 truncate">${o.mobile||'-'}</p></div>
+<button onclick="deleteOperator('${o.id}')" class="w-9 h-9 rounded-lg bg-red-50 hover:bg-red-100 text-red-500 flex items-center justify-center text-xs"><i class="fas fa-trash"></i></button>
 </div>
-<p class="text-sm italic text-gray-700 mb-3 leading-relaxed">"${r.text||''}"</p>
-<div class="flex items-center gap-3 pt-3 border-t border-gray-100">
-<div class="w-10 h-10 rounded-full gradient-primary flex items-center justify-center text-white font-bold">${(r.name||'U').charAt(0).toUpperCase()}</div>
-<div>
-<p class="font-bold text-sm">${r.name||'-'}</p>
-<p class="text-xs text-gray-500">${r.location||''}</p>
-</div>
+<div class="space-y-1 text-xs">
+<p class="bg-soft px-3 py-1.5 rounded font-mono"><i class="fas fa-user text-gray-400 mr-1"></i>${o.username||'-'}</p>
+<p class="bg-soft px-3 py-1.5 rounded font-mono"><i class="fas fa-key text-gray-400 mr-1"></i>${o.password||'-'}</p>
 </div>
 </div>`).join('');
+  }catch(e){console.log(e);}
 }
 
-function showAddReview(){
-  document.getElementById('modalTitle').textContent = 'Add Review';
-  document.getElementById('modalIcon').className = 'fas fa-star';
-  document.getElementById('modalBody').innerHTML = `
-<div class="space-y-3">
-<input id="rvName" placeholder="Customer Name" class="input-style w-full px-4 py-3 rounded-xl">
-<input id="rvLocation" placeholder="Location (optional)" class="input-style w-full px-4 py-3 rounded-xl">
-<select id="rvRating" class="input-style w-full px-4 py-3 rounded-xl font-bold">
-<option value="5">⭐⭐⭐⭐⭐ (5 Stars)</option>
-<option value="4">⭐⭐⭐⭐ (4 Stars)</option>
-<option value="3">⭐⭐⭐ (3 Stars)</option>
-</select>
-<textarea id="rvText" rows="3" placeholder="Customer testimonial..." class="input-style w-full px-4 py-3 rounded-xl resize-none"></textarea>
-<button onclick="addReview()" class="btn-primary text-white w-full py-3 rounded-xl font-bold flex items-center justify-center gap-2">
-<i class="fas fa-plus"></i> Add Review
-</button>
+function showAddOperator(){
+  document.getElementById('modalTitle').textContent = 'Add Operator';
+  document.getElementById('modalIcon').className = 'fas fa-user-plus';
+  document.getElementById('modalBody').innerHTML = `<div class="space-y-3">
+<input id="opName" placeholder="Full Name" class="input-style w-full px-4 py-3 rounded-xl">
+<input id="opUser" placeholder="Username" class="input-style w-full px-4 py-3 rounded-xl">
+<input id="opPass" type="password" placeholder="Password" class="input-style w-full px-4 py-3 rounded-xl">
+<input id="opMobile" placeholder="Mobile" class="input-style w-full px-4 py-3 rounded-xl">
+<button onclick="addOperator()" class="btn-primary text-white w-full py-3 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-plus"></i> Add Operator</button>
 </div>`;
   openModal();
 }
 
-async function addReview(){
-  try{
-    await db.collection('reviews').add({
-      name: document.getElementById('rvName').value.trim(),
-      location: document.getElementById('rvLocation').value.trim(),
-      rating: +document.getElementById('rvRating').value,
-      text: document.getElementById('rvText').value.trim(),
-      order: Date.now(),
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    toast('Review added!', 'success');
-    closeModal();
-    loadReviews();
-  }catch(e){
-    toast('Add failed: ' + e.message, 'error');
-  }
-}
-
-async function deleteReview(id){
-  if(!confirm('Delete this review?')) return;
-  try{
-    await db.collection('reviews').doc(id).delete();
-    toast('Review deleted', 'success');
-    loadReviews();
-  }catch(e){
-    toast('Delete failed: ' + e.message, 'error');
-  }
-}
-
-// ========== FINANCE ==========
-async function loadFinance(){
-  try{
-    const snap = await db.collection('transactions').get();
-    const txns = snap.docs.map(d => ({id: d.id, ...d.data()}))
-      .sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
-    const inc = txns.filter(t => t.type==='income').reduce((s,t) => s+(+t.amount||0), 0);
-    const exp = txns.filter(t => t.type==='expense').reduce((s,t) => s+(+t.amount||0), 0);
-    document.getElementById('fnIncome').textContent = '₹' + inc.toLocaleString('en-IN');
-    document.getElementById('fnExpense').textContent = '₹' + exp.toLocaleString('en-IN');
-    const wrap = document.getElementById('txnTable');
-    if(!txns.length){
-      wrap.innerHTML = '<tr><td colspan="5" class="px-4 py-12 text-center text-gray-400"><i class="fas fa-receipt text-4xl mb-2 block"></i>No transactions</td></tr>';
-      return;
-    }
-    wrap.innerHTML = txns.map(t => `<tr class="hover:bg-primary-50/50">
-<td class="px-4 py-3 text-xs font-medium">${t.title||'-'}</td>
-<td class="px-4 py-3 text-xs font-bold">₹${(+t.amount||0).toLocaleString('en-IN')}</td>
-<td class="px-4 py-3"><span class="badge ${t.type==='income'?'badge-completed':'badge-rejected'}">${t.type}</span></td>
-<td class="px-4 py-3 text-xs">${t.date||'-'}</td>
-<td class="px-4 py-3"><button onclick="deleteTxn('${t.id}')" class="text-red-500 hover:text-red-700 text-xs"><i class="fas fa-trash"></i></button></td>
-</tr>`).join('');
-  }catch(e){console.log(e);}
-}
-
-document.getElementById('txnForm').addEventListener('submit', async e => {
-  e.preventDefault();
-  try{
-    await db.collection('transactions').add({
-      title: document.getElementById('txnTitle').value.trim(),
-      amount: +document.getElementById('txnAmount').value,
-      type: document.getElementById('txnType').value,
-      date: document.getElementById('txnDate').value,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    toast('Transaction added!', 'success');
-    e.target.reset();
-    loadFinance();
-  }catch(err){
-    toast('Add failed: ' + err.message, 'error');
-  }
-});
-
-async function deleteTxn(id){
-  if(!confirm('Delete this transaction?')) return;
-  try{
-    await db.collection('transactions').doc(id).delete();
-    toast('Transaction deleted', 'success');
-    loadFinance();
-  }catch(e){
-    toast('Delete failed: ' + e.message, 'error');
-  }
-}
-
-// ========== NOTIFICATIONS ==========
-function toggleNotifTarget(){
-  const v = document.getElementById('notifTarget').value;
-  document.getElementById('userSelectWrap').classList.toggle('hidden', v !== 'single');
-}
-
-document.getElementById('notifForm').addEventListener('submit', async e => {
-  e.preventDefault();
-  const target = document.getElementById('notifTarget').value;
+async function addOperator(){
   const data = {
-    title: document.getElementById('notifTitle').value.trim(),
-    message: document.getElementById('notifMsg').value.trim(),
-    read: false,
+    name: document.getElementById('opName').value.trim(),
+    username: document.getElementById('opUser').value.trim(),
+    password: document.getElementById('opPass').value.trim(),
+    mobile: document.getElementById('opMobile').value.trim(),
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   };
+  if(!data.name||!data.username||!data.password) return toast('Fill all fields', 'error');
   try{
-    if(target === 'all'){
-      const usersSnap = await db.collection('users').get();
-      const batch = db.batch();
-      usersSnap.docs.forEach(u => {
-        const ref = db.collection('notifications').doc();
-        batch.set(ref, {...data, userId: u.id});
-      });
-      await batch.commit();
-      toast(`Notification sent to ${usersSnap.size} users!`, 'success');
-    } else {
-      const userId = document.getElementById('notifUser').value;
-      await db.collection('notifications').add({...data, userId});
-      toast('Notification sent to user!', 'success');
-    }
-    e.target.reset();
-  }catch(err){
-    toast('Send failed: ' + err.message, 'error');
-  }
-});
+    await db.collection('operators').add(data);
+    toast('Operator added!', 'success'); closeModal(); loadOperators();
+  }catch(e){ toast('Failed: '+e.message, 'error'); }
+}
+
+async function deleteOperator(id){
+  if(!confirm('Delete?')) return;
+  await db.collection('operators').doc(id).delete();
+  toast('Deleted', 'success'); loadOperators();
+}
 
 async function sendNotifToUser(uid, title, message){
   try{
-    await db.collection('notifications').add({
-      userId: uid,
-      title: title,
-      message: message,
-      read: false,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
+    await db.collection('notifications').add({userId:uid, title:title, message:message, read:false, createdAt:firebase.firestore.FieldValue.serverTimestamp()});
     toast('Notification sent!', 'success');
-  }catch(e){
-    toast('Failed: ' + e.message, 'error');
-  }
+  }catch(e){toast('Failed','error');}
 }
 
-// ========== TICKETS ==========
-async function loadTickets(){
-  try{
-    const snap = await db.collection('supportTickets').orderBy('createdAt','desc').get();
-    const tickets = snap.docs.map(d => ({id: d.id, ...d.data()}));
-    const wrap = document.getElementById('adminTickets');
-    if(!tickets.length){
-      wrap.innerHTML = '<div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-headset text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">No support tickets</p></div>';
-      return;
-    }
-    wrap.innerHTML = tickets.map(t => `
-<div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-<div class="flex justify-between items-start mb-3 flex-wrap gap-2">
-<div>
-<p class="font-bold text-sm">${t.subject||'-'}</p>
-<p class="text-xs text-gray-500">${t.userName||'-'} • ${t.userEmail||''}</p>
-<p class="text-xs text-gray-400">${t.createdAt?.toDate ? t.createdAt.toDate().toLocaleString() : ''}</p>
-</div>
-<span class="badge ${t.status==='Resolved'?'badge-completed':'badge-pending'}">${t.status||'Open'}</span>
-</div>
-<p class="text-sm text-gray-700 mb-3 p-3 bg-soft rounded-lg">${t.description||''}</p>
-${t.reply?`<div class="mb-3 p-3 bg-green-50 border-l-4 border-green-500 rounded text-xs text-green-900"><strong>Your Reply:</strong> ${t.reply}</div>`:''}
-<div class="flex gap-2">
-<input id="tr_${t.id}" placeholder="Type your reply..." class="input-style flex-1 px-3 py-2 rounded-lg text-sm">
-<button onclick="replyTicket('${t.id}')" class="btn-primary text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-1">
-<i class="fas fa-reply"></i> Reply
-</button>
-</div>
-</div>`).join('');
-  }catch(e){console.log(e);}
-}
+// ========== CHARTS ==========
+let ovChartBooks=null, ovChartStatus=null;
 
-async function replyTicket(id){
-  const reply = document.getElementById('tr_'+id).value.trim();
-  if(!reply) return toast('Please type a reply', 'error');
-  try{
-    await db.collection('supportTickets').doc(id).update({
-      reply: reply,
-      status: 'Resolved'
-    });
-    toast('Reply sent! Ticket resolved.', 'success');
-    loadTickets();
-  }catch(e){
-    toast('Reply failed: ' + e.message, 'error');
-  }
-}
-
-// ========== SECTION SETTINGS ==========
-async function loadSectionSettings(){
-  try{
-    const doc = await db.collection('settings').doc('sections').get();
-    if(doc.exists){
-      const d = doc.data();
-      ['about','services','tools','reviews','gallery'].forEach(s => {
-        const el = document.getElementById('sec' + s.charAt(0).toUpperCase() + s.slice(1));
-        const wrapper = el?.parentElement.querySelector('.toggle-switch');
-        if(el && wrapper){
-          const val = d[s] !== false;
-          el.checked = val;
-          wrapper.classList.toggle('active', val);
-        }
-      });
-    }
-  }catch(e){console.log(e);}
-}
-
-async function saveSectionSettings(){
-  const data = {
-    about: document.getElementById('secAbout').checked,
-    services: document.getElementById('secServices').checked,
-    tools: document.getElementById('secTools').checked,
-    reviews: document.getElementById('secReviews').checked,
-    gallery: document.getElementById('secGallery').checked
-  };
-  try{
-    await db.collection('settings').doc('sections').set(data);
-    toast('Section settings saved!', 'success');
-  }catch(e){
-    toast('Save failed: ' + e.message, 'error');
-  }
-}
-
-// ========== OVERVIEW CHARTS ==========
 function renderOverview(){
   document.getElementById('ovTotal').textContent = allBookings.length;
-  document.getElementById('ovPending').textContent = allBookings.filter(b => b.status==='Pending').length;
-  document.getElementById('ovCompleted').textContent = allBookings.filter(b => b.status==='Completed').length;
+  document.getElementById('ovPending').textContent = allBookings.filter(b=>b.status==='Pending').length;
+  document.getElementById('ovCompleted').textContent = allBookings.filter(b=>b.status==='Completed').length;
   
-  // Bookings chart - last 7 days
   const days = [];
-  for(let i = 6; i >= 0; i--){
-    const d = new Date();
-    d.setDate(d.getDate() - i);
+  for(let i=6; i>=0; i--){
+    const d = new Date(); d.setDate(d.getDate()-i);
     const key = d.toISOString().split('T')[0];
-    const count = allBookings.filter(b => {
+    const c = allBookings.filter(b=>{
       const bd = b.createdAt?.toDate ? b.createdAt.toDate().toISOString().split('T')[0] : '';
-      return bd === key;
+      return bd===key;
     }).length;
-    days.push({
-      label: d.toLocaleDateString('en-IN', {day:'2-digit', month:'short'}),
-      count: count
-    });
+    days.push({label: d.toLocaleDateString('en-IN', {day:'2-digit',month:'short'}), count: c});
   }
   
-  if(chartBookingsInstance) chartBookingsInstance.destroy();
+  if(ovChartBooks) ovChartBooks.destroy();
   const ctxB = document.getElementById('chartBookings').getContext('2d');
-  chartBookingsInstance = new Chart(ctxB, {
+  ovChartBooks = new Chart(ctxB, {
     type: 'line',
-    data: {
-      labels: days.map(d => d.label),
-      datasets: [{
-        label: 'Bookings',
-        data: days.map(d => d.count),
-        borderColor: '#F59E0B',
-        backgroundColor: 'rgba(245, 158, 11, 0.15)',
-        borderWidth: 3,
-        tension: 0.4,
-        fill: true,
-        pointRadius: 5,
-        pointBackgroundColor: '#F59E0B',
-        pointBorderColor: '#fff',
-        pointBorderWidth: 2
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {legend: {display: false}},
-      scales: {
-        y: {beginAtZero: true, ticks: {precision: 0}, grid: {color: '#F1F5F9'}},
-        x: {grid: {display: false}}
-      }
-    }
+    data: {labels: days.map(d=>d.label), datasets: [{label:'Bookings', data: days.map(d=>d.count), borderColor:'#F59E0B', backgroundColor:'rgba(245,158,11,0.15)', borderWidth:3, tension:0.4, fill:true, pointRadius:5, pointBackgroundColor:'#F59E0B', pointBorderColor:'#fff', pointBorderWidth:2}]},
+    options: {responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true, ticks:{precision:0}, grid:{color:'#F1F5F9'}}, x:{grid:{display:false}}}}
   });
   
-  // Status doughnut chart
   const statuses = {Pending:0, Approved:0, 'In Progress':0, Completed:0, Rejected:0};
-  allBookings.forEach(b => { if(statuses[b.status] !== undefined) statuses[b.status]++; });
-  
-  if(chartStatusInstance) chartStatusInstance.destroy();
+  allBookings.forEach(b=>{if(statuses[b.status]!==undefined) statuses[b.status]++;});
+  if(ovChartStatus) ovChartStatus.destroy();
   const ctxS = document.getElementById('chartStatus').getContext('2d');
-  chartStatusInstance = new Chart(ctxS, {
+  ovChartStatus = new Chart(ctxS, {
     type: 'doughnut',
-    data: {
-      labels: Object.keys(statuses),
-      datasets: [{
-        data: Object.values(statuses),
-        backgroundColor: ['#FCD34D', '#60A5FA', '#C084FC', '#34D399', '#F87171'],
-        borderWidth: 3,
-        borderColor: '#fff'
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {position: 'bottom', labels: {padding: 15, font: {size: 11, weight: 'bold'}}}
-      },
-      cutout: '60%'
-    }
+    data: {labels: Object.keys(statuses), datasets: [{data: Object.values(statuses), backgroundColor:['#FCD34D','#60A5FA','#C084FC','#34D399','#F87171'], borderWidth:3, borderColor:'#fff'}]},
+    options: {responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'bottom', labels:{padding:15, font:{size:11}}}}, cutout:'60%'}
   });
 }
 
@@ -1712,12 +940,7 @@ function toast(msg, type='success'){
   const t = document.getElementById('toast');
   t.innerHTML = `<i class="fas fa-${type==='success'?'check-circle':'exclamation-circle'}"></i> ${msg}`;
   t.className = `fixed top-24 right-4 z-50 px-5 py-3 rounded-xl shadow-2xl text-white font-semibold text-sm flex items-center gap-2 ${type==='success'?'bg-gradient-to-r from-green-500 to-emerald-600':'bg-gradient-to-r from-red-500 to-red-600'}`;
-  setTimeout(() => t.classList.add('hidden'), 4000);
-}
-
-// ========== SERVICE WORKER ==========
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('sw.js').catch(()=>{});
+  setTimeout(()=>t.classList.add('hidden'), 3500);
 }
 </script>
 </body>
