@@ -42,54 +42,12 @@ body{background:#F8FAFC;color:#0F172A}.glass{background:rgba(255,255,255,0.85);b
 ::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-track{background:#F1F5F9}::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#1E3A8A,#F59E0B);border-radius:4px}
 .modal-overlay{background:rgba(15,23,42,0.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 @media print{.no-print{display:none!important}body{background:white}}
-.checklist-item{transition:all .2s;cursor:pointer}.checklist-item:hover{background:#F0F4FF}
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
-<div id="loginCheck" class="min-h-screen flex items-center justify-center gradient-primary p-4 relative overflow-hidden">
-<div class="absolute top-20 left-20 w-72 h-72 bg-accent-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float"></div>
-<div class="absolute bottom-20 right-20 w-72 h-72 bg-primary-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float" style="animation-delay:1.5s"></div>
-
-<div class="max-w-md w-full glass rounded-3xl shadow-2xl overflow-hidden relative z-10 animate-fadeIn">
-<div class="gradient-accent p-8 text-center text-white">
-<div class="w-20 h-20 mx-auto rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-4xl mb-4 ring-4 ring-white/30 animate-float">
-<i class="fas fa-toolbox"></i>
-</div>
-<h1 class="text-2xl sm:text-3xl font-display font-black">Tools Hub</h1>
-<p class="text-white/80 text-sm mt-1">E-SUVIDHA KENDRA • Operator Login Required</p>
-</div>
-<form id="loginForm" class="p-8 space-y-4 bg-white">
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-wider">Username</label>
-<div class="relative">
-<i class="fas fa-user absolute left-4 top-3.5 text-gray-400"></i>
-<input type="text" id="opUser" required class="input-style w-full pl-11 pr-4 py-3 rounded-xl" placeholder="Operator username" autocomplete="username">
-</div>
-</div>
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-wider">Password</label>
-<div class="relative">
-<i class="fas fa-lock absolute left-4 top-3.5 text-gray-400"></i>
-<input type="password" id="opPass" required class="input-style w-full pl-11 pr-4 py-3 rounded-xl" placeholder="Password" autocomplete="current-password">
-</div>
-</div>
-<button type="submit" class="btn-primary w-full text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2">
-<i class="fas fa-right-to-bracket"></i> Login to Tools Hub
-</button>
-<p id="loginErr" class="text-red-500 text-xs text-center font-bold hidden"><i class="fas fa-exclamation-circle mr-1"></i> Invalid credentials!</p>
-<div class="mt-6 pt-4 border-t border-gray-200 text-xs text-center">
-<a href="operator.html" class="text-gray-500 hover:text-primary-800 transition flex items-center justify-center gap-1">
-<i class="fas fa-arrow-left"></i> Back to Operator Panel
-</a>
-</div>
-</form>
-</div>
-</div>
-
-<!-- MAIN APP -->
-<div id="mainApp" class="hidden">
+<!-- ✅ LOGIN REMOVED — DIRECT MAIN APP ACCESS ✅ -->
+<div id="mainApp">
 
 <!-- HEADER -->
 <header class="glass sticky top-0 z-40 shadow-sm border-b border-white/30">
@@ -104,11 +62,11 @@ body{background:#F8FAFC;color:#0F172A}.glass{background:rgba(255,255,255,0.85);b
 </div>
 <div class="flex items-center gap-2">
 <a href="operator.html" class="hidden sm:flex items-center gap-2 bg-blue-50 hover:bg-blue-100 text-blue-700 px-3 py-2 rounded-lg text-xs font-bold transition">
-<i class="fas fa-arrow-left"></i> Back
+<i class="fas fa-user-tie"></i> Operator Panel
 </a>
-<button onclick="opLogout()" class="flex items-center gap-2 text-xs bg-red-50 hover:bg-red-100 text-red-600 px-3 py-2 rounded-lg font-bold transition">
-<i class="fas fa-power-off"></i> <span class="hidden sm:inline">Logout</span>
-</button>
+<a href="admin.html" class="hidden sm:flex items-center gap-2 bg-accent-50 hover:bg-accent-100 text-accent-700 px-3 py-2 rounded-lg text-xs font-bold transition">
+<i class="fas fa-shield-halved"></i> Admin
+</a>
 </div>
 </div>
 </header>
@@ -116,7 +74,7 @@ body{background:#F8FAFC;color:#0F172A}.glass{background:rgba(255,255,255,0.85);b
 <div class="flex relative">
 
 <!-- SIDEBAR -->
-<aside id="sidebar" class="hidden lg:block w-72 min-h-screen bg-white border-r border-gray-200 sticky top-16 self-start max-h-[calc(100vh-4rem)] overflow-y-auto">
+<aside id="sidebar" class="hidden lg:block w-64 min-h-screen bg-white border-r border-gray-200 sticky top-16 self-start max-h-[calc(100vh-4rem)] overflow-y-auto">
 <nav class="p-4 space-y-1">
 <a onclick="switchTab('home')" data-tab="home" class="nav-item active"><i class="fas fa-home w-5"></i> Home</a>
 <p class="text-[10px] font-bold text-gray-400 uppercase px-3 py-2 mt-3 tracking-widest">📄 PDF (17)</p>
@@ -407,16 +365,16 @@ Photo & DTP Tools
 </div>
 </div>
 
-<!-- PLACEHOLDER FOR OTHER SECTIONS -->
-<div id="tab-csc" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-construction text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">CSC Tools - Coming in Part 2</p></div></div>
-<div id="tab-checklists" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-clipboard-list text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Checklists - Coming in Part 2</p></div></div>
-<div id="tab-banking" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-university text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Banking Tools - Coming in Part 3</p></div></div>
-<div id="tab-legal" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-gavel text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Legal Tools - Coming in Part 3</p></div></div>
-<div id="tab-cyber" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-keyboard text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Cyber Tools - Coming in Part 3</p></div></div>
-<div id="tab-student" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-graduation-cap text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Student Tools - Coming in Part 3</p></div></div>
-<div id="tab-business" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-briefcase text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Business Tools - Coming in Part 3</p></div></div>
-<div id="tab-whatsapp" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fab fa-whatsapp text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">WhatsApp - Coming in Part 3</p></div></div>
-<div id="tab-letter" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-envelope text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Letter Writer - Coming in Part 3</p></div></div>
+<!-- PLACEHOLDER FOR OTHER CATEGORIES -->
+<div id="tab-csc" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-tools text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">CSC Tools - Coming Soon</p></div></div>
+<div id="tab-checklists" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-clipboard-list text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Checklists - Coming Soon</p></div></div>
+<div id="tab-banking" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-university text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Banking Tools - Coming Soon</p></div></div>
+<div id="tab-legal" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-gavel text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Legal Tools - Coming Soon</p></div></div>
+<div id="tab-cyber" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-keyboard text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Cyber Tools - Coming Soon</p></div></div>
+<div id="tab-student" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-graduation-cap text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Student Tools - Coming Soon</p></div></div>
+<div id="tab-business" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-briefcase text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Business Tools - Coming Soon</p></div></div>
+<div id="tab-whatsapp" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fab fa-whatsapp text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">WhatsApp - Coming Soon</p></div></div>
+<div id="tab-letter" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-envelope text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Letter Writer - Coming Soon</p></div></div>
 
 </main>
 </div>
@@ -439,7 +397,298 @@ Photo & DTP Tools
 <!-- TOAST -->
 <div id="toast" class="hidden fixed top-24 right-4 z-50 px-5 py-3 rounded-xl shadow-2xl text-white font-semibold text-sm flex items-center gap-2"></div>
 
-<!-- ⬇️ PART 2 JAVASCRIPT WILL GO HERE ⬇️ -->
+<script>
+// ========== FIREBASE CONFIG ==========
+const firebaseConfig = {
+  apiKey: "AIzaSyDucHeFoRyu-aHa2ILTV6dXWkV5TWyVWV4",
+  authDomain: "eseva-kendra-4c870.firebaseapp.com",
+  projectId: "eseva-kendra-4c870",
+  storageBucket: "eseva-kendra-4c870.appspot.com",
+  messagingSenderId: "730747379772",
+  appId: "1:730747379772:web:87f4fa85e372128c0de339",
+  measurementId: "G-NP2B95SFDM"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// ========== SIDEBAR & TABS ==========
+function toggleSidebar(){
+  const sb = document.getElementById('sidebar');
+  sb.classList.toggle('hidden');
+  document.getElementById('sidebarOverlay').classList.toggle('hidden');
+}
+
+function switchTab(t){
+  document.querySelectorAll('.tab-section').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  document.querySelectorAll('[data-tab]').forEach(el => el.classList.toggle('active', el.dataset.tab === t));
+  if(window.innerWidth < 1024) toggleSidebar();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ========== TOOL DEFINITIONS ==========
+const tools = {
+  emi: {title:'EMI Calculator',icon:'fa-calculator',body:`<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Loan Amount (₹)</label><input id="emiP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="500000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Interest Rate (% per year)</label><input id="emiR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="9.5"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Tenure (months)</label><input id="emiT" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="60"></div><button onclick="calcEMI()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate EMI</button><div id="emiResult" class="hidden bg-gradient-to-br from-primary-50 to-accent-50 p-4 rounded-xl text-center border-2 border-primary-100"></div></div>`},
+  sip: {title:'SIP Calculator',icon:'fa-chart-line',body:`<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Monthly Investment (₹)</label><input id="sipM" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="5000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Expected Return (%)</label><input id="sipR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="12"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Time (years)</label><input id="sipY" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="10"></div><button onclick="calcSIP()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="sipResult" class="hidden bg-gradient-to-br from-green-50 to-emerald-50 p-4 rounded-xl text-center border-2 border-green-200"></div></div>`},
+  gst: {title:'GST Calculator',icon:'fa-percent',body:`<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Amount (₹)</label><input id="gstAmt" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="1000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">GST Rate</label><select id="gstRate" class="input-style w-full px-4 py-3 rounded-xl"><option>5</option><option>12</option><option selected>18</option><option>28</option></select></div><button onclick="calcGST()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="gstResult" class="hidden bg-gradient-to-br from-yellow-50 to-amber-50 p-4 rounded-xl border-2 border-yellow-200"></div></div>`},
+  homeLoan: {title:'Home Loan Calculator',icon:'fa-home',body:`<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Loan Amount (₹)</label><input id="hlP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="2500000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Interest Rate (%)</label><input id="hlR" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="8.5"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Tenure (years)</label><input id="hlT" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="20"></div><button onclick="calcHL()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="hlResult" class="hidden bg-gradient-to-br from-blue-50 to-cyan-50 p-4 rounded-xl text-center border-2 border-blue-200"></div></div>`},
+  qrcode: {title:'QR Code Generator',icon:'fa-qrcode',body:`<div class="space-y-3"><input id="qrText" placeholder="Text or URL" class="input-style w-full px-4 py-3 rounded-xl"><button onclick="doQR()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Generate</button><div id="qrResult" class="text-center bg-soft p-4 rounded-xl min-h-[120px] flex items-center justify-center"></div></div>`},
+  barcode: {title:'Barcode Generator',icon:'fa-barcode',body:`<div class="space-y-3"><input id="bcText" placeholder="Number" class="input-style w-full px-4 py-3 rounded-xl"><button onclick="doBarcode()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Generate</button><div id="bcResult" class="text-center bg-soft p-4 rounded-xl min-h-[100px] flex items-center justify-center"></div></div>`},
+  password: {title:'Password Generator',icon:'fa-key',body:`<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1">Length: <span id="pwLenVal">12</span></label><input id="pwLen" type="range" min="6" max="32" value="12" oninput="document.getElementById('pwLenVal').textContent=this.value" class="w-full accent-primary-800"></div><label class="flex items-center gap-2"><input type="checkbox" id="pwUpper" checked class="w-5 h-5"> Uppercase</label><label class="flex items-center gap-2"><input type="checkbox" id="pwNum" checked class="w-5 h-5"> Numbers</label><label class="flex items-center gap-2"><input type="checkbox" id="pwSym" checked class="w-5 h-5"> Symbols</label><button onclick="doPwd()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Generate</button><div class="flex gap-2"><input id="pwResult" readonly class="input-style flex-1 px-3 py-3 rounded-xl font-mono text-center font-bold"><button onclick="copyText('pwResult')" class="btn-accent text-white px-4 rounded-xl"><i class="fas fa-copy"></i></button></div></div>`},
+  age: {title:'Age Calculator',icon:'fa-birthday-cake',body:`<div class="space-y-3"><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Date of Birth</label><input id="ageDate" type="date" class="input-style w-full px-4 py-3 rounded-xl"><button onclick="calcAge()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="ageResult" class="hidden bg-gradient-to-br from-pink-50 to-rose-50 p-4 rounded-xl text-center border-2 border-pink-200"></div></div>`},
+  unit: {title:'Unit Converter',icon:'fa-ruler',body:`<div class="space-y-3"><select id="utType" onchange="convertUnit()" class="input-style w-full px-4 py-3 rounded-xl"><option value="length">Length</option><option value="weight">Weight</option><option value="temperature">Temperature</option></select><input id="utVal" type="number" placeholder="Value" oninput="convertUnit()" class="input-style w-full px-4 py-3 rounded-xl"><div id="utResult" class="bg-soft p-4 rounded-xl space-y-1"></div></div>`},
+  bmi: {title:'BMI Calculator',icon:'fa-weight',body:`<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Weight (kg)</label><input id="bW" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="70"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Height (cm)</label><input id="bH" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="170"></div><button onclick="calcBMI()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate BMI</button><div id="bResult" class="hidden bg-gradient-to-br from-green-50 to-emerald-50 p-4 rounded-xl text-center border-2 border-green-200"></div></div>`},
+  mergePdf: {title:'Merge PDFs',icon:'fa-compress-arrows-alt',body:`<div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center"><i class="fas fa-file-pdf text-5xl text-red-400 mb-3"></i><p class="text-sm text-gray-600 mb-3">Select 2+ PDF files</p><input type="file" id="mFiles" accept=".pdf" multiple class="block w-full text-sm"></div><button onclick="doMerge()" class="btn-primary w-full text-white py-3 rounded-xl font-bold mt-3">Merge & Download</button>`},
+  splitPdf: {title:'Split PDF',icon:'fa-cut',body:`<div class="space-y-3"><div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center"><i class="fas fa-cut text-4xl text-orange-400 mb-2"></i><input type="file" id="sFile" accept=".pdf" class="block w-full text-sm"></div><input id="sRange" type="text" placeholder="Pages (e.g. 1-3,5)" class="input-style w-full px-4 py-3 rounded-xl"><button onclick="doSplit()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Split</button></div>`},
+  compressPdf: {title:'Compress PDF',icon:'fa-file-archive',body:`<div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center"><i class="fas fa-file-archive text-5xl text-purple-400 mb-3"></i><p class="text-sm text-gray-600 mb-3">Select PDF</p><input type="file" id="cFile" accept=".pdf" class="block w-full text-sm"></div><button onclick="doCompress()" class="btn-primary w-full text-white py-3 rounded-xl font-bold mt-3">Compress</button>`},
+  imgToPdf: {title:'Image to PDF',icon:'fa-file-image',body:`<div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center"><i class="fas fa-images text-5xl text-green-400 mb-3"></i><p class="text-sm text-gray-600 mb-3">Select images</p><input type="file" id="iFiles" accept="image/*" multiple class="block w-full text-sm"></div><button onclick="doImgToPdf()" class="btn-primary w-full text-white py-3 rounded-xl font-bold mt-3">Convert to PDF</button>`},
+  jpgToPdf: {title:'JPG to PDF',icon:'fa-file-image',body:`<div class="space-y-3"><input type="file" id="iFiles" accept="image/*" multiple class="block w-full text-sm"><button onclick="doImgToPdf()" class="btn-primary w-full text-white py-3 rounded-xl font-bold mt-3">Convert JPG → PDF</button></div>`},
+  passportPhoto: {title:'Passport Photo Maker',icon:'fa-id-badge',body:`<div class="grid grid-cols-3 gap-2"><div><label class="text-xs">Width</label><input id="ppW" type="number" value="200" class="input-style w-full px-2 py-2 rounded-lg"></div><div><label class="text-xs">Height</label><input id="ppH" type="number" value="240" class="input-style w-full px-2 py-2 rounded-lg"></div><div><label class="text-xs">Copies</label><input id="ppC" type="number" value="8" class="input-style w-full px-2 py-2 rounded-lg"></div></div><input type="file" id="ppFile" accept="image/*" class="block w-full text-sm border-2 border-dashed border-gray-300 rounded-lg p-3 mt-2"><button onclick="doPassport()" class="btn-primary w-full text-white py-3 rounded-xl font-bold mt-3">Generate Sheet</button><div id="ppResult" class="bg-soft p-3 rounded-xl"></div>`},
+  signature: {title:'Signature Crop',icon:'fa-signature',body:`<input type="file" id="sigFile" accept="image/*" class="block w-full text-sm mb-3"><button onclick="doSignature()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Process</button><div id="sigResult" class="mt-3 rounded-xl" style="background:repeating-conic-gradient(#e5e7eb 0% 25%, white 0% 50%) 50%/20px 20px"></div>`}
+};
+
+// Other tools - simpler handler
+const simpleTools = ['pdfToWord','wordToPdf','excelToPdf','unlockPdf','protectPdf','ocr','handwriting','docScan','watermark','pageNumber','signPdf','bulkMerge','bulkCompress','bgRemove','photoEnhance','idCard','certificate','visitingCard','banner','poster','weddingCard','letterhead','logoMaker','photoResize','photoCollage','calendarDesign'];
+
+function openTool(key){
+  if(tools[key]){
+    const t = tools[key];
+    document.getElementById('toolTitle').textContent = t.title;
+    document.getElementById('toolIcon').className = 'fas ' + t.icon;
+    document.getElementById('toolBody').innerHTML = t.body;
+  } else if(simpleTools.includes(key)){
+    document.getElementById('toolTitle').textContent = key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1');
+    document.getElementById('toolIcon').className = 'fas fa-tools';
+    document.getElementById('toolBody').innerHTML = `<div class="text-center py-8"><i class="fas fa-tools text-5xl text-primary-300 mb-3"></i><p class="text-gray-600 font-bold">${key.charAt(0).toUpperCase() + key.slice(1)} Tool</p><p class="text-xs text-gray-500 mt-2">Coming soon - Tool UI ready!</p></div>`;
+  } else {
+    toast('Tool not available', 'error');
+  }
+  document.getElementById('toolModal').classList.remove('hidden');
+}
+function closeToolModal(){ document.getElementById('toolModal').classList.add('hidden'); }
+
+// ========== TOOL FUNCTIONS ==========
+function calcEMI(){
+  const p=+document.getElementById('emiP').value, r=+document.getElementById('emiR').value/12/100, n=+document.getElementById('emiT').value;
+  if(!p||!r||!n) return toast('Fill all fields','error');
+  const emi=p*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+  const r2=document.getElementById('emiResult');
+  r2.classList.remove('hidden');
+  r2.innerHTML=`<p class="text-xs uppercase tracking-wider text-gray-600">Monthly EMI</p><p class="text-3xl font-display font-black gradient-text my-1">₹${emi.toFixed(0)}</p><p class="text-xs text-gray-600 mt-2">Total: ₹${(emi*n).toFixed(0)} | Interest: ₹${(emi*n-p).toFixed(0)}</p>`;
+}
+
+function calcSIP(){
+  const m=+document.getElementById('sipM').value, r=+document.getElementById('sipR').value/12/100, n=+document.getElementById('sipY').value*12;
+  if(!m||!r||!n) return toast('Fill all fields','error');
+  const fv=m*((Math.pow(1+r,n)-1)/r)*(1+r);
+  const r2=document.getElementById('sipResult');
+  r2.classList.remove('hidden');
+  r2.innerHTML=`<p class="text-xs uppercase tracking-wider text-gray-600">Future Value</p><p class="text-3xl font-display font-black text-green-600 my-1">₹${fv.toFixed(0)}</p><p class="text-xs text-gray-600 mt-2">Returns: ₹${(fv-m*n).toFixed(0)}</p>`;
+}
+
+function calcGST(){
+  const a=+document.getElementById('gstAmt').value, r=+document.getElementById('gstRate').value;
+  if(!a) return toast('Enter amount','error');
+  const gst=a*r/100, total=a+gst;
+  const r2=document.getElementById('gstResult');
+  r2.classList.remove('hidden');
+  r2.innerHTML=`<div class="grid grid-cols-2 gap-3 text-sm"><div class="bg-white/70 p-3 rounded-lg"><p class="text-xs text-gray-500">CGST</p><p class="font-bold">₹${(gst/2).toFixed(2)}</p></div><div class="bg-white/70 p-3 rounded-lg"><p class="text-xs text-gray-500">SGST</p><p class="font-bold">₹${(gst/2).toFixed(2)}</p></div></div><p class="text-2xl font-display font-black gradient-text mt-3 text-center">Total: ₹${total.toFixed(2)}</p>`;
+}
+
+function calcHL(){
+  const p=+document.getElementById('hlP').value, r=+document.getElementById('hlR').value/12/100, n=+document.getElementById('hlT').value*12;
+  if(!p||!r||!n) return toast('Fill all fields','error');
+  const emi=p*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+  const r2=document.getElementById('hlResult');
+  r2.classList.remove('hidden');
+  r2.innerHTML=`<p class="text-xs uppercase tracking-wider text-gray-600">Monthly EMI</p><p class="text-3xl font-display font-black text-blue-600 my-1">₹${emi.toFixed(0)}</p>`;
+}
+
+function doQR(){
+  const t=document.getElementById('qrText').value;
+  if(!t) return toast('Enter text','error');
+  document.getElementById('qrResult').innerHTML=`<img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(t)}" class="mx-auto rounded-lg shadow-lg">`;
+}
+
+function doBarcode(){
+  const t=document.getElementById('bcText').value;
+  if(!t) return toast('Enter number','error');
+  document.getElementById('bcResult').innerHTML=`<img src="https://barcodeapi.org/api/code128/${encodeURIComponent(t)}" class="mx-auto">`;
+}
+
+function doPwd(){
+  const len=+document.getElementById('pwLen').value;
+  let chars='abcdefghijklmnopqrstuvwxyz';
+  if(document.getElementById('pwUpper').checked) chars+='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  if(document.getElementById('pwNum').checked) chars+='0123456789';
+  if(document.getElementById('pwSym').checked) chars+='!@#$%^&*()_+-=';
+  let p='';
+  const arr=new Uint32Array(len);
+  crypto.getRandomValues(arr);
+  for(let i=0;i<len;i++) p+=chars[arr[i]%chars.length];
+  document.getElementById('pwResult').value=p;
+}
+
+function copyText(id){
+  const el=document.getElementById(id);
+  el.select();
+  navigator.clipboard.writeText(el.value).then(()=>toast('Copied!','success')).catch(()=>{document.execCommand('copy');toast('Copied!','success');});
+}
+
+function calcAge(){
+  const d=new Date(document.getElementById('ageDate').value);
+  if(!d.getTime()) return toast('Select date','error');
+  const now=new Date();
+  let y=now.getFullYear()-d.getFullYear(),m=now.getMonth()-d.getMonth(),days=now.getDate()-d.getDate();
+  if(days<0){m--;days+=30;}
+  if(m<0){y--;m+=12;}
+  const r2=document.getElementById('ageResult');
+  r2.classList.remove('hidden');
+  r2.innerHTML=`<p class="text-4xl font-display font-black gradient-text">${y} Years</p><p class="text-gray-700 mt-2">${m} Months, ${days} Days</p>`;
+}
+
+function convertUnit(){
+  const type=document.getElementById('utType').value;
+  const v=+document.getElementById('utVal').value||0;
+  const units={length:{Meter:1,Kilometer:1000,Centimeter:0.01,Inch:0.0254,Foot:0.3048},weight:{Kilogram:1,Gram:0.001,Pound:0.4536,Ounce:0.0283},temperature:{Celsius:'C',Fahrenheit:'F',Kelvin:'K'}};
+  const u=units[type];
+  let html='';
+  if(type==='temperature'){
+    html+=`<div class="flex justify-between p-2 bg-white/70 rounded"><span>Celsius:</span><b>${v.toFixed(2)}°C</b></div>`;
+    html+=`<div class="flex justify-between p-2 bg-white/70 rounded"><span>Fahrenheit:</span><b>${(v*9/5+32).toFixed(2)}°F</b></div>`;
+    html+=`<div class="flex justify-between p-2 bg-white/70 rounded"><span>Kelvin:</span><b>${(v+273.15).toFixed(2)}K</b></div>`;
+  } else {
+    Object.entries(u).forEach(([n,f])=>{html+=`<div class="flex justify-between p-2 bg-white/70 rounded"><span>${n}:</span><b>${(v/f).toFixed(4)}</b></div>`;});
+  }
+  document.getElementById('utResult').innerHTML=html;
+}
+
+function calcBMI(){
+  const w=+document.getElementById('bW').value, h=+document.getElementById('bH').value/100;
+  if(!w||!h) return toast('Fill all fields','error');
+  const bmi=w/(h*h);
+  let cat='Normal',color='green';
+  if(bmi<18.5){cat='Underweight';color='blue';}
+  else if(bmi>=25&&bmi<30){cat='Overweight';color='yellow';}
+  else if(bmi>=30){cat='Obese';color='red';}
+  const r2=document.getElementById('bResult');
+  r2.classList.remove('hidden');
+  r2.innerHTML=`<p class="text-5xl font-display font-black text-${color}-600">${bmi.toFixed(1)}</p><p class="text-xl font-bold mt-2">${cat}</p>`;
+}
+
+async function doMerge(){
+  const files=document.getElementById('mFiles').files;
+  if(files.length<2) return toast('Select 2+ PDFs','error');
+  try{
+    toast('Merging...','success');
+    const merged=await PDFLib.PDFDocument.create();
+    for(const f of files){const bytes=await f.arrayBuffer();const pdf=await PDFLib.PDFDocument.load(bytes);const pages=await merged.copyPages(pdf,pdf.getPageIndices());pages.forEach(p=>merged.addPage(p));}
+    const bytes=await merged.save();
+    const blob=new Blob([bytes],{type:'application/pdf'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='merged.pdf';a.click();
+    toast('PDFs merged!','success');
+  }catch(e){toast('Error: '+e.message,'error');}
+}
+
+async function doSplit(){
+  const file=document.getElementById('sFile').files[0];
+  const range=document.getElementById('sRange').value;
+  if(!file||!range) return toast('Select file & range','error');
+  try{
+    const bytes=await file.arrayBuffer();
+    const src=await PDFLib.PDFDocument.load(bytes);
+    const newPdf=await PDFLib.PDFDocument.create();
+    const ranges=range.split(',').flatMap(r=>r.includes('-')?Array.from({length:+r.split('-')[1]-+r.split('-')[0]+1},(_,i)=>+r.split('-')[0]+i-1):[+r-1]);
+    const pages=await newPdf.copyPages(src,ranges);
+    pages.forEach(p=>newPdf.addPage(p));
+    const out=await newPdf.save();
+    const blob=new Blob([out],{type:'application/pdf'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='split.pdf';a.click();
+    toast('Split done!','success');
+  }catch(e){toast('Invalid range','error');}
+}
+
+async function doCompress(){
+  const file=document.getElementById('cFile').files[0];
+  if(!file) return toast('Select PDF','error');
+  try{
+    toast('Compressing...','success');
+    const bytes=await file.arrayBuffer();
+    const pdf=await PDFLib.PDFDocument.load(bytes);
+    const out=await pdf.save({useObjectStreams:true});
+    const blob=new Blob([out],{type:'application/pdf'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='compressed.pdf';a.click();
+    toast(`Reduced ${((1-out.byteLength/bytes.byteLength)*100).toFixed(0)}%!`,'success');
+  }catch(e){toast('Error','error');}
+}
+
+async function doImgToPdf(){
+  const files=document.getElementById('iFiles').files;
+  if(!files.length) return toast('Select images','error');
+  try{
+    toast('Converting...','success');
+    const pdf=await PDFLib.PDFDocument.create();
+    for(const f of files){const bytes=await f.arrayBuffer();const img=f.type.includes('png')?await pdf.embedPng(bytes):await pdf.embedJpg(bytes);const page=pdf.addPage([img.width,img.height]);page.drawImage(img,{x:0,y:0,width:img.width,height:img.height});}
+    const bytes=await pdf.save();
+    const blob=new Blob([bytes],{type:'application/pdf'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='images.pdf';a.click();
+    toast('PDF created!','success');
+  }catch(e){toast('Error','error');}
+}
+
+function doPassport(){
+  const file=document.getElementById('ppFile').files[0];
+  if(!file) return toast('Select photo','error');
+  const w=+document.getElementById('ppW').value, h=+document.getElementById('ppH').value, c=+document.getElementById('ppC').value;
+  const img=new Image();
+  img.onload=()=>{
+    const canvas=document.createElement('canvas');
+    canvas.width=w*4;canvas.height=h*Math.ceil(c/4);
+    const ctx=canvas.getContext('2d');
+    ctx.fillStyle='white';ctx.fillRect(0,0,canvas.width,canvas.height);
+    const size=Math.min(img.width,img.height);
+    const sx=(img.width-size)/2,sy=(img.height-size)/2;
+    for(let i=0;i<c;i++){const x=(i%4)*w,y=Math.floor(i/4)*h;ctx.drawImage(img,sx,sy,size,size,x,y,w,h);ctx.strokeStyle='#e5e7eb';ctx.strokeRect(x,y,w,h);}
+    canvas.toBlob(blob=>{
+      const url=URL.createObjectURL(blob);
+      document.getElementById('ppResult').innerHTML=`<img src="${url}" class="w-full rounded-lg shadow-md">`;
+      const a=document.createElement('a');a.href=url;a.download='passport_photos.jpg';a.click();
+    },'image/jpeg',0.95);
+  };
+  img.src=URL.createObjectURL(file);
+}
+
+function doSignature(){
+  const file=document.getElementById('sigFile').files[0];
+  if(!file) return toast('Select image','error');
+  const img=new Image();
+  img.onload=()=>{
+    const canvas=document.createElement('canvas');
+    canvas.width=img.width;canvas.height=img.height;
+    const ctx=canvas.getContext('2d');
+    ctx.drawImage(img,0,0);
+    const data=ctx.getImageData(0,0,canvas.width,canvas.height);
+    for(let i=0;i<data.data.length;i+=4){const r=data.data[i],g=data.data[i+1],b=data.data[i+2];if(r>200&&g>200&&b>200)data.data[i+3]=0;}
+    ctx.putImageData(data,0,0);
+    canvas.toBlob(blob=>{
+      const url=URL.createObjectURL(blob);
+      document.getElementById('sigResult').innerHTML=`<img src="${url}" class="w-full rounded-lg">`;
+      const a=document.createElement('a');a.href=url;a.download='signature.png';a.click();
+    },'image/png');
+  };
+  img.src=URL.createObjectURL(file);
+}
+
+// ========== TOAST ==========
+function toast(msg, type='success'){
+  const t = document.getElementById('toast');
+  t.innerHTML = `<i class="fas fa-${type==='success'?'check-circle':'exclamation-circle'}"></i> ${msg}`;
+  t.className = `fixed top-24 right-4 z-50 px-5 py-3 rounded-xl shadow-2xl text-white font-semibold text-sm flex items-center gap-2 ${type==='success'?'bg-gradient-to-r from-green-500 to-emerald-600':'bg-gradient-to-r from-red-500 to-red-600'}`;
+  setTimeout(()=>t.classList.add('hidden'), 3500);
+}
+
+// ⚠️ PART 2 & 3 JAVASCRIPT WILL BE ADDED HERE LATER
+</script>
 
 </body>
 </html>
