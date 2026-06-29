@@ -14,7 +14,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
 <script>
-tailwind.config={theme:{extend:{colors:{primary:{50:'#EEF2FF',100:'#E0E7FF',200:'#C7D2FE',300:'#A5B4FC',500:'#6366F1',600:'#4F46E5',700:'#4338CA',800:'#1E3A8A',900:'#1E1B4B',950:'#0F172A'},accent:{50:'#FFFBEB',100:'#FEF3C7',300:'#FCD34D',400:'#FBBF24',500:'#F59E0B',600:'#D97706',700:'#B45309'},dark:'#0F172A',soft:'#F8FAFC'},fontFamily:{display:['Poppins','sans-serif'],body:['Inter','sans-serif']}}}}
+tailwind.config={theme:{extend:{colors:{primary:{50:'#EEF2FF',100:'#E0E7FF',200:'#C7D2FE',300:'#A5B4FC',500:'#6366F1',600:'#4F46E5',700:'#4338CA',800:'#1E3A8A',900:'#1E1B4B'},accent:{50:'#FFFBEB',100:'#FEF3C7',300:'#FCD34D',400:'#FBBF24',500:'#F59E0B',600:'#D97706',700:'#B45309'},dark:'#0F172A',soft:'#F8FAFC'},fontFamily:{display:['Poppins','sans-serif'],body:['Inter','sans-serif']}}}}
 </script>
 <style>
 *{font-family:'Inter',sans-serif}h1,h2,h3,h4,h5,h6{font-family:'Poppins',sans-serif;letter-spacing:-0.02em}
@@ -22,7 +22,7 @@ body{background:#F8FAFC;color:#0F172A}.glass{background:rgba(255,255,255,0.85);b
 .gradient-primary{background:linear-gradient(135deg,#1E1B4B 0%,#1E3A8A 30%,#3B82F6 70%,#6366F1 100%)}
 .gradient-accent{background:linear-gradient(135deg,#F59E0B 0%,#D97706 100%)}
 .btn-primary{background:linear-gradient(135deg,#1E3A8A,#3B82F6);transition:all .3s;box-shadow:0 4px 20px rgba(30,58,138,.3)}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(30,58,138,.45)}
-.btn-accent{background:linear-gradient(135deg,#F59E0B,#D97706);transition:all .3s;box-shadow:0 4px 20px rgba(245,158,11,.3)}.btn-accent:hover{transform:translateY(-2px)}
+.btn-accent{background:linear-gradient(135deg,#F59E0B,#D97706);transition:all .3s}.btn-accent:hover{transform:translateY(-2px)}
 .tool-card{transition:all .4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;cursor:pointer}
 .tool-card:hover{transform:translateY(-6px) scale(1.03);box-shadow:0 20px 40px -10px rgba(30,58,138,.2)}
 .tool-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);opacity:0;transition:opacity .3s;pointer-events:none}
@@ -42,11 +42,12 @@ body{background:#F8FAFC;color:#0F172A}.glass{background:rgba(255,255,255,0.85);b
 ::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-track{background:#F1F5F9}::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#1E3A8A,#F59E0B);border-radius:4px}
 .modal-overlay{background:rgba(15,23,42,0.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 @media print{.no-print{display:none!important}body{background:white}}
+.checklist-item{transition:all .2s;cursor:pointer}.checklist-item:hover{background:#F0F4FF}
 </style>
 </head>
 <body>
 
-<!-- ✅ LOGIN REMOVED — DIRECT MAIN APP ACCESS ✅ -->
+<!-- ✅ NO LOGIN — DIRECT TOOLS ACCESS ✅ -->
 <div id="mainApp">
 
 <!-- HEADER -->
@@ -62,7 +63,7 @@ body{background:#F8FAFC;color:#0F172A}.glass{background:rgba(255,255,255,0.85);b
 </div>
 <div class="flex items-center gap-2">
 <a href="operator.html" class="hidden sm:flex items-center gap-2 bg-blue-50 hover:bg-blue-100 text-blue-700 px-3 py-2 rounded-lg text-xs font-bold transition">
-<i class="fas fa-user-tie"></i> Operator Panel
+<i class="fas fa-user-tie"></i> Operator
 </a>
 <a href="admin.html" class="hidden sm:flex items-center gap-2 bg-accent-50 hover:bg-accent-100 text-accent-700 px-3 py-2 rounded-lg text-xs font-bold transition">
 <i class="fas fa-shield-halved"></i> Admin
@@ -106,12 +107,12 @@ body{background:#F8FAFC;color:#0F172A}.glass{background:rgba(255,255,255,0.85);b
 
 <!-- ============ HOME ============ -->
 <div id="tab-home" class="tab-section active">
-<div class="gradient-primary rounded-3xl p-8 text-white mb-6 relative overflow-hidden shadow-xl animate-fadeIn">
+<div class="gradient-primary rounded-3xl p-8 text-white mb-6 relative overflow-hidden shadow-xl">
 <div class="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full"></div>
 <div class="absolute -right-20 -bottom-20 w-60 h-60 bg-accent-500/30 rounded-full blur-2xl"></div>
 <div class="relative z-10">
 <h2 class="text-3xl md:text-4xl font-display font-black mb-2">Welcome to Tools Hub 🔥</h2>
-<p class="text-base text-white/80">E-SUVIDHA KENDRA — 100+ Professional Tools for CSC Operators</p>
+<p class="text-base text-white/80">E-SUVIDHA KENDRA — 80+ Professional Tools</p>
 <p class="text-sm text-white/70 mt-3">PDF • Photo • CSC • Banking • Legal • Cyber • Student • Business</p>
 </div>
 </div>
@@ -295,7 +296,7 @@ Photo & DTP Tools
 <div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('bgRemove')">
 <div class="w-10 h-10 rounded-xl bg-red-500 text-white flex items-center justify-center mb-2"><i class="fas fa-eraser"></i></div>
 <p class="font-bold text-sm">BG Remover</p>
-<p class="text-xs text-gray-500">Remove background</p>
+<p class="text-xs text-gray-500">Remove BG</p>
 </div>
 <div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('photoEnhance')">
 <div class="w-10 h-10 rounded-xl bg-purple-500 text-white flex items-center justify-center mb-2"><i class="fas fa-magic"></i></div>
@@ -360,21 +361,168 @@ Photo & DTP Tools
 <div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('calendarDesign')">
 <div class="w-10 h-10 rounded-xl bg-red-600 text-white flex items-center justify-center mb-2"><i class="fas fa-calendar"></i></div>
 <p class="font-bold text-sm">Calendar</p>
-<p class="text-xs text-gray-500">Custom calendar</p>
+<p class="text-xs text-gray-500">Custom</p>
 </div>
 </div>
 </div>
 
-<!-- PLACEHOLDER FOR OTHER CATEGORIES -->
-<div id="tab-csc" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-tools text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">CSC Tools - Coming Soon</p></div></div>
-<div id="tab-checklists" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-clipboard-list text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Checklists - Coming Soon</p></div></div>
-<div id="tab-banking" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-university text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Banking Tools - Coming Soon</p></div></div>
-<div id="tab-legal" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-gavel text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Legal Tools - Coming Soon</p></div></div>
-<div id="tab-cyber" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-keyboard text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Cyber Tools - Coming Soon</p></div></div>
-<div id="tab-student" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-graduation-cap text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Student Tools - Coming Soon</p></div></div>
-<div id="tab-business" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-briefcase text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Business Tools - Coming Soon</p></div></div>
-<div id="tab-whatsapp" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fab fa-whatsapp text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">WhatsApp - Coming Soon</p></div></div>
-<div id="tab-letter" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-envelope text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Letter Writer - Coming Soon</p></div></div>
+<!-- ============ CSC TOOLS (15) ============ -->
+<div id="tab-csc" class="tab-section">
+<div class="mb-5">
+<h2 class="font-display font-black text-2xl flex items-center gap-3">
+<span class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center"><i class="fas fa-landmark"></i></span>
+CSC & Government Tools
+</h2>
+<p class="text-sm text-gray-500 mt-1">15 official letter generators</p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('application')">
+<div class="w-10 h-10 rounded-xl bg-blue-500 text-white flex items-center justify-center mb-2"><i class="fas fa-file-alt"></i></div>
+<p class="font-bold text-sm">Application</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('affidavit')">
+<div class="w-10 h-10 rounded-xl bg-green-500 text-white flex items-center justify-center mb-2"><i class="fas fa-file-contract"></i></div>
+<p class="font-bold text-sm">Affidavit</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('rti')">
+<div class="w-10 h-10 rounded-xl bg-purple-500 text-white flex items-center justify-center mb-2"><i class="fas fa-question-circle"></i></div>
+<p class="font-bold text-sm">RTI</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('noc')">
+<div class="w-10 h-10 rounded-xl bg-orange-500 text-white flex items-center justify-center mb-2"><i class="fas fa-certificate"></i></div>
+<p class="font-bold text-sm">NOC</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('income')">
+<div class="w-10 h-10 rounded-xl bg-pink-500 text-white flex items-center justify-center mb-2"><i class="fas fa-rupee-sign"></i></div>
+<p class="font-bold text-sm">Income Cert</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('caste')">
+<div class="w-10 h-10 rounded-xl bg-red-500 text-white flex items-center justify-center mb-2"><i class="fas fa-users"></i></div>
+<p class="font-bold text-sm">Caste Cert</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('domicile')">
+<div class="w-10 h-10 rounded-xl bg-yellow-500 text-white flex items-center justify-center mb-2"><i class="fas fa-home"></i></div>
+<p class="font-bold text-sm">Domicile</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('bonafide')">
+<div class="w-10 h-10 rounded-xl bg-indigo-500 text-white flex items-center justify-center mb-2"><i class="fas fa-school"></i></div>
+<p class="font-bold text-sm">Bonafide</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('character')">
+<div class="w-10 h-10 rounded-xl bg-cyan-500 text-white flex items-center justify-center mb-2"><i class="fas fa-user-check"></i></div>
+<p class="font-bold text-sm">Character</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('agreement')">
+<div class="w-10 h-10 rounded-xl bg-violet-500 text-white flex items-center justify-center mb-2"><i class="fas fa-handshake"></i></div>
+<p class="font-bold text-sm">Agreement</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('declaration')">
+<div class="w-10 h-10 rounded-xl bg-teal-500 text-white flex items-center justify-center mb-2"><i class="fas fa-pen"></i></div>
+<p class="font-bold text-sm">Declaration</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('consent')">
+<div class="w-10 h-10 rounded-xl bg-rose-500 text-white flex items-center justify-center mb-2"><i class="fas fa-check-double"></i></div>
+<p class="font-bold text-sm">Consent</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('scheme')">
+<div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center mb-2"><i class="fas fa-search"></i></div>
+<p class="font-bold text-sm">Scheme Finder</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('eligibility')">
+<div class="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center mb-2"><i class="fas fa-tasks"></i></div>
+<p class="font-bold text-sm">Eligibility</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('pension')">
+<div class="w-10 h-10 rounded-xl bg-slate-500 text-white flex items-center justify-center mb-2"><i class="fas fa-calculator"></i></div>
+<p class="font-bold text-sm">Pension</p>
+</div>
+</div>
+</div>
+
+<!-- ============ CHECKLISTS (6) ============ -->
+<div id="tab-checklists" class="tab-section">
+<div class="mb-5">
+<h2 class="font-display font-black text-2xl flex items-center gap-3">
+<span class="w-10 h-10 rounded-xl bg-yellow-100 text-yellow-600 flex items-center justify-center"><i class="fas fa-clipboard-check"></i></span>
+CSC Checklists
+</h2>
+<p class="text-sm text-gray-500 mt-1">6 document checklists with print & localStorage</p>
+</div>
+<div class="grid sm:grid-cols-2 gap-4" id="checklistsContainer"></div>
+</div>
+
+<!-- ============ BANKING TOOLS (13) ============ -->
+<div id="tab-banking" class="tab-section">
+<div class="mb-5">
+<h2 class="font-display font-black text-2xl flex items-center gap-3">
+<span class="w-10 h-10 rounded-xl bg-green-100 text-green-600 flex items-center justify-center"><i class="fas fa-university"></i></span>
+Banking & Finance Tools
+</h2>
+<p class="text-sm text-gray-500 mt-1">13 financial calculators</p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('emi')">
+<div class="w-10 h-10 rounded-xl bg-blue-500 text-white flex items-center justify-center mb-2"><i class="fas fa-calculator"></i></div>
+<p class="font-bold text-sm">EMI</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('sip')">
+<div class="w-10 h-10 rounded-xl bg-green-500 text-white flex items-center justify-center mb-2"><i class="fas fa-chart-line"></i></div>
+<p class="font-bold text-sm">SIP</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('fd')">
+<div class="w-10 h-10 rounded-xl bg-purple-500 text-white flex items-center justify-center mb-2"><i class="fas fa-piggy-bank"></i></div>
+<p class="font-bold text-sm">FD</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('rd')">
+<div class="w-10 h-10 rounded-xl bg-orange-500 text-white flex items-center justify-center mb-2"><i class="fas fa-coins"></i></div>
+<p class="font-bold text-sm">RD</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('gst')">
+<div class="w-10 h-10 rounded-xl bg-red-500 text-white flex items-center justify-center mb-2"><i class="fas fa-percent"></i></div>
+<p class="font-bold text-sm">GST</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('homeLoan')">
+<div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center mb-2"><i class="fas fa-home"></i></div>
+<p class="font-bold text-sm">Home Loan</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('carLoan')">
+<div class="w-10 h-10 rounded-xl bg-indigo-500 text-white flex items-center justify-center mb-2"><i class="fas fa-car"></i></div>
+<p class="font-bold text-sm">Car Loan</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('interest')">
+<div class="w-10 h-10 rounded-xl bg-cyan-500 text-white flex items-center justify-center mb-2"><i class="fas fa-percentage"></i></div>
+<p class="font-bold text-sm">Interest</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('profit')">
+<div class="w-10 h-10 rounded-xl bg-pink-500 text-white flex items-center justify-center mb-2"><i class="fas fa-chart-pie"></i></div>
+<p class="font-bold text-sm">Profit/Loss</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('cashbook')">
+<div class="w-10 h-10 rounded-xl bg-yellow-500 text-white flex items-center justify-center mb-2"><i class="fas fa-book"></i></div>
+<p class="font-bold text-sm">Cash Book</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('expense')">
+<div class="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center mb-2"><i class="fas fa-receipt"></i></div>
+<p class="font-bold text-sm">Expense</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('invoice')">
+<div class="w-10 h-10 rounded-xl bg-violet-500 text-white flex items-center justify-center mb-2"><i class="fas fa-file-invoice"></i></div>
+<p class="font-bold text-sm">Invoice</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('receipt')">
+<div class="w-10 h-10 rounded-xl bg-teal-500 text-white flex items-center justify-center mb-2"><i class="fas fa-receipt"></i></div>
+<p class="font-bold text-sm">Receipt</p>
+</div>
+</div>
+</div>
+
+<!-- PLACEHOLDER FOR OTHER TABS -->
+<div id="tab-legal" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-tools text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Legal Tools - Add later if needed</p></div></div>
+<div id="tab-cyber" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-tools text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Cyber Tools - Add later if needed</p></div></div>
+<div id="tab-student" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-tools text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Student Tools - Add later if needed</p></div></div>
+<div id="tab-business" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-tools text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Business Tools - Add later if needed</p></div></div>
+<div id="tab-whatsapp" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fab fa-whatsapp text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">WhatsApp - Add later if needed</p></div></div>
+<div id="tab-letter" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-envelope text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Letter Writer - Add later if needed</p></div></div>
 
 </main>
 </div>
@@ -397,6 +545,7 @@ Photo & DTP Tools
 <!-- TOAST -->
 <div id="toast" class="hidden fixed top-24 right-4 z-50 px-5 py-3 rounded-xl shadow-2xl text-white font-semibold text-sm flex items-center gap-2"></div>
 
+<!-- ✅ SINGLE MERGED SCRIPT TAG ✅ -->
 <script>
 // ========== FIREBASE CONFIG ==========
 const firebaseConfig = {
@@ -411,7 +560,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// ========== SIDEBAR & TABS ==========
+// ========== CORE FUNCTIONS ==========
 function toggleSidebar(){
   const sb = document.getElementById('sidebar');
   sb.classList.toggle('hidden');
@@ -426,48 +575,91 @@ function switchTab(t){
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
-// ========== TOOL DEFINITIONS ==========
-const tools = {
-  emi: {title:'EMI Calculator',icon:'fa-calculator',body:`<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Loan Amount (₹)</label><input id="emiP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="500000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Interest Rate (% per year)</label><input id="emiR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="9.5"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Tenure (months)</label><input id="emiT" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="60"></div><button onclick="calcEMI()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate EMI</button><div id="emiResult" class="hidden bg-gradient-to-br from-primary-50 to-accent-50 p-4 rounded-xl text-center border-2 border-primary-100"></div></div>`},
-  sip: {title:'SIP Calculator',icon:'fa-chart-line',body:`<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Monthly Investment (₹)</label><input id="sipM" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="5000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Expected Return (%)</label><input id="sipR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="12"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Time (years)</label><input id="sipY" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="10"></div><button onclick="calcSIP()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="sipResult" class="hidden bg-gradient-to-br from-green-50 to-emerald-50 p-4 rounded-xl text-center border-2 border-green-200"></div></div>`},
-  gst: {title:'GST Calculator',icon:'fa-percent',body:`<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Amount (₹)</label><input id="gstAmt" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="1000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">GST Rate</label><select id="gstRate" class="input-style w-full px-4 py-3 rounded-xl"><option>5</option><option>12</option><option selected>18</option><option>28</option></select></div><button onclick="calcGST()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="gstResult" class="hidden bg-gradient-to-br from-yellow-50 to-amber-50 p-4 rounded-xl border-2 border-yellow-200"></div></div>`},
-  homeLoan: {title:'Home Loan Calculator',icon:'fa-home',body:`<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Loan Amount (₹)</label><input id="hlP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="2500000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Interest Rate (%)</label><input id="hlR" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="8.5"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Tenure (years)</label><input id="hlT" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="20"></div><button onclick="calcHL()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="hlResult" class="hidden bg-gradient-to-br from-blue-50 to-cyan-50 p-4 rounded-xl text-center border-2 border-blue-200"></div></div>`},
-  qrcode: {title:'QR Code Generator',icon:'fa-qrcode',body:`<div class="space-y-3"><input id="qrText" placeholder="Text or URL" class="input-style w-full px-4 py-3 rounded-xl"><button onclick="doQR()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Generate</button><div id="qrResult" class="text-center bg-soft p-4 rounded-xl min-h-[120px] flex items-center justify-center"></div></div>`},
-  barcode: {title:'Barcode Generator',icon:'fa-barcode',body:`<div class="space-y-3"><input id="bcText" placeholder="Number" class="input-style w-full px-4 py-3 rounded-xl"><button onclick="doBarcode()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Generate</button><div id="bcResult" class="text-center bg-soft p-4 rounded-xl min-h-[100px] flex items-center justify-center"></div></div>`},
-  password: {title:'Password Generator',icon:'fa-key',body:`<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1">Length: <span id="pwLenVal">12</span></label><input id="pwLen" type="range" min="6" max="32" value="12" oninput="document.getElementById('pwLenVal').textContent=this.value" class="w-full accent-primary-800"></div><label class="flex items-center gap-2"><input type="checkbox" id="pwUpper" checked class="w-5 h-5"> Uppercase</label><label class="flex items-center gap-2"><input type="checkbox" id="pwNum" checked class="w-5 h-5"> Numbers</label><label class="flex items-center gap-2"><input type="checkbox" id="pwSym" checked class="w-5 h-5"> Symbols</label><button onclick="doPwd()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Generate</button><div class="flex gap-2"><input id="pwResult" readonly class="input-style flex-1 px-3 py-3 rounded-xl font-mono text-center font-bold"><button onclick="copyText('pwResult')" class="btn-accent text-white px-4 rounded-xl"><i class="fas fa-copy"></i></button></div></div>`},
-  age: {title:'Age Calculator',icon:'fa-birthday-cake',body:`<div class="space-y-3"><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Date of Birth</label><input id="ageDate" type="date" class="input-style w-full px-4 py-3 rounded-xl"><button onclick="calcAge()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="ageResult" class="hidden bg-gradient-to-br from-pink-50 to-rose-50 p-4 rounded-xl text-center border-2 border-pink-200"></div></div>`},
-  unit: {title:'Unit Converter',icon:'fa-ruler',body:`<div class="space-y-3"><select id="utType" onchange="convertUnit()" class="input-style w-full px-4 py-3 rounded-xl"><option value="length">Length</option><option value="weight">Weight</option><option value="temperature">Temperature</option></select><input id="utVal" type="number" placeholder="Value" oninput="convertUnit()" class="input-style w-full px-4 py-3 rounded-xl"><div id="utResult" class="bg-soft p-4 rounded-xl space-y-1"></div></div>`},
-  bmi: {title:'BMI Calculator',icon:'fa-weight',body:`<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Weight (kg)</label><input id="bW" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="70"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Height (cm)</label><input id="bH" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="170"></div><button onclick="calcBMI()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate BMI</button><div id="bResult" class="hidden bg-gradient-to-br from-green-50 to-emerald-50 p-4 rounded-xl text-center border-2 border-green-200"></div></div>`},
-  mergePdf: {title:'Merge PDFs',icon:'fa-compress-arrows-alt',body:`<div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center"><i class="fas fa-file-pdf text-5xl text-red-400 mb-3"></i><p class="text-sm text-gray-600 mb-3">Select 2+ PDF files</p><input type="file" id="mFiles" accept=".pdf" multiple class="block w-full text-sm"></div><button onclick="doMerge()" class="btn-primary w-full text-white py-3 rounded-xl font-bold mt-3">Merge & Download</button>`},
-  splitPdf: {title:'Split PDF',icon:'fa-cut',body:`<div class="space-y-3"><div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center"><i class="fas fa-cut text-4xl text-orange-400 mb-2"></i><input type="file" id="sFile" accept=".pdf" class="block w-full text-sm"></div><input id="sRange" type="text" placeholder="Pages (e.g. 1-3,5)" class="input-style w-full px-4 py-3 rounded-xl"><button onclick="doSplit()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Split</button></div>`},
-  compressPdf: {title:'Compress PDF',icon:'fa-file-archive',body:`<div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center"><i class="fas fa-file-archive text-5xl text-purple-400 mb-3"></i><p class="text-sm text-gray-600 mb-3">Select PDF</p><input type="file" id="cFile" accept=".pdf" class="block w-full text-sm"></div><button onclick="doCompress()" class="btn-primary w-full text-white py-3 rounded-xl font-bold mt-3">Compress</button>`},
-  imgToPdf: {title:'Image to PDF',icon:'fa-file-image',body:`<div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center"><i class="fas fa-images text-5xl text-green-400 mb-3"></i><p class="text-sm text-gray-600 mb-3">Select images</p><input type="file" id="iFiles" accept="image/*" multiple class="block w-full text-sm"></div><button onclick="doImgToPdf()" class="btn-primary w-full text-white py-3 rounded-xl font-bold mt-3">Convert to PDF</button>`},
-  jpgToPdf: {title:'JPG to PDF',icon:'fa-file-image',body:`<div class="space-y-3"><input type="file" id="iFiles" accept="image/*" multiple class="block w-full text-sm"><button onclick="doImgToPdf()" class="btn-primary w-full text-white py-3 rounded-xl font-bold mt-3">Convert JPG → PDF</button></div>`},
-  passportPhoto: {title:'Passport Photo Maker',icon:'fa-id-badge',body:`<div class="grid grid-cols-3 gap-2"><div><label class="text-xs">Width</label><input id="ppW" type="number" value="200" class="input-style w-full px-2 py-2 rounded-lg"></div><div><label class="text-xs">Height</label><input id="ppH" type="number" value="240" class="input-style w-full px-2 py-2 rounded-lg"></div><div><label class="text-xs">Copies</label><input id="ppC" type="number" value="8" class="input-style w-full px-2 py-2 rounded-lg"></div></div><input type="file" id="ppFile" accept="image/*" class="block w-full text-sm border-2 border-dashed border-gray-300 rounded-lg p-3 mt-2"><button onclick="doPassport()" class="btn-primary w-full text-white py-3 rounded-xl font-bold mt-3">Generate Sheet</button><div id="ppResult" class="bg-soft p-3 rounded-xl"></div>`},
-  signature: {title:'Signature Crop',icon:'fa-signature',body:`<input type="file" id="sigFile" accept="image/*" class="block w-full text-sm mb-3"><button onclick="doSignature()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Process</button><div id="sigResult" class="mt-3 rounded-xl" style="background:repeating-conic-gradient(#e5e7eb 0% 25%, white 0% 50%) 50%/20px 20px"></div>`}
-};
-
-// Other tools - simpler handler
-const simpleTools = ['pdfToWord','wordToPdf','excelToPdf','unlockPdf','protectPdf','ocr','handwriting','docScan','watermark','pageNumber','signPdf','bulkMerge','bulkCompress','bgRemove','photoEnhance','idCard','certificate','visitingCard','banner','poster','weddingCard','letterhead','logoMaker','photoResize','photoCollage','calendarDesign'];
-
-function openTool(key){
-  if(tools[key]){
-    const t = tools[key];
-    document.getElementById('toolTitle').textContent = t.title;
-    document.getElementById('toolIcon').className = 'fas ' + t.icon;
-    document.getElementById('toolBody').innerHTML = t.body;
-  } else if(simpleTools.includes(key)){
-    document.getElementById('toolTitle').textContent = key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1');
-    document.getElementById('toolIcon').className = 'fas fa-tools';
-    document.getElementById('toolBody').innerHTML = `<div class="text-center py-8"><i class="fas fa-tools text-5xl text-primary-300 mb-3"></i><p class="text-gray-600 font-bold">${key.charAt(0).toUpperCase() + key.slice(1)} Tool</p><p class="text-xs text-gray-500 mt-2">Coming soon - Tool UI ready!</p></div>`;
-  } else {
-    toast('Tool not available', 'error');
-  }
-  document.getElementById('toolModal').classList.remove('hidden');
-}
+function openToolModal(){ document.getElementById('toolModal').classList.remove('hidden'); }
 function closeToolModal(){ document.getElementById('toolModal').classList.add('hidden'); }
 
-// ========== TOOL FUNCTIONS ==========
+function toast(msg, type='success'){
+  const t = document.getElementById('toast');
+  t.innerHTML = `<i class="fas fa-${type==='success'?'check-circle':'exclamation-circle'}"></i> ${msg}`;
+  t.className = `fixed top-24 right-4 z-50 px-5 py-3 rounded-xl shadow-2xl text-white font-semibold text-sm flex items-center gap-2 ${type==='success'?'bg-gradient-to-r from-green-500 to-emerald-600':'bg-gradient-to-r from-red-500 to-red-600'}`;
+  setTimeout(()=>t.classList.add('hidden'), 3500);
+}
+
+// ========== TOOL 1: EMI CALCULATOR ==========
+function openTool(key){
+  if(key === 'emi'){
+    document.getElementById('toolTitle').textContent = 'EMI Calculator';
+    document.getElementById('toolIcon').className = 'fas fa-calculator';
+    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Loan Amount (₹)</label><input id="emiP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="500000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Interest Rate (% yearly)</label><input id="emiR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="9.5"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Tenure (months)</label><input id="emiT" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="60"></div><button onclick="calcEMI()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate EMI</button><div id="emiResult" class="hidden bg-gradient-to-br from-primary-50 to-accent-50 p-4 rounded-xl text-center border-2 border-primary-100"></div></div>`;
+  } else if(key === 'sip'){
+    document.getElementById('toolTitle').textContent = 'SIP Calculator';
+    document.getElementById('toolIcon').className = 'fas fa-chart-line';
+    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Monthly Investment (₹)</label><input id="sipM" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="5000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Expected Return (%)</label><input id="sipR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="12"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Time (years)</label><input id="sipY" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="10"></div><button onclick="calcSIP()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="sipResult" class="hidden bg-gradient-to-br from-green-50 to-emerald-50 p-4 rounded-xl text-center border-2 border-green-200"></div></div>`;
+  } else if(key === 'gst'){
+    document.getElementById('toolTitle').textContent = 'GST Calculator';
+    document.getElementById('toolIcon').className = 'fas fa-percent';
+    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Amount (₹)</label><input id="gstAmt" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="1000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">GST Rate</label><select id="gstRate" class="input-style w-full px-4 py-3 rounded-xl"><option>5</option><option>12</option><option selected>18</option><option>28</option></select></div><button onclick="calcGST()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="gstResult" class="hidden bg-gradient-to-br from-yellow-50 to-amber-50 p-4 rounded-xl border-2 border-yellow-200"></div></div>`;
+  } else if(key === 'homeLoan'){
+    document.getElementById('toolTitle').textContent = 'Home Loan Calculator';
+    document.getElementById('toolIcon').className = 'fas fa-home';
+    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Loan Amount (₹)</label><input id="hlP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="2500000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Interest Rate (%)</label><input id="hlR" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="8.5"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Tenure (years)</label><input id="hlT" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="20"></div><button onclick="calcHL()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="hlResult" class="hidden bg-gradient-to-br from-blue-50 to-cyan-50 p-4 rounded-xl text-center border-2 border-blue-200"></div></div>`;
+  } else if(key === 'qrcode'){
+    document.getElementById('toolTitle').textContent = 'QR Code Generator';
+    document.getElementById('toolIcon').className = 'fas fa-qrcode';
+    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><input id="qrText" placeholder="Text or URL" class="input-style w-full px-4 py-3 rounded-xl"><button onclick="doQR()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Generate</button><div id="qrResult" class="text-center bg-soft p-4 rounded-xl min-h-[120px] flex items-center justify-center"></div></div>`;
+  } else if(key === 'barcode'){
+    document.getElementById('toolTitle').textContent = 'Barcode Generator';
+    document.getElementById('toolIcon').className = 'fas fa-barcode';
+    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><input id="bcText" placeholder="Number" class="input-style w-full px-4 py-3 rounded-xl"><button onclick="doBarcode()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Generate</button><div id="bcResult" class="text-center bg-soft p-4 rounded-xl min-h-[100px] flex items-center justify-center"></div></div>`;
+  } else if(key === 'password'){
+    document.getElementById('toolTitle').textContent = 'Password Generator';
+    document.getElementById('toolIcon').className = 'fas fa-key';
+    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1">Length: <span id="pwLenVal">12</span></label><input id="pwLen" type="range" min="6" max="32" value="12" oninput="document.getElementById('pwLenVal').textContent=this.value" class="w-full accent-primary-800"></div><label class="flex items-center gap-2"><input type="checkbox" id="pwUpper" checked class="w-5 h-5"> Uppercase</label><label class="flex items-center gap-2"><input type="checkbox" id="pwNum" checked class="w-5 h-5"> Numbers</label><label class="flex items-center gap-2"><input type="checkbox" id="pwSym" checked class="w-5 h-5"> Symbols</label><button onclick="doPwd()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Generate</button><div class="flex gap-2"><input id="pwResult" readonly class="input-style flex-1 px-3 py-3 rounded-xl font-mono text-center font-bold"><button onclick="copyText('pwResult')" class="btn-accent text-white px-4 rounded-xl"><i class="fas fa-copy"></i></button></div></div>`;
+  } else if(key === 'age'){
+    document.getElementById('toolTitle').textContent = 'Age Calculator';
+    document.getElementById('toolIcon').className = 'fas fa-birthday-cake';
+    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Date of Birth</label><input id="ageDate" type="date" class="input-style w-full px-4 py-3 rounded-xl"><button onclick="calcAge()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="ageResult" class="hidden bg-gradient-to-br from-pink-50 to-rose-50 p-4 rounded-xl text-center border-2 border-pink-200"></div></div>`;
+  } else if(key === 'unit'){
+    document.getElementById('toolTitle').textContent = 'Unit Converter';
+    document.getElementById('toolIcon').className = 'fas fa-ruler';
+    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><select id="utType" onchange="convertUnit()" class="input-style w-full px-4 py-3 rounded-xl"><option value="length">Length</option><option value="weight">Weight</option><option value="temperature">Temperature</option></select><input id="utVal" type="number" placeholder="Value" oninput="convertUnit()" class="input-style w-full px-4 py-3 rounded-xl"><div id="utResult" class="bg-soft p-4 rounded-xl space-y-1"></div></div>`;
+  } else if(key === 'bmi'){
+    document.getElementById('toolTitle').textContent = 'BMI Calculator';
+    document.getElementById('toolIcon').className = 'fas fa-weight';
+    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Weight (kg)</label><input id="bW" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="70"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Height (cm)</label><input id="bH" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="170"></div><button onclick="calcBMI()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate BMI</button><div id="bResult" class="hidden bg-gradient-to-br from-green-50 to-emerald-50 p-4 rounded-xl text-center border-2 border-green-200"></div></div>`;
+  } else if(key === 'mergePdf'){
+    document.getElementById('toolTitle').textContent = 'Merge PDFs';
+    document.getElementById('toolIcon').className = 'fas fa-compress-arrows-alt';
+    document.getElementById('toolBody').innerHTML = `<div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center"><i class="fas fa-file-pdf text-5xl text-red-400 mb-3"></i><p class="text-sm text-gray-600 mb-3">Select 2+ PDF files</p><input type="file" id="mFiles" accept=".pdf" multiple class="block w-full text-sm"></div><button onclick="doMerge()" class="btn-primary w-full text-white py-3 rounded-xl font-bold mt-3">Merge & Download</button>`;
+  } else if(key === 'splitPdf'){
+    document.getElementById('toolTitle').textContent = 'Split PDF';
+    document.getElementById('toolIcon').className = 'fas fa-cut';
+    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center"><i class="fas fa-cut text-4xl text-orange-400 mb-2"></i><input type="file" id="sFile" accept=".pdf" class="block w-full text-sm"></div><input id="sRange" type="text" placeholder="Pages (e.g. 1-3,5)" class="input-style w-full px-4 py-3 rounded-xl"><button onclick="doSplit()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Split</button></div>`;
+  } else if(key === 'compressPdf'){
+    document.getElementById('toolTitle').textContent = 'Compress PDF';
+    document.getElementById('toolIcon').className = 'fas fa-file-archive';
+    document.getElementById('toolBody').innerHTML = `<div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center"><i class="fas fa-file-archive text-5xl text-purple-400 mb-3"></i><p class="text-sm text-gray-600 mb-3">Select PDF</p><input type="file" id="cFile" accept=".pdf" class="block w-full text-sm"></div><button onclick="doCompress()" class="btn-primary w-full text-white py-3 rounded-xl font-bold mt-3">Compress</button>`;
+  } else if(key === 'jpgToPdf' || key === 'imgToPdf'){
+    document.getElementById('toolTitle').textContent = 'Image to PDF';
+    document.getElementById('toolIcon').className = 'fas fa-file-image';
+    document.getElementById('toolBody').innerHTML = `<div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center"><i class="fas fa-images text-5xl text-green-400 mb-3"></i><p class="text-sm text-gray-600 mb-3">Select images</p><input type="file" id="iFiles" accept="image/*" multiple class="block w-full text-sm"></div><button onclick="doImgToPdf()" class="btn-primary w-full text-white py-3 rounded-xl font-bold mt-3">Convert to PDF</button>`;
+  } else if(key === 'passportPhoto'){
+    document.getElementById('toolTitle').textContent = 'Passport Photo Maker';
+    document.getElementById('toolIcon').className = 'fas fa-id-badge';
+    document.getElementById('toolBody').innerHTML = `<div class="grid grid-cols-3 gap-2"><div><label class="text-xs">Width</label><input id="ppW" type="number" value="200" class="input-style w-full px-2 py-2 rounded-lg"></div><div><label class="text-xs">Height</label><input id="ppH" type="number" value="240" class="input-style w-full px-2 py-2 rounded-lg"></div><div><label class="text-xs">Copies</label><input id="ppC" type="number" value="8" class="input-style w-full px-2 py-2 rounded-lg"></div></div><input type="file" id="ppFile" accept="image/*" class="block w-full text-sm border-2 border-dashed border-gray-300 rounded-lg p-3 mt-2"><button onclick="doPassport()" class="btn-primary w-full text-white py-3 rounded-xl font-bold mt-3">Generate Sheet</button><div id="ppResult" class="bg-soft p-3 rounded-xl"></div>`;
+  } else if(key === 'signature'){
+    document.getElementById('toolTitle').textContent = 'Signature Crop';
+    document.getElementById('toolIcon').className = 'fas fa-signature';
+    document.getElementById('toolBody').innerHTML = `<input type="file" id="sigFile" accept="image/*" class="block w-full text-sm mb-3"><button onclick="doSignature()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Process</button><div id="sigResult" class="mt-3 rounded-xl" style="background:repeating-conic-gradient(#e5e7eb 0% 25%, white 0% 50%) 50%/20px 20px"></div>`;
+  } else {
+    document.getElementById('toolTitle').textContent = 'Coming Soon';
+    document.getElementById('toolIcon').className = 'fas fa-tools';
+    document.getElementById('toolBody').innerHTML = `<div class="text-center py-8"><i class="fas fa-tools text-5xl text-primary-300 mb-3"></i><p class="text-gray-600 font-bold">${key} Tool</p><p class="text-xs text-gray-500 mt-2">UI ready - Coming soon</p></div>`;
+  }
+  openToolModal();
+}
+
+// ========== CALCULATION FUNCTIONS ==========
 function calcEMI(){
   const p=+document.getElementById('emiP').value, r=+document.getElementById('emiR').value/12/100, n=+document.getElementById('emiT').value;
   if(!p||!r||!n) return toast('Fill all fields','error');
@@ -679,182 +871,13 @@ function doSignature(){
   img.src=URL.createObjectURL(file);
 }
 
-// ========== TOAST ==========
-function toast(msg, type='success'){
-  const t = document.getElementById('toast');
-  t.innerHTML = `<i class="fas fa-${type==='success'?'check-circle':'exclamation-circle'}"></i> ${msg}`;
-  t.className = `fixed top-24 right-4 z-50 px-5 py-3 rounded-xl shadow-2xl text-white font-semibold text-sm flex items-center gap-2 ${type==='success'?'bg-gradient-to-r from-green-500 to-emerald-600':'bg-gradient-to-r from-red-500 to-red-600'}`;
-  setTimeout(()=>t.classList.add('hidden'), 3500);
-}
-
-// ⚠️ PART 2 & 3 JAVASCRIPT WILL BE ADDED HERE LATER
-  <!-- ============ CSC TOOLS (15) ============ -->
-<div id="tab-csc" class="tab-section">
-<div class="mb-5">
-<h2 class="font-display font-black text-2xl flex items-center gap-3">
-<span class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center"><i class="fas fa-landmark"></i></span>
-CSC & Government Tools
-</h2>
-<p class="text-sm text-gray-500 mt-1">15 official letter generators for CSC</p>
-</div>
-<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('application')">
-<div class="w-10 h-10 rounded-xl bg-blue-500 text-white flex items-center justify-center mb-2"><i class="fas fa-file-alt"></i></div>
-<p class="font-bold text-sm">Application</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('affidavit')">
-<div class="w-10 h-10 rounded-xl bg-green-500 text-white flex items-center justify-center mb-2"><i class="fas fa-file-contract"></i></div>
-<p class="font-bold text-sm">Affidavit</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('rti')">
-<div class="w-10 h-10 rounded-xl bg-purple-500 text-white flex items-center justify-center mb-2"><i class="fas fa-question-circle"></i></div>
-<p class="font-bold text-sm">RTI</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('noc')">
-<div class="w-10 h-10 rounded-xl bg-orange-500 text-white flex items-center justify-center mb-2"><i class="fas fa-certificate"></i></div>
-<p class="font-bold text-sm">NOC</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('income')">
-<div class="w-10 h-10 rounded-xl bg-pink-500 text-white flex items-center justify-center mb-2"><i class="fas fa-rupee-sign"></i></div>
-<p class="font-bold text-sm">Income Cert</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('caste')">
-<div class="w-10 h-10 rounded-xl bg-red-500 text-white flex items-center justify-center mb-2"><i class="fas fa-users"></i></div>
-<p class="font-bold text-sm">Caste Cert</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('domicile')">
-<div class="w-10 h-10 rounded-xl bg-yellow-500 text-white flex items-center justify-center mb-2"><i class="fas fa-home"></i></div>
-<p class="font-bold text-sm">Domicile</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('bonafide')">
-<div class="w-10 h-10 rounded-xl bg-indigo-500 text-white flex items-center justify-center mb-2"><i class="fas fa-school"></i></div>
-<p class="font-bold text-sm">Bonafide</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('character')">
-<div class="w-10 h-10 rounded-xl bg-cyan-500 text-white flex items-center justify-center mb-2"><i class="fas fa-user-check"></i></div>
-<p class="font-bold text-sm">Character</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('agreement')">
-<div class="w-10 h-10 rounded-xl bg-violet-500 text-white flex items-center justify-center mb-2"><i class="fas fa-handshake"></i></div>
-<p class="font-bold text-sm">Agreement</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('declaration')">
-<div class="w-10 h-10 rounded-xl bg-teal-500 text-white flex items-center justify-center mb-2"><i class="fas fa-pen"></i></div>
-<p class="font-bold text-sm">Declaration</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('consent')">
-<div class="w-10 h-10 rounded-xl bg-rose-500 text-white flex items-center justify-center mb-2"><i class="fas fa-check-double"></i></div>
-<p class="font-bold text-sm">Consent</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('scheme')">
-<div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center mb-2"><i class="fas fa-search"></i></div>
-<p class="font-bold text-sm">Scheme Finder</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('eligibility')">
-<div class="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center mb-2"><i class="fas fa-tasks"></i></div>
-<p class="font-bold text-sm">Eligibility</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('pension')">
-<div class="w-10 h-10 rounded-xl bg-slate-500 text-white flex items-center justify-center mb-2"><i class="fas fa-calculator"></i></div>
-<p class="font-bold text-sm">Pension Calc</p>
-</div>
-</div>
-</div>
-
-<!-- ============ CHECKLISTS (6) ============ -->
-<div id="tab-checklists" class="tab-section">
-<div class="mb-5">
-<h2 class="font-display font-black text-2xl flex items-center gap-3">
-<span class="w-10 h-10 rounded-xl bg-yellow-100 text-yellow-600 flex items-center justify-center"><i class="fas fa-clipboard-check"></i></span>
-CSC Checklists
-</h2>
-<p class="text-sm text-gray-500 mt-1">6 document checklists with print & localStorage</p>
-</div>
-<div class="grid sm:grid-cols-2 gap-4" id="checklistsContainer"></div>
-</div>
-
-<!-- ============ BANKING TOOLS (13) ============ -->
-<div id="tab-banking" class="tab-section">
-<div class="mb-5">
-<h2 class="font-display font-black text-2xl flex items-center gap-3">
-<span class="w-10 h-10 rounded-xl bg-green-100 text-green-600 flex items-center justify-center"><i class="fas fa-university"></i></span>
-Banking & Finance Tools
-</h2>
-<p class="text-sm text-gray-500 mt-1">13 financial calculators</p>
-</div>
-<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('emi','EMI')">
-<div class="w-10 h-10 rounded-xl bg-blue-500 text-white flex items-center justify-center mb-2"><i class="fas fa-calculator"></i></div>
-<p class="font-bold text-sm">EMI</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('sip','SIP')">
-<div class="w-10 h-10 rounded-xl bg-green-500 text-white flex items-center justify-center mb-2"><i class="fas fa-chart-line"></i></div>
-<p class="font-bold text-sm">SIP</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('fd','FD')">
-<div class="w-10 h-10 rounded-xl bg-purple-500 text-white flex items-center justify-center mb-2"><i class="fas fa-piggy-bank"></i></div>
-<p class="font-bold text-sm">FD</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('rd','RD')">
-<div class="w-10 h-10 rounded-xl bg-orange-500 text-white flex items-center justify-center mb-2"><i class="fas fa-coins"></i></div>
-<p class="font-bold text-sm">RD</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('gst','GST')">
-<div class="w-10 h-10 rounded-xl bg-red-500 text-white flex items-center justify-center mb-2"><i class="fas fa-percent"></i></div>
-<p class="font-bold text-sm">GST</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('homeLoan','Home Loan')">
-<div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center mb-2"><i class="fas fa-home"></i></div>
-<p class="font-bold text-sm">Home Loan</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('carLoan','Car Loan')">
-<div class="w-10 h-10 rounded-xl bg-indigo-500 text-white flex items-center justify-center mb-2"><i class="fas fa-car"></i></div>
-<p class="font-bold text-sm">Car Loan</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('interest','Interest')">
-<div class="w-10 h-10 rounded-xl bg-cyan-500 text-white flex items-center justify-center mb-2"><i class="fas fa-percentage"></i></div>
-<p class="font-bold text-sm">Interest</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('profit','Profit/Loss')">
-<div class="w-10 h-10 rounded-xl bg-pink-500 text-white flex items-center justify-center mb-2"><i class="fas fa-chart-pie"></i></div>
-<p class="font-bold text-sm">Profit/Loss</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('cashbook','Cash Book')">
-<div class="w-10 h-10 rounded-xl bg-yellow-500 text-white flex items-center justify-center mb-2"><i class="fas fa-book"></i></div>
-<p class="font-bold text-sm">Cash Book</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('expense','Expense')">
-<div class="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center mb-2"><i class="fas fa-receipt"></i></div>
-<p class="font-bold text-sm">Expense</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('invoice','Invoice')">
-<div class="w-10 h-10 rounded-xl bg-violet-500 text-white flex items-center justify-center mb-2"><i class="fas fa-file-invoice"></i></div>
-<p class="font-bold text-sm">Invoice</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('receipt','Receipt')">
-<div class="w-10 h-10 rounded-xl bg-teal-500 text-white flex items-center justify-center mb-2"><i class="fas fa-receipt"></i></div>
-<p class="font-bold text-sm">Receipt</p>
-</div>
-</div>
-</div>
-
-<!-- ============ OTHER TABS PLACEHOLDERS ============ -->
-<div id="tab-legal" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-tools text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Legal Tools - Coming in Part 3</p></div></div>
-<div id="tab-cyber" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-tools text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Cyber Tools - Coming in Part 3</p></div></div>
-<div id="tab-student" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-tools text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Student Tools - Coming in Part 3</p></div></div>
-<div id="tab-business" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-tools text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Business Tools - Coming in Part 3</p></div></div>
-<div id="tab-whatsapp" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fab fa-whatsapp text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">WhatsApp - Coming in Part 3</p></div></div>
-<div id="tab-letter" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-envelope text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Letter Writer - Coming in Part 3</p></div></div>
-
-<!-- ============ JAVASCRIPT — PASTE BEFORE </body> ============ -->
-<script>
-// CSC LETTER TOOLS
+// ========== CSC LETTER TOOLS ==========
 const letterTemplates = {
   application: {title:'Application',icon:'fa-file-alt',body:`To,\nThe Concerned Authority,\n{{ADDRESS}}\n\nSubject: {{SUBJECT}}\n\nRespected Sir/Madam,\n\nI, {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, humbly submit that {{BODY}}.\n\nI request you to kindly consider my application.\n\nThanking you,\n{{NAME}}\nMobile: {{MOBILE}}\nDate: {{DATE}}`},
   affidavit: {title:'Affidavit',icon:'fa-file-contract',body:`AFFIDAVIT\n\nI, {{NAME}} S/o {{FATHER}}, aged ___ years, resident of {{ADDRESS}}, do hereby solemnly affirm:\n\n1. That {{BODY}}\n2. The above statement is true.\n\nDEPONENT\n{{NAME}}\nDate: {{DATE}}`},
   rti: {title:'RTI Application',icon:'fa-question-circle',body:`To,\nThe Public Information Officer\n\nSubject: {{SUBJECT}}\n\n1. Name: {{NAME}}\n2. Address: {{ADDRESS}}\n3. Mobile: {{MOBILE}}\n4. Information Required: {{BODY}}\n\nYours faithfully,\n{{NAME}}\nDate: {{DATE}}`},
-  noc: {title:'No Objection Certificate',icon:'fa-certificate',body:`NO OBJECTION CERTIFICATE\n\nTo Whom It May Concern,\n\nThis is to certify that {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, has no objection regarding {{BODY}}.\n\n{{NAME}}\nDate: {{DATE}}`},
-  income: {title:'Income Certificate',icon:'fa-rupee-sign',body:`To,\nThe Tehsildar,\n\nSubject: Income Certificate\n\nI, {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, request you to issue an Income Certificate. My annual family income is Rs. ___ and {{BODY}}.\n\nYours faithfully,\n{{NAME}}\nDate: {{DATE}}`},
+  noc: {title:'NOC',icon:'fa-certificate',body:`NO OBJECTION CERTIFICATE\n\nThis is to certify that {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, has no objection regarding {{BODY}}.\n\n{{NAME}}\nDate: {{DATE}}`},
+  income: {title:'Income Certificate',icon:'fa-rupee-sign',body:`To,\nThe Tehsildar,\n\nSubject: Income Certificate\n\nI, {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, request Income Certificate. Annual family income is Rs.___ and {{BODY}}.\n\nYours faithfully,\n{{NAME}}\nDate: {{DATE}}`},
   caste: {title:'Caste Certificate',icon:'fa-users',body:`To,\nThe Tehsildar,\n\nSubject: Caste Certificate\n\nI, {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, belong to {{SUBJECT}} caste. {{BODY}}\n\nYours faithfully,\n{{NAME}}\nDate: {{DATE}}`},
   domicile: {title:'Domicile Certificate',icon:'fa-home',body:`To,\nThe Tehsildar,\n\nSubject: Domicile Certificate\n\nI, {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, am a permanent resident for last ___ years. {{BODY}}\n\nYours faithfully,\n{{NAME}}\nDate: {{DATE}}`},
   bonafide: {title:'Bonafide Certificate',icon:'fa-school',body:`BONAFIDE CERTIFICATE\n\nThis is to certify that {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, is a bonafide resident. {{BODY}}\n\n{{NAME}}\nDate: {{DATE}}`},
@@ -862,9 +885,9 @@ const letterTemplates = {
   agreement: {title:'Agreement',icon:'fa-handshake',body:`AGREEMENT\n\nThis agreement is made on {{DATE}} between:\nParty A: {{NAME}}, {{ADDRESS}}\nParty B: {{SUBJECT}}\n\nTerms: {{BODY}}\n\n{{NAME}}\nDate: {{DATE}}`},
   declaration: {title:'Self Declaration',icon:'fa-pen',body:`SELF DECLARATION\n\nI, {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, do hereby declare that {{BODY}}.\n\n{{NAME}}\nDate: {{DATE}}`},
   consent: {title:'Consent Letter',icon:'fa-check-double',body:`CONSENT LETTER\n\nI, {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, hereby give my consent for {{BODY}}.\n\n{{NAME}}\nDate: {{DATE}}`},
-  scheme: {title:'Government Scheme Finder',icon:'fa-search',body:`GOVERNMENT SCHEMES\n\nFor {{NAME}}, eligible schemes:\n1. PM Kisan - ₹6000/year\n2. Ayushman Bharat - ₹5L health\n3. Ujjwala Yojana - Free LPG\n4. PMAY - Housing\n5. Sukanya Samriddhi - Girl child\n\nVisit: schemes.gov.in for more details.`},
-  eligibility: {title:'Eligibility Checker',icon:'fa-tasks',body:`ELIGIBILITY CHECK\n\nName: {{NAME}}\nIncome: ₹___\nCategory: ___\n\nBased on {{BODY}}, you may be eligible for:\n- PM Kisan Yojana\n- Ayushman Bharat\n- State Government Schemes\n\nPlease contact CSC operator for details.`},
-  pension: {title:'Pension Calculator',icon:'fa-calculator',body:`PENSION CALCULATION\n\nName: {{NAME}}\nLast Salary: ₹___\nYears of Service: ___ years\n\nAs per {{BODY}}, your monthly pension will be:\n- Basic Pension: ₹___\n- DA: ₹___\n- Total: ₹___\n\nNote: This is approximate. Actual pension may vary.`}
+  scheme: {title:'Scheme Finder',icon:'fa-search',body:`GOVERNMENT SCHEMES\n\nFor {{NAME}}, eligible schemes:\n1. PM Kisan - ₹6000/year\n2. Ayushman Bharat - ₹5L health\n3. Ujjwala Yojana - Free LPG\n4. PMAY - Housing\n5. Sukanya Samriddhi - Girl child\n\nVisit: schemes.gov.in`},
+  eligibility: {title:'Eligibility Checker',icon:'fa-tasks',body:`ELIGIBILITY CHECK\n\nName: {{NAME}}\nIncome: ₹___\nCategory: ___\n\nBased on {{BODY}}, you may be eligible for:\n- PM Kisan Yojana\n- Ayushman Bharat\n- State Schemes\n\nContact CSC operator for details.`},
+  pension: {title:'Pension Calculator',icon:'fa-calculator',body:`PENSION CALCULATION\n\nName: {{NAME}}\nLast Salary: ₹___\nYears: ___\n\nPer {{BODY}}, monthly pension:\n- Basic: ₹___\n- DA: ₹___\n- Total: ₹___\n\nNote: Approximate values.`}
 };
 
 function openLetterTool(key){
@@ -878,12 +901,12 @@ function openLetterTool(key){
 <input id="ltAddress" placeholder="Address" class="input-style w-full px-3 py-2.5 rounded-lg">
 <input id="ltMobile" placeholder="Mobile Number" class="input-style w-full px-3 py-2.5 rounded-lg">
 <input id="ltSubject" placeholder="Subject / Topic" class="input-style w-full px-3 py-2.5 rounded-lg">
-<textarea id="ltBody" placeholder="Main content / body of letter..." rows="4" class="input-style w-full px-3 py-2.5 rounded-lg resize-none"></textarea>
+<textarea id="ltBody" placeholder="Main content / body..." rows="4" class="input-style w-full px-3 py-2.5 rounded-lg resize-none"></textarea>
 <button onclick="genLetter('${key}')" class="btn-primary text-white w-full py-3 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-magic"></i> Generate</button>
 <button onclick="window.print()" class="btn-accent text-white w-full py-2 rounded-lg font-bold mt-2 no-print"><i class="fas fa-print mr-1"></i> Print</button>
 <div id="ltOutput" class="hidden mt-3 p-4 bg-soft rounded-lg whitespace-pre-wrap text-sm leading-relaxed"></div>
 </div>`;
-  document.getElementById('toolModal').classList.remove('hidden');
+  openToolModal();
 }
 
 function genLetter(key){
@@ -902,7 +925,7 @@ function genLetter(key){
   toast('Letter generated!', 'success');
 }
 
-// CHECKLISTS
+// ========== CHECKLISTS ==========
 const checklists = {
   aadhaar: {title:'Aadhaar Card Checklist', icon:'fa-id-card', color:'blue', items:['Original Aadhaar Card','Aadhaar XML File','Mobile linked with Aadhaar','Passport size photo','Address proof','Birth certificate (child)']},
   pan: {title:'PAN Card Checklist', icon:'fa-credit-card', color:'indigo', items:['Aadhaar Card','Passport size photo','Signature scan','Date of birth proof','Address proof']},
@@ -956,30 +979,107 @@ function resetChk(type){
 
 renderChecklists();
 
-// BANKING CALCULATORS (Generic)
-function openCalc(type, title){
-  document.getElementById('toolTitle').textContent = title + ' Calculator';
+// ========== BANKING CALCULATORS ==========
+function openCalc(type){
+  const titles = {emi:'EMI Calculator',sip:'SIP Calculator',fd:'FD Calculator',rd:'RD Calculator',gst:'GST Calculator',homeLoan:'Home Loan Calculator',carLoan:'Car Loan Calculator',interest:'Interest Calculator',profit:'Profit/Loss Calculator',cashbook:'Cash Book Calculator',expense:'Expense Tracker',invoice:'Invoice Generator',receipt:'Receipt Generator'};
+  document.getElementById('toolTitle').textContent = titles[type] || 'Calculator';
   document.getElementById('toolIcon').className = 'fas fa-calculator';
   let body = '';
-  if(type === 'emi'){
-    body = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Loan Amount (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="500000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Interest Rate (% yearly)</label><input id="cR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="9.5"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Tenure (months)</label><input id="cN" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="60"></div><button onclick="calcEMI()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-primary-50 to-accent-50 p-4 rounded-xl text-center border-2 border-primary-100"></div></div>`;
+  if(type === 'emi' || type === 'homeLoan' || type === 'carLoan'){
+    body = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Loan Amount (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="500000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Interest Rate (% yearly)</label><input id="cR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="9.5"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Tenure (months)</label><input id="cN" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="60"></div><button onclick="calcGenEMI()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-primary-50 to-accent-50 p-4 rounded-xl text-center border-2 border-primary-100"></div></div>`;
   } else if(type === 'sip'){
-    body = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Monthly Investment (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="5000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Expected Return (% yearly)</label><input id="cR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="12"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Time (years)</label><input id="cN" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="10"></div><button onclick="calcSIP()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-green-50 to-emerald-50 p-4 rounded-xl text-center border-2 border-green-200"></div></div>`;
-  } else if(type === 'fd' || type === 'homeLoan' || type === 'carLoan'){
-    body = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Principal (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="100000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Rate (% yearly)</label><input id="cR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="7"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Time (years)</label><input id="cN" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="5"></div><button onclick="calcFD()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-blue-50 to-cyan-50 p-4 rounded-xl text-center border-2 border-blue-200"></div></div>`;
+    body = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Monthly Investment (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="5000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Return (% yearly)</label><input id="cR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="12"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Time (years)</label><input id="cN" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="10"></div><button onclick="calcGenSIP()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-green-50 to-emerald-50 p-4 rounded-xl text-center border-2 border-green-200"></div></div>`;
+  } else if(type === 'fd' || type === 'interest'){
+    body = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Principal (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="100000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Rate (% yearly)</label><input id="cR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="7"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Time (years)</label><input id="cN" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="5"></div><button onclick="calcGenFD()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-blue-50 to-cyan-50 p-4 rounded-xl text-center border-2 border-blue-200"></div></div>`;
   } else if(type === 'rd'){
-    body = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Monthly Deposit (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="1000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Rate (% yearly)</label><input id="cR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="6"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Months</label><input id="cN" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="60"></div><button onclick="calcRD()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-purple-50 to-pink-50 p-4 rounded-xl text-center border-2 border-purple-200"></div></div>`;
+    body = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Monthly Deposit (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="1000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Rate (% yearly)</label><input id="cR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="6"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Months</label><input id="cN" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="60"></div><button onclick="calcGenRD()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-purple-50 to-pink-50 p-4 rounded-xl text-center border-2 border-purple-200"></div></div>`;
   } else if(type === 'gst'){
-    body = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Amount (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="1000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">GST Rate (%)</label><select id="cR" class="input-style w-full px-4 py-3 rounded-xl"><option>5</option><option>12</option><option selected>18</option><option>28</option></select></div><button onclick="calcGST()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-yellow-50 to-amber-50 p-4 rounded-xl border-2 border-yellow-200"></div></div>`;
-  } else if(type === 'interest'){
-    body = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Principal (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="10000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Rate (% yearly)</label><input id="cR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="5"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Time (years)</label><input id="cN" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="3"></div><button onclick="calcInterest()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-cyan-50 to-blue-50 p-4 rounded-xl text-center border-2 border-cyan-200"></div></div>`;
+    body = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Amount (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="1000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">GST Rate</label><select id="cR" class="input-style w-full px-4 py-3 rounded-xl"><option>5</option><option>12</option><option selected>18</option><option>28</option></select></div><button onclick="calcGenGST()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-yellow-50 to-amber-50 p-4 rounded-xl border-2 border-yellow-200"></div></div>`;
   } else if(type === 'profit'){
-    body = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Cost Price (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="100"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Selling Price (₹)</label><input id="cR" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="150"></div><button onclick="calcProfit()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-pink-50 to-rose-50 p-4 rounded-xl text-center border-2 border-pink-200"></div></div>`;
+    body = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Cost Price (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="100"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Selling Price (₹)</label><input id="cR" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="150"></div><button onclick="calcGenProfit()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-pink-50 to-rose-50 p-4 rounded-xl text-center border-2 border-pink-200"></div></div>`;
   } else if(type === 'cashbook'){
-    body = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Opening Balance (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="5000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Total Income (₹)</label><input id="cR" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="3000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Total Expense (₹)</label><input id="cN" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="2000"></div><button onclick="calcCashbook()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-yellow-50 to-amber-50 p-4 rounded-xl text-center border-2 border-yellow-200"></div></div>`;
-  } else if(type === 'expense' || type === 'invoice' || type === 'receipt'){
-    body = `<div class="space-y-3"><p class="text-sm text-gray-600">This is a simple expense/invoice tracker. Use the Operator panel for full tracking.</p><button onclick="toast('Use Operator Panel for
+    body = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Opening Balance (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="5000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Total Income (₹)</label><input id="cR" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="3000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Total Expense (₹)</label><input id="cN" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="2000"></div><button onclick="calcGenCashbook()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-yellow-50 to-amber-50 p-4 rounded-xl text-center border-2 border-yellow-200"></div></div>`;
+  } else {
+    body = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Description</label><input id="cP" placeholder="Description" class="input-style w-full px-4 py-3 rounded-xl"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Amount (₹)</label><input id="cR" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="1000"></div><button onclick="calcGenSimple()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-blue-50 to-cyan-50 p-4 rounded-xl text-center border-2 border-blue-200"></div></div>`;
+  }
+  document.getElementById('toolBody').innerHTML = body;
+  openToolModal();
+}
 
+function calcGenEMI(){
+  const p=+document.getElementById('cP').value, r=+document.getElementById('cR').value/12/100, n=+document.getElementById('cN').value;
+  if(!p||!r||!n) return toast('Fill all fields','error');
+  const emi=p*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+  const r2=document.getElementById('cResult');
+  r2.classList.remove('hidden');
+  r2.innerHTML=`<p class="text-xs uppercase text-gray-600">Monthly EMI</p><p class="text-3xl font-display font-black gradient-text my-1">₹${emi.toFixed(0)}</p><p class="text-xs text-gray-600 mt-1">Total: ₹${(emi*n).toFixed(0)}</p>`;
+}
+
+function calcGenSIP(){
+  const m=+document.getElementById('cP').value, r=+document.getElementById('cR').value/12/100, n=+document.getElementById('cN').value*12;
+  if(!m||!r||!n) return toast('Fill all fields','error');
+  const fv=m*((Math.pow(1+r,n)-1)/r)*(1+r);
+  const r2=document.getElementById('cResult');
+  r2.classList.remove('hidden');
+  r2.innerHTML=`<p class="text-xs uppercase text-gray-600">Future Value</p><p class="text-3xl font-display font-black text-green-600 my-1">₹${fv.toFixed(0)}</p>`;
+}
+
+function calcGenFD(){
+  const p=+document.getElementById('cP').value, r=+document.getElementById('cR').value/100, n=+document.getElementById('cN').value;
+  if(!p||!r||!n) return toast('Fill all fields','error');
+  const m=p*Math.pow(1+r,n);
+  const r2=document.getElementById('cResult');
+  r2.classList.remove('hidden');
+  r2.innerHTML=`<p class="text-xs uppercase text-gray-600">Maturity Value</p><p class="text-3xl font-display font-black text-blue-600 my-1">₹${m.toFixed(0)}</p><p class="text-xs text-gray-600 mt-1">Interest: ₹${(m-p).toFixed(0)}</p>`;
+}
+
+function calcGenRD(){
+  const m=+document.getElementById('cP').value, r=+document.getElementById('cR').value/100/12, n=+document.getElementById('cN').value;
+  if(!m||!r||!n) return toast('Fill all fields','error');
+  const total=m*n, interest=total*r*n/2;
+  const r2=document.getElementById('cResult');
+  r2.classList.remove('hidden');
+  r2.innerHTML=`<p class="text-xs uppercase text-gray-600">Total Amount</p><p class="text-3xl font-display font-black text-purple-600 my-1">₹${(total+interest).toFixed(0)}</p><p class="text-xs text-gray-600 mt-1">Interest: ₹${interest.toFixed(0)}</p>`;
+}
+
+function calcGenGST(){
+  const a=+document.getElementById('cP').value, r=+document.getElementById('cR').value;
+  if(!a) return toast('Enter amount','error');
+  const gst=a*r/100, total=a+gst;
+  const r2=document.getElementById('cResult');
+  r2.classList.remove('hidden');
+  r2.innerHTML=`<div class="grid grid-cols-2 gap-3 text-sm"><div class="bg-white/70 p-3 rounded-lg"><p class="text-xs text-gray-500">CGST</p><p class="font-bold">₹${(gst/2).toFixed(2)}</p></div><div class="bg-white/70 p-3 rounded-lg"><p class="text-xs text-gray-500">SGST</p><p class="font-bold">₹${(gst/2).toFixed(2)}</p></div></div><p class="text-2xl font-display font-black gradient-text mt-3 text-center">Total: ₹${total.toFixed(2)}</p>`;
+}
+
+function calcGenProfit(){
+  const cp=+document.getElementById('cP').value, sp=+document.getElementById('cR').value;
+  if(!cp||!sp) return toast('Fill all fields','error');
+  const profit=sp-cp, pp=(profit/cp*100).toFixed(2);
+  const r2=document.getElementById('cResult');
+  r2.classList.remove('hidden');
+  r2.innerHTML=`<p class="text-xs uppercase text-gray-600">Profit/Loss</p><p class="text-3xl font-display font-black ${profit>=0?'text-green-600':'text-red-600'} my-1">₹${profit.toFixed(0)}</p><p class="text-xs text-gray-600 mt-1">${pp}% margin</p>`;
+}
+
+function calcGenCashbook(){
+  const open=+document.getElementById('cP').value, inc=+document.getElementById('cR').value, exp=+document.getElementById('cN').value;
+  if(!open) return toast('Enter values','error');
+  const balance=open+inc-exp;
+  const r2=document.getElementById('cResult');
+  r2.classList.remove('hidden');
+  r2.innerHTML=`<p class="text-xs uppercase text-gray-600">Closing Balance</p><p class="text-3xl font-display font-black text-green-600 my-1">₹${balance.toFixed(0)}</p><p class="text-xs text-gray-600 mt-1">Opening: ₹${open} | +₹${inc} | -₹${exp}</p>`;
+}
+
+function calcGenSimple(){
+  const desc=document.getElementById('cP').value || 'Item';
+  const amt=+document.getElementById('cR').value;
+  if(!amt) return toast('Enter amount','error');
+  const r2=document.getElementById('cResult');
+  r2.classList.remove('hidden');
+  r2.innerHTML=`<p class="text-xs uppercase text-gray-600">${desc}</p><p class="text-3xl font-display font-black gradient-text my-1">₹${amt.toFixed(0)}</p>`;
+}
+
+// ✅ INIT - Render checklists
+renderChecklists();
 </script>
 
 </body>
