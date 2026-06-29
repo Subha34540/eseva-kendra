@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Operator Panel — Pankaj E-Seva Kendra</title>
+<title>Operator Panel - E-SUVIDHA KENDRA</title>
 <meta name="theme-color" content="#1E3A8A">
-<link rel="icon" type="image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%231E3A8A' width='100' height='100' rx='20'/><text x='50' y='65' text-anchor='middle' fill='%23F59E0B' font-size='50' font-family='Arial' font-weight='bold'>O</text></svg>">
+<link rel="icon" type="image/png" href="logo.png">
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
 <script>
-tailwind.config={theme:{extend:{colors:{primary:{50:'#EEF2FF',100:'#E0E7FF',200:'#C7D2FE',300:'#A5B4FC',500:'#6366F1',600:'#4F46E5',700:'#4338CA',800:'#1E3A8A',900:'#1E1B4B'},accent:{50:'#FFFBEB',100:'#FEF3C7',300:'#FCD34D',400:'#FBBF24',500:'#F59E0B',600:'#D97706',700:'#B45309'},dark:'#0F172A',soft:'#F8FAFC'},fontFamily:{display:['Poppins','sans-serif'],body:['Inter','sans-serif']}}}}
+tailwind.config={theme:{extend:{colors:{primary:{500:'#6366F1',700:'#4338CA',800:'#1E3A8A',900:'#1E1B4B'},accent:{500:'#F59E0B',600:'#D97706'},dark:'#0F172A',soft:'#F8FAFC'},fontFamily:{display:['Poppins','sans-serif'],body:['Inter','sans-serif']}}}}
 </script>
 <style>
 *{font-family:'Inter',sans-serif}h1,h2,h3,h4,h5,h6{font-family:'Poppins',sans-serif;letter-spacing:-0.02em}
@@ -20,35 +20,27 @@ body{background:#F8FAFC;color:#0F172A}
 .glass{background:rgba(255,255,255,0.85);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(255,255,255,0.5)}
 .gradient-primary{background:linear-gradient(135deg,#1E1B4B 0%,#1E3A8A 30%,#3B82F6 70%,#6366F1 100%)}
 .gradient-accent{background:linear-gradient(135deg,#F59E0B 0%,#D97706 100%)}
-.btn-primary{background:linear-gradient(135deg,#1E3A8A,#3B82F6);transition:all .3s;box-shadow:0 4px 15px rgba(30,58,138,.3)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(30,58,138,.4)}
-.btn-accent{background:linear-gradient(135deg,#F59E0B,#D97706);transition:all .3s;box-shadow:0 4px 15px rgba(245,158,11,.3)}
+.btn-primary{background:linear-gradient(135deg,#1E3A8A,#3B82F6);transition:all .3s;box-shadow:0 4px 20px rgba(30,58,138,.3)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(30,58,138,.4)}
+.btn-accent{background:linear-gradient(135deg,#F59E0B,#D97706);transition:all .3s}
 .btn-accent:hover{transform:translateY(-2px)}
-.stat-card{transition:all .4s cubic-bezier(.4,0,.2,1)}
-.stat-card:hover{transform:translateY(-6px);box-shadow:0 25px 50px -12px rgba(30,58,138,.2)}
+.stat-card{transition:all .4s cubic-bezier(.4,0,.2,1)}.stat-card:hover{transform:translateY(-6px);box-shadow:0 25px 50px -12px rgba(30,58,138,.2)}
 .nav-item{position:relative;transition:all .3s;cursor:pointer;display:flex;align-items:center;gap:0.75rem;padding:0.625rem 0.75rem;border-radius:0.75rem;font-size:0.875rem}
 .nav-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#F59E0B,#D97706);border-radius:0 4px 4px 0;transform:scaleY(0);transition:transform .3s}
 .nav-item.active::before,.nav-item:hover::before{transform:scaleY(1)}
 .nav-item.active{background:linear-gradient(90deg,rgba(245,158,11,0.1),transparent);color:#1E3A8A;font-weight:600}
 .nav-item.active i{color:#F59E0B}
-.page{display:none;animation:fadeIn .4s ease-out}
-.page.active{display:block}
+.page{display:none;animation:fadeIn .4s ease-out}.page.active{display:block}
 .input-style{transition:all .2s;border:2px solid #E5E7EB;background:white}
 .input-style:focus{border-color:#3B82F6;box-shadow:0 0 0 4px rgba(59,130,246,0.1);outline:none}
-.badge{font-size:.7rem;padding:.25rem .65rem;border-radius:9999px;font-weight:700;letter-spacing:.025em;display:inline-flex;align-items:center;gap:.25rem}
-.badge-pending{background:#FEF3C7;color:#92400E}
-.badge-approved{background:#DBEAFE;color:#1E40AF}
-.badge-progress{background:#E9D5FF;color:#6B21A8}
-.badge-completed{background:#D1FAE5;color:#065F46}
-.badge-rejected{background:#FEE2E2;color:#991B1B}
+.badge{font-size:.7rem;padding:.25rem .65rem;border-radius:9999px;font-weight:700;display:inline-flex;align-items:center;gap:.25rem}
+.badge-pending{background:#FEF3C7;color:#92400E}.badge-approved{background:#DBEAFE;color:#1E40AF}.badge-progress{background:#E9D5FF;color:#6B21A8}.badge-completed{background:#D1FAE5;color:#065F46}.badge-rejected{background:#FEE2E2;color:#991B1B}
 @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 .animate-float{animation:float 4s ease-in-out infinite}
-::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-track{background:#F1F5F9}::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#1E3A8A,#F59E0B);border-radius:4px}
+::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:#F1F5F9}::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#1E3A8A,#F59E0B);border-radius:4px}
 .modal-overlay{background:rgba(15,23,42,0.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 @media print{.no-print{display:none!important}body{background:white}}
-.print-only{display:none}
-@media print{.print-only{display:block!important}}
 </style>
 </head>
 <body>
@@ -58,13 +50,13 @@ body{background:#F8FAFC;color:#0F172A}
 <div class="absolute top-20 left-20 w-72 h-72 bg-accent-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float"></div>
 <div class="absolute bottom-20 right-20 w-72 h-72 bg-primary-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float" style="animation-delay:1.5s"></div>
 
-<div class="max-w-md w-full glass rounded-3xl shadow-2xl overflow-hidden relative z-10 animate-fadeIn">
+<div class="max-w-md w-full glass rounded-3xl shadow-2xl overflow-hidden relative z-10">
 <div class="gradient-accent p-8 text-center text-white">
 <div class="w-20 h-20 mx-auto rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-4xl mb-4 ring-4 ring-white/30 animate-float">
 <i class="fas fa-user-tie"></i>
 </div>
 <h1 class="text-2xl sm:text-3xl font-display font-black">Operator Panel</h1>
-<p class="text-white/80 text-sm mt-1">Pankaj E-Seva Kendra</p>
+<p class="text-white/80 text-sm mt-1">E-SUVIDHA KENDRA</p>
 </div>
 
 <form id="loginForm" class="p-8 space-y-4 bg-white">
@@ -85,16 +77,10 @@ body{background:#F8FAFC;color:#0F172A}
 <button type="submit" class="btn-primary w-full text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2">
 <i class="fas fa-right-to-bracket"></i> Login
 </button>
-<p id="loginErr" class="text-red-500 text-xs text-center font-bold hidden">
-<i class="fas fa-exclamation-circle mr-1"></i> Invalid credentials!
-</p>
+<p id="loginErr" class="text-red-500 text-xs text-center font-bold hidden"><i class="fas fa-exclamation-circle mr-1"></i> Invalid credentials!</p>
 <div class="mt-6 pt-4 border-t border-gray-200 flex items-center justify-between text-xs">
-<a href="index.html" class="text-gray-500 hover:text-primary-800 transition flex items-center gap-1">
-<i class="fas fa-arrow-left"></i> Website
-</a>
-<a href="admin.html" class="text-gray-500 hover:text-primary-800 transition flex items-center gap-1">
-<i class="fas fa-shield-halved"></i> Admin
-</a>
+<a href="index.html" class="text-gray-500 hover:text-primary-800 transition flex items-center gap-1"><i class="fas fa-arrow-left"></i> Website</a>
+<a href="admin.html" class="text-gray-500 hover:text-primary-800 transition flex items-center gap-1"><i class="fas fa-shield-halved"></i> Admin</a>
 </div>
 </form>
 </div>
@@ -102,17 +88,11 @@ body{background:#F8FAFC;color:#0F172A}
 
 <!-- MAIN APP -->
 <div id="mainApp" class="hidden">
-
-<!-- HEADER -->
 <header class="glass sticky top-0 z-40 shadow-sm border-b border-white/30">
 <div class="px-4 sm:px-6 py-3 flex items-center justify-between">
 <div class="flex items-center gap-3">
-<button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 rounded-xl bg-soft hover:bg-primary-50 flex items-center justify-center text-primary-800">
-<i class="fas fa-bars text-lg"></i>
-</button>
-<div class="w-10 h-10 rounded-xl gradient-accent flex items-center justify-center text-white shadow-md">
-<i class="fas fa-user-tie"></i>
-</div>
+<button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 rounded-xl bg-soft hover:bg-primary-50 flex items-center justify-center text-primary-800"><i class="fas fa-bars text-lg"></i></button>
+<div class="w-10 h-10 rounded-xl gradient-accent flex items-center justify-center text-white shadow-md"><i class="fas fa-user-tie"></i></div>
 <div>
 <h1 class="font-display font-bold text-sm sm:text-base text-primary-800 leading-tight">Operator Panel</h1>
 <p class="text-xs text-gray-500 leading-tight" id="opGreeting">Welcome</p>
@@ -120,135 +100,92 @@ body{background:#F8FAFC;color:#0F172A}
 </div>
 <div class="flex items-center gap-2">
 <a href="operator-tools.html" class="hidden sm:flex items-center gap-2 bg-accent-50 hover:bg-accent-100 text-accent-700 px-3 py-2 rounded-lg text-xs font-bold transition">
-<i class="fas fa-tools"></i> Tools Hub
+<i class="fas fa-tools"></i> Tools
 </a>
 <button onclick="opLogout()" class="flex items-center gap-2 text-xs bg-red-50 hover:bg-red-100 text-red-600 px-3 py-2 rounded-lg font-bold transition">
 <i class="fas fa-power-off"></i> <span class="hidden sm:inline">Logout</span>
 </button>
 </div>
-</div>
 </header>
+</div>
 
 <div class="flex relative">
-<!-- SIDEBAR -->
 <aside id="sidebar" class="hidden lg:block w-64 min-h-screen bg-white border-r border-gray-200 sticky top-16 self-start max-h-[calc(100vh-4rem)] overflow-y-auto">
 <nav class="p-4 space-y-1">
 <p class="text-[10px] font-bold text-gray-400 uppercase px-3 py-2 tracking-widest">📊 Dashboard</p>
 <a onclick="showPage('dashboard')" data-page="dashboard" class="nav-item active"><i class="fas fa-chart-line w-5"></i> Dashboard</a>
-
 <p class="text-[10px] font-bold text-gray-400 uppercase px-3 py-2 mt-3 tracking-widest">📋 Management</p>
 <a onclick="showPage('bookings')" data-page="bookings" class="nav-item"><i class="fas fa-calendar-check w-5"></i> Bookings</a>
 <a onclick="showPage('customers')" data-page="customers" class="nav-item"><i class="fas fa-users w-5"></i> Customers</a>
-
 <p class="text-[10px] font-bold text-gray-400 uppercase px-3 py-2 mt-3 tracking-widest">💰 Banking</p>
 <a onclick="showPage('cash')" data-page="cash" class="nav-item"><i class="fas fa-cash-register w-5"></i> Cash Register</a>
 <a onclick="showPage('leads')" data-page="leads" class="nav-item"><i class="fas fa-bullseye w-5"></i> Banking Leads</a>
-
 <p class="text-[10px] font-bold text-gray-400 uppercase px-3 py-2 mt-3 tracking-widest">📊 Business</p>
 <a onclick="showPage('income')" data-page="income" class="nav-item"><i class="fas fa-arrow-trend-up w-5"></i> Income</a>
 <a onclick="showPage('expense')" data-page="expense" class="nav-item"><i class="fas fa-arrow-trend-down w-5"></i> Expense</a>
 <a onclick="showPage('profit')" data-page="profit" class="nav-item"><i class="fas fa-chart-pie w-5"></i> Profit</a>
-
 <p class="text-[10px] font-bold text-gray-400 uppercase px-3 py-2 mt-3 tracking-widest">🖨️ Printing</p>
 <a onclick="showPage('receipt')" data-page="receipt" class="nav-item"><i class="fas fa-print w-5"></i> Receipt</a>
 <a onclick="showPage('invoice')" data-page="invoice" class="nav-item"><i class="fas fa-file-invoice w-5"></i> Invoice</a>
 <a onclick="showPage('token')" data-page="token" class="nav-item"><i class="fas fa-ticket-alt w-5"></i> Token</a>
-
-<p class="text-[10px] font-bold text-gray-400 uppercase px-3 py-2 mt-3 tracking-widest">🛠️ Tools</p>
-<a href="operator-tools.html" class="nav-item"><i class="fas fa-tools w-5"></i> Advanced Tools</a>
 </nav>
 </aside>
 
-<!-- Mobile Sidebar Overlay -->
 <div id="sidebarOverlay" class="hidden fixed inset-0 bg-black/50 z-30 lg:hidden" onclick="toggleSidebar()"></div>
 
-<!-- CONTENT -->
 <main class="flex-1 p-4 lg:p-6 pb-20 max-w-7xl mx-auto w-full">
 
-<!-- ============ DASHBOARD ============ -->
+<!-- DASHBOARD -->
 <div id="page-dashboard" class="page active">
 <div class="mb-6">
-<h2 class="font-display font-black text-2xl sm:text-3xl text-dark" id="dashGreeting">Good Morning! 👋</h2>
-<p class="text-sm text-gray-500 mt-1" id="dashSubtext">Here's your daily summary</p>
+<h2 class="font-display font-black text-2xl sm:text-3xl text-dark" id="dashGreeting">Good Morning!</h2>
+<p class="text-sm text-gray-500 mt-1" id="dashSubtext">E-SUVIDHA KENDRA • Dashboard</p>
 </div>
-
-<!-- Stats -->
 <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
 <div class="stat-card bg-gradient-to-br from-blue-500 to-blue-700 p-5 rounded-2xl text-white shadow-lg">
-<div class="flex items-center justify-between mb-3">
-<i class="fas fa-users text-2xl opacity-70"></i>
-<i class="fas fa-arrow-up text-xs bg-white/20 px-2 py-1 rounded-full">Live</i>
-</div>
+<i class="fas fa-users text-2xl opacity-70 mb-2"></i>
 <p class="text-3xl sm:text-4xl font-display font-black" id="opToday">0</p>
-<p class="text-xs opacity-80 mt-1 font-bold uppercase tracking-wider">Today's Customers</p>
+<p class="text-xs opacity-80 mt-1 font-bold uppercase">Today's Customers</p>
 </div>
 <div class="stat-card bg-gradient-to-br from-green-500 to-emerald-700 p-5 rounded-2xl text-white shadow-lg">
-<div class="flex items-center justify-between mb-3">
-<i class="fas fa-rupee-sign text-2xl opacity-70"></i>
-</div>
+<i class="fas fa-rupee-sign text-2xl opacity-70 mb-2"></i>
 <p class="text-3xl sm:text-4xl font-display font-black" id="opRevenue">₹0</p>
-<p class="text-xs opacity-80 mt-1 font-bold uppercase tracking-wider">Today's Revenue</p>
+<p class="text-xs opacity-80 mt-1 font-bold uppercase">Today's Revenue</p>
 </div>
 <div class="stat-card bg-gradient-to-br from-yellow-400 to-amber-600 p-5 rounded-2xl text-white shadow-lg">
-<div class="flex items-center justify-between mb-3">
-<i class="fas fa-clock text-2xl opacity-70"></i>
-</div>
+<i class="fas fa-clock text-2xl opacity-70 mb-2"></i>
 <p class="text-3xl sm:text-4xl font-display font-black" id="opPending">0</p>
-<p class="text-xs opacity-80 mt-1 font-bold uppercase tracking-wider">Pending Bookings</p>
+<p class="text-xs opacity-80 mt-1 font-bold uppercase">Pending</p>
 </div>
 <div class="stat-card bg-gradient-to-br from-purple-500 to-purple-700 p-5 rounded-2xl text-white shadow-lg">
-<div class="flex items-center justify-between mb-3">
-<i class="fas fa-calendar-check text-2xl opacity-70"></i>
-</div>
+<i class="fas fa-chart-line text-2xl opacity-70 mb-2"></i>
 <p class="text-3xl sm:text-4xl font-display font-black" id="opMonthly">₹0</p>
-<p class="text-xs opacity-80 mt-1 font-bold uppercase tracking-wider">Monthly Revenue</p>
+<p class="text-xs opacity-80 mt-1 font-bold uppercase">Monthly Revenue</p>
 </div>
 </div>
-
-<!-- Recent Pending Bookings -->
 <div class="bg-white rounded-2xl shadow-sm border border-gray-100">
-<div class="p-5 border-b border-gray-100 flex items-center justify-between">
-<h3 class="font-display font-black text-lg flex items-center gap-2">
-<i class="fas fa-hourglass-half text-accent-500"></i> Recent Pending
-</h3>
-<a onclick="showPage('bookings')" class="text-xs text-primary-700 font-bold hover:text-accent-600 cursor-pointer flex items-center gap-1">
-View All <i class="fas fa-arrow-right text-[10px]"></i>
-</a>
+<div class="p-5 border-b border-gray-100">
+<h3 class="font-display font-black text-lg flex items-center gap-2"><i class="fas fa-hourglass-half text-accent-500"></i> Recent Pending Bookings</h3>
 </div>
 <div id="opRecentPending" class="p-5 space-y-3"></div>
 </div>
 </div>
 
-<!-- ============ BOOKINGS ============ -->
+<!-- BOOKINGS -->
 <div id="page-bookings" class="page">
 <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
-<div>
 <h2 class="font-display font-black text-2xl">Bookings</h2>
-<p class="text-sm text-gray-500 mt-1">Manage customer bookings</p>
-</div>
 <div class="flex gap-2 flex-wrap">
-<input type="text" id="opBkSearch" onkeyup="renderOpBookings()" placeholder="🔍 Search..." class="input-style px-3 py-2 rounded-lg text-sm w-40">
+<input type="text" id="opBkSearch" onkeyup="renderOpBookings()" placeholder="🔍 Search..." class="input-style px-3 py-2 rounded-lg text-sm w-32 sm:w-40">
 <select id="opBkStatus" onchange="renderOpBookings()" class="input-style px-3 py-2 rounded-lg text-sm font-bold">
-<option value="all">All Status</option>
-<option>Pending</option>
-<option>Approved</option>
-<option>In Progress</option>
-<option>Completed</option>
-<option>Rejected</option>
-</select>
+<option value="all">All</option><option>Pending</option><option>Approved</option><option>In Progress</option><option>Completed</option></select>
 </div>
 </div>
 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
 <div class="overflow-x-auto">
 <table class="w-full text-sm">
 <thead class="bg-soft text-gray-600 text-xs uppercase">
-<tr>
-<th class="px-4 py-3 text-left font-bold">Date</th>
-<th class="px-4 py-3 text-left font-bold">Customer</th>
-<th class="px-4 py-3 text-left font-bold">Service</th>
-<th class="px-4 py-3 text-left font-bold">Status</th>
-<th class="px-4 py-3"></th>
-</tr>
+<tr><th class="px-4 py-3 text-left font-bold">Date</th><th class="px-4 py-3 text-left font-bold">Customer</th><th class="px-4 py-3 text-left font-bold">Service</th><th class="px-4 py-3 text-left font-bold">Status</th><th class="px-4 py-3"></th></tr>
 </thead>
 <tbody id="opBookingsTable" class="divide-y divide-gray-100"></tbody>
 </table>
@@ -256,183 +193,118 @@ View All <i class="fas fa-arrow-right text-[10px]"></i>
 </div>
 </div>
 
-<!-- ============ CUSTOMERS ============ -->
+<!-- CUSTOMERS -->
 <div id="page-customers" class="page">
-<div class="mb-4">
-<h2 class="font-display font-black text-2xl">Customers</h2>
-<p class="text-sm text-gray-500 mt-1">Search and manage customer records</p>
-</div>
-<input type="text" id="custSearch" onkeyup="renderCustomers()" placeholder="🔍 Search by name or mobile..." class="input-style w-full px-4 py-3 rounded-xl mb-4">
+<h2 class="font-display font-black text-2xl mb-4">Customers</h2>
+<input type="text" id="custSearch" onkeyup="renderCustomers()" placeholder="🔍 Search..." class="input-style w-full px-4 py-3 rounded-xl mb-4">
 <div id="customersList" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
 </div>
 
-<!-- ============ CASH REGISTER ============ -->
+<!-- CASH REGISTER -->
 <div id="page-cash" class="page">
-<div class="mb-4">
-<h2 class="font-display font-black text-2xl">Cash Register</h2>
-<p class="text-sm text-gray-500 mt-1">Track daily cash in/out</p>
-</div>
+<h2 class="font-display font-black text-2xl mb-4">Cash Register</h2>
 <div class="grid sm:grid-cols-2 gap-4 mb-5">
 <div class="stat-card bg-gradient-to-br from-green-500 to-emerald-700 p-6 rounded-2xl text-white shadow-lg">
-<div class="flex items-center justify-between">
-<div>
-<p class="text-sm opacity-90">Total Cash In</p>
+<p class="text-sm opacity-90">Cash In</p>
 <p class="text-3xl font-display font-black mt-1" id="cashIn">₹0</p>
 </div>
-<i class="fas fa-arrow-down text-3xl opacity-30"></i>
-</div>
-</div>
 <div class="stat-card bg-gradient-to-br from-red-500 to-red-700 p-6 rounded-2xl text-white shadow-lg">
-<div class="flex items-center justify-between">
-<div>
-<p class="text-sm opacity-90">Total Cash Out</p>
+<p class="text-sm opacity-90">Cash Out</p>
 <p class="text-3xl font-display font-black mt-1" id="cashOut">₹0</p>
 </div>
-<i class="fas fa-arrow-up text-3xl opacity-30"></i>
 </div>
-</div>
-</div>
-
 <form id="cashForm" class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 mb-4 grid sm:grid-cols-4 gap-3">
 <input id="cashDesc" placeholder="Description" required class="input-style px-3 py-2.5 rounded-lg">
 <input id="cashAmt" type="number" placeholder="Amount" required class="input-style px-3 py-2.5 rounded-lg">
 <select id="cashType" class="input-style px-3 py-2.5 rounded-lg font-bold">
-<option value="cashin">💰 Cash In</option>
-<option value="cashout">💸 Cash Out</option>
-</select>
-<button type="submit" class="btn-primary text-white py-2.5 rounded-lg font-bold flex items-center justify-center gap-2">
-<i class="fas fa-plus"></i> Add Entry
-</button>
+<option value="cashin">Cash In</option><option value="cashout">Cash Out</option></select>
+<button type="submit" class="btn-primary text-white py-2.5 rounded-lg font-bold flex items-center justify-center gap-2"><i class="fas fa-plus"></i> Add</button>
 </form>
-
 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
 <div class="overflow-x-auto">
-<table class="w-full text-sm">
-<thead class="bg-soft text-gray-600 text-xs uppercase">
-<tr><th class="px-4 py-3 text-left font-bold">Description</th><th class="px-4 py-3 text-left font-bold">Amount</th><th class="px-4 py-3 text-left font-bold">Type</th><th class="px-4 py-3 text-left font-bold">Date</th></tr>
-</thead>
-<tbody id="cashTable" class="divide-y divide-gray-100"></tbody>
-</table>
+<table class="w-full text-sm"><thead class="bg-soft text-gray-600 text-xs uppercase"><tr><th class="px-4 py-3 text-left font-bold">Description</th><th class="px-4 py-3 text-left font-bold">Amount</th><th class="px-4 py-3 text-left font-bold">Type</th></tr></thead>
+<tbody id="cashTable" class="divide-y divide-gray-100"></tbody></table>
 </div>
 </div>
 </div>
 
-<!-- ============ BANKING LEADS ============ -->
+<!-- BANKING LEADS -->
 <div id="page-leads" class="page">
-<div class="mb-4">
-<h2 class="font-display font-black text-2xl">Banking Leads</h2>
-<p class="text-sm text-gray-500 mt-1">Track potential banking customers</p>
-</div>
+<h2 class="font-display font-black text-2xl mb-4">Banking Leads</h2>
 <form id="leadForm" class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 mb-4 grid sm:grid-cols-2 lg:grid-cols-5 gap-3">
 <input id="leadName" placeholder="Name" required class="input-style px-3 py-2.5 rounded-lg">
 <input id="leadMobile" placeholder="Mobile" required class="input-style px-3 py-2.5 rounded-lg">
 <select id="leadProduct" class="input-style px-3 py-2.5 rounded-lg font-bold">
-<option>Account Opening</option>
-<option>Loan</option>
-<option>Fixed Deposit</option>
-<option>Insurance</option>
-<option>Money Transfer</option>
-</select>
-<input id="leadNotes" placeholder="Notes (optional)" class="input-style px-3 py-2.5 rounded-lg">
-<button type="submit" class="btn-accent text-white py-2.5 rounded-lg font-bold flex items-center justify-center gap-2">
-<i class="fas fa-plus"></i> Add Lead
-</button>
+<option>Account Opening</option><option>Loan</option><option>Fixed Deposit</option><option>Insurance</option></select>
+<input id="leadNotes" placeholder="Notes" class="input-style px-3 py-2.5 rounded-lg">
+<button type="submit" class="btn-accent text-white py-2.5 rounded-lg font-bold flex items-center justify-center gap-2"><i class="fas fa-plus"></i> Add Lead</button>
 </form>
 <div id="leadsList" class="grid sm:grid-cols-2 gap-4"></div>
 </div>
 
-<!-- ============ INCOME ============ -->
+<!-- INCOME -->
 <div id="page-income" class="page">
-<div class="mb-4">
-<h2 class="font-display font-black text-2xl">Income Register</h2>
-<p class="text-sm text-gray-500 mt-1">Track all income</p>
-</div>
+<h2 class="font-display font-black text-2xl mb-4">Income Register</h2>
 <form id="incomeForm" class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 mb-4 grid sm:grid-cols-4 gap-3">
 <input id="incTitle" placeholder="Title" required class="input-style px-3 py-2.5 rounded-lg">
 <input id="incAmt" type="number" placeholder="Amount" required class="input-style px-3 py-2.5 rounded-lg">
 <input id="incDate" type="date" required class="input-style px-3 py-2.5 rounded-lg">
-<button type="submit" class="btn-primary text-white py-2.5 rounded-lg font-bold flex items-center justify-center gap-2">
-<i class="fas fa-plus"></i> Add Income
-</button>
+<button type="submit" class="btn-primary text-white py-2.5 rounded-lg font-bold flex items-center justify-center gap-2"><i class="fas fa-plus"></i> Add</button>
 </form>
 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-<div class="overflow-x-auto">
-<table class="w-full text-sm">
-<thead class="bg-soft text-gray-600 text-xs uppercase"><tr><th class="px-4 py-3 text-left font-bold">Title</th><th class="px-4 py-3 text-left font-bold">Amount</th><th class="px-4 py-3 text-left font-bold">Date</th><th class="px-4 py-3"></th></tr></thead>
-<tbody id="incomeTable" class="divide-y divide-gray-100"></tbody>
-</table>
-</div>
+<table class="w-full text-sm"><thead class="bg-soft text-gray-600 text-xs uppercase"><tr><th class="px-4 py-3 text-left font-bold">Title</th><th class="px-4 py-3 text-left font-bold">Amount</th><th class="px-4 py-3 text-left font-bold">Date</th></tr></thead>
+<tbody id="incomeTable" class="divide-y divide-gray-100"></tbody></table>
 </div>
 </div>
 
-<!-- ============ EXPENSE ============ -->
+<!-- EXPENSE -->
 <div id="page-expense" class="page">
-<div class="mb-4">
-<h2 class="font-display font-black text-2xl">Expense Register</h2>
-<p class="text-sm text-gray-500 mt-1">Track all expenses</p>
-</div>
+<h2 class="font-display font-black text-2xl mb-4">Expense Register</h2>
 <form id="expForm" class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 mb-4 grid sm:grid-cols-4 gap-3">
 <input id="expTitle" placeholder="Title" required class="input-style px-3 py-2.5 rounded-lg">
 <input id="expAmt" type="number" placeholder="Amount" required class="input-style px-3 py-2.5 rounded-lg">
 <input id="expDate" type="date" required class="input-style px-3 py-2.5 rounded-lg">
-<button type="submit" class="bg-gradient-to-r from-red-500 to-red-700 text-white py-2.5 rounded-lg font-bold flex items-center justify-center gap-2">
-<i class="fas fa-plus"></i> Add Expense
-</button>
+<button type="submit" class="bg-gradient-to-r from-red-500 to-red-700 text-white py-2.5 rounded-lg font-bold flex items-center justify-center gap-2"><i class="fas fa-plus"></i> Add</button>
 </form>
 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-<div class="overflow-x-auto">
-<table class="w-full text-sm">
-<thead class="bg-soft text-gray-600 text-xs uppercase"><tr><th class="px-4 py-3 text-left font-bold">Title</th><th class="px-4 py-3 text-left font-bold">Amount</th><th class="px-4 py-3 text-left font-bold">Date</th><th class="px-4 py-3"></th></tr></thead>
-<tbody id="expTable" class="divide-y divide-gray-100"></tbody>
-</table>
-</div>
+<table class="w-full text-sm"><thead class="bg-soft text-gray-600 text-xs uppercase"><tr><th class="px-4 py-3 text-left font-bold">Title</th><th class="px-4 py-3 text-left font-bold">Amount</th><th class="px-4 py-3 text-left font-bold">Date</th></tr></thead>
+<tbody id="expTable" class="divide-y divide-gray-100"></tbody></table>
 </div>
 </div>
 
-<!-- ============ PROFIT ============ -->
+<!-- PROFIT -->
 <div id="page-profit" class="page">
-<div class="mb-4">
-<h2 class="font-display font-black text-2xl">Profit Calculator</h2>
-<p class="text-sm text-gray-500 mt-1">Real-time profit tracking</p>
-</div>
-<div class="grid sm:grid-cols-3 gap-4 mb-6">
+<h2 class="font-display font-black text-2xl mb-4">Profit Calculator</h2>
+<div class="grid sm:grid-cols-3 gap-4">
 <div class="stat-card bg-gradient-to-br from-green-500 to-emerald-700 p-6 rounded-2xl text-white shadow-lg">
-<p class="text-sm opacity-90 flex items-center gap-2"><i class="fas fa-arrow-trend-up"></i> Total Income</p>
+<p class="text-sm opacity-90">Income</p>
 <p class="text-4xl font-display font-black mt-2" id="profIncome">₹0</p>
 </div>
 <div class="stat-card bg-gradient-to-br from-red-500 to-red-700 p-6 rounded-2xl text-white shadow-lg">
-<p class="text-sm opacity-90 flex items-center gap-2"><i class="fas fa-arrow-trend-down"></i> Total Expense</p>
+<p class="text-sm opacity-90">Expense</p>
 <p class="text-4xl font-display font-black mt-2" id="profExpense">₹0</p>
 </div>
 <div class="stat-card bg-gradient-to-br from-primary-600 to-indigo-700 p-6 rounded-2xl text-white shadow-lg">
-<p class="text-sm opacity-90 flex items-center gap-2"><i class="fas fa-coins"></i> Net Profit</p>
+<p class="text-sm opacity-90">Net Profit</p>
 <p class="text-4xl font-display font-black mt-2" id="profNet">₹0</p>
 </div>
 </div>
 </div>
 
-<!-- ============ RECEIPT GENERATOR ============ -->
+<!-- RECEIPT -->
 <div id="page-receipt" class="page">
-<div class="mb-4">
-<h2 class="font-display font-black text-2xl">Receipt Generator</h2>
-<p class="text-sm text-gray-500 mt-1">Generate professional receipts</p>
-</div>
+<h2 class="font-display font-black text-2xl mb-4">Receipt Generator</h2>
 <div class="grid lg:grid-cols-2 gap-4">
 <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-3">
 <h3 class="font-display font-black text-lg mb-2"><i class="fas fa-edit text-primary-600 mr-2"></i>Receipt Details</h3>
-<input id="rcpNo" placeholder="Receipt No (auto-generated)" class="input-style w-full px-4 py-3 rounded-xl">
+<input id="rcpNo" placeholder="Receipt No" class="input-style w-full px-4 py-3 rounded-xl">
 <input id="rcpName" placeholder="Customer Name" class="input-style w-full px-4 py-3 rounded-xl">
-<input id="rcpService" placeholder="Service Provided" class="input-style w-full px-4 py-3 rounded-xl">
+<input id="rcpService" placeholder="Service" class="input-style w-full px-4 py-3 rounded-xl">
 <input id="rcpAmount" type="number" placeholder="Amount (₹)" class="input-style w-full px-4 py-3 rounded-xl">
 <input id="rcpDate" type="date" class="input-style w-full px-4 py-3 rounded-xl">
-<textarea id="rcpNote" rows="2" placeholder="Additional note (optional)" class="input-style w-full px-4 py-3 rounded-xl resize-none"></textarea>
 <div class="flex gap-2 no-print">
-<button onclick="generateReceipt()" class="btn-primary text-white flex-1 py-3 rounded-xl font-bold flex items-center justify-center gap-2">
-<i class="fas fa-magic"></i> Generate
-</button>
-<button onclick="window.print()" class="btn-accent text-white px-5 py-3 rounded-xl font-bold flex items-center gap-2">
-<i class="fas fa-print"></i> Print
-</button>
+<button onclick="generateReceipt()" class="btn-primary text-white flex-1 py-3 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-magic"></i> Generate</button>
+<button onclick="window.print()" class="btn-accent text-white px-5 py-3 rounded-xl font-bold flex items-center gap-2"><i class="fas fa-print"></i> Print</button>
 </div>
 </div>
 <div id="receiptPreview" class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hidden print:block">
@@ -440,79 +312,51 @@ View All <i class="fas fa-arrow-right text-[10px]"></i>
 <div class="w-16 h-16 mx-auto rounded-xl gradient-accent flex items-center justify-center text-white text-2xl mb-2 print:hidden">
 <i class="fas fa-store"></i>
 </div>
-<h2 class="font-display font-black text-2xl text-primary-800">Pankaj E-Seva Kendra</h2>
-<p class="text-xs text-gray-600">Main Road, Near Bank | Phone: +91 98765 43210</p>
-<p class="text-xs text-gray-500">Email: eseva@example.com | GSTIN: XXXXXXXXXXXXXXX</p>
+<h2 class="font-display font-black text-2xl text-primary-800">E-SUVIDHA KENDRA</h2>
+<p class="text-xs text-gray-600">Baharda Bazar, Basta, Balasore | Phone: +91 9124231432</p>
 </div>
 <h3 class="text-center font-display font-black text-xl mb-4 text-accent-600">RECEIPT</h3>
 <div class="space-y-2 text-sm" id="receiptContent"></div>
 <div class="border-t-2 border-dashed border-gray-300 mt-6 pt-3 text-center text-xs text-gray-500">
-<p>Thank you for your visit! 🙏</p>
-<p>This is a computer-generated receipt.</p>
+<p>Thank you for your visit!</p>
 </div>
 </div>
 </div>
 </div>
 
-<!-- ============ INVOICE GENERATOR ============ -->
+<!-- INVOICE -->
 <div id="page-invoice" class="page">
-<div class="mb-4">
-<h2 class="font-display font-black text-2xl">Invoice Generator</h2>
-<p class="text-sm text-gray-500 mt-1">Generate GST invoices with line items</p>
-</div>
+<h2 class="font-display font-black text-2xl mb-4">Invoice Generator</h2>
 <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-3">
 <div class="grid sm:grid-cols-2 gap-3">
-<input id="invNo" placeholder="Invoice Number" class="input-style px-4 py-3 rounded-xl">
+<input id="invNo" placeholder="Invoice No" class="input-style px-4 py-3 rounded-xl">
 <input id="invClient" placeholder="Client Name" class="input-style px-4 py-3 rounded-xl">
 <input id="invDate" type="date" class="input-style px-4 py-3 rounded-xl">
 <input id="invGST" type="number" placeholder="GST %" value="18" class="input-style px-4 py-3 rounded-xl">
 </div>
-<textarea id="invItems" rows="5" placeholder="Format: Item Name | Quantity | Price&#10;Example:&#10;Aadhaar Update | 1 | 100&#10;PAN Card | 1 | 150" class="input-style w-full px-4 py-3 rounded-xl font-mono text-sm resize-none"></textarea>
+<textarea id="invItems" rows="5" placeholder="Item | Qty | Price (one per line)" class="input-style w-full px-4 py-3 rounded-xl font-mono text-sm resize-none"></textarea>
 <div class="flex gap-2 no-print">
-<button onclick="generateInvoice()" class="btn-primary text-white flex-1 py-3 rounded-xl font-bold flex items-center justify-center gap-2">
-<i class="fas fa-magic"></i> Generate Invoice
-</button>
-<button onclick="window.print()" class="btn-accent text-white px-5 py-3 rounded-xl font-bold flex items-center gap-2">
-<i class="fas fa-print"></i> Print
-</button>
+<button onclick="generateInvoice()" class="btn-primary text-white flex-1 py-3 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-magic"></i> Generate</button>
+<button onclick="window.print()" class="btn-accent text-white px-5 py-3 rounded-xl font-bold flex items-center gap-2"><i class="fas fa-print"></i> Print</button>
 </div>
 <div id="invoicePreview" class="hidden print:block border-t pt-4 mt-4"></div>
 </div>
 </div>
 
-<!-- ============ TOKEN GENERATOR ============ -->
+<!-- TOKEN -->
 <div id="page-token" class="page">
-<div class="mb-4">
-<h2 class="font-display font-black text-2xl">Token Generator</h2>
-<p class="text-sm text-gray-500 mt-1">Generate customer tokens (auto-incrementing)</p>
-</div>
+<h2 class="font-display font-black text-2xl mb-4">Token Generator</h2>
 <div class="grid lg:grid-cols-2 gap-4">
 <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-3">
-<h3 class="font-display font-black text-lg"><i class="fas fa-ticket-alt text-accent-600 mr-2"></i>Generate Token</h3>
 <div class="grid grid-cols-2 gap-3">
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Prefix</label>
-<select id="tkPrefix" class="input-style w-full px-4 py-3 rounded-xl font-mono font-bold">
-<option>AAD-</option>
-<option>PAN-</option>
-<option>BCK-</option>
-<option>PAS-</option>
-<option>VOT-</option>
-<option>PMK-</option>
-<option>AYU-</option>
-</select>
-</div>
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Counter</label>
+<select id="tkPrefix" class="input-style px-4 py-3 rounded-xl font-mono font-bold">
+<option>AAD-</option><option>PAN-</option><option>BCK-</option><option>PAS-</option><option>PMK-</option></select>
 <input id="tkCounter" type="number" placeholder="Auto" class="input-style w-full px-4 py-3 rounded-xl font-mono" readonly>
-</div>
 </div>
 <input id="tkName" placeholder="Customer Name" class="input-style w-full px-4 py-3 rounded-xl">
 <input id="tkMobile" placeholder="Mobile (optional)" class="input-style w-full px-4 py-3 rounded-xl">
-<button onclick="generateToken()" class="btn-accent text-white w-full py-3 rounded-xl font-bold flex items-center justify-center gap-2">
-<i class="fas fa-plus-circle"></i> Generate Token
-</button>
-<button onclick="resetTokenCounter()" class="text-xs text-red-500 hover:text-red-700 font-bold w-full text-center">Reset Counter to 1</button>
+<button onclick="generateToken()" class="btn-accent text-white w-full py-3 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-plus-circle"></i> Generate Token</button>
+<button onclick="resetTokenCounter()" class="text-xs text-red-500 hover:text-red-700 font-bold w-full text-center">Reset Counter</button>
 </div>
 <div id="tokenPreview" class="bg-white p-10 rounded-2xl shadow-sm border-2 border-dashed border-primary-300 text-center"></div>
 </div>
@@ -524,15 +368,13 @@ View All <i class="fas fa-arrow-right text-[10px]"></i>
 
 <!-- TOOL MODAL -->
 <div id="toolModal" class="hidden fixed inset-0 z-50 modal-overlay flex items-center justify-center p-4">
-<div class="bg-white rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-fadeIn">
+<div class="bg-white rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto shadow-2xl">
 <div class="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between z-10">
 <div class="flex items-center gap-3">
 <div class="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center text-white"><i class="fas fa-edit" id="toolModalIcon"></i></div>
 <h3 id="toolTitle" class="font-display font-black text-lg">Tool</h3>
 </div>
-<button onclick="closeToolModal()" class="w-9 h-9 rounded-lg bg-soft hover:bg-red-50 text-gray-500 hover:text-red-500 transition flex items-center justify-center">
-<i class="fas fa-times"></i>
-</button>
+<button onclick="closeToolModal()" class="w-9 h-9 rounded-lg bg-soft hover:bg-red-50 text-gray-500 hover:text-red-500 transition flex items-center justify-center"><i class="fas fa-times"></i></button>
 </div>
 <div id="toolBody" class="p-6"></div>
 </div>
@@ -547,28 +389,24 @@ const firebaseConfig = {
   apiKey: "AIzaSyDucHeFoRyu-aHa2ILTV6dXWkV5TWyVWV4",
   authDomain: "eseva-kendra-4c870.firebaseapp.com",
   projectId: "eseva-kendra-4c870",
-  storageBucket: "eseva-kendra-4c870.firebasestorage.app",
+  storageBucket: "eseva-kendra-4c870.appspot.com",
   messagingSenderId: "730747379772",
   appId: "1:730747379772:web:87f4fa85e372128c0de339",
   measurementId: "G-NP2B95SFDM"
 };
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 let currentOperator = null;
 let allOpBookings = [];
-let allOpUsers = [];
-let receiptCounter = parseInt(localStorage.getItem('rcpCounter') || '1');
-let tokenCounter = parseInt(localStorage.getItem('tkCounter') || '1');
+let receiptCounter = parseInt(localStorage.getItem('rcpCounter')||'1');
+let tokenCounter = parseInt(localStorage.getItem('tkCounter')||'1');
 
 // ========== LOGIN ==========
-document.getElementById('loginForm').addEventListener('submit', async e => {
+document.getElementById('loginForm').addEventListener('submit', async e=>{
   e.preventDefault();
-  const u = document.getElementById('opUser').value.trim();
-  const p = document.getElementById('opPass').value.trim();
-  if(!u || !p) return;
-
+  const u = document.getElementById('opUser').value.trim(), p = document.getElementById('opPass').value.trim();
+  if(!u||!p) return;
   try{
     const snap = await db.collection('operators').where('username','==',u).where('password','==',p).get();
     if(!snap.empty){
@@ -577,173 +415,103 @@ document.getElementById('loginForm').addEventListener('submit', async e => {
       showApp();
     } else {
       document.getElementById('loginErr').classList.remove('hidden');
-      setTimeout(() => document.getElementById('loginErr').classList.add('hidden'), 3000);
+      setTimeout(()=>document.getElementById('loginErr').classList.add('hidden'), 3000);
     }
-  }catch(err){
-    toast('Login failed: ' + err.message, 'error');
-  }
+  }catch(err){ toast('Login failed: '+err.message, 'error'); }
 });
 
-function checkOpSession(){
+(function checkOpSession(){
   const sess = sessionStorage.getItem('opSession');
   if(sess){
     const s = JSON.parse(sess);
     if(Date.now() - s.ts < 8*60*60*1000){
-      db.collection('operators').doc(s.id).get().then(doc => {
-        if(doc.exists){
-          currentOperator = {id: doc.id, ...doc.data()};
-          showApp();
-        }
-      }).catch(() => {});
-      return true;
+      db.collection('operators').doc(s.id).get().then(doc=>{
+        if(doc.exists){ currentOperator = {id:doc.id, ...doc.data()}; showApp(); }
+      });
     }
   }
-  return false;
-}
+})();
 
 function showApp(){
   document.getElementById('loginPage').classList.add('hidden');
   document.getElementById('mainApp').classList.remove('hidden');
-  document.getElementById('opGreeting').textContent = 'Hi, ' + (currentOperator.name || 'Operator');
-  document.getElementById('tkCounter').value = String(tokenCounter).padStart(3, '0');
+  document.getElementById('opGreeting').textContent = 'Hi, ' + (currentOperator.name||'Operator');
+  document.getElementById('tkCounter').value = String(tokenCounter).padStart(3,'0');
   init();
 }
 
 function opLogout(){
-  if(confirm('Are you sure you want to logout?')){
-    sessionStorage.removeItem('opSession');
-    location.reload();
-  }
+  if(confirm('Logout?')){ sessionStorage.removeItem('opSession'); location.reload(); }
 }
 
-if(checkOpSession()){
-  // Already logged in
-}
-
-// ========== SIDEBAR ==========
 function toggleSidebar(){
   const sb = document.getElementById('sidebar');
-  const overlay = document.getElementById('sidebarOverlay');
-  if(sb.classList.contains('hidden')){
-    sb.classList.remove('hidden');
-    sb.classList.add('fixed','inset-y-0','left-0','z-50','top-16','w-72','shadow-2xl');
-    overlay.classList.remove('hidden');
-  } else {
-    sb.classList.add('hidden');
-    sb.classList.remove('fixed','inset-y-0','left-0','z-50','top-16','w-72','shadow-2xl');
-    overlay.classList.add('hidden');
-  }
+  sb.classList.toggle('hidden');
+  document.getElementById('sidebarOverlay').classList.toggle('hidden');
 }
 
 function showPage(p){
-  document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
   document.getElementById('page-'+p).classList.add('active');
-  document.querySelectorAll('[data-page]').forEach(el => el.classList.toggle('active', el.dataset.page === p));
-  if(window.innerWidth < 1024){
+  document.querySelectorAll('[data-page]').forEach(el=>el.classList.toggle('active', el.dataset.page===p));
+  if(window.innerWidth<1024){
     document.getElementById('sidebar').classList.add('hidden');
     document.getElementById('sidebarOverlay').classList.add('hidden');
   }
-  window.scrollTo({top: 0, behavior: 'smooth'});
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// ========== INIT ==========
 async function init(){
   const h = new Date().getHours();
-  document.getElementById('dashGreeting').textContent = 
-    h < 12 ? 'Good Morning! ☀️' : 
-    h < 17 ? 'Good Afternoon! 🌤️' : 
-    'Good Evening! 🌙';
-  document.getElementById('dashSubtext').textContent = 
-    'Welcome back, ' + (currentOperator.name || 'Operator') + '! Here\'s your daily summary.';
-
-  await Promise.all([
-    loadOpBookings(),
-    loadCash(),
-    loadLeads(),
-    loadIncome(),
-    loadExpense(),
-    loadProfit()
-  ]);
+  document.getElementById('dashGreeting').textContent = h<12?'Good Morning! ☀️':h<17?'Good Afternoon! 🌤️':'Good Evening! 🌙';
+  document.getElementById('dashSubtext').textContent = 'Welcome back, ' + (currentOperator.name||'Operator') + '! E-SUVIDHA KENDRA';
+  await Promise.all([loadOpBookings(), loadCash(), loadLeads(), loadIncome(), loadExpense(), loadProfit()]);
 }
 
 // ========== BOOKINGS ==========
 async function loadOpBookings(){
   try{
     const snap = await db.collection('bookings').orderBy('createdAt','desc').limit(500).get();
-    allOpBookings = snap.docs.map(d => ({id: d.id, ...d.data()}));
+    allOpBookings = snap.docs.map(d=>({id:d.id, ...d.data()}));
   }catch(e){
-    try{
-      const snap = await db.collection('bookings').get();
-      allOpBookings = snap.docs.map(d => ({id: d.id, ...d.data()}))
-        .sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
-    }catch(e2){allOpBookings = [];}
+    const snap = await db.collection('bookings').get();
+    allOpBookings = snap.docs.map(d=>({id:d.id, ...d.data()})).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
   }
   renderOpBookings();
   renderOpDashboard();
 }
 
 function renderOpBookings(){
-  const search = document.getElementById('opBkSearch').value.toLowerCase();
-  const status = document.getElementById('opBkStatus').value;
-  const filtered = allOpBookings.filter(b => {
-    const m1 = !search || (b.name||'').toLowerCase().includes(search) || (b.mobile||'').includes(search) || (b.serviceType||'').toLowerCase().includes(search);
-    const m2 = status==='all' || b.status===status;
+  const s = document.getElementById('opBkSearch').value.toLowerCase();
+  const st = document.getElementById('opBkStatus').value;
+  const f = allOpBookings.filter(b=>{
+    const m1 = !s || (b.name||'').toLowerCase().includes(s) || (b.mobile||'').includes(s);
+    const m2 = st==='all' || b.status===st;
     return m1 && m2;
   });
-  const badgeMap = {Pending:'badge-pending',Approved:'badge-approved','In Progress':'badge-progress',Completed:'badge-completed',Rejected:'badge-rejected'};
-  const wrap = document.getElementById('opBookingsTable');
-  if(!filtered.length){
-    wrap.innerHTML = '<tr><td colspan="5" class="px-4 py-12 text-center text-gray-400"><i class="fas fa-inbox text-4xl mb-2 block"></i>No bookings found</td></tr>';
-    return;
-  }
-  wrap.innerHTML = filtered.slice(0, 100).map(b => {
-    const date = b.createdAt?.toDate ? b.createdAt.toDate().toLocaleDateString('en-IN', {day:'2-digit', month:'short'}) : '-';
-    return `<tr class="hover:bg-primary-50/50">
-<td class="px-4 py-3 text-xs whitespace-nowrap">${date}</td>
-<td class="px-4 py-3">
-<p class="font-bold text-xs">${b.name||'-'}</p>
-<p class="text-xs text-gray-500">${b.mobile||''}</p>
-</td>
-<td class="px-4 py-3 text-xs">
-<p class="font-medium">${b.serviceType||'-'}</p>
-${b.address?`<p class="text-xs text-gray-500 truncate max-w-[150px]">${b.address}</p>`:''}
-</td>
-<td class="px-4 py-3"><span class="badge ${badgeMap[b.status]||'badge-pending'}">${b.status||'Pending'}</span></td>
-<td class="px-4 py-3"><button onclick="manageOpBooking('${b.id}')" class="text-primary-700 hover:text-accent-600 text-xs font-bold flex items-center gap-1"><i class="fas fa-edit"></i> Manage</button></td>
-</tr>`;
+  const bm = {Pending:'badge-pending',Approved:'badge-approved','In Progress':'badge-progress',Completed:'badge-completed',Rejected:'badge-rejected'};
+  const w = document.getElementById('opBookingsTable');
+  if(!f.length){ w.innerHTML = '<tr><td colspan="5" class="px-4 py-8 text-center text-gray-400">No bookings</td></tr>'; return; }
+  w.innerHTML = f.slice(0,100).map(b=>{
+    const d = b.createdAt?.toDate ? b.createdAt.toDate().toLocaleDateString('en-IN',{day:'2-digit',month:'short'}) : '-';
+    return `<tr class="hover:bg-primary-50/50"><td class="px-4 py-3 text-xs whitespace-nowrap">${d}</td><td class="px-4 py-3"><p class="font-semibold text-xs">${b.name||'-'}</p><p class="text-xs text-gray-500">${b.mobile||''}</p></td><td class="px-4 py-3 text-xs font-medium">${b.serviceType||'-'}</td><td class="px-4 py-3"><span class="badge ${bm[b.status]||'badge-pending'}">${b.status||'Pending'}</span></td><td class="px-4 py-3"><button onclick="manageOpBooking('${b.id}')" class="text-primary-700 text-xs font-bold flex items-center gap-1"><i class="fas fa-edit"></i> Manage</button></td></tr>`;
   }).join('');
 }
 
 function manageOpBooking(id){
-  const b = allOpBookings.find(x => x.id === id);
-  if(!b) return;
+  const b = allOpBookings.find(x=>x.id===id); if(!b) return;
   document.getElementById('toolTitle').textContent = 'Manage Booking';
   document.getElementById('toolModalIcon').className = 'fas fa-edit';
-  document.getElementById('toolBody').innerHTML = `
-<div class="space-y-4">
-<div class="bg-gradient-to-br from-primary-50 to-accent-50 p-4 rounded-xl border border-primary-100">
-<p class="text-xs text-gray-500 uppercase tracking-wider font-bold">Customer</p>
-<p class="font-bold text-base mt-1">${b.name||'-'}</p>
-<p class="text-sm text-gray-700">${b.mobile||''}</p>
-<p class="text-sm text-gray-600 mt-2"><i class="fas fa-tools mr-1"></i>${b.serviceType||''} (${b.category||''})</p>
-</div>
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Status</label>
+  document.getElementById('toolBody').innerHTML = `<div class="space-y-4">
+<div class="bg-gradient-to-br from-primary-50 to-accent-50 p-4 rounded-xl"><p class="font-bold">${b.name||'-'}</p><p class="text-sm">${b.mobile||''} • ${b.serviceType||''}</p></div>
 <select id="opMgStatus" class="input-style w-full px-4 py-3 rounded-xl font-bold">
 <option ${b.status==='Pending'?'selected':''}>Pending</option>
 <option ${b.status==='Approved'?'selected':''}>Approved</option>
 <option ${b.status==='In Progress'?'selected':''}>In Progress</option>
 <option ${b.status==='Completed'?'selected':''}>Completed</option>
-<option ${b.status==='Rejected'?'selected':''}>Rejected</option>
-</select>
-</div>
-<div>
-<label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase tracking-wider">Note for Customer</label>
+<option ${b.status==='Rejected'?'selected':''}>Rejected</option></select>
 <textarea id="opMgNote" rows="3" class="input-style w-full px-4 py-3 rounded-xl resize-none">${b.adminNote||''}</textarea>
-</div>
-<button onclick="saveOpBooking('${id}')" class="btn-primary text-white w-full py-3 rounded-xl font-bold flex items-center justify-center gap-2">
-<i class="fas fa-save"></i> Save & Notify Customer
-</button>
+<button onclick="saveOpBooking('${id}')" class="btn-primary text-white w-full py-3 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-save"></i> Save & Notify Customer</button>
 </div>`;
   openToolModal();
 }
@@ -752,101 +520,54 @@ async function saveOpBooking(id){
   const status = document.getElementById('opMgStatus').value;
   const note = document.getElementById('opMgNote').value.trim();
   try{
-    await db.collection('bookings').doc(id).update({
-      status: status,
-      adminNote: note,
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    const b = allOpBookings.find(x => x.id === id);
+    await db.collection('bookings').doc(id).update({status, adminNote:note, updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
+    const b = allOpBookings.find(x=>x.id===id);
     if(b && b.userId){
-      await db.collection('notifications').add({
-        userId: b.userId,
-        title: '📋 Booking Update',
-        message: `Your booking for ${b.serviceType} is now: ${status}. ${note}`,
-        read: false,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
+      await db.collection('notifications').add({userId:b.userId, title:'📋 Booking Update', message:`Your booking for ${b.serviceType} is now: ${status}. ${note}`, read:false, createdAt:firebase.firestore.FieldValue.serverTimestamp()});
     }
-    toast('Booking updated & customer notified!', 'success');
-    closeToolModal();
-  }catch(e){
-    toast('Update failed: ' + e.message, 'error');
-  }
+    toast('Booking updated & customer notified!', 'success'); closeToolModal();
+  }catch(e){ toast('Failed: '+e.message, 'error'); }
 }
 
 function renderOpDashboard(){
   const today = new Date().toISOString().split('T')[0];
-  const todayBookings = allOpBookings.filter(b => 
-    b.createdAt?.toDate && b.createdAt.toDate().toISOString().split('T')[0] === today
-  );
-  
-  document.getElementById('opToday').textContent = todayBookings.length;
-  document.getElementById('opPending').textContent = allOpBookings.filter(b => b.status==='Pending').length;
-  
-  const pending = allOpBookings.filter(b => b.status==='Pending').slice(0, 5);
-  const badgeMap = {Pending:'badge-pending',Approved:'badge-approved','In Progress':'badge-progress',Completed:'badge-completed',Rejected:'badge-rejected'};
-  const wrap = document.getElementById('opRecentPending');
-  if(!pending.length){
-    wrap.innerHTML = '<div class="text-center py-8"><i class="fas fa-check-circle text-5xl text-green-300 mb-3"></i><p class="text-gray-500 font-medium">No pending bookings! Great work! 🎉</p></div>';
-    return;
-  }
-  wrap.innerHTML = pending.map(b => `
-<div class="bg-soft rounded-xl p-4 flex items-center justify-between hover:shadow-md transition border border-transparent hover:border-primary-100">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-lg gradient-primary text-white flex items-center justify-center flex-shrink-0">
-<i class="fas fa-user"></i>
-</div>
-<div>
-<p class="font-bold text-sm">${b.name||'-'}</p>
-<p class="text-xs text-gray-500">${b.serviceType||'-'} • ${b.mobile||''}</p>
-</div>
-</div>
-<span class="badge ${badgeMap[b.status]}">${b.status}</span>
-</div>`).join('');
+  const todayB = allOpBookings.filter(b=>b.createdAt?.toDate && b.createdAt.toDate().toISOString().split('T')[0]===today);
+  document.getElementById('opToday').textContent = todayB.length;
+  document.getElementById('opPending').textContent = allOpBookings.filter(b=>b.status==='Pending').length;
+  const pending = allOpBookings.filter(b=>b.status==='Pending').slice(0,5);
+  const bm = {Pending:'badge-pending',Approved:'badge-approved','In Progress':'badge-progress',Completed:'badge-completed',Rejected:'badge-rejected'};
+  const w = document.getElementById('opRecentPending');
+  if(!pending.length){ w.innerHTML = '<div class="text-center py-8"><i class="fas fa-check-circle text-5xl text-green-300 mb-3"></i><p class="text-gray-500 font-medium">No pending bookings! Great work! 🎉</p></div>'; return; }
+  w.innerHTML = pending.map(b=>`<div class="bg-soft rounded-xl p-4 flex items-center justify-between hover:shadow-md transition">
+<div><p class="font-bold text-sm">${b.name||'-'}</p><p class="text-xs text-gray-500">${b.serviceType||'-'} • ${b.mobile||''}</p></div>
+<span class="badge ${bm[b.status]}">${b.status}</span></div>`).join('');
 }
 
 // ========== CUSTOMERS ==========
+let allCustomers = [];
+
 async function renderCustomers(){
-  const search = document.getElementById('custSearch').value.toLowerCase();
+  const s = document.getElementById('custSearch').value.toLowerCase();
   try{
-    if(!allOpUsers.length){
+    if(!allCustomers.length){
       const snap = await db.collection('users').get();
-      allOpUsers = snap.docs.map(d => ({id: d.id, ...d.data()}));
+      allCustomers = snap.docs.map(d=>({id:d.id, ...d.data()}));
     }
   }catch(e){}
-  
-  const filtered = allOpUsers.filter(u => 
-    !search || (u.name||'').toLowerCase().includes(search) || (u.mobile||'').includes(search)
-  );
-  const wrap = document.getElementById('customersList');
-  if(!filtered.length){
-    wrap.innerHTML = '<div class="col-span-3 text-center py-10"><i class="fas fa-users text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">No customers found</p></div>';
-    return;
-  }
-  wrap.innerHTML = filtered.map(u => {
-    const userBookings = allOpBookings.filter(b => b.userId === u.id);
-    return `<div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition">
+  const f = allCustomers.filter(u=>!s || (u.name||'').toLowerCase().includes(s) || (u.mobile||'').includes(s));
+  const w = document.getElementById('customersList');
+  if(!f.length){ w.innerHTML = '<div class="col-span-3 text-center py-10"><i class="fas fa-users text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">No customers</p></div>'; return; }
+  w.innerHTML = f.map(u=>{
+    const ub = allOpBookings.filter(b=>b.userId===u.id);
+    return `<div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md">
 <div class="flex items-center gap-3 mb-3">
-${u.photoURL 
-  ? `<img src="${u.photoURL}" class="w-12 h-12 rounded-full object-cover">`
-  : `<div class="w-12 h-12 rounded-full gradient-primary flex items-center justify-center text-white text-lg font-black">${(u.name||'U').charAt(0).toUpperCase()}</div>`
-}
-<div class="flex-1 min-w-0">
-<p class="font-bold text-sm truncate">${u.name||'-'}</p>
-<p class="text-xs text-gray-500 truncate">${u.mobile||u.email||''}</p>
-</div>
+${u.photoURL?`<img src="${u.photoURL}" class="w-12 h-12 rounded-full object-cover">`:`<div class="w-12 h-12 rounded-full gradient-primary flex items-center justify-center text-white font-black">${(u.name||'U').charAt(0).toUpperCase()}</div>`}
+<div class="flex-1 min-w-0"><p class="font-bold text-sm truncate">${u.name||'-'}</p><p class="text-xs text-gray-500 truncate">${u.mobile||u.email||''}</p></div>
 </div>
 <div class="grid grid-cols-2 gap-2 text-center pt-3 border-t border-gray-100">
-<div>
-<p class="text-2xl font-display font-black gradient-text">${userBookings.length}</p>
-<p class="text-xs text-gray-500 font-bold">Bookings</p>
-</div>
-<div>
-<p class="text-2xl font-display font-black text-green-600">${userBookings.filter(b=>b.status==='Completed').length}</p>
-<p class="text-xs text-gray-500 font-bold">Completed</p>
-</div>
-</div>
-</div>`;
+<div><p class="text-2xl font-display font-black gradient-text">${ub.length}</p><p class="text-xs text-gray-500">Bookings</p></div>
+<div><p class="text-2xl font-display font-black text-green-600">${ub.filter(b=>b.status==='Completed').length}</p><p class="text-xs text-gray-500">Completed</p></div>
+</div></div>`;
   }).join('');
 }
 
@@ -854,27 +575,18 @@ ${u.photoURL
 async function loadCash(){
   try{
     const snap = await db.collection('cashRegister').get();
-    const entries = snap.docs.map(d => ({id: d.id, ...d.data()}))
-      .sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
-    const ci = entries.filter(e => e.type==='cashin').reduce((s,e) => s+(+e.amount||0), 0);
-    const co = entries.filter(e => e.type==='cashout').reduce((s,e) => s+(+e.amount||0), 0);
-    document.getElementById('cashIn').textContent = '₹' + ci.toLocaleString('en-IN');
-    document.getElementById('cashOut').textContent = '₹' + co.toLocaleString('en-IN');
-    const wrap = document.getElementById('cashTable');
-    if(!entries.length){
-      wrap.innerHTML = '<tr><td colspan="4" class="px-4 py-8 text-center text-gray-400">No entries yet</td></tr>';
-      return;
-    }
-    wrap.innerHTML = entries.map(e => `<tr class="hover:bg-primary-50/50">
-<td class="px-4 py-3 text-xs">${e.desc||'-'}</td>
-<td class="px-4 py-3 text-xs font-bold">₹${(+e.amount||0).toLocaleString('en-IN')}</td>
-<td class="px-4 py-3"><span class="badge ${e.type==='cashin'?'badge-completed':'badge-rejected'}">${e.type}</span></td>
-<td class="px-4 py-3 text-xs">${e.createdAt?.toDate ? e.createdAt.toDate().toLocaleDateString() : '-'}</td>
-</tr>`).join('');
+    const es = snap.docs.map(d=>({id:d.id, ...d.data()})).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+    const ci = es.filter(e=>e.type==='cashin').reduce((s,e)=>s+(+e.amount||0),0);
+    const co = es.filter(e=>e.type==='cashout').reduce((s,e)=>s+(+e.amount||0),0);
+    document.getElementById('cashIn').textContent = '₹'+ci.toLocaleString('en-IN');
+    document.getElementById('cashOut').textContent = '₹'+co.toLocaleString('en-IN');
+    const w = document.getElementById('cashTable');
+    if(!es.length){ w.innerHTML = '<tr><td colspan="3" class="px-4 py-8 text-center text-gray-400">No entries</td></tr>'; return; }
+    w.innerHTML = es.map(e=>`<tr class="hover:bg-primary-50/50"><td class="px-4 py-3 text-xs">${e.desc||'-'}</td><td class="px-4 py-3 text-xs font-bold">₹${(+e.amount||0).toLocaleString('en-IN')}</td><td class="px-4 py-3"><span class="badge ${e.type==='cashin'?'badge-completed':'badge-rejected'}">${e.type}</span></td></tr>`).join('');
   }catch(e){console.log(e);}
 }
 
-document.getElementById('cashForm').addEventListener('submit', async e => {
+document.getElementById('cashForm').addEventListener('submit', async e=>{
   e.preventDefault();
   try{
     await db.collection('cashRegister').add({
@@ -885,40 +597,25 @@ document.getElementById('cashForm').addEventListener('submit', async e => {
       operatorName: currentOperator.name,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-    toast('Cash entry added!', 'success');
-    e.target.reset();
-    loadCash();
-  }catch(err){
-    toast('Add failed: ' + err.message, 'error');
-  }
+    toast('Cash entry added!', 'success'); e.target.reset(); loadCash();
+  }catch(e){ toast('Failed: '+e.message, 'error'); }
 });
 
 // ========== BANKING LEADS ==========
 async function loadLeads(){
   try{
     const snap = await db.collection('bankingLeads').orderBy('createdAt','desc').get();
-    const leads = snap.docs.map(d => ({id: d.id, ...d.data()}));
-    const wrap = document.getElementById('leadsList');
-    if(!leads.length){
-      wrap.innerHTML = '<div class="col-span-2 text-center py-10"><i class="fas fa-bullseye text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">No leads yet</p></div>';
-      return;
-    }
-    wrap.innerHTML = leads.map(l => `
-<div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition">
-<div class="flex justify-between items-start mb-3">
-<div>
-<p class="font-bold text-sm">${l.name||'-'}</p>
-<p class="text-xs text-gray-500">${l.mobile||''}</p>
-</div>
-<span class="badge badge-approved">${l.product||'Other'}</span>
-</div>
+    const leads = snap.docs.map(d=>({id:d.id, ...d.data()}));
+    const w = document.getElementById('leadsList');
+    if(!leads.length){ w.innerHTML = '<div class="col-span-2 text-center py-10"><i class="fas fa-bullseye text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">No leads</p></div>'; return; }
+    w.innerHTML = leads.map(l=>`<div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md">
+<div class="flex justify-between items-start mb-2"><div><p class="font-bold text-sm">${l.name||'-'}</p><p class="text-xs text-gray-500">${l.mobile||''}</p></div><span class="badge badge-approved">${l.product||'Other'}</span></div>
 ${l.notes?`<p class="text-xs text-gray-600 bg-soft p-2 rounded">${l.notes}</p>`:''}
-<p class="text-xs text-gray-400 mt-2"><i class="fas fa-calendar mr-1"></i>${l.createdAt?.toDate ? l.createdAt.toDate().toLocaleDateString() : ''}</p>
 </div>`).join('');
   }catch(e){console.log(e);}
 }
 
-document.getElementById('leadForm').addEventListener('submit', async e => {
+document.getElementById('leadForm').addEventListener('submit', async e=>{
   e.preventDefault();
   try{
     await db.collection('bankingLeads').add({
@@ -930,35 +627,22 @@ document.getElementById('leadForm').addEventListener('submit', async e => {
       operatorId: currentOperator.id,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-    toast('Lead added!', 'success');
-    e.target.reset();
-    loadLeads();
-  }catch(err){
-    toast('Add failed: ' + err.message, 'error');
-  }
+    toast('Lead added!', 'success'); e.target.reset(); loadLeads();
+  }catch(e){ toast('Failed: '+e.message, 'error'); }
 });
 
-// ========== INCOME / EXPENSE ==========
+// ========== INCOME/EXPENSE/PROFIT ==========
 async function loadIncome(){
   try{
     const snap = await db.collection('transactions').where('type','==','income').get();
-    const items = snap.docs.map(d => ({id: d.id, ...d.data()}))
-      .sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
-    const wrap = document.getElementById('incomeTable');
-    if(!items.length){
-      wrap.innerHTML = '<tr><td colspan="4" class="px-4 py-8 text-center text-gray-400">No income entries</td></tr>';
-      return;
-    }
-    wrap.innerHTML = items.map(t => `<tr class="hover:bg-primary-50/50">
-<td class="px-4 py-3 text-xs">${t.title||'-'}</td>
-<td class="px-4 py-3 text-xs font-bold text-green-600">+₹${(+t.amount||0).toLocaleString('en-IN')}</td>
-<td class="px-4 py-3 text-xs">${t.date||'-'}</td>
-<td class="px-4 py-3"><button onclick="deleteTxn('${t.id}')" class="text-red-500 hover:text-red-700"><i class="fas fa-trash text-xs"></i></button></td>
-</tr>`).join('');
+    const items = snap.docs.map(d=>({id:d.id, ...d.data()})).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+    const w = document.getElementById('incomeTable');
+    if(!items.length){ w.innerHTML = '<tr><td colspan="3" class="px-4 py-8 text-center text-gray-400">No income</td></tr>'; return; }
+    w.innerHTML = items.map(t=>`<tr class="hover:bg-primary-50/50"><td class="px-4 py-3 text-xs">${t.title||'-'}</td><td class="px-4 py-3 text-xs font-bold text-green-600">+₹${(+t.amount||0).toLocaleString('en-IN')}</td><td class="px-4 py-3 text-xs">${t.date||'-'}</td></tr>`).join('');
   }catch(e){}
 }
 
-document.getElementById('incomeForm').addEventListener('submit', async e => {
+document.getElementById('incomeForm').addEventListener('submit', async e=>{
   e.preventDefault();
   try{
     await db.collection('transactions').add({
@@ -969,32 +653,21 @@ document.getElementById('incomeForm').addEventListener('submit', async e => {
       operatorId: currentOperator.id,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-    toast('Income added!', 'success');
-    e.target.reset();
-    loadIncome(); loadProfit();
-  }catch(err){toast('Failed: ' + err.message, 'error');}
+    toast('Income added!', 'success'); e.target.reset(); loadIncome(); loadProfit();
+  }catch(e){ toast('Failed: '+e.message, 'error'); }
 });
 
 async function loadExpense(){
   try{
     const snap = await db.collection('transactions').where('type','==','expense').get();
-    const items = snap.docs.map(d => ({id: d.id, ...d.data()}))
-      .sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
-    const wrap = document.getElementById('expTable');
-    if(!items.length){
-      wrap.innerHTML = '<tr><td colspan="4" class="px-4 py-8 text-center text-gray-400">No expense entries</td></tr>';
-      return;
-    }
-    wrap.innerHTML = items.map(t => `<tr class="hover:bg-primary-50/50">
-<td class="px-4 py-3 text-xs">${t.title||'-'}</td>
-<td class="px-4 py-3 text-xs font-bold text-red-600">-₹${(+t.amount||0).toLocaleString('en-IN')}</td>
-<td class="px-4 py-3 text-xs">${t.date||'-'}</td>
-<td class="px-4 py-3"><button onclick="deleteTxn('${t.id}')" class="text-red-500 hover:text-red-700"><i class="fas fa-trash text-xs"></i></button></td>
-</tr>`).join('');
+    const items = snap.docs.map(d=>({id:d.id, ...d.data()})).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+    const w = document.getElementById('expTable');
+    if(!items.length){ w.innerHTML = '<tr><td colspan="3" class="px-4 py-8 text-center text-gray-400">No expenses</td></tr>'; return; }
+    w.innerHTML = items.map(t=>`<tr class="hover:bg-primary-50/50"><td class="px-4 py-3 text-xs">${t.title||'-'}</td><td class="px-4 py-3 text-xs font-bold text-red-600">-₹${(+t.amount||0).toLocaleString('en-IN')}</td><td class="px-4 py-3 text-xs">${t.date||'-'}</td></tr>`).join('');
   }catch(e){}
 }
 
-document.getElementById('expForm').addEventListener('submit', async e => {
+document.getElementById('expForm').addEventListener('submit', async e=>{
   e.preventDefault();
   try{
     await db.collection('transactions').add({
@@ -1005,189 +678,83 @@ document.getElementById('expForm').addEventListener('submit', async e => {
       operatorId: currentOperator.id,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-    toast('Expense added!', 'success');
-    e.target.reset();
-    loadExpense(); loadProfit();
-  }catch(err){toast('Failed: ' + err.message, 'error');}
+    toast('Expense added!', 'success'); e.target.reset(); loadExpense(); loadProfit();
+  }catch(e){ toast('Failed: '+e.message, 'error'); }
 });
 
-async function deleteTxn(id){
-  if(!confirm('Delete this entry?')) return;
-  try{
-    await db.collection('transactions').doc(id).delete();
-    toast('Deleted', 'success');
-    loadIncome(); loadExpense(); loadProfit();
-  }catch(e){toast('Failed: ' + e.message, 'error');}
-}
-
-// ========== PROFIT ==========
 async function loadProfit(){
   try{
     const snap = await db.collection('transactions').get();
-    const items = snap.docs.map(d => d.data());
-    const inc = items.filter(t => t.type==='income').reduce((s,t) => s+(+t.amount||0), 0);
-    const exp = items.filter(t => t.type==='expense').reduce((s,t) => s+(+t.amount||0), 0);
-    document.getElementById('profIncome').textContent = '₹' + inc.toLocaleString('en-IN');
-    document.getElementById('profExpense').textContent = '₹' + exp.toLocaleString('en-IN');
-    const net = inc - exp;
-    const netEl = document.getElementById('profNet');
-    netEl.textContent = '₹' + net.toLocaleString('en-IN');
-    netEl.style.color = net >= 0 ? 'white' : '#FCA5A5';
-    document.getElementById('opMonthly').textContent = '₹' + inc.toLocaleString('en-IN');
-    document.getElementById('opRevenue').textContent = '₹' + inc.toLocaleString('en-IN');
+    const items = snap.docs.map(d=>d.data());
+    const inc = items.filter(t=>t.type==='income').reduce((s,t)=>s+(+t.amount||0),0);
+    const exp = items.filter(t=>t.type==='expense').reduce((s,t)=>s+(+t.amount||0),0);
+    document.getElementById('profIncome').textContent = '₹'+inc.toLocaleString('en-IN');
+    document.getElementById('profExpense').textContent = '₹'+exp.toLocaleString('en-IN');
+    document.getElementById('profNet').textContent = '₹'+(inc-exp).toLocaleString('en-IN');
+    document.getElementById('opMonthly').textContent = '₹'+inc.toLocaleString('en-IN');
+    document.getElementById('opRevenue').textContent = '₹'+inc.toLocaleString('en-IN');
   }catch(e){}
 }
 
-// ========== RECEIPT GENERATOR ==========
+// ========== RECEIPT ==========
 function generateReceipt(){
-  const no = document.getElementById('rcpNo').value.trim() || ('RCP-' + String(receiptCounter).padStart(4,'0'));
+  const no = document.getElementById('rcpNo').value.trim() || ('RCP-'+String(receiptCounter).padStart(4,'0'));
   const name = document.getElementById('rcpName').value.trim();
   const service = document.getElementById('rcpService').value.trim();
   const amount = document.getElementById('rcpAmount').value;
   const date = document.getElementById('rcpDate').value || new Date().toISOString().split('T')[0];
-  const note = document.getElementById('rcpNote').value.trim();
-
-  if(!name || !amount){
-    return toast('Please fill customer name and amount', 'error');
-  }
-
-  document.getElementById('receiptContent').innerHTML = `
-<div class="flex justify-between py-1.5 border-b border-dashed border-gray-200"><span class="text-gray-600">Receipt No:</span><span class="font-bold">${no}</span></div>
-<div class="flex justify-between py-1.5 border-b border-dashed border-gray-200"><span class="text-gray-600">Date:</span><span class="font-bold">${date}</span></div>
-<div class="flex justify-between py-1.5 border-b border-dashed border-gray-200"><span class="text-gray-600">Customer:</span><span class="font-bold">${name}</span></div>
-<div class="flex justify-between py-1.5 border-b border-dashed border-gray-200"><span class="text-gray-600">Service:</span><span class="font-bold text-right">${service||'-'}</span></div>
-${note?`<div class="py-2"><p class="text-gray-600 text-xs">Note:</p><p class="text-xs">${note}</p></div>`:''}
-<div class="flex justify-between border-t-2 border-primary-800 pt-3 mt-3">
-<span class="font-display font-black text-lg">TOTAL:</span>
-<span class="font-display font-black text-2xl text-accent-600">₹${parseFloat(amount).toLocaleString('en-IN')}</span>
-</div>`;
+  if(!name || !amount) return toast('Fill name & amount', 'error');
+  document.getElementById('receiptContent').innerHTML = `<div class="flex justify-between py-1.5 border-b border-dashed border-gray-200"><span class="text-gray-600">Receipt #:</span><span class="font-bold">${no}</span></div><div class="flex justify-between py-1.5 border-b border-dashed border-gray-200"><span class="text-gray-600">Date:</span><span class="font-bold">${date}</span></div><div class="flex justify-between py-1.5 border-b border-dashed border-gray-200"><span class="text-gray-600">Customer:</span><span class="font-bold">${name}</span></div><div class="flex justify-between py-1.5 border-b border-dashed border-gray-200"><span class="text-gray-600">Service:</span><span class="font-bold text-right">${service||'-'}</span></div><div class="flex justify-between border-t-2 border-primary-800 pt-3 mt-3"><span class="font-display font-black text-lg">TOTAL:</span><span class="font-display font-black text-2xl text-accent-600">₹${parseFloat(amount).toLocaleString('en-IN')}</span></div>`;
   document.getElementById('receiptPreview').classList.remove('hidden');
-  receiptCounter++;
-  localStorage.setItem('rcpCounter', receiptCounter);
+  receiptCounter++; localStorage.setItem('rcpCounter', receiptCounter);
   toast('Receipt generated!', 'success');
 }
 
-// ========== INVOICE GENERATOR ==========
+// ========== INVOICE ==========
 function generateInvoice(){
-  const no = document.getElementById('invNo').value.trim() || ('INV-' + Date.now());
+  const no = document.getElementById('invNo').value.trim();
   const client = document.getElementById('invClient').value.trim();
   const date = document.getElementById('invDate').value || new Date().toISOString().split('T')[0];
   const gst = +document.getElementById('invGST').value || 0;
   const itemsRaw = document.getElementById('invItems').value.trim();
-  
-  if(!client || !itemsRaw){
-    return toast('Please fill client name and items', 'error');
-  }
-
-  const lines = itemsRaw.split('\n').filter(l => l.trim());
+  if(!client || !itemsRaw) return toast('Fill client & items', 'error');
+  const lines = itemsRaw.split('\n').filter(l=>l.trim());
   let subtotal = 0;
-  const itemsHtml = lines.map((line, i) => {
-    const parts = line.split('|').map(s => s.trim());
-    const name = parts[0] || '';
-    const qty = +parts[1] || 1;
-    const price = +parts[2] || 0;
-    const total = qty * price;
-    subtotal += total;
-    return `<tr class="border-b">
-<td class="py-2">${i+1}. ${name}</td>
-<td class="py-2 text-center">${qty}</td>
-<td class="py-2 text-right">₹${price.toLocaleString('en-IN')}</td>
-<td class="py-2 text-right font-bold">₹${total.toLocaleString('en-IN')}</td>
-</tr>`;
+  const itemsHtml = lines.map((line,i)=>{
+    const parts = line.split('|').map(s=>s.trim());
+    const name = parts[0]||'', qty = +parts[1]||1, price = +parts[2]||0;
+    const total = qty*price; subtotal += total;
+    return `<tr class="border-b"><td class="py-2">${i+1}. ${name}</td><td class="py-2 text-center">${qty}</td><td class="py-2 text-right">₹${price.toLocaleString('en-IN')}</td><td class="py-2 text-right">₹${total.toLocaleString('en-IN')}</td></tr>`;
   }).join('');
-
-  const gstAmt = subtotal * gst / 100;
-  const grand = subtotal + gstAmt;
-
-  document.getElementById('invoicePreview').innerHTML = `
-<div class="text-center mb-6 border-b-2 border-primary-800 pb-4">
-<h2 class="font-display font-black text-3xl text-primary-800">TAX INVOICE</h2>
-<p class="text-sm text-gray-600 mt-1">Pankaj E-Seva Kendra | GSTIN: XXXXXXXXXXXXXXX</p>
-</div>
-<div class="grid grid-cols-2 gap-4 mb-4 text-sm">
-<div><p class="text-gray-500">Bill To:</p><p class="font-bold">${client}</p></div>
-<div class="text-right">
-<p><span class="text-gray-500">Invoice #:</span> <span class="font-bold">${no}</span></p>
-<p><span class="text-gray-500">Date:</span> <span class="font-bold">${date}</span></p>
-</div>
-</div>
-<table class="w-full text-sm mb-4">
-<thead class="bg-primary-50">
-<tr>
-<th class="py-2 px-2 text-left">Item Description</th>
-<th class="py-2 px-2 text-center">Qty</th>
-<th class="py-2 px-2 text-right">Price</th>
-<th class="py-2 px-2 text-right">Total</th>
-</tr>
-</thead>
-<tbody>${itemsHtml}</tbody>
-</table>
-<div class="ml-auto max-w-xs space-y-1 text-sm">
-<div class="flex justify-between"><span>Subtotal:</span><span class="font-bold">₹${subtotal.toLocaleString('en-IN', {maximumFractionDigits:2})}</span></div>
-<div class="flex justify-between"><span>GST (${gst}%):</span><span class="font-bold">₹${gstAmt.toLocaleString('en-IN', {maximumFractionDigits:2})}</span></div>
-<div class="flex justify-between border-t-2 border-primary-800 pt-2 mt-2 text-lg">
-<span class="font-display font-black">Grand Total:</span>
-<span class="font-display font-black text-accent-600">₹${grand.toLocaleString('en-IN', {maximumFractionDigits:2})}</span>
-</div>
-</div>
-<div class="mt-8 pt-4 border-t text-center text-xs text-gray-500">
-<p>Thank you for your business! 🙏</p>
-</div>`;
+  const gstAmt = subtotal*gst/100;
+  document.getElementById('invoicePreview').innerHTML = `<div class="text-center mb-6 border-b-2 border-primary-800 pb-4"><h3 class="font-display font-black text-xl text-primary-800">TAX INVOICE</h3><p class="text-sm text-gray-600">E-SUVIDHA KENDRA</p></div><div class="grid grid-cols-2 gap-4 mb-4 text-sm"><div><p class="text-gray-500">Bill To:</p><p class="font-bold">${client}</p></div><div class="text-right"><p>Invoice #: <span class="font-bold">${no}</span></p><p>Date: <span class="font-bold">${date}</span></p></div></div><table class="w-full text-sm mb-4"><thead class="bg-primary-50"><tr><th class="py-2 px-2 text-left">Item</th><th>Qty</th><th class="text-right">Price</th><th class="text-right">Total</th></tr></thead><tbody>${itemsHtml}</tbody></table><div class="ml-auto max-w-xs space-y-1 text-sm"><div class="flex justify-between"><span>Subtotal:</span><span class="font-bold">₹${subtotal.toLocaleString('en-IN',{maximumFractionDigits:2})}</span></div><div class="flex justify-between"><span>GST (${gst}%):</span><span class="font-bold">₹${gstAmt.toLocaleString('en-IN',{maximumFractionDigits:2})}</span></div><div class="flex justify-between border-t-2 border-primary-800 pt-2 mt-2 text-lg"><span class="font-display font-black">Total:</span><span class="font-display font-black text-accent-600">₹${(subtotal+gstAmt).toLocaleString('en-IN',{maximumFractionDigits:2})}</span></div></div>`;
   document.getElementById('invoicePreview').classList.remove('hidden');
   toast('Invoice generated!', 'success');
 }
 
-// ========== TOKEN GENERATOR ==========
+// ========== TOKEN ==========
 function generateToken(){
   const prefix = document.getElementById('tkPrefix').value;
-  const num = String(tokenCounter).padStart(3, '0');
-  const token = prefix + num;
-  const name = document.getElementById('tkName').value.trim() || 'Customer';
+  const num = String(tokenCounter).padStart(3,'0');
+  const token = prefix+num, name = document.getElementById('tkName').value.trim() || 'Customer';
   const mobile = document.getElementById('tkMobile').value.trim();
   const now = new Date();
-  const dateStr = now.toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric'});
-  const timeStr = now.toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit'});
-
-  document.getElementById('tokenPreview').innerHTML = `
-<div class="mb-2">
-<p class="text-xs text-gray-500 font-bold uppercase tracking-widest">Pankaj E-Seva Kendra</p>
-<p class="text-xs text-gray-400">${dateStr} • ${timeStr}</p>
-</div>
-<p class="text-xs text-gray-500 mt-4">YOUR TOKEN NUMBER</p>
-<h1 class="text-6xl font-display font-black gradient-text my-3 tracking-wider">${token}</h1>
-<div class="border-t border-dashed border-gray-300 pt-3 mt-4">
-<p class="font-bold text-lg">${name}</p>
-${mobile?`<p class="text-sm text-gray-600">${mobile}</p>`:''}
-</div>
-<p class="text-xs text-gray-500 mt-4 italic">⏰ Please wait for your turn</p>
-<p class="text-xs text-gray-400 mt-2">Token #${num} of today</p>`;
-  
-  document.getElementById('tkCounter').value = String(tokenCounter + 1).padStart(3, '0');
-  tokenCounter++;
-  localStorage.setItem('tkCounter', tokenCounter);
-  
-  // Save to Firestore
-  db.collection('tokens').add({
-    token: token,
-    name: name,
-    mobile: mobile,
-    operatorId: currentOperator.id,
-    status: 'Waiting',
-    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-  }).catch(() => {});
-
+  const dateStr = now.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+  const timeStr = now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('tokenPreview').innerHTML = `<div class="mb-2"><p class="text-xs text-gray-500 font-bold uppercase">E-SUVIDHA KENDRA</p><p class="text-xs text-gray-400">${dateStr} • ${timeStr}</p></div><p class="text-xs text-gray-500 mt-4">YOUR TOKEN NUMBER</p><h1 class="text-6xl font-display font-black gradient-text my-3 tracking-wider">${token}</h1><div class="border-t border-dashed border-gray-300 pt-3 mt-4"><p class="font-bold text-lg">${name}</p>${mobile?`<p class="text-sm text-gray-600">${mobile}</p>`:''}</div><p class="text-xs text-gray-500 mt-4 italic">⏰ Please wait for your turn</p>`;
+  document.getElementById('tkCounter').value = String(tokenCounter+1).padStart(3,'0');
+  tokenCounter++; localStorage.setItem('tkCounter', tokenCounter);
+  db.collection('tokens').add({token, name, mobile, operatorId: currentOperator.id, status:'Waiting', createdAt:firebase.firestore.FieldValue.serverTimestamp()}).catch(()=>{});
   toast(`Token ${token} generated!`, 'success');
 }
 
 function resetTokenCounter(){
-  if(!confirm('Reset token counter to 1?')) return;
-  tokenCounter = 1;
-  localStorage.setItem('tkCounter', '1');
-  document.getElementById('tkCounter').value = '001';
-  toast('Token counter reset to 1', 'success');
+  if(!confirm('Reset counter to 1?')) return;
+  tokenCounter = 1; localStorage.setItem('tkCounter', '1'); document.getElementById('tkCounter').value = '001';
+  toast('Counter reset to 1', 'success');
 }
 
-// ========== TOOL MODAL ==========
+// ========== MODAL ==========
 function openToolModal(){document.getElementById('toolModal').classList.remove('hidden');}
 function closeToolModal(){document.getElementById('toolModal').classList.add('hidden');}
 
@@ -1196,12 +763,7 @@ function toast(msg, type='success'){
   const t = document.getElementById('toast');
   t.innerHTML = `<i class="fas fa-${type==='success'?'check-circle':'exclamation-circle'}"></i> ${msg}`;
   t.className = `fixed top-24 right-4 z-50 px-5 py-3 rounded-xl shadow-2xl text-white font-semibold text-sm flex items-center gap-2 ${type==='success'?'bg-gradient-to-r from-green-500 to-emerald-600':'bg-gradient-to-r from-red-500 to-red-600'}`;
-  setTimeout(() => t.classList.add('hidden'), 3500);
-}
-
-// ========== SERVICE WORKER ==========
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('sw.js').catch(()=>{});
+  setTimeout(()=>t.classList.add('hidden'), 3500);
 }
 </script>
 </body>
