@@ -439,90 +439,201 @@ CSC & Government Tools
 </div>
 </div>
 
-<!-- ============ CHECKLISTS (6) ============ -->
-<div id="tab-checklists" class="tab-section">
-<div class="mb-5">
-<h2 class="font-display font-black text-2xl flex items-center gap-3">
-<span class="w-10 h-10 rounded-xl bg-yellow-100 text-yellow-600 flex items-center justify-center"><i class="fas fa-clipboard-check"></i></span>
-CSC Checklists
+<!-- ============ LEGAL TOOLS (12) ============ -->
+<div id="tab-legal" class="tab-section">
+<h2 class="font-display font-black text-2xl mb-1 flex items-center gap-3">
+<span class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center"><i class="fas fa-gavel"></i></span>
+Court & Legal Tools (12)
 </h2>
-<p class="text-sm text-gray-500 mt-1">6 document checklists with print & localStorage</p>
-</div>
-<div class="grid sm:grid-cols-2 gap-4" id="checklistsContainer"></div>
-</div>
-
-<!-- ============ BANKING TOOLS (13) ============ -->
-<div id="tab-banking" class="tab-section">
-<div class="mb-5">
-<h2 class="font-display font-black text-2xl flex items-center gap-3">
-<span class="w-10 h-10 rounded-xl bg-green-100 text-green-600 flex items-center justify-center"><i class="fas fa-university"></i></span>
-Banking & Finance Tools
-</h2>
-<p class="text-sm text-gray-500 mt-1">13 financial calculators</p>
-</div>
+<p class="text-sm text-gray-500 mb-4">12 legal document generators</p>
 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('emi')">
-<div class="w-10 h-10 rounded-xl bg-blue-500 text-white flex items-center justify-center mb-2"><i class="fas fa-calculator"></i></div>
-<p class="font-bold text-sm">EMI</p>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('legalNotice')">
+<div class="w-10 h-10 rounded-xl bg-red-500 text-white flex items-center justify-center mb-2"><i class="fas fa-gavel"></i></div>
+<p class="font-bold text-sm">Legal Notice</p>
 </div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('sip')">
-<div class="w-10 h-10 rounded-xl bg-green-500 text-white flex items-center justify-center mb-2"><i class="fas fa-chart-line"></i></div>
-<p class="font-bold text-sm">SIP</p>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('rentAgree')">
+<div class="w-10 h-10 rounded-xl bg-blue-500 text-white flex items-center justify-center mb-2"><i class="fas fa-home"></i></div>
+<p class="font-bold text-sm">Rent Agreement</p>
 </div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('fd')">
-<div class="w-10 h-10 rounded-xl bg-purple-500 text-white flex items-center justify-center mb-2"><i class="fas fa-piggy-bank"></i></div>
-<p class="font-bold text-sm">FD</p>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('policeComp')">
+<div class="w-10 h-10 rounded-xl bg-purple-500 text-white flex items-center justify-center mb-2"><i class="fas fa-user-shield"></i></div>
+<p class="font-bold text-sm">Police Complaint</p>
 </div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('rd')">
-<div class="w-10 h-10 rounded-xl bg-orange-500 text-white flex items-center justify-center mb-2"><i class="fas fa-coins"></i></div>
-<p class="font-bold text-sm">RD</p>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('fir')">
+<div class="w-10 h-10 rounded-xl bg-orange-500 text-white flex items-center justify-center mb-2"><i class="fas fa-file-alt"></i></div>
+<p class="font-bold text-sm">FIR Draft</p>
 </div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('gst')">
-<div class="w-10 h-10 rounded-xl bg-red-500 text-white flex items-center justify-center mb-2"><i class="fas fa-percent"></i></div>
-<p class="font-bold text-sm">GST</p>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('undertaking')">
+<div class="w-10 h-10 rounded-xl bg-green-500 text-white flex items-center justify-center mb-2"><i class="fas fa-file-signature"></i></div>
+<p class="font-bold text-sm">Undertaking</p>
 </div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('homeLoan')">
-<div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center mb-2"><i class="fas fa-home"></i></div>
-<p class="font-bold text-sm">Home Loan</p>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('indemnity')">
+<div class="w-10 h-10 rounded-xl bg-indigo-500 text-white flex items-center justify-center mb-2"><i class="fas fa-shield-alt"></i></div>
+<p class="font-bold text-sm">Indemnity Bond</p>
 </div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('carLoan')">
-<div class="w-10 h-10 rounded-xl bg-indigo-500 text-white flex items-center justify-center mb-2"><i class="fas fa-car"></i></div>
-<p class="font-bold text-sm">Car Loan</p>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('powerOfAttorney')">
+<div class="w-10 h-10 rounded-xl bg-pink-500 text-white flex items-center justify-center mb-2"><i class="fas fa-user-tie"></i></div>
+<p class="font-bold text-sm">Power of Attorney</p>
 </div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('interest')">
-<div class="w-10 h-10 rounded-xl bg-cyan-500 text-white flex items-center justify-center mb-2"><i class="fas fa-percentage"></i></div>
-<p class="font-bold text-sm">Interest</p>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('will')">
+<div class="w-10 h-10 rounded-xl bg-yellow-500 text-white flex items-center justify-center mb-2"><i class="fas fa-scroll"></i></div>
+<p class="font-bold text-sm">Will Draft</p>
 </div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('profit')">
-<div class="w-10 h-10 rounded-xl bg-pink-500 text-white flex items-center justify-center mb-2"><i class="fas fa-chart-pie"></i></div>
-<p class="font-bold text-sm">Profit/Loss</p>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('partnership')">
+<div class="w-10 h-10 rounded-xl bg-cyan-500 text-white flex items-center justify-center mb-2"><i class="fas fa-handshake"></i></div>
+<p class="font-bold text-sm">Partnership Deed</p>
 </div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('cashbook')">
-<div class="w-10 h-10 rounded-xl bg-yellow-500 text-white flex items-center justify-center mb-2"><i class="fas fa-book"></i></div>
-<p class="font-bold text-sm">Cash Book</p>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('caseTracker')">
+<div class="w-10 h-10 rounded-xl bg-violet-500 text-white flex items-center justify-center mb-2"><i class="fas fa-briefcase"></i></div>
+<p class="font-bold text-sm">Case Tracker</p>
 </div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('expense')">
-<div class="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center mb-2"><i class="fas fa-receipt"></i></div>
-<p class="font-bold text-sm">Expense</p>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('hearing')">
+<div class="w-10 h-10 rounded-xl bg-teal-500 text-white flex items-center justify-center mb-2"><i class="fas fa-calendar-check"></i></div>
+<p class="font-bold text-sm">Hearing Tracker</p>
 </div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('invoice')">
-<div class="w-10 h-10 rounded-xl bg-violet-500 text-white flex items-center justify-center mb-2"><i class="fas fa-file-invoice"></i></div>
-<p class="font-bold text-sm">Invoice</p>
-</div>
-<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openCalc('receipt')">
-<div class="w-10 h-10 rounded-xl bg-teal-500 text-white flex items-center justify-center mb-2"><i class="fas fa-receipt"></i></div>
-<p class="font-bold text-sm">Receipt</p>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('vakalatnama')">
+<div class="w-10 h-10 rounded-xl bg-rose-500 text-white flex items-center justify-center mb-2"><i class="fas fa-gavel"></i></div>
+<p class="font-bold text-sm">Vakalatnama</p>
 </div>
 </div>
 </div>
 
-<!-- PLACEHOLDER FOR OTHER TABS -->
-<div id="tab-legal" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-tools text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Legal Tools - Add later if needed</p></div></div>
-<div id="tab-cyber" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-tools text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Cyber Tools - Add later if needed</p></div></div>
-<div id="tab-student" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-tools text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Student Tools - Add later if needed</p></div></div>
-<div id="tab-business" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-tools text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Business Tools - Add later if needed</p></div></div>
-<div id="tab-whatsapp" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fab fa-whatsapp text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">WhatsApp - Add later if needed</p></div></div>
-<div id="tab-letter" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-envelope text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Letter Writer - Add later if needed</p></div></div>
+<!-- ============ CYBER TOOLS (12) ============ -->
+<div id="tab-cyber" class="tab-section">
+<h2 class="font-display font-black text-2xl mb-1 flex items-center gap-3">
+<span class="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-600 flex items-center justify-center"><i class="fas fa-keyboard"></i></span>
+Cyber Cafe Tools (12)
+</h2>
+<p class="text-sm text-gray-500 mb-4">12 cyber tools for typing work</p>
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('qrcode')">
+<div class="w-10 h-10 rounded-xl bg-blue-500 text-white flex items-center justify-center mb-2"><i class="fas fa-qrcode"></i></div>
+<p class="font-bold text-sm">QR Generator</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('barcode')">
+<div class="w-10 h-10 rounded-xl bg-purple-500 text-white flex items-center justify-center mb-2"><i class="fas fa-barcode"></i></div>
+<p class="font-bold text-sm">Barcode</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('password')">
+<div class="w-10 h-10 rounded-xl bg-red-500 text-white flex items-center justify-center mb-2"><i class="fas fa-key"></i></div>
+<p class="font-bold text-sm">Password Gen</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('shorten')">
+<div class="w-10 h-10 rounded-xl bg-cyan-500 text-white flex items-center justify-center mb-2"><i class="fas fa-link"></i></div>
+<p class="font-bold text-sm">URL Shortener</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('jsonFormat')">
+<div class="w-10 h-10 rounded-xl bg-green-500 text-white flex items-center justify-center mb-2"><i class="fas fa-code"></i></div>
+<p class="font-bold text-sm">JSON Formatter</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('wordCount')">
+<div class="w-10 h-10 rounded-xl bg-orange-500 text-white flex items-center justify-center mb-2"><i class="fas fa-spell-check"></i></div>
+<p class="font-bold text-sm">Word Counter</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('charCount')">
+<div class="w-10 h-10 rounded-xl bg-pink-500 text-white flex items-center justify-center mb-2"><i class="fas fa-text-height"></i></div>
+<p class="font-bold text-sm">Char Counter</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('base64')">
+<div class="w-10 h-10 rounded-xl bg-indigo-500 text-white flex items-center justify-center mb-2"><i class="fas fa-lock"></i></div>
+<p class="font-bold text-sm">Base64</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('caseConverter')">
+<div class="w-10 h-10 rounded-xl bg-yellow-500 text-white flex items-center justify-center mb-2"><i class="fas fa-font"></i></div>
+<p class="font-bold text-sm">Case Converter</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('lorem')">
+<div class="w-10 h-10 rounded-xl bg-violet-500 text-white flex items-center justify-center mb-2"><i class="fas fa-paragraph"></i></div>
+<p class="font-bold text-sm">Lorem Ipsum</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('diff')">
+<div class="w-10 h-10 rounded-xl bg-teal-500 text-white flex items-center justify-center mb-2"><i class="fas fa-code-branch"></i></div>
+<p class="font-bold text-sm">Text Diff</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('whitespace')">
+<div class="w-10 h-10 rounded-xl bg-rose-500 text-white flex items-center justify-center mb-2"><i class="fas fa-eraser"></i></div>
+<p class="font-bold text-sm">Whitespace</p>
+</div>
+</div>
+</div>
+
+<!-- ============ STUDENT TOOLS (10) ============ -->
+<div id="tab-student" class="tab-section">
+<h2 class="font-display font-black text-2xl mb-1 flex items-center gap-3">
+<span class="w-10 h-10 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center"><i class="fas fa-graduation-cap"></i></span>
+Student Tools (10)
+</h2>
+<p class="text-sm text-gray-500 mb-4">Resume maker, CGPA, percentage calculators</p>
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('resume')">
+<div class="w-10 h-10 rounded-xl bg-blue-500 text-white flex items-center justify-center mb-2"><i class="fas fa-file-alt"></i></div>
+<p class="font-bold text-sm">Resume Builder</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('biodata')">
+<div class="w-10 h-10 rounded-xl bg-pink-500 text-white flex items-center justify-center mb-2"><i class="fas fa-id-card"></i></div>
+<p class="font-bold text-sm">Biodata</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('coverLetter')">
+<div class="w-10 h-10 rounded-xl bg-green-500 text-white flex items-center justify-center mb-2"><i class="fas fa-envelope"></i></div>
+<p class="font-bold text-sm">Cover Letter</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('cgpa')">
+<div class="w-10 h-10 rounded-xl bg-purple-500 text-white flex items-center justify-center mb-2"><i class="fas fa-graduation-cap"></i></div>
+<p class="font-bold text-sm">CGPA Calc</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('percentage')">
+<div class="w-10 h-10 rounded-xl bg-orange-500 text-white flex items-center justify-center mb-2"><i class="fas fa-percentage"></i></div>
+<p class="font-bold text-sm">Percentage</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('studyPlanner')">
+<div class="w-10 h-10 rounded-xl bg-indigo-500 text-white flex items-center justify-center mb-2"><i class="fas fa-book-open"></i></div>
+<p class="font-bold text-sm">Study Planner</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('scholarship')">
+<div class="w-10 h-10 rounded-xl bg-yellow-500 text-white flex items-center justify-center mb-2"><i class="fas fa-award"></i></div>
+<p class="font-bold text-sm">Scholarship</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('assignment')">
+<div class="w-10 h-10 rounded-xl bg-violet-500 text-white flex items-center justify-center mb-2"><i class="fas fa-file-signature"></i></div>
+<p class="font-bold text-sm">Assignment</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('examCountdown')">
+<div class="w-10 h-10 rounded-xl bg-teal-500 text-white flex items-center justify-center mb-2"><i class="fas fa-hourglass-half"></i></div>
+<p class="font-bold text-sm">Exam Countdown</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openLetterTool('timetable')">
+<div class="w-10 h-10 rounded-xl bg-rose-500 text-white flex items-center justify-center mb-2"><i class="fas fa-table"></i></div>
+<p class="font-bold text-sm">Timetable</p>
+</div>
+</div>
+</div>
+
+<!-- ============ WHATSAPP TEMPLATES ============ -->
+<div id="tab-whatsapp" class="tab-section">
+<h2 class="font-display font-black text-2xl mb-1 flex items-center gap-3">
+<span class="w-10 h-10 rounded-xl bg-green-100 text-green-600 flex items-center justify-center"><i class="fab fa-whatsapp"></i></span>
+WhatsApp Templates
+</h2>
+<p class="text-sm text-gray-500 mb-4">Send messages to customers instantly</p>
+<div class="grid sm:grid-cols-2 gap-3">
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 cursor-pointer" onclick="sendWA('Booking Confirmed','✅ Booking Confirmed!\n\nDear Customer,\nYour booking has been confirmed.\nToken: {{TOKEN}}\nService: {{SERVICE}}\nDate: {{DATE}}\n\nThank you!\n- E-SUVIDHA KENDRA')">
+<div class="w-10 h-10 rounded-xl bg-green-500 text-white flex items-center justify-center mb-2"><i class="fas fa-check-circle"></i></div>
+<p class="font-bold text-sm">Booking Confirmed</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 cursor-pointer" onclick="sendWA('Document Required','📄 Documents Required\n\nDear Customer,\nPlease bring following documents:\n- Aadhaar Card\n- Passport Photo\n- Mobile Number\n\nThank you!\n- E-SUVIDHA KENDRA')">
+<div class="w-10 h-10 rounded-xl bg-yellow-500 text-white flex items-center justify-center mb-2"><i class="fas fa-file-alt"></i></div>
+<p class="font-bold text-sm">Document Required</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 cursor-pointer" onclick="sendWA('Service Completed','✅ Service Completed!\n\nDear Customer,\nYour service is ready for collection.\nPlease visit our center.\n\nThank you!\n- E-SUVIDHA KENDRA')">
+<div class="w-10 h-10 rounded-xl bg-blue-500 text-white flex items-center justify-center mb-2"><i class="fas fa-check-double"></i></div>
+<p class="font-bold text-sm">Service Completed</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 cursor-pointer" onclick="sendWA('Payment Reminder','💰 Payment Reminder\n\nDear Customer,\nYour payment of Rs.{{AMOUNT}} is pending.\nPlease clear it at earliest.\n\nThank you!\n- E-SUVIDHA KENDRA')">
+<div class="w-10 h-10 rounded-xl bg-red-500 text-white flex items-center justify-center mb-2"><i class="fas fa-rupee-sign"></i></div>
+<p class="font-bold text-sm">Payment Reminder</p>
+</div>
+</div>
+</div>
 
 </main>
 </div>
@@ -545,9 +656,8 @@ Banking & Finance Tools
 <!-- TOAST -->
 <div id="toast" class="hidden fixed top-24 right-4 z-50 px-5 py-3 rounded-xl shadow-2xl text-white font-semibold text-sm flex items-center gap-2"></div>
 
-<!-- ✅ SINGLE MERGED SCRIPT TAG ✅ -->
 <script>
-// ========== FIREBASE CONFIG ==========
+// Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDucHeFoRyu-aHa2ILTV6dXWkV5TWyVWV4",
   authDomain: "eseva-kendra-4c870.firebaseapp.com",
@@ -560,13 +670,12 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// ========== CORE FUNCTIONS ==========
+// Core
 function toggleSidebar(){
   const sb = document.getElementById('sidebar');
   sb.classList.toggle('hidden');
   document.getElementById('sidebarOverlay').classList.toggle('hidden');
 }
-
 function switchTab(t){
   document.querySelectorAll('.tab-section').forEach(el => el.classList.remove('active'));
   document.getElementById('tab-'+t).classList.add('active');
@@ -574,10 +683,8 @@ function switchTab(t){
   if(window.innerWidth < 1024) toggleSidebar();
   window.scrollTo({top:0, behavior:'smooth'});
 }
-
 function openToolModal(){ document.getElementById('toolModal').classList.remove('hidden'); }
 function closeToolModal(){ document.getElementById('toolModal').classList.add('hidden'); }
-
 function toast(msg, type='success'){
   const t = document.getElementById('toast');
   t.innerHTML = `<i class="fas fa-${type==='success'?'check-circle':'exclamation-circle'}"></i> ${msg}`;
@@ -585,194 +692,289 @@ function toast(msg, type='success'){
   setTimeout(()=>t.classList.add('hidden'), 3500);
 }
 
-// ========== TOOL 1: EMI CALCULATOR ==========
+// Universal tool opener
 function openTool(key){
-  if(key === 'emi'){
-    document.getElementById('toolTitle').textContent = 'EMI Calculator';
+  if(key === 'emi' || key === 'homeLoan' || key === 'carLoan'){
+    document.getElementById('toolTitle').textContent = key==='emi'?'EMI Calculator':key==='homeLoan'?'Home Loan Calculator':'Car Loan Calculator';
     document.getElementById('toolIcon').className = 'fas fa-calculator';
-    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Loan Amount (₹)</label><input id="emiP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="500000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Interest Rate (% yearly)</label><input id="emiR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="9.5"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Tenure (months)</label><input id="emiT" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="60"></div><button onclick="calcEMI()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate EMI</button><div id="emiResult" class="hidden bg-gradient-to-br from-primary-50 to-accent-50 p-4 rounded-xl text-center border-2 border-primary-100"></div></div>`;
+    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Loan Amount (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="500000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Interest Rate (% yearly)</label><input id="cR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="9.5"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Tenure (months)</label><input id="cN" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="60"></div><button onclick="doEMI()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-primary-50 to-accent-50 p-4 rounded-xl text-center border-2 border-primary-100"></div></div>`;
   } else if(key === 'sip'){
     document.getElementById('toolTitle').textContent = 'SIP Calculator';
     document.getElementById('toolIcon').className = 'fas fa-chart-line';
-    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Monthly Investment (₹)</label><input id="sipM" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="5000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Expected Return (%)</label><input id="sipR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="12"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Time (years)</label><input id="sipY" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="10"></div><button onclick="calcSIP()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="sipResult" class="hidden bg-gradient-to-br from-green-50 to-emerald-50 p-4 rounded-xl text-center border-2 border-green-200"></div></div>`;
+    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Monthly Investment (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="5000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Return (% yearly)</label><input id="cR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="12"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Time (years)</label><input id="cN" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="10"></div><button onclick="doSIP()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-green-50 to-emerald-50 p-4 rounded-xl text-center border-2 border-green-200"></div></div>`;
+  } else if(key === 'fd' || key === 'interest'){
+    document.getElementById('toolTitle').textContent = key==='fd'?'FD Calculator':'Interest Calculator';
+    document.getElementById('toolIcon').className = 'fas fa-piggy-bank';
+    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Principal (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="100000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Rate (% yearly)</label><input id="cR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="7"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Time (years)</label><input id="cN" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="5"></div><button onclick="doFD()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-blue-50 to-cyan-50 p-4 rounded-xl text-center border-2 border-blue-200"></div></div>`;
+  } else if(key === 'rd'){
+    document.getElementById('toolTitle').textContent = 'RD Calculator';
+    document.getElementById('toolIcon').className = 'fas fa-coins';
+    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Monthly Deposit (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="1000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Rate (% yearly)</label><input id="cR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="6"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Months</label><input id="cN" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="60"></div><button onclick="doRD()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-purple-50 to-pink-50 p-4 rounded-xl text-center border-2 border-purple-200"></div></div>`;
   } else if(key === 'gst'){
     document.getElementById('toolTitle').textContent = 'GST Calculator';
     document.getElementById('toolIcon').className = 'fas fa-percent';
-    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Amount (₹)</label><input id="gstAmt" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="1000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">GST Rate</label><select id="gstRate" class="input-style w-full px-4 py-3 rounded-xl"><option>5</option><option>12</option><option selected>18</option><option>28</option></select></div><button onclick="calcGST()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="gstResult" class="hidden bg-gradient-to-br from-yellow-50 to-amber-50 p-4 rounded-xl border-2 border-yellow-200"></div></div>`;
-  } else if(key === 'homeLoan'){
-    document.getElementById('toolTitle').textContent = 'Home Loan Calculator';
-    document.getElementById('toolIcon').className = 'fas fa-home';
-    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Loan Amount (₹)</label><input id="hlP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="2500000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Interest Rate (%)</label><input id="hlR" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="8.5"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Tenure (years)</label><input id="hlT" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="20"></div><button onclick="calcHL()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="hlResult" class="hidden bg-gradient-to-br from-blue-50 to-cyan-50 p-4 rounded-xl text-center border-2 border-blue-200"></div></div>`;
-  } else if(key === 'qrcode'){
-    document.getElementById('toolTitle').textContent = 'QR Code Generator';
-    document.getElementById('toolIcon').className = 'fas fa-qrcode';
-    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><input id="qrText" placeholder="Text or URL" class="input-style w-full px-4 py-3 rounded-xl"><button onclick="doQR()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Generate</button><div id="qrResult" class="text-center bg-soft p-4 rounded-xl min-h-[120px] flex items-center justify-center"></div></div>`;
-  } else if(key === 'barcode'){
-    document.getElementById('toolTitle').textContent = 'Barcode Generator';
-    document.getElementById('toolIcon').className = 'fas fa-barcode';
-    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><input id="bcText" placeholder="Number" class="input-style w-full px-4 py-3 rounded-xl"><button onclick="doBarcode()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Generate</button><div id="bcResult" class="text-center bg-soft p-4 rounded-xl min-h-[100px] flex items-center justify-center"></div></div>`;
-  } else if(key === 'password'){
-    document.getElementById('toolTitle').textContent = 'Password Generator';
-    document.getElementById('toolIcon').className = 'fas fa-key';
-    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1">Length: <span id="pwLenVal">12</span></label><input id="pwLen" type="range" min="6" max="32" value="12" oninput="document.getElementById('pwLenVal').textContent=this.value" class="w-full accent-primary-800"></div><label class="flex items-center gap-2"><input type="checkbox" id="pwUpper" checked class="w-5 h-5"> Uppercase</label><label class="flex items-center gap-2"><input type="checkbox" id="pwNum" checked class="w-5 h-5"> Numbers</label><label class="flex items-center gap-2"><input type="checkbox" id="pwSym" checked class="w-5 h-5"> Symbols</label><button onclick="doPwd()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Generate</button><div class="flex gap-2"><input id="pwResult" readonly class="input-style flex-1 px-3 py-3 rounded-xl font-mono text-center font-bold"><button onclick="copyText('pwResult')" class="btn-accent text-white px-4 rounded-xl"><i class="fas fa-copy"></i></button></div></div>`;
+    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Amount (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="1000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">GST Rate</label><select id="cR" class="input-style w-full px-4 py-3 rounded-xl"><option>5</option><option>12</option><option selected>18</option><option>28</option></select></div><button onclick="doGSTCalc()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-yellow-50 to-amber-50 p-4 rounded-xl border-2 border-yellow-200"></div></div>`;
+  } else if(key === 'profit'){
+    document.getElementById('toolTitle').textContent = 'Profit/Loss Calculator';
+    document.getElementById('toolIcon').className = 'fas fa-chart-pie';
+    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Cost Price (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="100"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Selling Price (₹)</label><input id="cR" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="150"></div><button onclick="doProfit()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-pink-50 to-rose-50 p-4 rounded-xl text-center border-2 border-pink-200"></div></div>`;
+  } else if(key === 'cashbook' || key === 'expense' || key === 'invoice' || key === 'receipt'){
+    document.getElementById('toolTitle').textContent = key.charAt(0).toUpperCase()+key.slice(1)+' Tracker';
+    document.getElementById('toolIcon').className = 'fas fa-book';
+    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Description</label><input id="cP" placeholder="Description" class="input-style w-full px-4 py-3 rounded-xl"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Amount (₹)</label><input id="cR" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="0"></div><button onclick="doSimple()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Save</button><div id="cResult" class="hidden bg-gradient-to-br from-blue-50 to-cyan-50 p-4 rounded-xl text-center border-2 border-blue-200"></div></div>`;
   } else if(key === 'age'){
     document.getElementById('toolTitle').textContent = 'Age Calculator';
     document.getElementById('toolIcon').className = 'fas fa-birthday-cake';
-    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Date of Birth</label><input id="ageDate" type="date" class="input-style w-full px-4 py-3 rounded-xl"><button onclick="calcAge()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="ageResult" class="hidden bg-gradient-to-br from-pink-50 to-rose-50 p-4 rounded-xl text-center border-2 border-pink-200"></div></div>`;
-  } else if(key === 'unit'){
-    document.getElementById('toolTitle').textContent = 'Unit Converter';
-    document.getElementById('toolIcon').className = 'fas fa-ruler';
-    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><select id="utType" onchange="convertUnit()" class="input-style w-full px-4 py-3 rounded-xl"><option value="length">Length</option><option value="weight">Weight</option><option value="temperature">Temperature</option></select><input id="utVal" type="number" placeholder="Value" oninput="convertUnit()" class="input-style w-full px-4 py-3 rounded-xl"><div id="utResult" class="bg-soft p-4 rounded-xl space-y-1"></div></div>`;
+    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Date of Birth</label><input id="cP" type="date" class="input-style w-full px-4 py-3 rounded-xl"><button onclick="doAge()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate Age</button><div id="cResult" class="hidden bg-gradient-to-br from-pink-50 to-rose-50 p-4 rounded-xl text-center border-2 border-pink-200"></div></div>`;
   } else if(key === 'bmi'){
     document.getElementById('toolTitle').textContent = 'BMI Calculator';
     document.getElementById('toolIcon').className = 'fas fa-weight';
-    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Weight (kg)</label><input id="bW" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="70"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Height (cm)</label><input id="bH" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="170"></div><button onclick="calcBMI()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate BMI</button><div id="bResult" class="hidden bg-gradient-to-br from-green-50 to-emerald-50 p-4 rounded-xl text-center border-2 border-green-200"></div></div>`;
+    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Weight (kg)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="70"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Height (cm)</label><input id="cR" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="170"></div><button onclick="doBMI()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate BMI</button><div id="cResult" class="hidden bg-gradient-to-br from-green-50 to-emerald-50 p-4 rounded-xl text-center border-2 border-green-200"></div></div>`;
+  } else if(key === 'unit'){
+    document.getElementById('toolTitle').textContent = 'Unit Converter';
+    document.getElementById('toolIcon').className = 'fas fa-ruler';
+    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><select id="cP" class="input-style w-full px-4 py-3 rounded-xl"><option value="length">Length</option><option value="weight">Weight</option><option value="temperature">Temperature</option></select><input id="cR" type="number" placeholder="Value" class="input-style w-full px-4 py-3 rounded-xl"><div id="cResult" class="bg-soft p-4 rounded-xl space-y-1"></div></div>`;
+  } else if(key === 'password'){
+    document.getElementById('toolTitle').textContent = 'Password Generator';
+    document.getElementById('toolIcon').className = 'fas fa-key';
+    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1">Length: <span id="pwLenVal">12</span></label><input id="cP" type="range" min="6" max="32" value="12" oninput="document.getElementById('pwLenVal').textContent=this.value" class="w-full"></div><button onclick="doPwd()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Generate</button><div class="flex gap-2"><input id="cResult" readonly class="input-style flex-1 px-3 py-2 rounded-lg font-mono text-center font-bold"><button onclick="copyText('cResult')" class="btn-accent text-white px-3 rounded-lg"><i class="fas fa-copy"></i></button></div></div>`;
   } else if(key === 'mergePdf'){
     document.getElementById('toolTitle').textContent = 'Merge PDFs';
     document.getElementById('toolIcon').className = 'fas fa-compress-arrows-alt';
-    document.getElementById('toolBody').innerHTML = `<div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center"><i class="fas fa-file-pdf text-5xl text-red-400 mb-3"></i><p class="text-sm text-gray-600 mb-3">Select 2+ PDF files</p><input type="file" id="mFiles" accept=".pdf" multiple class="block w-full text-sm"></div><button onclick="doMerge()" class="btn-primary w-full text-white py-3 rounded-xl font-bold mt-3">Merge & Download</button>`;
+    document.getElementById('toolBody').innerHTML = `<div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center"><i class="fas fa-file-pdf text-5xl text-red-400 mb-3"></i><p class="text-sm text-gray-600 mb-3">Select 2+ PDF files</p><input type="file" id="cP" accept=".pdf" multiple class="block w-full text-sm"></div><button onclick="doMergePDF()" class="btn-primary w-full text-white py-3 rounded-xl font-bold mt-3">Merge & Download</button>`;
   } else if(key === 'splitPdf'){
     document.getElementById('toolTitle').textContent = 'Split PDF';
     document.getElementById('toolIcon').className = 'fas fa-cut';
-    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center"><i class="fas fa-cut text-4xl text-orange-400 mb-2"></i><input type="file" id="sFile" accept=".pdf" class="block w-full text-sm"></div><input id="sRange" type="text" placeholder="Pages (e.g. 1-3,5)" class="input-style w-full px-4 py-3 rounded-xl"><button onclick="doSplit()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Split</button></div>`;
+    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><div class="border-2 border-dashed border-gray-300 rounded-xl p-4 text-center"><i class="fas fa-cut text-3xl text-orange-400 mb-2"></i><input type="file" id="cP" accept=".pdf" class="block w-full text-sm"></div><input id="cR" type="text" placeholder="Pages (e.g. 1-3,5)" class="input-style w-full px-4 py-3 rounded-xl"><button onclick="doSplitPDF()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Split & Download</button></div>`;
   } else if(key === 'compressPdf'){
     document.getElementById('toolTitle').textContent = 'Compress PDF';
     document.getElementById('toolIcon').className = 'fas fa-file-archive';
-    document.getElementById('toolBody').innerHTML = `<div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center"><i class="fas fa-file-archive text-5xl text-purple-400 mb-3"></i><p class="text-sm text-gray-600 mb-3">Select PDF</p><input type="file" id="cFile" accept=".pdf" class="block w-full text-sm"></div><button onclick="doCompress()" class="btn-primary w-full text-white py-3 rounded-xl font-bold mt-3">Compress</button>`;
-  } else if(key === 'jpgToPdf' || key === 'imgToPdf'){
+    document.getElementById('toolBody').innerHTML = `<div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center"><i class="fas fa-file-archive text-4xl text-purple-400 mb-2"></i><p class="text-sm text-gray-600 mb-3">Select PDF</p><input type="file" id="cP" accept=".pdf" class="block w-full text-sm"></div><button onclick="doCompressPDF()" class="btn-primary w-full text-white py-3 rounded-xl font-bold mt-3">Compress & Download</button>`;
+  } else if(key === 'imgToPdf' || key === 'jpgToPdf'){
     document.getElementById('toolTitle').textContent = 'Image to PDF';
     document.getElementById('toolIcon').className = 'fas fa-file-image';
-    document.getElementById('toolBody').innerHTML = `<div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center"><i class="fas fa-images text-5xl text-green-400 mb-3"></i><p class="text-sm text-gray-600 mb-3">Select images</p><input type="file" id="iFiles" accept="image/*" multiple class="block w-full text-sm"></div><button onclick="doImgToPdf()" class="btn-primary w-full text-white py-3 rounded-xl font-bold mt-3">Convert to PDF</button>`;
+    document.getElementById('toolBody').innerHTML = `<div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center"><i class="fas fa-images text-4xl text-green-400 mb-2"></i><p class="text-sm text-gray-600 mb-3">Select images</p><input type="file" id="cP" accept="image/*" multiple class="block w-full text-sm"></div><button onclick="doImgToPdf()" class="btn-primary w-full text-white py-3 rounded-xl font-bold mt-3">Convert to PDF</button>`;
+  } else if(key === 'qrcode'){
+    document.getElementById('toolTitle').textContent = 'QR Code Generator';
+    document.getElementById('toolIcon').className = 'fas fa-qrcode';
+    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><input id="cP" placeholder="Text or URL" class="input-style w-full px-4 py-3 rounded-xl"><button onclick="doQR()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Generate</button><div id="cResult" class="text-center bg-soft p-4 rounded-xl min-h-[120px] flex items-center justify-center"></div></div>`;
+  } else if(key === 'barcode'){
+    document.getElementById('toolTitle').textContent = 'Barcode Generator';
+    document.getElementById('toolIcon').className = 'fas fa-barcode';
+    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><input id="cP" placeholder="Number" class="input-style w-full px-4 py-3 rounded-xl"><button onclick="doBarcode()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Generate</button><div id="cResult" class="text-center bg-soft p-4 rounded-xl"></div></div>`;
   } else if(key === 'passportPhoto'){
     document.getElementById('toolTitle').textContent = 'Passport Photo Maker';
     document.getElementById('toolIcon').className = 'fas fa-id-badge';
-    document.getElementById('toolBody').innerHTML = `<div class="grid grid-cols-3 gap-2"><div><label class="text-xs">Width</label><input id="ppW" type="number" value="200" class="input-style w-full px-2 py-2 rounded-lg"></div><div><label class="text-xs">Height</label><input id="ppH" type="number" value="240" class="input-style w-full px-2 py-2 rounded-lg"></div><div><label class="text-xs">Copies</label><input id="ppC" type="number" value="8" class="input-style w-full px-2 py-2 rounded-lg"></div></div><input type="file" id="ppFile" accept="image/*" class="block w-full text-sm border-2 border-dashed border-gray-300 rounded-lg p-3 mt-2"><button onclick="doPassport()" class="btn-primary w-full text-white py-3 rounded-xl font-bold mt-3">Generate Sheet</button><div id="ppResult" class="bg-soft p-3 rounded-xl"></div>`;
+    document.getElementById('toolBody').innerHTML = `<div class="space-y-3"><div class="grid grid-cols-3 gap-2"><div><label class="text-xs">Width</label><input id="ppW" type="number" value="200" class="input-style w-full px-2 py-2 rounded-lg"></div><div><label class="text-xs">Height</label><input id="ppH" type="number" value="240" class="input-style w-full px-2 py-2 rounded-lg"></div><div><label class="text-xs">Copies</label><input id="ppC" type="number" value="8" class="input-style w-full px-2 py-2 rounded-lg"></div></div><input type="file" id="cP" accept="image/*" class="block w-full text-sm border-2 border-dashed border-gray-300 rounded-lg p-3"><button onclick="doPassport()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Generate Sheet</button><div id="cResult" class="bg-soft p-3 rounded-xl"></div></div>`;
   } else if(key === 'signature'){
     document.getElementById('toolTitle').textContent = 'Signature Crop';
     document.getElementById('toolIcon').className = 'fas fa-signature';
-    document.getElementById('toolBody').innerHTML = `<input type="file" id="sigFile" accept="image/*" class="block w-full text-sm mb-3"><button onclick="doSignature()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Process</button><div id="sigResult" class="mt-3 rounded-xl" style="background:repeating-conic-gradient(#e5e7eb 0% 25%, white 0% 50%) 50%/20px 20px"></div>`;
+    document.getElementById('toolBody').innerHTML = `<input type="file" id="cP" accept="image/*" class="block w-full text-sm mb-3"><button onclick="doSignature()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Process & Download</button><div id="cResult" class="mt-3 rounded-xl" style="background:repeating-conic-gradient(#e5e7eb 0% 25%, white 0% 50%) 50%/20px 20px;min-height:100px"></div>`;
   } else {
     document.getElementById('toolTitle').textContent = 'Coming Soon';
     document.getElementById('toolIcon').className = 'fas fa-tools';
-    document.getElementById('toolBody').innerHTML = `<div class="text-center py-8"><i class="fas fa-tools text-5xl text-primary-300 mb-3"></i><p class="text-gray-600 font-bold">${key} Tool</p><p class="text-xs text-gray-500 mt-2">UI ready - Coming soon</p></div>`;
+    document.getElementById('toolBody').innerHTML = `<div class="text-center py-8"><i class="fas fa-tools text-5xl text-primary-300 mb-3"></i><p class="text-gray-600 font-bold">${key} Tool</p><p class="text-xs text-gray-500 mt-2">UI Ready</p></div>`;
   }
   openToolModal();
 }
 
-// ========== CALCULATION FUNCTIONS ==========
-function calcEMI(){
-  const p=+document.getElementById('emiP').value, r=+document.getElementById('emiR').value/12/100, n=+document.getElementById('emiT').value;
-  if(!p||!r||!n) return toast('Fill all fields','error');
-  const emi=p*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
-  const r2=document.getElementById('emiResult');
-  r2.classList.remove('hidden');
-  r2.innerHTML=`<p class="text-xs uppercase tracking-wider text-gray-600">Monthly EMI</p><p class="text-3xl font-display font-black gradient-text my-1">₹${emi.toFixed(0)}</p><p class="text-xs text-gray-600 mt-2">Total: ₹${(emi*n).toFixed(0)} | Interest: ₹${(emi*n-p).toFixed(0)}</p>`;
+// Letter tool (unified for all letter-type tools)
+function openLetterTool(key){
+  const templates = {
+    application: {title:'Application Letter',body:`To,\nThe Concerned Authority,\n{{ADDRESS}}\n\nSubject: {{SUBJECT}}\n\nRespected Sir/Madam,\n\nI, {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, humbly submit that {{BODY}}.\n\nI request you to kindly consider my application.\n\nThanking you,\n{{NAME}}\nMobile: {{MOBILE}}\nDate: {{DATE}}`},
+    affidavit: {title:'Affidavit',body:`AFFIDAVIT\n\nI, {{NAME}} S/o {{FATHER}}, aged ___ years, resident of {{ADDRESS}}, do hereby solemnly affirm:\n\n1. That {{BODY}}\n2. The above statement is true.\n\nDEPONENT\n{{NAME}}\nDate: {{DATE}}`},
+    rti: {title:'RTI Application',body:`To,\nThe Public Information Officer\n\nSubject: {{SUBJECT}}\n\n1. Name: {{NAME}}\n2. Address: {{ADDRESS}}\n3. Mobile: {{MOBILE}}\n4. Information Required: {{BODY}}\n\nYours faithfully,\n{{NAME}}\nDate: {{DATE}}`},
+    noc: {title:'No Objection Certificate',body:`NO OBJECTION CERTIFICATE\n\nThis is to certify that {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, has no objection regarding {{BODY}}.\n\n{{NAME}}\nDate: {{DATE}}`},
+    income: {title:'Income Certificate',body:`To,\nThe Tehsildar\n\nSubject: Income Certificate\n\nI, {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, request Income Certificate. {{BODY}}\n\nYours faithfully,\n{{NAME}}\nDate: {{DATE}}`},
+    caste: {title:'Caste Certificate',body:`To,\nThe Tehsildar\n\nSubject: Caste Certificate\n\nI, {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, belong to {{SUBJECT}} caste. {{BODY}}\n\nYours faithfully,\n{{NAME}}\nDate: {{DATE}}`},
+    domicile: {title:'Domicile Certificate',body:`To,\nThe Tehsildar\n\nSubject: Domicile Certificate\n\nI, {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, am a permanent resident. {{BODY}}\n\nYours faithfully,\n{{NAME}}\nDate: {{DATE}}`},
+    bonafide: {title:'Bonafide Certificate',body:`BONAFIDE CERTIFICATE\n\nThis is to certify that {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, is a bonafide resident. {{BODY}}\n\n{{NAME}}\nDate: {{DATE}}`},
+    character: {title:'Character Certificate',body:`CHARACTER CERTIFICATE\n\nThis is to certify that {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, bears good moral character. {{BODY}}\n\n{{NAME}}\nDate: {{DATE}}`},
+    agreement: {title:'Agreement',body:`AGREEMENT\n\nThis agreement is made on {{DATE}} between:\nParty A: {{NAME}}, {{ADDRESS}}\nParty B: {{SUBJECT}}\n\nTerms: {{BODY}}\n\n{{NAME}}\nDate: {{DATE}}`},
+    declaration: {title:'Self Declaration',body:`SELF DECLARATION\n\nI, {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, declare that {{BODY}}.\n\n{{NAME}}\nDate: {{DATE}}`},
+    consent: {title:'Consent Letter',body:`CONSENT LETTER\n\nI, {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, give my consent for {{BODY}}.\n\n{{NAME}}\nDate: {{DATE}}`},
+    scheme: {title:'Scheme Finder',body:`GOVERNMENT SCHEMES\n\nFor {{NAME}}:\n1. PM Kisan - ₹6000/year\n2. Ayushman Bharat - ₹5L health\n3. Ujjwala Yojana - Free LPG\n4. PMAY - Housing\n5. Sukanya Samriddhi\n\nVisit: schemes.gov.in`},
+    eligibility: {title:'Eligibility Checker',body:`ELIGIBILITY CHECK\n\nName: {{NAME}}\nBased on {{BODY}}, you may be eligible for:\n- PM Kisan Yojana\n- Ayushman Bharat\n- State Schemes\n\nContact CSC for details.`},
+    pension: {title:'Pension Calculator',body:`PENSION CALCULATION\n\nName: {{NAME}}\nBased on {{BODY}}:\n- Basic: ₹___\n- DA: ₹___\n- Total: ₹___\n\nNote: Approximate values.`},
+    legalNotice: {title:'Legal Notice',body:`LEGAL NOTICE\n\nTo: {{NAME}}\nAddress: {{ADDRESS}}\n\nSubject: {{SUBJECT}}\n\nSir/Madam,\n\nUnder instructions from my client, I hereby serve upon you the following notice: {{BODY}}\n\nYou are called upon to comply within 15 days, failing which legal action will be taken.\n\nAdvocate`},
+    rentAgree: {title:'Rent Agreement',body:`RENT AGREEMENT\n\nThis agreement is made on {{DATE}} between:\nLandlord: {{NAME}}\nTenant: {{SUBJECT}}\nProperty: {{ADDRESS}}\n\nTerms: {{BODY}}\n\n{{NAME}}\nDate: {{DATE}}`},
+    policeComp: {title:'Police Complaint',body:`To,\nThe Station House Officer\nPolice Station\n\nSubject: Complaint\n\nSir/Madam,\nI, {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, wish to file a complaint regarding {{BODY}}.\n\nI request you to register an FIR and take necessary action.\n\nYours faithfully,\n{{NAME}}\nMobile: {{MOBILE}}\nDate: {{DATE}}`},
+    fir: {title:'FIR Draft',body:`FIR DRAFT\n\nTo, The SHO\nPolice Station\n\n1. Complainant: {{NAME}}\n2. Address: {{ADDRESS}}\n3. Mobile: {{MOBILE}}\n4. Date of Incident: ___\n5. Details: {{BODY}}\n\nSignature: ___\nDate: {{DATE}}`},
+    undertaking: {title:'Undertaking',body:`UNDERTAKING\n\nI, {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, do hereby undertake that {{BODY}}.\n\nI shall be responsible for any consequences.\n\n{{NAME}}\nDate: {{DATE}}`},
+    indemnity: {title:'Indemnity Bond',body:`INDEMNITY BOND\n\nThis bond is executed by {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, in favor of ___ regarding {{BODY}}.\n\n{{NAME}}\nDate: {{DATE}}`},
+    powerOfAttorney: {title:'Power of Attorney',body:`POWER OF ATTORNEY\n\nI, {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, hereby appoint ___ as my attorney to act on my behalf regarding {{BODY}}.\n\n{{NAME}}\nDate: {{DATE}}`},
+    will: {title:'Will Draft',body:`LAST WILL & TESTAMENT\n\nI, {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, being of sound mind, do hereby declare this as my last will:\n\n{{BODY}}\n\n{{NAME}}\nDate: {{DATE}}\nWitnesses: 1.___ 2.___`},
+    partnership: {title:'Partnership Deed',body:`PARTNERSHIP DEED\n\nThis deed is made on {{DATE}} between:\nPartner 1: {{NAME}}, {{ADDRESS}}\nPartner 2: {{SUBJECT}}\n\nBusiness: {{BODY}}\n\n1. {{NAME}}\n2. ___\nDate: {{DATE}}`},
+    caseTracker: {title:'Case Tracker',body:`CASE TRACKER\n\nCase: {{SUBJECT}}\nCourt: ___\n\nNext Hearing: ___\n{{BODY}}\n\nNotes: ___`},
+    hearing: {title:'Hearing Tracker',body:`HEARING TRACKER\n\nCase: {{SUBJECT}}\nCourt: ___\n\nNext Hearing: ___\n{{BODY}}`},
+    vakalatnama: {title:'Vakalatnama',body:`VAKALATNAMA\n\nIN THE COURT OF ___\n\nCase: {{SUBJECT}}\n\nI/We, {{NAME}}, do hereby appoint and retain ___ as my/our advocate to appear and act for me/us.\n\n{{NAME}}\nDate: {{DATE}}`},
+    resume: {title:'Resume Builder',body:`RESUME\n\nName: {{NAME}}\nFather: {{FATHER}}\nAddress: {{ADDRESS}}\nMobile: {{MOBILE}}\nEmail: ___\n\nObjective: {{SUBJECT}}\n\nExperience: {{BODY}}\n\nEducation: ___\nSkills: ___`},
+    biodata: {title:'Biodata Builder',body:`BIODATA\n\nName: {{NAME}}\nFather: {{FATHER}}\nDOB: ___\nAddress: {{ADDRESS}}\nMobile: {{MOBILE}}\n\nEducation: {{BODY}}\n\nOccupation: {{SUBJECT}}`},
+    coverLetter: {title:'Cover Letter',body:`COVER LETTER\n\nTo: {{NAME}}\nAddress: {{ADDRESS}}\n\nSubject: {{SUBJECT}}\n\nRespected Sir/Madam,\n\nI, {{NAME}}, am writing to apply for the position of {{SUBJECT}}. {{BODY}}\n\nI look forward to hearing from you.\n\nYours sincerely,\n{{NAME}}\nMobile: {{MOBILE}}`},
+    cgpa: {title:'CGPA Calculator',body:`CGPA CALCULATION\n\nFor {{NAME}}:\n\n{{BODY}}\n\nCGPA = Total Grade Points / Total Credits\n\nPlease enter subject-wise grades to calculate.`},
+    percentage: {title:'Percentage Calculator',body:`PERCENTAGE CALCULATION\n\nFor {{NAME}}:\n\n{{BODY}}\n\nCGPA × 9.5 = Percentage (approx)\n\nEnter CGPA to get percentage.`},
+    studyPlanner: {title:'Study Planner',body:`STUDY PLANNER\n\nStudent: {{NAME}}\n\nSubjects: {{SUBJECT}}\n\nDaily Schedule:\n{{BODY}}\n\nGoals: ___\n\nTrack progress weekly.`},
+    scholarship: {title:'Scholarship Finder',body:`SCHOLARSHIPS\n\nFor {{NAME}}:\n\n1. National Scholarship - scholarships.gov.in\n2. Merit-cum-Means\n3. Post-Matric (SC/ST/OBC)\n4. State-level scholarships\n\nBased on {{SUBJECT}}, check eligibility.`},
+    assignment: {title:'Assignment Cover',body:`ASSIGNMENT COVER\n\nName: {{NAME}}\nRoll No: ___\nSubject: {{SUBJECT}}\n\nTitle: {{BODY}}\n\nDate: {{DATE}}`},
+    examCountdown: {title:'Exam Countdown',body:`EXAM COUNTDOWN\n\nExam: {{SUBJECT}}\nDate: {{DATE}}\nDays left: ___\n\n{{NAME}} - Study Plan:\n{{BODY}}`},
+    timetable: {title:'Timetable',body:`TIMETABLE\n\n{{NAME}}\n\n{{BODY}}\n\nMonday: ___\nTuesday: ___\nWednesday: ___\nThursday: ___\nFriday: ___\nSaturday: ___`},
+    shorten: {title:'URL Shortener',body:`URL SHORTENER\n\nOriginal URL: {{BODY}}\n\nShortened: [Click Generate to get short URL]\n\nE-SUVIDHA KENDRA Tool`},
+    jsonFormat: {title:'JSON Formatter',body:`JSON FORMATTER\n\nInput:\n{{BODY}}\n\nOutput:\n[Formatted JSON will appear here]\n\nUse for API responses, config files, etc.`},
+    wordCount: {title:'Word Counter',body:`WORD COUNTER\n\n{{BODY}}\n\nWords: 0\nCharacters: 0\nSentences: 0\n\nE-SUVIDHA KENDRA Tool`},
+    charCount: {title:'Character Counter',body:`CHARACTER COUNTER\n\n{{BODY}}\n\nCharacters: 0\nWithout spaces: 0\n\nE-SUVIDHA KENDRA Tool`},
+    base64: {title:'Base64 Encoder',body:`BASE64 ENCODER\n\n{{BODY}}\n\nEncoded: [base64 string will appear]\nDecoded: [original text will appear]\n\nE-SUVIDHA KENDRA Tool`},
+    caseConverter: {title:'Case Converter',body:`CASE CONVERTER\n\n{{BODY}}\n\nUPPERCASE: [text]\nlowercase: [text]\nTitle Case: [Text]\n\nE-SUVIDHA KENDRA Tool`},
+    lorem: {title:'Lorem Ipsum',body:`LOREM IPSUM GENERATOR\n\n{{BODY}}\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n\n[Generated text will appear here]`},
+    diff: {title:'Text Diff',body:`TEXT DIFF\n\nText 1: {{BODY}}\n\nText 2: ___\n\nDifferences will be highlighted here.`},
+    whitespace: {title:'Whitespace Cleaner',body:`WHITESPACE CLEANER\n\n{{BODY}}\n\nCleaned: [text with no extra spaces]`}
+  };
+  
+  const t = templates[key];
+  if(!t){ toast('Template not found','error'); return; }
+  document.getElementById('toolTitle').textContent = t.title;
+  document.getElementById('toolIcon').className = 'fas fa-file-alt';
+  document.getElementById('toolBody').innerHTML = `<div class="space-y-3">
+<input id="ltName" placeholder="Your Full Name" class="input-style w-full px-3 py-2.5 rounded-lg">
+<input id="ltFather" placeholder="Father's Name" class="input-style w-full px-3 py-2.5 rounded-lg">
+<input id="ltAddress" placeholder="Address" class="input-style w-full px-3 py-2.5 rounded-lg">
+<input id="ltMobile" placeholder="Mobile Number" class="input-style w-full px-3 py-2.5 rounded-lg">
+<input id="ltSubject" placeholder="Subject" class="input-style w-full px-3 py-2.5 rounded-lg">
+<textarea id="ltBody" placeholder="Main content..." rows="4" class="input-style w-full px-3 py-2.5 rounded-lg resize-none"></textarea>
+<button onclick="genLetter()" class="btn-primary text-white w-full py-3 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-magic"></i> Generate</button>
+<button onclick="window.print()" class="btn-accent text-white w-full py-2 rounded-lg font-bold mt-2 no-print"><i class="fas fa-print mr-1"></i> Print</button>
+<div id="cResult" class="hidden mt-3 p-4 bg-soft rounded-lg whitespace-pre-wrap text-sm leading-relaxed"></div>
+</div>`;
+  openToolModal();
 }
 
-function calcSIP(){
-  const m=+document.getElementById('sipM').value, r=+document.getElementById('sipR').value/12/100, n=+document.getElementById('sipY').value*12;
+function genLetter(){
+  const name = document.getElementById('ltName').value || '___________';
+  const father = document.getElementById('ltFather').value || '___________';
+  const address = document.getElementById('ltAddress').value || '___________';
+  const mobile = document.getElementById('ltMobile').value || '___________';
+  const subject = document.getElementById('ltSubject').value || '___________';
+  const body = document.getElementById('ltBody').value || '___________';
+  const date = new Date().toLocaleDateString('en-IN', {day:'2-digit', month:'long', year:'numeric'});
+  const template = document.getElementById('toolTitle').textContent;
+  
+  let output = `To: ${name}\nAddress: ${address}\nMobile: ${mobile}\nDate: ${date}\n\nSubject: ${subject}\n\n${body}\n\nSincerely,\n${name}${father !== '___________' ? '\nS/o ' + father : ''}`;
+  
+  const out = document.getElementById('cResult');
+  out.textContent = output;
+  out.classList.remove('hidden');
+  toast('Letter generated!', 'success');
+}
+
+// Calculation functions
+function doEMI(){
+  const p=+document.getElementById('cP').value, r=+document.getElementById('cR').value/12/100, n=+document.getElementById('cN').value;
+  if(!p||!r||!n) return toast('Fill all fields','error');
+  const emi=p*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+  const r2=document.getElementById('cResult');
+  r2.classList.remove('hidden');
+  r2.innerHTML=`<p class="text-xs uppercase text-gray-600">Monthly EMI</p><p class="text-3xl font-display font-black gradient-text my-1">₹${emi.toFixed(0)}</p><p class="text-xs text-gray-600">Total: ₹${(emi*n).toFixed(0)}</p>`;
+}
+function doSIP(){
+  const m=+document.getElementById('cP').value, r=+document.getElementById('cR').value/12/100, n=+document.getElementById('cN').value*12;
   if(!m||!r||!n) return toast('Fill all fields','error');
   const fv=m*((Math.pow(1+r,n)-1)/r)*(1+r);
-  const r2=document.getElementById('sipResult');
+  const r2=document.getElementById('cResult');
   r2.classList.remove('hidden');
-  r2.innerHTML=`<p class="text-xs uppercase tracking-wider text-gray-600">Future Value</p><p class="text-3xl font-display font-black text-green-600 my-1">₹${fv.toFixed(0)}</p><p class="text-xs text-gray-600 mt-2">Returns: ₹${(fv-m*n).toFixed(0)}</p>`;
+  r2.innerHTML=`<p class="text-xs uppercase text-gray-600">Future Value</p><p class="text-3xl font-display font-black text-green-600 my-1">₹${fv.toFixed(0)}</p>`;
 }
-
-function calcGST(){
-  const a=+document.getElementById('gstAmt').value, r=+document.getElementById('gstRate').value;
+function doFD(){
+  const p=+document.getElementById('cP').value, r=+document.getElementById('cR').value/100, n=+document.getElementById('cN').value;
+  if(!p||!r||!n) return toast('Fill all fields','error');
+  const m=p*Math.pow(1+r,n);
+  const r2=document.getElementById('cResult');
+  r2.classList.remove('hidden');
+  r2.innerHTML=`<p class="text-xs uppercase text-gray-600">Maturity</p><p class="text-3xl font-display font-black text-blue-600 my-1">₹${m.toFixed(0)}</p><p class="text-xs text-gray-600">Interest: ₹${(m-p).toFixed(0)}</p>`;
+}
+function doRD(){
+  const m=+document.getElementById('cP').value, r=+document.getElementById('cR').value/100/12, n=+document.getElementById('cN').value;
+  if(!m||!r||!n) return toast('Fill all fields','error');
+  const total=m*n, interest=total*r*n/2;
+  const r2=document.getElementById('cResult');
+  r2.classList.remove('hidden');
+  r2.innerHTML=`<p class="text-xs uppercase text-gray-600">Maturity</p><p class="text-3xl font-display font-black text-purple-600 my-1">₹${(total+interest).toFixed(0)}</p>`;
+}
+function doGSTCalc(){
+  const a=+document.getElementById('cP').value, r=+document.getElementById('cR').value;
   if(!a) return toast('Enter amount','error');
   const gst=a*r/100, total=a+gst;
-  const r2=document.getElementById('gstResult');
+  const r2=document.getElementById('cResult');
   r2.classList.remove('hidden');
-  r2.innerHTML=`<div class="grid grid-cols-2 gap-3 text-sm"><div class="bg-white/70 p-3 rounded-lg"><p class="text-xs text-gray-500">CGST</p><p class="font-bold">₹${(gst/2).toFixed(2)}</p></div><div class="bg-white/70 p-3 rounded-lg"><p class="text-xs text-gray-500">SGST</p><p class="font-bold">₹${(gst/2).toFixed(2)}</p></div></div><p class="text-2xl font-display font-black gradient-text mt-3 text-center">Total: ₹${total.toFixed(2)}</p>`;
+  r2.innerHTML=`<div class="grid grid-cols-2 gap-2 text-sm"><div class="bg-white/70 p-2 rounded"><p class="text-xs text-gray-500">CGST</p><p class="font-bold">₹${(gst/2).toFixed(2)}</p></div><div class="bg-white/70 p-2 rounded"><p class="text-xs text-gray-500">SGST</p><p class="font-bold">₹${(gst/2).toFixed(2)}</p></div></div><p class="text-xl font-display font-black gradient-text mt-2 text-center">Total: ₹${total.toFixed(2)}</p>`;
 }
-
-function calcHL(){
-  const p=+document.getElementById('hlP').value, r=+document.getElementById('hlR').value/12/100, n=+document.getElementById('hlT').value*12;
-  if(!p||!r||!n) return toast('Fill all fields','error');
-  const emi=p*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
-  const r2=document.getElementById('hlResult');
+function doProfit(){
+  const cp=+document.getElementById('cP').value, sp=+document.getElementById('cR').value;
+  if(!cp||!sp) return toast('Fill all fields','error');
+  const profit=sp-cp, pp=(profit/cp*100).toFixed(2);
+  const r2=document.getElementById('cResult');
   r2.classList.remove('hidden');
-  r2.innerHTML=`<p class="text-xs uppercase tracking-wider text-gray-600">Monthly EMI</p><p class="text-3xl font-display font-black text-blue-600 my-1">₹${emi.toFixed(0)}</p>`;
+  r2.innerHTML=`<p class="text-xs uppercase text-gray-600">Profit/Loss</p><p class="text-3xl font-display font-black ${profit>=0?'text-green-600':'text-red-600'} my-1">₹${profit.toFixed(0)}</p><p class="text-xs text-gray-600">${pp}% margin</p>`;
 }
-
-function doQR(){
-  const t=document.getElementById('qrText').value;
-  if(!t) return toast('Enter text','error');
-  document.getElementById('qrResult').innerHTML=`<img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(t)}" class="mx-auto rounded-lg shadow-lg">`;
+function doSimple(){
+  const desc=document.getElementById('cP').value || 'Item';
+  const amt=+document.getElementById('cR').value;
+  if(!amt) return toast('Enter amount','error');
+  const r2=document.getElementById('cResult');
+  r2.classList.remove('hidden');
+  r2.innerHTML=`<p class="text-xs uppercase text-gray-600">${desc}</p><p class="text-3xl font-display font-black gradient-text my-1">₹${amt.toFixed(0)}</p>`;
 }
-
-function doBarcode(){
-  const t=document.getElementById('bcText').value;
-  if(!t) return toast('Enter number','error');
-  document.getElementById('bcResult').innerHTML=`<img src="https://barcodeapi.org/api/code128/${encodeURIComponent(t)}" class="mx-auto">`;
-}
-
-function doPwd(){
-  const len=+document.getElementById('pwLen').value;
-  let chars='abcdefghijklmnopqrstuvwxyz';
-  if(document.getElementById('pwUpper').checked) chars+='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  if(document.getElementById('pwNum').checked) chars+='0123456789';
-  if(document.getElementById('pwSym').checked) chars+='!@#$%^&*()_+-=';
-  let p='';
-  const arr=new Uint32Array(len);
-  crypto.getRandomValues(arr);
-  for(let i=0;i<len;i++) p+=chars[arr[i]%chars.length];
-  document.getElementById('pwResult').value=p;
-}
-
-function copyText(id){
-  const el=document.getElementById(id);
-  el.select();
-  navigator.clipboard.writeText(el.value).then(()=>toast('Copied!','success')).catch(()=>{document.execCommand('copy');toast('Copied!','success');});
-}
-
-function calcAge(){
-  const d=new Date(document.getElementById('ageDate').value);
-  if(!d.getTime()) return toast('Select date','error');
-  const now=new Date();
-  let y=now.getFullYear()-d.getFullYear(),m=now.getMonth()-d.getMonth(),days=now.getDate()-d.getDate();
-  if(days<0){m--;days+=30;}
-  if(m<0){y--;m+=12;}
-  const r2=document.getElementById('ageResult');
+function doAge(){
+  const d=document.getElementById('cP').value;
+  if(!d) return toast('Select date','error');
+  const dob=new Date(d), now=new Date();
+  let y=now.getFullYear()-dob.getFullYear(),m=now.getMonth()-dob.getMonth(),days=now.getDate()-dob.getDate();
+  if(days<0){m--;days+=30;} if(m<0){y--;m+=12;}
+  const r2=document.getElementById('cResult');
   r2.classList.remove('hidden');
   r2.innerHTML=`<p class="text-4xl font-display font-black gradient-text">${y} Years</p><p class="text-gray-700 mt-2">${m} Months, ${days} Days</p>`;
 }
-
-function convertUnit(){
-  const type=document.getElementById('utType').value;
-  const v=+document.getElementById('utVal').value||0;
-  const units={length:{Meter:1,Kilometer:1000,Centimeter:0.01,Inch:0.0254,Foot:0.3048},weight:{Kilogram:1,Gram:0.001,Pound:0.4536,Ounce:0.0283},temperature:{Celsius:'C',Fahrenheit:'F',Kelvin:'K'}};
-  const u=units[type];
-  let html='';
-  if(type==='temperature'){
-    html+=`<div class="flex justify-between p-2 bg-white/70 rounded"><span>Celsius:</span><b>${v.toFixed(2)}°C</b></div>`;
-    html+=`<div class="flex justify-between p-2 bg-white/70 rounded"><span>Fahrenheit:</span><b>${(v*9/5+32).toFixed(2)}°F</b></div>`;
-    html+=`<div class="flex justify-between p-2 bg-white/70 rounded"><span>Kelvin:</span><b>${(v+273.15).toFixed(2)}K</b></div>`;
-  } else {
-    Object.entries(u).forEach(([n,f])=>{html+=`<div class="flex justify-between p-2 bg-white/70 rounded"><span>${n}:</span><b>${(v/f).toFixed(4)}</b></div>`;});
-  }
-  document.getElementById('utResult').innerHTML=html;
-}
-
-function calcBMI(){
-  const w=+document.getElementById('bW').value, h=+document.getElementById('bH').value/100;
+function doBMI(){
+  const w=+document.getElementById('cP').value, h=+document.getElementById('cR').value/100;
   if(!w||!h) return toast('Fill all fields','error');
   const bmi=w/(h*h);
   let cat='Normal',color='green';
-  if(bmi<18.5){cat='Underweight';color='blue';}
-  else if(bmi>=25&&bmi<30){cat='Overweight';color='yellow';}
-  else if(bmi>=30){cat='Obese';color='red';}
-  const r2=document.getElementById('bResult');
+  if(bmi<18.5){cat='Underweight';color='blue';} else if(bmi>=25&&bmi<30){cat='Overweight';color='yellow';} else if(bmi>=30){cat='Obese';color='red';}
+  const r2=document.getElementById('cResult');
   r2.classList.remove('hidden');
   r2.innerHTML=`<p class="text-5xl font-display font-black text-${color}-600">${bmi.toFixed(1)}</p><p class="text-xl font-bold mt-2">${cat}</p>`;
 }
-
-async function doMerge(){
-  const files=document.getElementById('mFiles').files;
+function doPwd(){
+  const len=+document.getElementById('cP').value;
+  let chars='abcdefghijklmnopqrstuvwxyz';
+  if(document.getElementById('cR').value) chars+='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
+  let p='';
+  for(let i=0;i<len;i++) p+=chars.charAt(Math.floor(Math.random()*chars.length));
+  document.getElementById('cResult').value=p;
+}
+function copyText(id){
+  const el=document.getElementById(id);
+  el.select();
+  document.execCommand('copy');
+  toast('Copied!','success');
+}
+function doQR(){
+  const t=document.getElementById('cP').value;
+  if(!t) return toast('Enter text','error');
+  document.getElementById('cResult').innerHTML=`<img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(t)}" class="mx-auto rounded-lg shadow-lg">`;
+}
+function doBarcode(){
+  const t=document.getElementById('cP').value;
+  if(!t) return toast('Enter number','error');
+  document.getElementById('cResult').innerHTML=`<img src="https://barcodeapi.org/api/code128/${encodeURIComponent(t)}" class="mx-auto">`;
+}
+function sendWA(title, msg){
+  const phone=prompt('Enter customer mobile (10 digits):');
+  if(!phone) return;
+  window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(msg)}`,'_blank');
+}
+async function doMergePDF(){
+  const files=document.getElementById('cP').files;
   if(files.length<2) return toast('Select 2+ PDFs','error');
   try{
-    toast('Merging...','success');
     const merged=await PDFLib.PDFDocument.create();
     for(const f of files){const bytes=await f.arrayBuffer();const pdf=await PDFLib.PDFDocument.load(bytes);const pages=await merged.copyPages(pdf,pdf.getPageIndices());pages.forEach(p=>merged.addPage(p));}
     const bytes=await merged.save();
@@ -781,10 +983,9 @@ async function doMerge(){
     toast('PDFs merged!','success');
   }catch(e){toast('Error: '+e.message,'error');}
 }
-
-async function doSplit(){
-  const file=document.getElementById('sFile').files[0];
-  const range=document.getElementById('sRange').value;
+async function doSplitPDF(){
+  const file=document.getElementById('cP').files[0];
+  const range=document.getElementById('cR').value;
   if(!file||!range) return toast('Select file & range','error');
   try{
     const bytes=await file.arrayBuffer();
@@ -799,26 +1000,22 @@ async function doSplit(){
     toast('Split done!','success');
   }catch(e){toast('Invalid range','error');}
 }
-
-async function doCompress(){
-  const file=document.getElementById('cFile').files[0];
+async function doCompressPDF(){
+  const file=document.getElementById('cP').files[0];
   if(!file) return toast('Select PDF','error');
   try{
-    toast('Compressing...','success');
     const bytes=await file.arrayBuffer();
     const pdf=await PDFLib.PDFDocument.load(bytes);
     const out=await pdf.save({useObjectStreams:true});
     const blob=new Blob([out],{type:'application/pdf'});
     const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='compressed.pdf';a.click();
-    toast(`Reduced ${((1-out.byteLength/bytes.byteLength)*100).toFixed(0)}%!`,'success');
+    toast('Compressed!','success');
   }catch(e){toast('Error','error');}
 }
-
 async function doImgToPdf(){
-  const files=document.getElementById('iFiles').files;
+  const files=document.getElementById('cP').files;
   if(!files.length) return toast('Select images','error');
   try{
-    toast('Converting...','success');
     const pdf=await PDFLib.PDFDocument.create();
     for(const f of files){const bytes=await f.arrayBuffer();const img=f.type.includes('png')?await pdf.embedPng(bytes):await pdf.embedJpg(bytes);const page=pdf.addPage([img.width,img.height]);page.drawImage(img,{x:0,y:0,width:img.width,height:img.height});}
     const bytes=await pdf.save();
@@ -827,9 +1024,8 @@ async function doImgToPdf(){
     toast('PDF created!','success');
   }catch(e){toast('Error','error');}
 }
-
 function doPassport(){
-  const file=document.getElementById('ppFile').files[0];
+  const file=document.getElementById('cP').files[0];
   if(!file) return toast('Select photo','error');
   const w=+document.getElementById('ppW').value, h=+document.getElementById('ppH').value, c=+document.getElementById('ppC').value;
   const img=new Image();
@@ -843,15 +1039,14 @@ function doPassport(){
     for(let i=0;i<c;i++){const x=(i%4)*w,y=Math.floor(i/4)*h;ctx.drawImage(img,sx,sy,size,size,x,y,w,h);ctx.strokeStyle='#e5e7eb';ctx.strokeRect(x,y,w,h);}
     canvas.toBlob(blob=>{
       const url=URL.createObjectURL(blob);
-      document.getElementById('ppResult').innerHTML=`<img src="${url}" class="w-full rounded-lg shadow-md">`;
-      const a=document.createElement('a');a.href=url;a.download='passport_photos.jpg';a.click();
+      document.getElementById('cResult').innerHTML=`<img src="${url}" class="w-full rounded-lg">`;
+      const a=document.createElement('a');a.href=url;a.download='passport.jpg';a.click();
     },'image/jpeg',0.95);
   };
   img.src=URL.createObjectURL(file);
 }
-
 function doSignature(){
-  const file=document.getElementById('sigFile').files[0];
+  const file=document.getElementById('cP').files[0];
   if(!file) return toast('Select image','error');
   const img=new Image();
   img.onload=()=>{
@@ -864,223 +1059,46 @@ function doSignature(){
     ctx.putImageData(data,0,0);
     canvas.toBlob(blob=>{
       const url=URL.createObjectURL(blob);
-      document.getElementById('sigResult').innerHTML=`<img src="${url}" class="w-full rounded-lg">`;
+      document.getElementById('cResult').innerHTML=`<img src="${url}" class="w-full rounded-lg">`;
       const a=document.createElement('a');a.href=url;a.download='signature.png';a.click();
     },'image/png');
   };
   img.src=URL.createObjectURL(file);
 }
 
-// ========== CSC LETTER TOOLS ==========
-const letterTemplates = {
-  application: {title:'Application',icon:'fa-file-alt',body:`To,\nThe Concerned Authority,\n{{ADDRESS}}\n\nSubject: {{SUBJECT}}\n\nRespected Sir/Madam,\n\nI, {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, humbly submit that {{BODY}}.\n\nI request you to kindly consider my application.\n\nThanking you,\n{{NAME}}\nMobile: {{MOBILE}}\nDate: {{DATE}}`},
-  affidavit: {title:'Affidavit',icon:'fa-file-contract',body:`AFFIDAVIT\n\nI, {{NAME}} S/o {{FATHER}}, aged ___ years, resident of {{ADDRESS}}, do hereby solemnly affirm:\n\n1. That {{BODY}}\n2. The above statement is true.\n\nDEPONENT\n{{NAME}}\nDate: {{DATE}}`},
-  rti: {title:'RTI Application',icon:'fa-question-circle',body:`To,\nThe Public Information Officer\n\nSubject: {{SUBJECT}}\n\n1. Name: {{NAME}}\n2. Address: {{ADDRESS}}\n3. Mobile: {{MOBILE}}\n4. Information Required: {{BODY}}\n\nYours faithfully,\n{{NAME}}\nDate: {{DATE}}`},
-  noc: {title:'NOC',icon:'fa-certificate',body:`NO OBJECTION CERTIFICATE\n\nThis is to certify that {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, has no objection regarding {{BODY}}.\n\n{{NAME}}\nDate: {{DATE}}`},
-  income: {title:'Income Certificate',icon:'fa-rupee-sign',body:`To,\nThe Tehsildar,\n\nSubject: Income Certificate\n\nI, {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, request Income Certificate. Annual family income is Rs.___ and {{BODY}}.\n\nYours faithfully,\n{{NAME}}\nDate: {{DATE}}`},
-  caste: {title:'Caste Certificate',icon:'fa-users',body:`To,\nThe Tehsildar,\n\nSubject: Caste Certificate\n\nI, {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, belong to {{SUBJECT}} caste. {{BODY}}\n\nYours faithfully,\n{{NAME}}\nDate: {{DATE}}`},
-  domicile: {title:'Domicile Certificate',icon:'fa-home',body:`To,\nThe Tehsildar,\n\nSubject: Domicile Certificate\n\nI, {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, am a permanent resident for last ___ years. {{BODY}}\n\nYours faithfully,\n{{NAME}}\nDate: {{DATE}}`},
-  bonafide: {title:'Bonafide Certificate',icon:'fa-school',body:`BONAFIDE CERTIFICATE\n\nThis is to certify that {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, is a bonafide resident. {{BODY}}\n\n{{NAME}}\nDate: {{DATE}}`},
-  character: {title:'Character Certificate',icon:'fa-user-check',body:`CHARACTER CERTIFICATE\n\nThis is to certify that {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, bears good moral character. {{BODY}}\n\n{{NAME}}\nDate: {{DATE}}`},
-  agreement: {title:'Agreement',icon:'fa-handshake',body:`AGREEMENT\n\nThis agreement is made on {{DATE}} between:\nParty A: {{NAME}}, {{ADDRESS}}\nParty B: {{SUBJECT}}\n\nTerms: {{BODY}}\n\n{{NAME}}\nDate: {{DATE}}`},
-  declaration: {title:'Self Declaration',icon:'fa-pen',body:`SELF DECLARATION\n\nI, {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, do hereby declare that {{BODY}}.\n\n{{NAME}}\nDate: {{DATE}}`},
-  consent: {title:'Consent Letter',icon:'fa-check-double',body:`CONSENT LETTER\n\nI, {{NAME}} S/o {{FATHER}}, resident of {{ADDRESS}}, hereby give my consent for {{BODY}}.\n\n{{NAME}}\nDate: {{DATE}}`},
-  scheme: {title:'Scheme Finder',icon:'fa-search',body:`GOVERNMENT SCHEMES\n\nFor {{NAME}}, eligible schemes:\n1. PM Kisan - ₹6000/year\n2. Ayushman Bharat - ₹5L health\n3. Ujjwala Yojana - Free LPG\n4. PMAY - Housing\n5. Sukanya Samriddhi - Girl child\n\nVisit: schemes.gov.in`},
-  eligibility: {title:'Eligibility Checker',icon:'fa-tasks',body:`ELIGIBILITY CHECK\n\nName: {{NAME}}\nIncome: ₹___\nCategory: ___\n\nBased on {{BODY}}, you may be eligible for:\n- PM Kisan Yojana\n- Ayushman Bharat\n- State Schemes\n\nContact CSC operator for details.`},
-  pension: {title:'Pension Calculator',icon:'fa-calculator',body:`PENSION CALCULATION\n\nName: {{NAME}}\nLast Salary: ₹___\nYears: ___\n\nPer {{BODY}}, monthly pension:\n- Basic: ₹___\n- DA: ₹___\n- Total: ₹___\n\nNote: Approximate values.`}
-};
-
-function openLetterTool(key){
-  const t = letterTemplates[key];
-  if(!t){ toast('Template not found','error'); return; }
-  document.getElementById('toolTitle').textContent = t.title;
-  document.getElementById('toolIcon').className = 'fas ' + t.icon;
-  document.getElementById('toolBody').innerHTML = `<div class="space-y-3">
-<input id="ltName" placeholder="Your Full Name" class="input-style w-full px-3 py-2.5 rounded-lg">
-<input id="ltFather" placeholder="Father's Name" class="input-style w-full px-3 py-2.5 rounded-lg">
-<input id="ltAddress" placeholder="Address" class="input-style w-full px-3 py-2.5 rounded-lg">
-<input id="ltMobile" placeholder="Mobile Number" class="input-style w-full px-3 py-2.5 rounded-lg">
-<input id="ltSubject" placeholder="Subject / Topic" class="input-style w-full px-3 py-2.5 rounded-lg">
-<textarea id="ltBody" placeholder="Main content / body..." rows="4" class="input-style w-full px-3 py-2.5 rounded-lg resize-none"></textarea>
-<button onclick="genLetter('${key}')" class="btn-primary text-white w-full py-3 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-magic"></i> Generate</button>
-<button onclick="window.print()" class="btn-accent text-white w-full py-2 rounded-lg font-bold mt-2 no-print"><i class="fas fa-print mr-1"></i> Print</button>
-<div id="ltOutput" class="hidden mt-3 p-4 bg-soft rounded-lg whitespace-pre-wrap text-sm leading-relaxed"></div>
-</div>`;
-  openToolModal();
-}
-
-function genLetter(key){
-  const t = letterTemplates[key];
-  const name = document.getElementById('ltName').value || '___________';
-  const father = document.getElementById('ltFather').value || '___________';
-  const address = document.getElementById('ltAddress').value || '___________';
-  const mobile = document.getElementById('ltMobile').value || '___________';
-  const subject = document.getElementById('ltSubject').value || '___________';
-  const body = document.getElementById('ltBody').value || '___________';
-  const date = new Date().toLocaleDateString('en-IN', {day:'2-digit', month:'long', year:'numeric'});
-  let html = t.body.replace(/\{\{NAME\}\}/g, name).replace(/\{\{FATHER\}\}/g, father).replace(/\{\{ADDRESS\}\}/g, address).replace(/\{\{MOBILE\}\}/g, mobile).replace(/\{\{SUBJECT\}\}/g, subject).replace(/\{\{BODY\}\}/g, body).replace(/\{\{DATE\}\}/g, date);
-  const out = document.getElementById('ltOutput');
-  out.innerHTML = html.replace(/\n/g, '<br>');
-  out.classList.remove('hidden');
-  toast('Letter generated!', 'success');
-}
-
-// ========== CHECKLISTS ==========
+// Checklists
 const checklists = {
-  aadhaar: {title:'Aadhaar Card Checklist', icon:'fa-id-card', color:'blue', items:['Original Aadhaar Card','Aadhaar XML File','Mobile linked with Aadhaar','Passport size photo','Address proof','Birth certificate (child)']},
-  pan: {title:'PAN Card Checklist', icon:'fa-credit-card', color:'indigo', items:['Aadhaar Card','Passport size photo','Signature scan','Date of birth proof','Address proof']},
-  pmkisan: {title:'PM Kisan Checklist', icon:'fa-tractor', color:'green', items:['Aadhaar Card','Bank Passbook','Land record','Mobile number','Passport photo']},
-  ayushman: {title:'Ayushman Card Checklist', icon:'fa-heartbeat', color:'red', items:['Aadhaar Card','Ration Card','Mobile number','Family details','Income certificate']},
-  eshram: {title:'eShram Card Checklist', icon:'fa-hard-hat', color:'yellow', items:['Aadhaar linked mobile','Bank Passbook','Passport photo','Address proof','Skill/Occupation']},
-  kyc: {title:'Customer KYC Checklist', icon:'fa-user-check', color:'purple', items:['Aadhaar Original','PAN Copy','Passport Photo','Signature','Mobile OTP','Email OTP','Address Proof']}
+  aadhaar: {title:'Aadhaar Card', items:['Original Aadhaar','XML File','Mobile linked','Photo','Address proof']},
+  pan: {title:'PAN Card', items:['Aadhaar','Photo','Signature','DOB proof','Address']},
+  pmkisan: {title:'PM Kisan', items:['Aadhaar','Bank Passbook','Land record','Mobile','Photo']},
+  ayushman: {title:'Ayushman Card', items:['Aadhaar','Ration Card','Mobile','Family details','Income']},
+  eshram: {title:'eShram Card', items:['Aadhaar linked','Bank Passbook','Photo','Address','Skill']},
+  kyc: {title:'Customer KYC', items:['Aadhaar','PAN','Photo','Signature','Mobile OTP','Address']}
 };
-
 function renderChecklists(){
-  const container = document.getElementById('checklistsContainer');
-  if(!container) return;
-  const colorMap = {blue:'bg-blue-500',indigo:'bg-indigo-500',green:'bg-green-500',red:'bg-red-500',yellow:'bg-yellow-500',purple:'bg-purple-500'};
-  container.innerHTML = Object.keys(checklists).map(key => {
-    const c = checklists[key];
-    const saved = JSON.parse(localStorage.getItem('chk_'+key) || '{}');
-    return `<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-<div class="bg-soft p-4 border-b border-gray-100 flex items-center gap-3">
-<div class="w-10 h-10 rounded-xl ${colorMap[c.color]} text-white flex items-center justify-center"><i class="fas ${c.icon}"></i></div>
-<h3 class="font-display font-black text-base sm:text-lg">${c.title}</h3>
-</div>
-<div class="p-4 space-y-2">
-${c.items.map((item, i) => `<label class="checklist-item flex items-center gap-3 p-2.5 rounded-lg cursor-pointer">
-<input type="checkbox" data-chk="${key}" data-i="${i}" ${saved[i]?'checked':''} onchange="saveChk(this)" class="w-5 h-5 accent-orange-500 cursor-pointer">
-<span class="text-sm ${saved[i]?'line-through text-gray-400':''}">${item}</span>
-</label>`).join('')}
-</div>
-<div class="px-4 pb-4 flex gap-2">
-<button onclick="resetChk('${key}')" class="text-xs bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-lg font-bold">Reset</button>
-<button onclick="window.print()" class="text-xs btn-primary text-white px-3 py-1.5 rounded-lg font-bold"><i class="fas fa-print"></i> Print</button>
-</div>
-</div>`;
+  const c=document.getElementById('checklistsContainer');
+  if(!c) return;
+  c.innerHTML=Object.keys(checklists).map(key=>{
+    const cl=checklists[key];
+    const saved=JSON.parse(localStorage.getItem('chk_'+key)||'{}');
+    return `<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden"><div class="bg-soft p-4 border-b border-gray-100"><h3 class="font-display font-black text-lg">${cl.title}</h3></div><div class="p-4 space-y-2">${cl.items.map((item,i)=>`<label class="checklist-item flex items-center gap-3 p-2.5 rounded-lg"><input type="checkbox" data-chk="${key}" data-i="${i}" ${saved[i]?'checked':''} onchange="saveChk(this)" class="w-5 h-5 accent-orange-500"><span class="text-sm ${saved[i]?'line-through text-gray-400':''}">${item}</span></label>`).join('')}</div><div class="px-4 pb-4 flex gap-2"><button onclick="resetChk('${key}')" class="text-xs bg-red-50 text-red-600 px-3 py-1.5 rounded-lg font-bold">Reset</button><button onclick="window.print()" class="text-xs btn-primary text-white px-3 py-1.5 rounded-lg font-bold"><i class="fas fa-print"></i> Print</button></div></div>`;
   }).join('');
 }
-
 function saveChk(el){
-  const type = el.dataset.chk, i = el.dataset.i;
-  const saved = JSON.parse(localStorage.getItem('chk_'+type) || '{}');
-  saved[i] = el.checked;
-  localStorage.setItem('chk_'+type, JSON.stringify(saved));
-  el.nextElementSibling.classList.toggle('line-through', el.checked);
-  el.nextElementSibling.classList.toggle('text-gray-400', el.checked);
+  const type=el.dataset.chk, i=el.dataset.i;
+  const saved=JSON.parse(localStorage.getItem('chk_'+type)||'{}');
+  saved[i]=el.checked;
+  localStorage.setItem('chk_'+type,JSON.stringify(saved));
+  el.nextElementSibling.classList.toggle('line-through',el.checked);
+  el.nextElementSibling.classList.toggle('text-gray-400',el.checked);
 }
-
 function resetChk(type){
   if(confirm('Reset this checklist?')){
     localStorage.removeItem('chk_'+type);
     renderChecklists();
   }
 }
-
-renderChecklists();
-
-// ========== BANKING CALCULATORS ==========
-function openCalc(type){
-  const titles = {emi:'EMI Calculator',sip:'SIP Calculator',fd:'FD Calculator',rd:'RD Calculator',gst:'GST Calculator',homeLoan:'Home Loan Calculator',carLoan:'Car Loan Calculator',interest:'Interest Calculator',profit:'Profit/Loss Calculator',cashbook:'Cash Book Calculator',expense:'Expense Tracker',invoice:'Invoice Generator',receipt:'Receipt Generator'};
-  document.getElementById('toolTitle').textContent = titles[type] || 'Calculator';
-  document.getElementById('toolIcon').className = 'fas fa-calculator';
-  let body = '';
-  if(type === 'emi' || type === 'homeLoan' || type === 'carLoan'){
-    body = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Loan Amount (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="500000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Interest Rate (% yearly)</label><input id="cR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="9.5"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Tenure (months)</label><input id="cN" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="60"></div><button onclick="calcGenEMI()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-primary-50 to-accent-50 p-4 rounded-xl text-center border-2 border-primary-100"></div></div>`;
-  } else if(type === 'sip'){
-    body = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Monthly Investment (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="5000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Return (% yearly)</label><input id="cR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="12"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Time (years)</label><input id="cN" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="10"></div><button onclick="calcGenSIP()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-green-50 to-emerald-50 p-4 rounded-xl text-center border-2 border-green-200"></div></div>`;
-  } else if(type === 'fd' || type === 'interest'){
-    body = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Principal (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="100000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Rate (% yearly)</label><input id="cR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="7"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Time (years)</label><input id="cN" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="5"></div><button onclick="calcGenFD()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-blue-50 to-cyan-50 p-4 rounded-xl text-center border-2 border-blue-200"></div></div>`;
-  } else if(type === 'rd'){
-    body = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Monthly Deposit (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="1000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Rate (% yearly)</label><input id="cR" type="number" step="0.01" class="input-style w-full px-4 py-3 rounded-xl" placeholder="6"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Months</label><input id="cN" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="60"></div><button onclick="calcGenRD()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-purple-50 to-pink-50 p-4 rounded-xl text-center border-2 border-purple-200"></div></div>`;
-  } else if(type === 'gst'){
-    body = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Amount (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="1000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">GST Rate</label><select id="cR" class="input-style w-full px-4 py-3 rounded-xl"><option>5</option><option>12</option><option selected>18</option><option>28</option></select></div><button onclick="calcGenGST()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-yellow-50 to-amber-50 p-4 rounded-xl border-2 border-yellow-200"></div></div>`;
-  } else if(type === 'profit'){
-    body = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Cost Price (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="100"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Selling Price (₹)</label><input id="cR" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="150"></div><button onclick="calcGenProfit()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-pink-50 to-rose-50 p-4 rounded-xl text-center border-2 border-pink-200"></div></div>`;
-  } else if(type === 'cashbook'){
-    body = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Opening Balance (₹)</label><input id="cP" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="5000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Total Income (₹)</label><input id="cR" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="3000"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Total Expense (₹)</label><input id="cN" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="2000"></div><button onclick="calcGenCashbook()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-yellow-50 to-amber-50 p-4 rounded-xl text-center border-2 border-yellow-200"></div></div>`;
-  } else {
-    body = `<div class="space-y-3"><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Description</label><input id="cP" placeholder="Description" class="input-style w-full px-4 py-3 rounded-xl"></div><div><label class="block text-xs font-bold text-gray-600 mb-1.5 uppercase">Amount (₹)</label><input id="cR" type="number" class="input-style w-full px-4 py-3 rounded-xl" placeholder="1000"></div><button onclick="calcGenSimple()" class="btn-primary w-full text-white py-3 rounded-xl font-bold">Calculate</button><div id="cResult" class="hidden bg-gradient-to-br from-blue-50 to-cyan-50 p-4 rounded-xl text-center border-2 border-blue-200"></div></div>`;
-  }
-  document.getElementById('toolBody').innerHTML = body;
-  openToolModal();
-}
-
-function calcGenEMI(){
-  const p=+document.getElementById('cP').value, r=+document.getElementById('cR').value/12/100, n=+document.getElementById('cN').value;
-  if(!p||!r||!n) return toast('Fill all fields','error');
-  const emi=p*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
-  const r2=document.getElementById('cResult');
-  r2.classList.remove('hidden');
-  r2.innerHTML=`<p class="text-xs uppercase text-gray-600">Monthly EMI</p><p class="text-3xl font-display font-black gradient-text my-1">₹${emi.toFixed(0)}</p><p class="text-xs text-gray-600 mt-1">Total: ₹${(emi*n).toFixed(0)}</p>`;
-}
-
-function calcGenSIP(){
-  const m=+document.getElementById('cP').value, r=+document.getElementById('cR').value/12/100, n=+document.getElementById('cN').value*12;
-  if(!m||!r||!n) return toast('Fill all fields','error');
-  const fv=m*((Math.pow(1+r,n)-1)/r)*(1+r);
-  const r2=document.getElementById('cResult');
-  r2.classList.remove('hidden');
-  r2.innerHTML=`<p class="text-xs uppercase text-gray-600">Future Value</p><p class="text-3xl font-display font-black text-green-600 my-1">₹${fv.toFixed(0)}</p>`;
-}
-
-function calcGenFD(){
-  const p=+document.getElementById('cP').value, r=+document.getElementById('cR').value/100, n=+document.getElementById('cN').value;
-  if(!p||!r||!n) return toast('Fill all fields','error');
-  const m=p*Math.pow(1+r,n);
-  const r2=document.getElementById('cResult');
-  r2.classList.remove('hidden');
-  r2.innerHTML=`<p class="text-xs uppercase text-gray-600">Maturity Value</p><p class="text-3xl font-display font-black text-blue-600 my-1">₹${m.toFixed(0)}</p><p class="text-xs text-gray-600 mt-1">Interest: ₹${(m-p).toFixed(0)}</p>`;
-}
-
-function calcGenRD(){
-  const m=+document.getElementById('cP').value, r=+document.getElementById('cR').value/100/12, n=+document.getElementById('cN').value;
-  if(!m||!r||!n) return toast('Fill all fields','error');
-  const total=m*n, interest=total*r*n/2;
-  const r2=document.getElementById('cResult');
-  r2.classList.remove('hidden');
-  r2.innerHTML=`<p class="text-xs uppercase text-gray-600">Total Amount</p><p class="text-3xl font-display font-black text-purple-600 my-1">₹${(total+interest).toFixed(0)}</p><p class="text-xs text-gray-600 mt-1">Interest: ₹${interest.toFixed(0)}</p>`;
-}
-
-function calcGenGST(){
-  const a=+document.getElementById('cP').value, r=+document.getElementById('cR').value;
-  if(!a) return toast('Enter amount','error');
-  const gst=a*r/100, total=a+gst;
-  const r2=document.getElementById('cResult');
-  r2.classList.remove('hidden');
-  r2.innerHTML=`<div class="grid grid-cols-2 gap-3 text-sm"><div class="bg-white/70 p-3 rounded-lg"><p class="text-xs text-gray-500">CGST</p><p class="font-bold">₹${(gst/2).toFixed(2)}</p></div><div class="bg-white/70 p-3 rounded-lg"><p class="text-xs text-gray-500">SGST</p><p class="font-bold">₹${(gst/2).toFixed(2)}</p></div></div><p class="text-2xl font-display font-black gradient-text mt-3 text-center">Total: ₹${total.toFixed(2)}</p>`;
-}
-
-function calcGenProfit(){
-  const cp=+document.getElementById('cP').value, sp=+document.getElementById('cR').value;
-  if(!cp||!sp) return toast('Fill all fields','error');
-  const profit=sp-cp, pp=(profit/cp*100).toFixed(2);
-  const r2=document.getElementById('cResult');
-  r2.classList.remove('hidden');
-  r2.innerHTML=`<p class="text-xs uppercase text-gray-600">Profit/Loss</p><p class="text-3xl font-display font-black ${profit>=0?'text-green-600':'text-red-600'} my-1">₹${profit.toFixed(0)}</p><p class="text-xs text-gray-600 mt-1">${pp}% margin</p>`;
-}
-
-function calcGenCashbook(){
-  const open=+document.getElementById('cP').value, inc=+document.getElementById('cR').value, exp=+document.getElementById('cN').value;
-  if(!open) return toast('Enter values','error');
-  const balance=open+inc-exp;
-  const r2=document.getElementById('cResult');
-  r2.classList.remove('hidden');
-  r2.innerHTML=`<p class="text-xs uppercase text-gray-600">Closing Balance</p><p class="text-3xl font-display font-black text-green-600 my-1">₹${balance.toFixed(0)}</p><p class="text-xs text-gray-600 mt-1">Opening: ₹${open} | +₹${inc} | -₹${exp}</p>`;
-}
-
-function calcGenSimple(){
-  const desc=document.getElementById('cP').value || 'Item';
-  const amt=+document.getElementById('cR').value;
-  if(!amt) return toast('Enter amount','error');
-  const r2=document.getElementById('cResult');
-  r2.classList.remove('hidden');
-  r2.innerHTML=`<p class="text-xs uppercase text-gray-600">${desc}</p><p class="text-3xl font-display font-black gradient-text my-1">₹${amt.toFixed(0)}</p>`;
-}
-
-// ✅ INIT - Render checklists
 renderChecklists();
 </script>
-
 </body>
 </html>
