@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tools Hub - E-SUVIDHA KENDRA</title>
+<meta name="theme-color" content="#1E3A8A">
+<link rel="icon" type="image/png" href="logo.png">
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script>
+tailwind.config={theme:{extend:{colors:{primary:{50:'#EEF2FF',100:'#E0E7FF',200:'#C7D2FE',300:'#A5B4FC',500:'#6366F1',600:'#4F46E5',700:'#4338CA',800:'#1E3A8A',900:'#1E1B4B',950:'#0F172A'},accent:{50:'#FFFBEB',100:'#FEF3C7',300:'#FCD34D',400:'#FBBF24',500:'#F59E0B',600:'#D97706',700:'#B45309'},dark:'#0F172A',soft:'#F8FAFC'},fontFamily:{display:['Poppins','sans-serif'],body:['Inter','sans-serif']}}}}
+</script>
+<style>
+*{font-family:'Inter',sans-serif}h1,h2,h3,h4,h5,h6{font-family:'Poppins',sans-serif;letter-spacing:-0.02em}
+body{background:#F8FAFC;color:#0F172A}.glass{background:rgba(255,255,255,0.85);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(255,255,255,0.5)}
+.gradient-primary{background:linear-gradient(135deg,#1E1B4B 0%,#1E3A8A 30%,#3B82F6 70%,#6366F1 100%)}
+.gradient-accent{background:linear-gradient(135deg,#F59E0B 0%,#D97706 100%)}
+.btn-primary{background:linear-gradient(135deg,#1E3A8A,#3B82F6);transition:all .3s;box-shadow:0 4px 20px rgba(30,58,138,.3)}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(30,58,138,.45)}
+.btn-accent{background:linear-gradient(135deg,#F59E0B,#D97706);transition:all .3s;box-shadow:0 4px 20px rgba(245,158,11,.3)}.btn-accent:hover{transform:translateY(-2px)}
+.tool-card{transition:all .4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;cursor:pointer}
+.tool-card:hover{transform:translateY(-6px) scale(1.03);box-shadow:0 20px 40px -10px rgba(30,58,138,.2)}
+.tool-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);opacity:0;transition:opacity .3s;pointer-events:none}
+.tool-card:hover::after{opacity:1}
+.category-tab{transition:all .2s;cursor:pointer;white-space:nowrap;padding:0.5rem 1rem;border-radius:9999px;font-size:0.75rem;font-weight:600;border:2px solid #E5E7EB;background:white}
+.category-tab.active{background:linear-gradient(135deg,#1E3A8A,#3B82F6);color:white;border-color:transparent;box-shadow:0 4px 12px rgba(30,58,138,0.3)}
+.nav-item{position:relative;transition:all .3s;cursor:pointer;display:flex;align-items:center;gap:0.75rem;padding:0.625rem 0.75rem;border-radius:0.75rem;font-size:0.875rem}
+.nav-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#F59E0B,#D97706);border-radius:0 4px 4px 0;transform:scaleY(0);transition:transform .3s}
+.nav-item.active::before,.nav-item:hover::before{transform:scaleY(1)}
+.nav-item.active{background:linear-gradient(90deg,rgba(245,158,11,0.1),transparent);color:#1E3A8A;font-weight:600}
+.nav-item.active i{color:#F59E0B}
+.tab-section{display:none;animation:fadeIn .4s ease-out}.tab-section.active{display:block}
+.input-style{transition:all .2s;border:2px solid #E5E7EB;background:white}.input-style:focus{border-color:#3B82F6;box-shadow:0 0 0 4px rgba(59,130,246,0.1);outline:none}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.animate-float{animation:float 4s ease-in-out infinite}
+::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-track{background:#F1F5F9}::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#1E3A8A,#F59E0B);border-radius:4px}
+.modal-overlay{background:rgba(15,23,42,0.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+@media print{.no-print{display:none!important}body{background:white}}
+.checklist-item{transition:all .2s;cursor:pointer}.checklist-item:hover{background:#F0F4FF}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginCheck" class="min-h-screen flex items-center justify-center gradient-primary p-4 relative overflow-hidden">
+<div class="absolute top-20 left-20 w-72 h-72 bg-accent-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float"></div>
+<div class="absolute bottom-20 right-20 w-72 h-72 bg-primary-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float" style="animation-delay:1.5s"></div>
+
+<div class="max-w-md w-full glass rounded-3xl shadow-2xl overflow-hidden relative z-10 animate-fadeIn">
+<div class="gradient-accent p-8 text-center text-white">
+<div class="w-20 h-20 mx-auto rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-4xl mb-4 ring-4 ring-white/30 animate-float">
+<i class="fas fa-toolbox"></i>
+</div>
+<h1 class="text-2xl sm:text-3xl font-display font-black">Tools Hub</h1>
+<p class="text-white/80 text-sm mt-1">E-SUVIDHA KENDRA • Operator Login Required</p>
+</div>
+<form id="loginForm" class="p-8 space-y-4 bg-white">
+<div>
+<label class="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-wider">Username</label>
+<div class="relative">
+<i class="fas fa-user absolute left-4 top-3.5 text-gray-400"></i>
+<input type="text" id="opUser" required class="input-style w-full pl-11 pr-4 py-3 rounded-xl" placeholder="Operator username" autocomplete="username">
+</div>
+</div>
+<div>
+<label class="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-wider">Password</label>
+<div class="relative">
+<i class="fas fa-lock absolute left-4 top-3.5 text-gray-400"></i>
+<input type="password" id="opPass" required class="input-style w-full pl-11 pr-4 py-3 rounded-xl" placeholder="Password" autocomplete="current-password">
+</div>
+</div>
+<button type="submit" class="btn-primary w-full text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2">
+<i class="fas fa-right-to-bracket"></i> Login to Tools Hub
+</button>
+<p id="loginErr" class="text-red-500 text-xs text-center font-bold hidden"><i class="fas fa-exclamation-circle mr-1"></i> Invalid credentials!</p>
+<div class="mt-6 pt-4 border-t border-gray-200 text-xs text-center">
+<a href="operator.html" class="text-gray-500 hover:text-primary-800 transition flex items-center justify-center gap-1">
+<i class="fas fa-arrow-left"></i> Back to Operator Panel
+</a>
+</div>
+</form>
+</div>
+</div>
+
+<!-- MAIN APP -->
+<div id="mainApp" class="hidden">
+
+<!-- HEADER -->
+<header class="glass sticky top-0 z-40 shadow-sm border-b border-white/30">
+<div class="px-4 sm:px-6 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 rounded-xl bg-soft hover:bg-primary-50 flex items-center justify-center text-primary-800"><i class="fas fa-bars text-lg"></i></button>
+<div class="w-10 h-10 rounded-xl gradient-accent flex items-center justify-center text-white shadow-md"><i class="fas fa-toolbox"></i></div>
+<div>
+<h1 class="font-display font-bold text-sm sm:text-base text-primary-800 leading-tight">Tools Hub</h1>
+<p class="text-xs text-gray-500 leading-tight">E-SUVIDHA KENDRA • 100+ Tools</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<a href="operator.html" class="hidden sm:flex items-center gap-2 bg-blue-50 hover:bg-blue-100 text-blue-700 px-3 py-2 rounded-lg text-xs font-bold transition">
+<i class="fas fa-arrow-left"></i> Back
+</a>
+<button onclick="opLogout()" class="flex items-center gap-2 text-xs bg-red-50 hover:bg-red-100 text-red-600 px-3 py-2 rounded-lg font-bold transition">
+<i class="fas fa-power-off"></i> <span class="hidden sm:inline">Logout</span>
+</button>
+</div>
+</div>
+</header>
+
+<div class="flex relative">
+
+<!-- SIDEBAR -->
+<aside id="sidebar" class="hidden lg:block w-72 min-h-screen bg-white border-r border-gray-200 sticky top-16 self-start max-h-[calc(100vh-4rem)] overflow-y-auto">
+<nav class="p-4 space-y-1">
+<a onclick="switchTab('home')" data-tab="home" class="nav-item active"><i class="fas fa-home w-5"></i> Home</a>
+<p class="text-[10px] font-bold text-gray-400 uppercase px-3 py-2 mt-3 tracking-widest">📄 PDF (17)</p>
+<a onclick="switchTab('pdf')" data-tab="pdf" class="nav-item"><i class="fas fa-file-pdf w-5"></i> PDF Tools</a>
+<p class="text-[10px] font-bold text-gray-400 uppercase px-3 py-2 mt-3 tracking-widest">📸 Photo (15)</p>
+<a onclick="switchTab('photo')" data-tab="photo" class="nav-item"><i class="fas fa-camera w-5"></i> Photo & DTP</a>
+<p class="text-[10px] font-bold text-gray-400 uppercase px-3 py-2 mt-3 tracking-widest">🏛️ CSC (15)</p>
+<a onclick="switchTab('csc')" data-tab="csc" class="nav-item"><i class="fas fa-landmark w-5"></i> CSC Tools</a>
+<a onclick="switchTab('checklists')" data-tab="checklists" class="nav-item"><i class="fas fa-clipboard-check w-5"></i> Checklists</a>
+<p class="text-[10px] font-bold text-gray-400 uppercase px-3 py-2 mt-3 tracking-widest">💰 Banking (13)</p>
+<a onclick="switchTab('banking')" data-tab="banking" class="nav-item"><i class="fas fa-university w-5"></i> Banking</a>
+<p class="text-[10px] font-bold text-gray-400 uppercase px-3 py-2 mt-3 tracking-widest">⚖️ Legal (12)</p>
+<a onclick="switchTab('legal')" data-tab="legal" class="nav-item"><i class="fas fa-gavel w-5"></i> Legal</a>
+<p class="text-[10px] font-bold text-gray-400 uppercase px-3 py-2 mt-3 tracking-widest">🖥️ Cyber (12)</p>
+<a onclick="switchTab('cyber')" data-tab="cyber" class="nav-item"><i class="fas fa-keyboard w-5"></i> Cyber</a>
+<p class="text-[10px] font-bold text-gray-400 uppercase px-3 py-2 mt-3 tracking-widest">🎓 Student (10)</p>
+<a onclick="switchTab('student')" data-tab="student" class="nav-item"><i class="fas fa-graduation-cap w-5"></i> Student</a>
+<p class="text-[10px] font-bold text-gray-400 uppercase px-3 py-2 mt-3 tracking-widest">💼 Business (10)</p>
+<a onclick="switchTab('business')" data-tab="business" class="nav-item"><i class="fas fa-briefcase w-5"></i> Business</a>
+<p class="text-[10px] font-bold text-gray-400 uppercase px-3 py-2 mt-3 tracking-widest">📢 More</p>
+<a onclick="switchTab('whatsapp')" data-tab="whatsapp" class="nav-item"><i class="fab fa-whatsapp w-5"></i> WhatsApp</a>
+<a onclick="switchTab('letter')" data-tab="letter" class="nav-item"><i class="fas fa-envelope w-5"></i> Letter Writer</a>
+</nav>
+</aside>
+
+<div id="sidebarOverlay" class="hidden fixed inset-0 bg-black/50 z-30 lg:hidden" onclick="toggleSidebar()"></div>
+
+<main class="flex-1 p-4 lg:p-6 pb-20 max-w-7xl mx-auto w-full">
+
+<!-- ============ HOME ============ -->
+<div id="tab-home" class="tab-section active">
+<div class="gradient-primary rounded-3xl p-8 text-white mb-6 relative overflow-hidden shadow-xl animate-fadeIn">
+<div class="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full"></div>
+<div class="absolute -right-20 -bottom-20 w-60 h-60 bg-accent-500/30 rounded-full blur-2xl"></div>
+<div class="relative z-10">
+<h2 class="text-3xl md:text-4xl font-display font-black mb-2">Welcome to Tools Hub 🔥</h2>
+<p class="text-base text-white/80">E-SUVIDHA KENDRA — 100+ Professional Tools for CSC Operators</p>
+<p class="text-sm text-white/70 mt-3">PDF • Photo • CSC • Banking • Legal • Cyber • Student • Business</p>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div onclick="switchTab('pdf')" class="tool-card bg-gradient-to-br from-red-500 to-red-700 p-5 rounded-2xl text-white text-center shadow-lg">
+<div class="w-14 h-14 mx-auto rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-2xl mb-3"><i class="fas fa-file-pdf"></i></div>
+<p class="font-display font-bold text-sm">PDF Tools</p>
+<p class="text-xs opacity-80 mt-1">17 tools</p>
+</div>
+<div onclick="switchTab('photo')" class="tool-card bg-gradient-to-br from-purple-500 to-purple-700 p-5 rounded-2xl text-white text-center shadow-lg">
+<div class="w-14 h-14 mx-auto rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-2xl mb-3"><i class="fas fa-camera"></i></div>
+<p class="font-display font-bold text-sm">Photo Tools</p>
+<p class="text-xs opacity-80 mt-1">15 tools</p>
+</div>
+<div onclick="switchTab('csc')" class="tool-card bg-gradient-to-br from-blue-500 to-blue-700 p-5 rounded-2xl text-white text-center shadow-lg">
+<div class="w-14 h-14 mx-auto rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-2xl mb-3"><i class="fas fa-landmark"></i></div>
+<p class="font-display font-bold text-sm">CSC Tools</p>
+<p class="text-xs opacity-80 mt-1">15 tools</p>
+</div>
+<div onclick="switchTab('checklists')" class="tool-card bg-gradient-to-br from-yellow-500 to-amber-600 p-5 rounded-2xl text-white text-center shadow-lg">
+<div class="w-14 h-14 mx-auto rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-2xl mb-3"><i class="fas fa-clipboard-check"></i></div>
+<p class="font-display font-bold text-sm">Checklists</p>
+<p class="text-xs opacity-80 mt-1">6 lists</p>
+</div>
+<div onclick="switchTab('banking')" class="tool-card bg-gradient-to-br from-green-500 to-emerald-700 p-5 rounded-2xl text-white text-center shadow-lg">
+<div class="w-14 h-14 mx-auto rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-2xl mb-3"><i class="fas fa-university"></i></div>
+<p class="font-display font-bold text-sm">Banking</p>
+<p class="text-xs opacity-80 mt-1">13 tools</p>
+</div>
+<div onclick="switchTab('legal')" class="tool-card bg-gradient-to-br from-indigo-500 to-indigo-700 p-5 rounded-2xl text-white text-center shadow-lg">
+<div class="w-14 h-14 mx-auto rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-2xl mb-3"><i class="fas fa-gavel"></i></div>
+<p class="font-display font-bold text-sm">Legal</p>
+<p class="text-xs opacity-80 mt-1">12 tools</p>
+</div>
+<div onclick="switchTab('cyber')" class="tool-card bg-gradient-to-br from-cyan-500 to-cyan-700 p-5 rounded-2xl text-white text-center shadow-lg">
+<div class="w-14 h-14 mx-auto rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-2xl mb-3"><i class="fas fa-keyboard"></i></div>
+<p class="font-display font-bold text-sm">Cyber</p>
+<p class="text-xs opacity-80 mt-1">12 tools</p>
+</div>
+<div onclick="switchTab('student')" class="tool-card bg-gradient-to-br from-pink-500 to-rose-700 p-5 rounded-2xl text-white text-center shadow-lg">
+<div class="w-14 h-14 mx-auto rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-2xl mb-3"><i class="fas fa-graduation-cap"></i></div>
+<p class="font-display font-bold text-sm">Student</p>
+<p class="text-xs opacity-80 mt-1">10 tools</p>
+</div>
+<div onclick="switchTab('business')" class="tool-card bg-gradient-to-br from-orange-500 to-orange-700 p-5 rounded-2xl text-white text-center shadow-lg">
+<div class="w-14 h-14 mx-auto rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-2xl mb-3"><i class="fas fa-briefcase"></i></div>
+<p class="font-display font-bold text-sm">Business</p>
+<p class="text-xs opacity-80 mt-1">10 tools</p>
+</div>
+<div onclick="switchTab('whatsapp')" class="tool-card bg-gradient-to-br from-green-600 to-green-800 p-5 rounded-2xl text-white text-center shadow-lg">
+<div class="w-14 h-14 mx-auto rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-2xl mb-3"><i class="fab fa-whatsapp"></i></div>
+<p class="font-display font-bold text-sm">WhatsApp</p>
+<p class="text-xs opacity-80 mt-1">Templates</p>
+</div>
+<div onclick="switchTab('letter')" class="tool-card bg-gradient-to-br from-violet-500 to-violet-700 p-5 rounded-2xl text-white text-center shadow-lg">
+<div class="w-14 h-14 mx-auto rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-2xl mb-3"><i class="fas fa-envelope"></i></div>
+<p class="font-display font-bold text-sm">Letter</p>
+<p class="text-xs opacity-80 mt-1">AI Writer</p>
+</div>
+<div onclick="switchTab('pdf')" class="tool-card bg-gradient-to-br from-slate-500 to-slate-700 p-5 rounded-2xl text-white text-center shadow-lg">
+<div class="w-14 h-14 mx-auto rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-2xl mb-3"><i class="fas fa-search"></i></div>
+<p class="font-display font-bold text-sm">All Tools</p>
+<p class="text-xs opacity-80 mt-1">View All</p>
+</div>
+</div>
+</div>
+
+<!-- ============ PDF TOOLS (17) ============ -->
+<div id="tab-pdf" class="tab-section">
+<div class="mb-5">
+<h2 class="font-display font-black text-2xl flex items-center gap-3">
+<span class="w-10 h-10 rounded-xl bg-red-100 text-red-600 flex items-center justify-center"><i class="fas fa-file-pdf"></i></span>
+PDF & Document Tools
+</h2>
+<p class="text-sm text-gray-500 mt-1">17 powerful PDF manipulation tools</p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('mergePdf')">
+<div class="w-10 h-10 rounded-xl bg-red-500 text-white flex items-center justify-center mb-2"><i class="fas fa-compress-arrows-alt"></i></div>
+<p class="font-bold text-sm">PDF Merge</p>
+<p class="text-xs text-gray-500">Combine PDFs</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('splitPdf')">
+<div class="w-10 h-10 rounded-xl bg-orange-500 text-white flex items-center justify-center mb-2"><i class="fas fa-cut"></i></div>
+<p class="font-bold text-sm">PDF Split</p>
+<p class="text-xs text-gray-500">Split pages</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('compressPdf')">
+<div class="w-10 h-10 rounded-xl bg-purple-500 text-white flex items-center justify-center mb-2"><i class="fas fa-file-archive"></i></div>
+<p class="font-bold text-sm">PDF Compress</p>
+<p class="text-xs text-gray-500">Reduce size</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('pdfToWord')">
+<div class="w-10 h-10 rounded-xl bg-blue-500 text-white flex items-center justify-center mb-2"><i class="fas fa-file-word"></i></div>
+<p class="font-bold text-sm">PDF to Word</p>
+<p class="text-xs text-gray-500">Extract text</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('wordToPdf')">
+<div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center mb-2"><i class="fas fa-file-pdf"></i></div>
+<p class="font-bold text-sm">Word to PDF</p>
+<p class="text-xs text-gray-500">Text → PDF</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('excelToPdf')">
+<div class="w-10 h-10 rounded-xl bg-green-600 text-white flex items-center justify-center mb-2"><i class="fas fa-file-excel"></i></div>
+<p class="font-bold text-sm">Excel to PDF</p>
+<p class="text-xs text-gray-500">CSV → PDF</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('jpgToPdf')">
+<div class="w-10 h-10 rounded-xl bg-pink-500 text-white flex items-center justify-center mb-2"><i class="fas fa-file-image"></i></div>
+<p class="font-bold text-sm">JPG to PDF</p>
+<p class="text-xs text-gray-500">Images → PDF</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('unlockPdf')">
+<div class="w-10 h-10 rounded-xl bg-red-600 text-white flex items-center justify-center mb-2"><i class="fas fa-unlock"></i></div>
+<p class="font-bold text-sm">PDF Unlock</p>
+<p class="text-xs text-gray-500">Remove password</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('protectPdf')">
+<div class="w-10 h-10 rounded-xl bg-yellow-500 text-white flex items-center justify-center mb-2"><i class="fas fa-lock"></i></div>
+<p class="font-bold text-sm">PDF Protect</p>
+<p class="text-xs text-gray-500">Add password</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('ocr')">
+<div class="w-10 h-10 rounded-xl bg-indigo-500 text-white flex items-center justify-center mb-2"><i class="fas fa-eye"></i></div>
+<p class="font-bold text-sm">OCR Scanner</p>
+<p class="text-xs text-gray-500">Image → Text</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('handwriting')">
+<div class="w-10 h-10 rounded-xl bg-cyan-500 text-white flex items-center justify-center mb-2"><i class="fas fa-pen-nib"></i></div>
+<p class="font-bold text-sm">Handwriting</p>
+<p class="text-xs text-gray-500">OCR handwriting</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('docScan')">
+<div class="w-10 h-10 rounded-xl bg-teal-500 text-white flex items-center justify-center mb-2"><i class="fas fa-camera-retro"></i></div>
+<p class="font-bold text-sm">Doc Scan</p>
+<p class="text-xs text-gray-500">Scan & enhance</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('watermark')">
+<div class="w-10 h-10 rounded-xl bg-rose-500 text-white flex items-center justify-center mb-2"><i class="fas fa-stamp"></i></div>
+<p class="font-bold text-sm">Watermark</p>
+<p class="text-xs text-gray-500">Add stamp</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('pageNumber')">
+<div class="w-10 h-10 rounded-xl bg-slate-500 text-white flex items-center justify-center mb-2"><i class="fas fa-list-ol"></i></div>
+<p class="font-bold text-sm">Page Numbers</p>
+<p class="text-xs text-gray-500">Add numbering</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('signPdf')">
+<div class="w-10 h-10 rounded-xl bg-violet-500 text-white flex items-center justify-center mb-2"><i class="fas fa-signature"></i></div>
+<p class="font-bold text-sm">Digital Sign</p>
+<p class="text-xs text-gray-500">Sign PDF</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('bulkMerge')">
+<div class="w-10 h-10 rounded-xl bg-orange-600 text-white flex items-center justify-center mb-2"><i class="fas fa-layer-group"></i></div>
+<p class="font-bold text-sm">Bulk Merge</p>
+<p class="text-xs text-gray-500">Many PDFs</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('bulkCompress')">
+<div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center mb-2"><i class="fas fa-compress"></i></div>
+<p class="font-bold text-sm">Bulk Compress</p>
+<p class="text-xs text-gray-500">Compress many</p>
+</div>
+</div>
+</div>
+
+<!-- ============ PHOTO TOOLS (15) ============ -->
+<div id="tab-photo" class="tab-section">
+<div class="mb-5">
+<h2 class="font-display font-black text-2xl flex items-center gap-3">
+<span class="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center"><i class="fas fa-camera"></i></span>
+Photo & DTP Tools
+</h2>
+<p class="text-sm text-gray-500 mt-1">15 professional photo & design tools</p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('passportPhoto')">
+<div class="w-10 h-10 rounded-xl bg-blue-500 text-white flex items-center justify-center mb-2"><i class="fas fa-id-badge"></i></div>
+<p class="font-bold text-sm">Passport Photo</p>
+<p class="text-xs text-gray-500">8 photos 4x6"</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('bgRemove')">
+<div class="w-10 h-10 rounded-xl bg-red-500 text-white flex items-center justify-center mb-2"><i class="fas fa-eraser"></i></div>
+<p class="font-bold text-sm">BG Remover</p>
+<p class="text-xs text-gray-500">Remove background</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('photoEnhance')">
+<div class="w-10 h-10 rounded-xl bg-purple-500 text-white flex items-center justify-center mb-2"><i class="fas fa-magic"></i></div>
+<p class="font-bold text-sm">Enhancer</p>
+<p class="text-xs text-gray-500">Adjust colors</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('idCard')">
+<div class="w-10 h-10 rounded-xl bg-green-500 text-white flex items-center justify-center mb-2"><i class="fas fa-id-card"></i></div>
+<p class="font-bold text-sm">ID Card</p>
+<p class="text-xs text-gray-500">Make ID cards</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('certificate')">
+<div class="w-10 h-10 rounded-xl bg-yellow-500 text-white flex items-center justify-center mb-2"><i class="fas fa-certificate"></i></div>
+<p class="font-bold text-sm">Certificate</p>
+<p class="text-xs text-gray-500">Design certs</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('visitingCard')">
+<div class="w-10 h-10 rounded-xl bg-pink-500 text-white flex items-center justify-center mb-2"><i class="fas fa-address-card"></i></div>
+<p class="font-bold text-sm">Visiting Card</p>
+<p class="text-xs text-gray-500">Business card</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('banner')">
+<div class="w-10 h-10 rounded-xl bg-indigo-500 text-white flex items-center justify-center mb-2"><i class="fas fa-image"></i></div>
+<p class="font-bold text-sm">Banner</p>
+<p class="text-xs text-gray-500">Flex banners</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('poster')">
+<div class="w-10 h-10 rounded-xl bg-orange-500 text-white flex items-center justify-center mb-2"><i class="fas fa-sticky-note"></i></div>
+<p class="font-bold text-sm">Poster</p>
+<p class="text-xs text-gray-500">Create posters</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('weddingCard')">
+<div class="w-10 h-10 rounded-xl bg-rose-500 text-white flex items-center justify-center mb-2"><i class="fas fa-heart"></i></div>
+<p class="font-bold text-sm">Wedding Card</p>
+<p class="text-xs text-gray-500">Invitations</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('letterhead')">
+<div class="w-10 h-10 rounded-xl bg-cyan-500 text-white flex items-center justify-center mb-2"><i class="fas fa-file-alt"></i></div>
+<p class="font-bold text-sm">Letterhead</p>
+<p class="text-xs text-gray-500">Professional</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('logoMaker')">
+<div class="w-10 h-10 rounded-xl bg-violet-500 text-white flex items-center justify-center mb-2"><i class="fas fa-copyright"></i></div>
+<p class="font-bold text-sm">Logo Maker</p>
+<p class="text-xs text-gray-500">Text logos</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('signature')">
+<div class="w-10 h-10 rounded-xl bg-teal-500 text-white flex items-center justify-center mb-2"><i class="fas fa-signature"></i></div>
+<p class="font-bold text-sm">Signature</p>
+<p class="text-xs text-gray-500">Transparent BG</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('photoResize')">
+<div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center mb-2"><i class="fas fa-expand"></i></div>
+<p class="font-bold text-sm">Photo Resize</p>
+<p class="text-xs text-gray-500">Custom size</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('photoCollage')">
+<div class="w-10 h-10 rounded-xl bg-green-600 text-white flex items-center justify-center mb-2"><i class="fas fa-th"></i></div>
+<p class="font-bold text-sm">Collage</p>
+<p class="text-xs text-gray-500">Multi photos</p>
+</div>
+<div class="tool-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100" onclick="openTool('calendarDesign')">
+<div class="w-10 h-10 rounded-xl bg-red-600 text-white flex items-center justify-center mb-2"><i class="fas fa-calendar"></i></div>
+<p class="font-bold text-sm">Calendar</p>
+<p class="text-xs text-gray-500">Custom calendar</p>
+</div>
+</div>
+</div>
+
+<!-- PLACEHOLDER FOR OTHER SECTIONS -->
+<div id="tab-csc" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-construction text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">CSC Tools - Coming in Part 2</p></div></div>
+<div id="tab-checklists" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-clipboard-list text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Checklists - Coming in Part 2</p></div></div>
+<div id="tab-banking" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-university text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Banking Tools - Coming in Part 3</p></div></div>
+<div id="tab-legal" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-gavel text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Legal Tools - Coming in Part 3</p></div></div>
+<div id="tab-cyber" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-keyboard text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Cyber Tools - Coming in Part 3</p></div></div>
+<div id="tab-student" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-graduation-cap text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Student Tools - Coming in Part 3</p></div></div>
+<div id="tab-business" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-briefcase text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Business Tools - Coming in Part 3</p></div></div>
+<div id="tab-whatsapp" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fab fa-whatsapp text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">WhatsApp - Coming in Part 3</p></div></div>
+<div id="tab-letter" class="tab-section"><div class="text-center py-10 bg-white rounded-2xl border"><i class="fas fa-envelope text-5xl text-gray-300 mb-3"></i><p class="text-gray-500">Letter Writer - Coming in Part 3</p></div></div>
+
+</main>
+</div>
+</div>
+
+<!-- TOOL MODAL -->
+<div id="toolModal" class="hidden fixed inset-0 z-50 modal-overlay flex items-center justify-center p-4">
+<div class="bg-white rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+<div class="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between z-10">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center text-white"><i class="fas fa-tools" id="toolIcon"></i></div>
+<h3 id="toolTitle" class="font-display font-black text-lg">Tool</h3>
+</div>
+<button onclick="closeToolModal()" class="w-9 h-9 rounded-lg bg-soft hover:bg-red-50 text-gray-500 hover:text-red-500 transition flex items-center justify-center"><i class="fas fa-times"></i></button>
+</div>
+<div id="toolBody" class="p-6"></div>
+</div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="hidden fixed top-24 right-4 z-50 px-5 py-3 rounded-xl shadow-2xl text-white font-semibold text-sm flex items-center gap-2"></div>
+
+<!-- ⬇️ PART 2 JAVASCRIPT WILL GO HERE ⬇️ -->
+
+</body>
+</html>
